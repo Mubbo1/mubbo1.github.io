@@ -1,6 +1,0 @@
-<!doctype html><meta charset="utf-8"><title>up</title><body>bekliyor
-<script>
-(async()=>{if(!location.hash)return;const list=JSON.parse(decodeURIComponent(location.hash.slice(1)));const res=[];
-for(const [f,u] of list){try{const b=await fetch('ss/'+f+'?'+Date.now()).then(r=>r.blob());const r=await fetch(u,{method:'PUT',headers:{'Content-Type':'image/png'},body:b});res.push([f,r.status,b.size]);}catch(err){res.push([f,'ERR '+err]);}}
-document.body.textContent='DONE '+JSON.stringify(res);window.__res=res;})();
-</script>
