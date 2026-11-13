@@ -1,0 +1,16 @@
+name: ipa-indir
+on:
+  push:
+    paths: ['kur-12b/url.txt']
+permissions:
+  contents: write
+jobs:
+  indir:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          curl -sSL -o kur-12b/CubeTraffic-v12.ipa "$(cat kur-12b/url.txt)"
+          ls -la kur-12b/CubeTraffic-v12.ipa
+          git config user.name bot; git config user.email bot@users.noreply.github.com
+          git add kur-12b/CubeTraffic-v12.ipa && git commit -m "ipa (gecici)" && git push
