@@ -1,9 +1,0 @@
-<!doctype html><meta charset="utf-8"><title>bekle</title><body><pre id=o>...</pre><script>
-(async()=>{const o=document.getElementById('o');try{
-const J=JSON.parse(decodeURIComponent(location.hash.slice(1)));const res=[];
-for(const it of J){const b=await (await fetch(it.src+'?n='+Math.random(),{cache:'no-store'})).arrayBuffer();
- for(const op of it.ops){const h={};(op.requestHeaders||[]).forEach(x=>h[x.name]=x.value);
-  const r=await fetch(op.url,{method:op.method,headers:h,body:b.slice(op.offset,op.offset+op.length)});res.push(r.status);}
-}
-o.textContent='BITTI '+res.join(',');document.title='BITTI';}catch(e){o.textContent='HATA '+e.message;document.title='HATA';}})();
-</script>
