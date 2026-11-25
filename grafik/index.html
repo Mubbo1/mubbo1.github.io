@@ -1281,14 +1281,14 @@ function heatDraw(){const r=S.hideInds?null:Object.values(R).find(x=>x.def.id===
  for(const q of o.heat){const ri=rowOf(q.p);if(ri<0||ri>=rows)continue;const a=Math.max(l0,q.a),b=Math.min(l1,q.b==null?l1:q.b);if(b<a)continue;const c0=Math.floor((a-l0)/step),c1=Math.floor((b-l0)/step)+1,base=ri*(cols+1);grid[base+c0]+=q.amt;grid[base+Math.min(cols,c1)]-=q.amt}
  const vals=[];for(let ri=0;ri<rows;ri++){let acc=0;const base=ri*(cols+1);for(let c=0;c<cols;c++){acc+=grid[base+c];grid[base+c]=acc;if(acc>0)vals.push(acc)}}
  if(!vals.length)return;vals.sort((x,y)=>x-y);const mx=vals[Math.floor(vals.length*.985)]||vals.at(-1),mn=(p.min??12)/100,gain=p.gain||1.2,cw=bs*step;
- for(let ri=0;ri<rows;ri++){const base=ri*(cols+1);for(let c=0;c<cols;c++){const v0=grid[base+c];if(v0<=0)continue;const v=Math.min(1,Math.pow(v0/mx,.55)*gain);if(v<mn)continue;
-  g.globalAlpha=.15+.6*v;g.fillStyle=virC(v);const x=xOfL(l0+c*step)-bs/2;g.fillRect(x,ri*rh,cw+.5,rh)}}g.globalAlpha=1}
+ for(let ri=0;ri<rows;ri++){const base=ri*(cols+1);for(let c=0;c<cols;c++){const v0=grid[base+c];if(v0<=0)continue;const v=Math.min(1,Math.pow(v0/mx,.9)*gain);if(v<mn)continue;
+  g.globalAlpha=.1+.7*v;g.fillStyle=virC(v);const x=xOfL(l0+c*step)-bs/2;g.fillRect(x,ri*rh,cw+.5,rh)}}g.globalAlpha=1}
 function heatSvg(r){const o=r.out,p=r.inst.p,W=S.W,H=S.H;let h='';
  if(p.live!==false){const{m,s}=mk(S.key);if(m==='F'){const bs=Math.abs(XF?.bs||6);S.liqs.forEach(q=>{if(q.s!==s)return;const x=xOfL(t2l(q.t)),y=yOfP(q.p);if(x==null||y==null||x<-30||x>W+30||y<-30||y>H+30)return;
    const rr=Math.max(3,Math.min(28,3+Math.sqrt(q.usd/1000)*1.1)),c=q.L?'#f23645':'#089981';h+=`<circle cx="${x}" cy="${y}" r="${rr}" fill="${c}" fill-opacity=".45" stroke="${c}" stroke-width="1.2"/>`;
    if(q.usd>=(p.lbl||50)*1000&&rr>=8)h+=`<text x="${x}" y="${y+3.5}" fill="#fff" font-size="9.5" font-weight="700" text-anchor="middle" class="t">${fmtBig(q.usd)}</text>`})}}
  return h}
-DEFS.push({id:'liqmap',n:'Likidasyon Isı Haritası + Canlı Likidasyonlar'+FUTN,s:'Likidasyon Haritası',cat:'fut',pane:0,special:'heat',full:1,p:{lev:'all',heat:true,hist:true,live:true,min:12,gain:1.2,lbl:50},pl:[],f:liqF,
+DEFS.push({id:'liqmap',n:'Likidasyon Isı Haritası + Canlı Likidasyonlar'+FUTN,s:'Likidasyon Haritası',cat:'fut',pane:0,special:'heat',full:1,p:{lev:'all',heat:true,hist:true,live:true,min:22,gain:1.1,lbl:50},pl:[],f:liqF,
  inp:[{g:'Tahmini likidasyon seviyeleri (model)'},{k:'heat',t:'bool',l:'Isı haritasını göster'},{k:'lev',t:'sel',l:'Kaldıraç',o:[['all','Hepsi (10x–100x)'],['10','10x'],['25','25x'],['50','50x'],['100','100x']]},{k:'hist',t:'bool',l:'Likide olmuş (bitmiş) bantları da göster'},{k:'min',t:'int',l:'Gizlenecek en küçük yoğunluk (%)'},{k:'gain',t:'float',l:'Parlaklık / hassasiyet'},
   {g:'Gerçek likidasyonlar (canlı)'},{k:'live',t:'bool',l:'Canlı likidasyon baloncuklarını göster'},{k:'lbl',t:'int',l:'Tutar etiketi için alt sınır (bin $)'}],
  lbl:o=>o&&o.max?`<span class="vv" style="color:#fde725">Üstte $${fmtBig(o.up)} short · Altta $${fmtBig(o.dn)} long likidite</span>`:''});
@@ -2246,7 +2246,7 @@ function updCountdown(){const last=S.full.at(-1);if(!S.set.cd||!last||S.replay||
  const r=Math.max(0,Math.floor(end-Date.now()/1000)),dd=Math.floor(r/86400),hh_=Math.floor(r%86400/3600),mm=Math.floor(r%3600/60),ss=r%60;
  const txt=dd?`${dd}g ${pad(hh_)}s`:hh_?`${pad(hh_)}:${pad(mm)}:${pad(ss)}`:`${pad(mm)}:${pad(ss)}`,y=yOfP(last.close);
  if(y==null||y<0||y>S.H-14){cdown.style.display='none';$('#symLbl').style.display='none';return}const pw=mainEl.clientWidth-S.W;
- const bg=last.close>=last.open?S.set.up:S.set.down;cdown.style.left=S.W+'px';cdown.style.width=pw+'px';cdown.style.top=(y+10)+'px';cdown.style.background=bg;cdown.textContent=txt;cdown.style.display='block';
+ const bg=last.close>=last.open?S.set.up:S.set.down,fg=lum(bg)>.6?'#131722':'#fff';cdown.style.color=fg;$('#symLbl').style.color=fg;cdown.style.left=S.W+'px';cdown.style.width=pw+'px';cdown.style.top=(y+10)+'px';cdown.style.background=bg;cdown.textContent=txt;cdown.style.display='block';
  const sl=$('#symLbl');if(S.set.sl!==false){sl.textContent=lbl(S.key);sl.style.background=bg;sl.style.display='block';sl.style.top=(y-10)+'px';sl.style.left=(S.W-sl.offsetWidth)+'px'}else sl.style.display='none'}
 setInterval(updCountdown,1000);
 function posOverlays(){const tb=mainEl.clientHeight-S.H,r=main.timeScale().getVisibleLogicalRange(),n=S.data.length;
