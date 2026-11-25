@@ -2452,9 +2452,9 @@ setInterval(tickClock,1000);
 
 // ---------------- sağ tık menüsü ----------------
 mainEl.addEventListener('contextmenu',e=>{e.preventDefault();const p=pos(e),price=pOfY(p.y);if(p.x>S.W&&p.y<S.H){scaleMenu(e);return}const g=e.target.closest&&e.target.closest('g.d');const items=[];
- if(g){const d=S.draws.find(x=>x.id===g.dataset.id);if(d){S.sel=d.id;dirty();items.push({h:TOOLS[d.type]||'Çizim'},{t:'Kopyala',ic:'copy',f:()=>dtb.querySelector('[data-da=copy]')?.click()},{t:d.lock?'Kilidi aç':'Kilitle',ic:'lock',f:()=>{snap();d.lock=!d.lock;saveDraws();dirty()}},{t:'Sil',ic:'trash',k:'Del',f:()=>{snap();S.draws=S.draws.filter(x=>x!==d);S.sel=null;saveDraws();dirty()}})}}
+ if(g){const d=S.draws.find(x=>x.id===g.dataset.id);if(d){S.sel=d.id;dirty();items.push({h:TOOLS[d.type]||'Çizim'},{t:(POST.includes(d.type)?'Pozisyonu özelleştir…':'Çizimi özelleştir…'),ic:'gear',f:()=>drawSettings(d)},{t:'Kopyala',ic:'copy',f:()=>dtb.querySelector('[data-da=copy]')?.click()},{t:d.lock?'Kilidi aç':'Kilitle',ic:'lock',f:()=>{snap();d.lock=!d.lock;saveDraws();dirty()}},{t:'Sil',ic:'trash',k:'Del',f:()=>{snap();S.draws=S.draws.filter(x=>x!==d);S.sel=null;saveDraws();dirty()}})}}
  if(price!=null){const fp=fmt(price);items.push({h:'Grafik'},{t:`${fp} fiyatına alarm ekle`,ic:'bell',f:()=>alarmDlg(price)},{t:`${fp} fiyatına yatay çizgi`,ic:'hline',f:()=>{snap();S.draws.push({id:uid(),type:'hline',pts:[{t:l2t(lOfX(p.x)),p:price}],st:defSt('hline')});saveDraws();dirty()}})}
- items.push({t:'Grafiği sıfırla',ic:'full',k:'Alt+R',f:resetView},{t:'Göstergeler…',ic:'fx',f:()=>$('#indBtn').click()},{t:'Ayarlar…',ic:'gear',f:settingsDlg});
+ items.push({t:'Grafiği sıfırla',ic:'full',k:'Alt+R',f:resetView},{t:'Göstergeler…',ic:'fx',f:()=>$('#indBtn').click()},{t:g?'Grafik ayarları…':'Ayarlar…',ic:'gear',f:settingsDlg});
  if(S.draws.length)items.push({t:'Tüm çizimleri kaldır',ic:'trash',f:()=>$('[data-t=clear]').click()});
  openPop(null,items,{x:e.clientX,y:e.clientY})});
 function resetView(){const n=S.data.length;main.priceScale('right').applyOptions({autoScale:true});main.timeScale().setVisibleLogicalRange({from:n-150,to:n+12})}
