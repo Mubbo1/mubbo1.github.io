@@ -575,7 +575,7 @@ mark{background:color-mix(in srgb,var(--ac) 35%,transparent);color:inherit;borde
 #welc .wk{background:transparent;border:1px solid #262e3d;color:#aab2c0}#welc .wk:hover{border-color:#3a4458;color:#fff}
 #welc .wn{background:#2962ff;border:1px solid #2962ff;color:#fff}#welc .wn:hover{background:#1e53e5}
 #welc .wx{position:absolute;top:14px;right:16px;background:transparent;border:0;color:#6b7385;height:28px;padding:0 6px;font-size:13px;font-weight:500}#welc .wx:hover{color:#fff}
-#welc .wvis{position:relative;background:#0a0d13;border-left:1px solid #1c2230}
+#welc .wvis{position:relative;background:#0a0d13;transition:background .45s;border-left:1px solid #1c2230}
 #welc .wvis svg{position:absolute;inset:0;width:100%;height:100%}
 #welc .wv{opacity:0;transition:opacity .45s ease}#welc .wv.on{opacity:1}
 #welc .wdraw{stroke-dasharray:900;stroke-dashoffset:900}#welc .wv.on .wdraw{animation:wDraw 1.4s ease forwards}
@@ -3057,9 +3057,9 @@ function welcome(force){if(!force&&(ls.get('welcomed',false)||navigator.webdrive
  let i=0;w.innerHTML=`<div class="wbx" role="dialog" aria-modal="true" aria-label="${esc(APP_NAME)} tanıtımı"><div class="wl" style="position:relative"><div class="wbr"><i>${LOGO}</i>${esc(APP_NAME)}<span class="wct"></span></div>
   <div class="wst">${SL.map((s,k)=>`<div class="ws${k?'':' on'}"><div class="we">${s[0]}</div><h2>${s[1]}</h2><p class="wp">${s[2]}</p><ul>${s[3].map(t=>`<li>${CK}<span>${t}</span></li>`).join('')}</ul></div>`).join('')}</div>
   <div class="wf"><div class="wpg">${SL.map((_,k)=>`<i data-wi="${k}"></i>`).join('')}</div><button class="wk" data-w="back" type="button">Geri</button><button class="wn" data-w="next" type="button">Devam</button></div></div>
-  <div class="wvis"><button class="wx" data-w="skip" type="button" style="z-index:2">Atla</button><svg viewBox="0 0 ${VW} ${VH}" preserveAspectRatio="xMidYMid slice" font-family="Inter,system-ui,sans-serif">${V.map((v,k)=>`<g class="wv${k?'':' on'}">${v}</g>`).join('')}</svg></div></div>`;
+  <div class="wvis"><button class="wx" data-w="skip" type="button" style="z-index:2">Atla</button><svg viewBox="0 0 ${VW} ${VH}" preserveAspectRatio="xMidYMid meet" font-family="Inter,system-ui,sans-serif">${V.map((v,k)=>`<g class="wv${k?'':' on'}">${v}</g>`).join('')}</svg></div></div>`;
  const show=k=>{i=Math.max(0,Math.min(SL.length-1,k));w.querySelectorAll('.ws').forEach((e,j)=>e.classList.toggle('on',j===i));w.querySelectorAll('.wv').forEach((e,j)=>{e.classList.toggle('on',j===i);if(j===i)e.querySelectorAll('.wdraw').forEach(p=>{p.style.animation='none';p.getBoundingClientRect();p.style.animation=''})});
-  w.querySelectorAll('.wpg i').forEach((e,j)=>{e.classList.toggle('on',j===i);e.classList.toggle('dn',j<i)});w.querySelector('.wct').textContent=`${i+1} / ${SL.length}`;
+  w.querySelector('.wvis').style.background=i===2?'#f5f6f8':'#0a0d13';w.querySelectorAll('.wpg i').forEach((e,j)=>{e.classList.toggle('on',j===i);e.classList.toggle('dn',j<i)});w.querySelector('.wct').textContent=`${i+1} / ${SL.length}`;
   const bk=w.querySelector('[data-w=back]');bk.style.visibility=i?'visible':'hidden';w.querySelector('[data-w=next]').textContent=i===SL.length-1?'Başlayın':'Devam'};
  const close=()=>{w.classList.remove('show');ls.set('welcomed',true);removeEventListener('keydown',kd,true);if(!force)setTimeout(()=>tour(),400)};
  const kd=e=>{if(e.key==='ArrowRight'||e.key==='Enter'){e.preventDefault();e.stopPropagation();i===SL.length-1?close():show(i+1)}else if(e.key==='ArrowLeft'){e.stopPropagation();show(i-1)}else if(e.key==='Escape'){e.stopPropagation();close()}};
