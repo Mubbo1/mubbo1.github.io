@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ProGrafik — Profesyonel grafikler, tamamen ücretsiz</title>
+<meta name="description" content="Sınırsız gösterge, sınırsız çizim, likidasyon ısı haritası, demo işlem ve strateji testi. Paket yok, reklam yok, kredi kartı yok.">
+<style>
+:root{--bg:#05070d;--ink:#eef1f7;--mu:#98a1b3;--ln:rgba(255,255,255,.09);--a1:#ff3b5c;--a2:#ff8a00;--g1:#2962ff;--g2:#18c39a}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+/* nav */
+nav{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);background:rgba(5,7,13,.6);border-bottom:1px solid var(--ln)}
+nav .wrap{display:flex;align-items:center;height:64px;gap:28px}
+.logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:20px;letter-spacing:-.02em}
+.logo i{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--g1),var(--g2));display:grid;place-items:center;box-shadow:0 6px 18px rgba(41,98,255,.45)}
+.nl{display:flex;gap:24px;font-size:14px;color:var(--mu);margin-left:auto}.nl a:hover{color:#fff}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:44px;padding:0 22px;border-radius:12px;font-weight:700;font-size:15px;transition:transform .15s,box-shadow .15s,filter .15s;cursor:pointer;border:0}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.08)}
+.bp{background:linear-gradient(90deg,var(--a1),var(--a2));color:#fff;box-shadow:0 10px 30px rgba(255,80,60,.35)}
+.bg{background:rgba(255,255,255,.07);border:1px solid var(--ln);color:#fff}
+.bs{height:38px;padding:0 16px;font-size:14px}
+/* hero */
+.hero{position:relative;text-align:center;padding:110px 0 70px;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:-20%;background:radial-gradient(600px 380px at 72% 38%,rgba(255,120,40,.33),transparent 65%),radial-gradient(500px 360px at 20% 70%,rgba(41,98,255,.25),transparent 65%);z-index:-2}
+.orb{position:absolute;right:-140px;top:40px;width:640px;height:640px;border-radius:50%;z-index:-1;background:conic-gradient(from 200deg,transparent 0 40%,rgba(255,138,0,.85) 52%,rgba(255,59,92,.8) 60%,transparent 72%);filter:blur(28px);opacity:.55;animation:spin 26s linear infinite}
+.orb::after{content:'';position:absolute;inset:23%;border-radius:50%;background:var(--bg);box-shadow:0 0 90px 30px rgba(255,150,80,.18)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.stars{position:absolute;inset:0;z-index:-1;background-image:radial-gradient(1px 1px at 12% 22%,#fff8,transparent),radial-gradient(1px 1px at 82% 12%,#fff6,transparent),radial-gradient(1.5px 1.5px at 30% 80%,#fff7,transparent),radial-gradient(1px 1px at 65% 65%,#fff5,transparent),radial-gradient(1px 1px at 45% 35%,#fff6,transparent),radial-gradient(1.5px 1.5px at 90% 75%,#fff8,transparent),radial-gradient(1px 1px at 5% 60%,#fff6,transparent)}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:99px;background:rgba(255,255,255,.06);border:1px solid var(--ln);font-size:13px;color:var(--mu);margin-bottom:22px}
+.pill b{color:#22d3a6}
+h1{font-size:clamp(52px,10vw,132px);line-height:.95;margin:0;font-weight:900;letter-spacing:-.045em;background:linear-gradient(95deg,var(--a1) 10%,var(--a2) 60%,#ffc24a);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 10px 40px rgba(255,80,60,.25))}
+.sub{font-size:clamp(22px,3.2vw,38px);font-weight:800;margin:22px 0 6px;letter-spacing:-.02em}
+.sub2{font-size:clamp(16px,2vw,22px);color:var(--a2);font-weight:700;margin:0 0 30px}
+.cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+.trust{margin-top:26px;color:var(--mu);font-size:13px;display:flex;gap:22px;justify-content:center;flex-wrap:wrap}.trust span::before{content:'✓ ';color:#22d3a6;font-weight:800}
+/* plans */
+.plans{display:grid;grid-template-columns:repeat(4,1fr);margin-top:70px;border:1px solid var(--ln);border-radius:22px;background:linear-gradient(180deg,rgba(255,255,255,.04),rgba(255,255,255,.01));backdrop-filter:blur(6px);position:relative}
+.pl{padding:30px 24px 28px;text-align:center;border-right:1px solid var(--ln);position:relative}.pl:last-child{border-right:0}
+.pl.best{background:linear-gradient(180deg,rgba(255,120,40,.13),rgba(255,59,92,.05));border-radius:22px;margin:-12px 0;border:1px solid rgba(255,138,0,.45);box-shadow:0 20px 60px rgba(255,90,40,.18)}
+.tag{position:absolute;top:14px;right:14px;font-size:10.5px;font-weight:800;letter-spacing:.06em;padding:4px 9px;border-radius:99px;background:linear-gradient(90deg,var(--a1),var(--a2))}
+.pl h3{margin:6px 0 14px;font-size:19px}
+.off{font-size:58px;font-weight:900;letter-spacing:-.04em;line-height:1}.off sup{font-size:22px;vertical-align:top;margin-left:2px}
+.price{font-size:34px;font-weight:900;color:#22d3a6;margin:16px 0 2px}.price small{font-size:15px;color:var(--mu);font-weight:600}
+.was{color:var(--mu);font-size:13px}.was s{opacity:.8}
+.pl ul{list-style:none;padding:0;margin:18px 0 22px;text-align:left;font-size:13.5px;color:#cfd5e1}.pl li{padding:5px 0;border-top:1px dashed var(--ln)}.pl li::before{content:'✓';color:#22d3a6;font-weight:800;margin-right:8px}
+.pl .btn{width:100%}
+.note{text-align:center;color:var(--mu);font-size:12px;margin-top:16px}
+/* sections */
+section{padding:90px 0}
+.kick{color:#22d3a6;font-weight:800;font-size:13px;letter-spacing:.12em;text-transform:uppercase}
+h2{font-size:clamp(30px,4.5vw,52px);line-height:1.08;margin:10px 0 14px;letter-spacing:-.03em}
+h2 em{font-style:normal;background:linear-gradient(90deg,#4f8bff,#22d3a6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--mu);font-size:18px;max-width:640px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:40px}
+.card{padding:24px;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.015));border:1px solid var(--ln);transition:transform .2s,border-color .2s}
+.card:hover{transform:translateY(-4px);border-color:rgba(79,139,255,.45)}
+.card .ic{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;font-size:22px;background:linear-gradient(135deg,rgba(41,98,255,.35),rgba(24,195,154,.3));margin-bottom:14px}
+.card h4{margin:0 0 6px;font-size:18px}.card p{margin:0;color:var(--mu);font-size:14.5px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:44px}
+.stat{text-align:center;padding:26px 10px;border-radius:18px;border:1px solid var(--ln);background:rgba(255,255,255,.03)}
+.stat b{display:block;font-size:44px;font-weight:900;letter-spacing:-.03em;background:linear-gradient(90deg,var(--a1),var(--a2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.stat span{color:var(--mu);font-size:14px}
+/* compare */
+table{width:100%;border-collapse:collapse;margin-top:36px;font-size:15px;border:1px solid var(--ln);border-radius:16px;overflow:hidden}
+th,td{padding:14px 18px;border-bottom:1px solid var(--ln);text-align:left}
+th{font-size:12px;text-transform:uppercase;letter-spacing:.07em;color:var(--mu);background:rgba(255,255,255,.03)}
+td:nth-child(2){color:var(--mu)}td:nth-child(3){color:#22d3a6;font-weight:800}
+tr:last-child td{border-bottom:0}
+/* mock */
+.split{display:grid;grid-template-columns:1.05fr 1fr;gap:50px;align-items:center}
+.mock{border-radius:20px;border:1px solid var(--ln);background:#0b0f19;padding:14px;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.03);position:relative}
+.mock .bar{display:flex;gap:6px;margin-bottom:10px}.mock .bar i{width:10px;height:10px;border-radius:9px;background:#333}
+.mock svg{width:100%;height:auto;display:block}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}.chips span{padding:7px 12px;border-radius:99px;border:1px solid var(--ln);background:rgba(255,255,255,.04);font-size:13px;color:#cfd5e1}
+/* final */
+.final{text-align:center;border-radius:28px;padding:70px 24px;background:radial-gradient(600px 300px at 50% 0%,rgba(255,120,40,.25),transparent 70%),linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.01));border:1px solid var(--ln)}
+footer{padding:40px 0 60px;color:var(--mu);font-size:13px;border-top:1px solid var(--ln)}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s,transform .7s}.reveal.in{opacity:1;transform:none}
+@media(max-width:960px){.plans{grid-template-columns:1fr 1fr}.pl{border-bottom:1px solid var(--ln)}.pl.best{margin:0}.grid{grid-template-columns:1fr 1fr}.stats{grid-template-columns:1fr 1fr}.split{grid-template-columns:1fr}.nl{display:none}}
+@media(max-width:560px){.plans,.grid{grid-template-columns:1fr}.pl{border-right:0}.hero{padding-top:70px}th,td{padding:11px 10px;font-size:13px}.orb{width:420px;height:420px;right:-200px}}
+</style>
+</head>
+<body>
+<nav><div class="wrap"><a class="logo" href="#"><i><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M3 17l6-6 4 4 8-8"/></svg></i><span data-app>ProGrafik</span></a>
+<div class="nl"><a href="#ucretsiz">Ücretsiz</a><a href="#ozellikler">Özellikler</a><a href="#karsilastir">Karşılaştır</a><a href="#hakkimizda">Hakkımızda</a></div>
+<a class="btn bp bs" href="../">Grafiği aç →</a></div></nav>
+
+<header class="hero"><div class="stars"></div><div class="orb"></div><div class="wrap">
+ <div class="pill">🎁 <b>Kampanya değil</b> — her zaman böyle</div>
+ <h1>Tamamen<br>Ücretsiz</h1>
+ <div class="sub">%100 indirim. Sonsuza kadar.</div>
+ <div class="sub2">Paket yok · Reklam yok · Kredi kartı yok</div>
+ <div class="cta"><a class="btn bp" href="../">Hemen grafiği aç</a><a class="btn bg" href="#ozellikler">Neler var?</a></div>
+ <div class="trust"><span>Üyelik gerekmez</span><span>Tarayıcıda çalışır</span><span>Mobil uyumlu</span></div>
+
+ <div class="plans" id="ucretsiz">
+  <div class="pl"><h3>Başlangıç</h3><div class="off">−100<sup>%</sup></div><div class="price">0 ₺ <small>/ ay</small></div><div class="was">Benzer paketler: <s>~13 $/ay</s></div>
+   <ul><li>Sınırsız gösterge</li><li>Reklamsız</li><li>Tüm zaman dilimleri</li></ul><a class="btn bg" href="../">Kullanmaya başla</a></div>
+  <div class="pl"><h3>Pro</h3><div class="off">−100<sup>%</sup></div><div class="price">0 ₺ <small>/ ay</small></div><div class="was">Benzer paketler: <s>~30 $/ay</s></div>
+   <ul><li>Sınırsız alarm*</li><li>Hacim profili</li><li>Mum formasyonları</li></ul><a class="btn bg" href="../">Kullanmaya başla</a></div>
+  <div class="pl best"><span class="tag">EN İYİ TEKLİF</span><h3>Premium</h3><div class="off">−100<sup>%</sup></div><div class="price">0 ₺ <small>/ ay</small></div><div class="was">Benzer paketler: <s>~60 $/ay</s></div>
+   <ul><li>Strateji geriye dönük testi</li><li>Otomatik grafik formasyonları</li><li>Likidasyon ısı haritası</li></ul><a class="btn bp" href="../">Hemen al — 0 ₺</a></div>
+  <div class="pl"><h3>Ultimate</h3><div class="off">−100<sup>%</sup></div><div class="price">0 ₺ <small>/ ay</small></div><div class="was">Benzer paketler: <s>~200 $/ay</s></div>
+   <ul><li>Her şey dahil</li><li>Demo işlem hesabı</li><li>Tam kişiselleştirme</li></ul><a class="btn bg" href="../">Kullanmaya başla</a></div>
+ </div>
+ <p class="note">Fiyatlar, piyasadaki popüler grafik platformlarının yıllık ödemeli aylık paket fiyatlarına yaklaşık örnektir. * Alarmlar tarayıcıda, sayfa açıkken çalışır.</p>
+</div></header>
+
+<section id="ozellikler"><div class="wrap">
+ <div class="kick reveal">Özellikler</div>
+ <h2 class="reveal">Profesyonellerin araçları, <em>herkese açık.</em></h2>
+ <p class="lead reveal">Başka yerlerde ücretli paketlere kilitlenen her şey burada ilk günden açık.</p>
+ <div class="stats reveal"><div class="stat"><b data-c="inds">160+</b><span>Gösterge ve strateji</span></div><div class="stat"><b data-c="tools">89+</b><span>Çizim aracı</span></div><div class="stat"><b>∞</b><span>Grafik başına gösterge</span></div><div class="stat"><b>0 ₺</b><span>Her zaman</span></div></div>
+ <div class="grid">
+  <div class="card reveal"><div class="ic">📈</div><h4>Sınırsız gösterge</h4><p>RSI, MACD, SuperTrend, SMC, Ichimoku ve daha fazlası. İstediğin kadarını aynı grafiğe ekle.</p></div>
+  <div class="card reveal"><div class="ic">✏️</div><h4>Sınırsız çizim</h4><p>Trend çizgisi, Fibonacci, pozisyon aracı, kanallar, şekiller. Sağ tıkla iptal, çift tıkla özelleştir.</p></div>
+  <div class="card reveal"><div class="ic">🧪</div><h4>Strateji testi</h4><p>Al/sat sinyallerini grafikte gör; işlem sayısı, kazanma oranı, net getiri ve maksimum düşüşü anında öğren.</p></div>
+  <div class="card reveal"><div class="ic">🔥</div><h4>Likidasyon ısı haritası</h4><p>Olası likidasyon bölgeleri ve canlı likidasyon akışı doğrudan grafiğin üstünde.</p></div>
+  <div class="card reveal"><div class="ic">🎮</div><h4>Demo işlem</h4><p>Risksiz al-sat pratiği: kaldıraç, TP/SL, grafikte sürüklenebilir emirler ve performans istatistikleri.</p></div>
+  <div class="card reveal"><div class="ic">🌍</div><h4>Tüm piyasalar</h4><p>Kripto spot ve vadeli, hisse, endeks, forex ve emtia kontratları — Binance, Bybit, OKX, Bitget.</p></div>
+ </div>
+</div></section>
+
+<section><div class="wrap split">
+ <div><div class="kick reveal">Kişiselleştirme</div><h2 class="reveal">Grafiğin <em>tam senin tarzında.</em></h2>
+  <p class="lead reveal">Temanı seç, mumlarını boya, kendi fotoğrafını arka plana koy. Çizimlerin rengini, saydamlığını, orta çizgisini ayarla.</p>
+  <div class="chips reveal"><span>15+ hazır tema</span><span>Arka plan fotoğrafı</span><span>Mum renk ve stilleri</span><span>Cam (glass) arayüz</span><span>Pozisyon kutusu temaları</span><span>Tüm renk paleti</span><span>Kendi temalarını kaydet</span></div></div>
+ <div class="mock reveal"><div class="bar"><i></i><i></i><i></i></div>
+  <svg viewBox="0 0 520 300"><defs><linearGradient id="bgm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#101a33"/><stop offset="1" stop-color="#0a1f1a"/></linearGradient><linearGradient id="ar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#18c39a" stop-opacity=".35"/><stop offset="1" stop-color="#18c39a" stop-opacity="0"/></linearGradient></defs>
+  <rect width="520" height="300" rx="10" fill="url(#bgm)"/>
+  <g id="cnd"></g>
+  <rect x="300" y="70" width="140" height="60" fill="#18c39a" fill-opacity=".22"/><rect x="300" y="130" width="140" height="34" fill="#ff3b5c" fill-opacity=".22"/>
+  <line x1="300" y1="130" x2="440" y2="130" stroke="#98a1b3" stroke-dasharray="4 3"/>
+  <rect x="330" y="58" width="82" height="18" rx="5" fill="#18c39a"/><text x="371" y="71" fill="#fff" font-size="10" font-weight="700" text-anchor="middle" font-family="sans-serif">Hedef +4,2%</text>
+  <rect x="18" y="16" width="56" height="30" rx="7" fill="#f23645"/><rect x="80" y="16" width="56" height="30" rx="7" fill="#089981"/>
+  <text x="46" y="28" fill="#fff" font-size="9" font-weight="800" text-anchor="middle" font-family="sans-serif">SAT</text><text x="108" y="28" fill="#fff" font-size="9" font-weight="800" text-anchor="middle" font-family="sans-serif">AL</text>
+  <text x="46" y="40" fill="#fff" font-size="10" font-weight="700" text-anchor="middle" font-family="sans-serif">60.112</text><text x="108" y="40" fill="#fff" font-size="10" font-weight="700" text-anchor="middle" font-family="sans-serif">60.114</text></svg></div>
+</div></section>
+
+<section id="karsilastir"><div class="wrap">
+ <div class="kick reveal">Karşılaştır</div><h2 class="reveal">Ücretsiz paketlerdeki limitler <em>burada yok.</em></h2>
+ <table class="reveal"><tr><th>Özellik</th><th>Popüler platformların ücretsiz paketi</th><th>ProGrafik</th></tr>
+  <tr><td>Grafik başına gösterge</td><td>2</td><td>Sınırsız</td></tr>
+  <tr><td>Aktif fiyat alarmı</td><td>3</td><td>Sınırsız*</td></tr>
+  <tr><td>Reklam</td><td>Var</td><td>Yok</td></tr>
+  <tr><td>Strateji geriye dönük testi</td><td>Sınırlı</td><td>Ücretsiz</td></tr>
+  <tr><td>Likidasyon ısı haritası</td><td>Yok</td><td>Var</td></tr>
+  <tr><td>Arka plan fotoğrafı ve tema</td><td>Sınırlı</td><td>Tam serbest</td></tr>
+ </table>
+ <p class="note" style="text-align:left">Karşılaştırma Kasım 2026 itibarıyla yaygın grafik platformlarının ücretsiz paket limitlerine göredir. * Alarmlar tarayıcıda, sayfa açıkken çalışır.</p>
+</div></section>
+
+<section id="hakkimizda"><div class="wrap split">
+ <div><div class="kick reveal">Hakkımızda</div><h2 class="reveal">Trader'lar tarafından, <em>trader'lar için.</em></h2>
+  <p class="lead reveal">ProGrafik, her gün grafik başında olan trader'ların "neden temel araçlar için para ödüyoruz?" sorusundan doğdu. Hedefimiz basit: profesyonel analiz araçlarını herkes için ücretsiz ve sınırsız yapmak.</p>
+  <p class="lead reveal">Platformu sürekli geliştiriyoruz. Yeni göstergeler, stratejiler ve araçlar kullanıcılarımızın isteklerine göre ekleniyor.</p></div>
+ <div class="grid" style="grid-template-columns:1fr 1fr;margin-top:0">
+  <div class="card reveal"><div class="ic">🎓</div><h4>Eğitim içerikleri</h4><p>Gösterge ve strateji anlatımları, platform kullanım rehberleri.</p></div>
+  <div class="card reveal"><div class="ic">📊</div><h4>Piyasa analizleri</h4><p>Grafik üzerinden düzenli teknik analiz paylaşımları.</p></div>
+  <div class="card reveal"><div class="ic">🛠️</div><h4>Sürekli geliştirme</h4><p>Yeni özellikler düzenli olarak ekleniyor; istekleri dinliyoruz.</p></div>
+  <div class="card reveal"><div class="ic">📱</div><h4>Mobil uygulama</h4><p>App Store ve Google Play sürümleri yolda.</p></div>
+ </div>
+</div></section>
+
+<section><div class="wrap"><div class="final reveal">
+ <h2>Bugün başla. <em>Ücretsiz.</em></h2><p class="lead" style="margin:0 auto 28px">Kayıt yok, kart yok. Tek tıkla grafiği aç.</p>
+ <a class="btn bp" href="../">Grafiği aç →</a></div></div></section>
+
+<footer><div class="wrap"><div>© 2026 <span data-app>ProGrafik</span> · Burada yer alan bilgiler yatırım tavsiyesi değildir.</div><div><a href="../">Grafik</a> · <a href="#ozellikler">Özellikler</a> · <a href="#hakkimizda">Hakkımızda</a></div></div></footer>
+
+<script>
+// mini mum grafiği
+(()=>{const g=document.getElementById('cnd');let p=200,h='';for(let i=0;i<46;i++){const o=p,c=o+(Math.sin(i*.55)*9+(i>28?-4:3)*Math.random()+(Math.random()-.5)*10),hi=Math.min(o,c)-Math.random()*8,lo=Math.max(o,c)+Math.random()*8,x=18+i*10.6,up=c<o,col=up?'#18c39a':'#ff3b5c';h+=`<line x1="${x}" x2="${x}" y1="${hi}" y2="${lo}" stroke="${col}"/><rect x="${x-3.2}" y="${Math.min(o,c)}" width="6.4" height="${Math.max(1,Math.abs(c-o))}" fill="${col}" rx="1"/>`;p=Math.max(80,Math.min(260,c))}g.innerHTML=h})();
+// görünce beliren bölümler
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.reveal').forEach(e=>io.observe(e));
+</script>
+</body>
+</html>
