@@ -319,7 +319,7 @@ const pf=()=>({type:'price',precision:S.prec,minMove:1/10**S.prec});
 
 // ---------------- grafikler ----------------
 function chartOpts(sub,fmtDp){const dark=S.set.theme==='dark',bg=dark?'#0f1218':'#ffffff',grid=dark?'#1b2029':'#f0f3fa',text=dark?'#8b95a5':'#5d6573',border=dark?'#262c38':'#e0e3eb';
- return{layout:{background:{type:'solid',color:bg},textColor:text,fontFamily:'Inter,system-ui,sans-serif',fontSize:11},
+ return{layout:{background:{type:'solid',color:bg},attributionLogo:!sub,textColor:text,fontFamily:'Inter,system-ui,sans-serif',fontSize:11},
   grid:{vertLines:{color:S.set.grid?grid:'rgba(0,0,0,0)'},horzLines:{color:S.set.grid?grid:'rgba(0,0,0,0)'}},
   crosshair:{mode:S.magnet?1:0,vertLine:{color:dark?'#6a7385':'#9598a1',labelBackgroundColor:dark?'#363c4e':'#131722',visible:S.cursor==='cross'},horzLine:{color:dark?'#6a7385':'#9598a1',labelBackgroundColor:dark?'#363c4e':'#131722',visible:S.cursor==='cross'}},
   rightPriceScale:{borderColor:border,minimumWidth:78,scaleMargins:sub?{top:.12,bottom:.08}:{top:.08,bottom:.12}},
