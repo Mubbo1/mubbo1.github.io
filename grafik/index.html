@@ -1442,7 +1442,7 @@ function tradName(base,cat){const b=base.toUpperCase();if(cat==='forex'){const m
 const tick2=(c,o,h,l,q)=>({c,o,h,l,q,p:o?(c-o)/o*100:0});
 const precOfTick=t=>{t=String(t||'');if(/e-/i.test(t))return+t.split(/e-/i)[1];const s=t.replace(/0+$/,''),i=s.indexOf('.');return i<0?0:s.length-i-1};
 function addSyms(list){list.forEach(x=>{if(S.symi.has(x.k))return;S.symi.set(x.k,x);S.syms.push(x)})}
-function fillNames(){const nm={};S.syms.forEach(x=>{if(x.nm&&!/[\/]/.test(x.nm)&&x.cat!=='crypto'&&x.cat!=='perp')nm[x.b]=nm[x.b]||x.nm});S.syms.forEach(x=>{if(!x.nm&&nm[x.b])x.nm=nm[x.b]})}
+function fillNames(){const nm={};S.syms.forEach(x=>{if(x.nm&&!/[\/]/.test(x.nm)&&x.cat!=='crypto'&&x.cat!=='perp')nm[x.b]=nm[x.b]||x.nm});S.syms.forEach(x=>{if(!x.nm&&nm[x.b])x.nm=nm[x.b];if(x.cat==='stock'&&/\bETF\b|\bFund\b|\bTrust\b|Daily .*(Bull|Bear|Long|Short)/i.test(x.nm||''))x.cat='fund'})}
 // ---- sembol listeleri ----
 const EXL={
  BY:async()=>{const g=c=>getJSON(`https://api.bybit.com/v5/market/instruments-info?category=${c}&limit=1000`);const[li,sp,tl,ts]=await Promise.all([g('linear'),g('spot'),getJSON('https://api.bybit.com/v5/market/tickers?category=linear'),getJSON('https://api.bybit.com/v5/market/tickers?category=spot')]);
