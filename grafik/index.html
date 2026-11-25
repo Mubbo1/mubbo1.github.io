@@ -410,7 +410,7 @@ const S={
  fav:ls.get('fav',['1m','5m','15m','1h','4h','1d','1w']),
  set:(()=>{const o=ls.get('set',{});const st={...DEFSET,...o};if(o.theme==='light'&&!o.bg)Object.assign(st,themeVals({...THEMES.acik,k:'acik'}));if(o.theme==='dark'&&!o.bg)st.theme='koyu';if(o.grid===false&&o.gv==null){st.gv=false;st.gh=false}if(o.up&&!o.upB){st.upB=st.upW=o.up;st.dnB=st.dnW=o.down}return st})(),
  favT:ls.get('favT',['trend','hline','hray','fib','rect','long','short','measure','text','brush']),favOn:ls.get('favOn',innerWidth>=860),favPos:ls.get('favPos',null),
- favInd:ls.get('favInd',['rsi','macd','ema','bb','vrvp','kzp']),indDef:ls.get('indDef',{}),dstyle:ls.get('dstyle',{}),myThemes:ls.get('myThemes',[]),side:ls.get('side','wl'),hotM:'up',perf:{},
+ favInd:ls.get('favInd',['rsi','macd','ema','bb','smc','utbot','sqz','wt','vrvp','kzp']),indDef:ls.get('indDef',{}),dstyle:ls.get('dstyle',{}),myThemes:ls.get('myThemes',[]),side:ls.get('side','wl'),hotM:'up',perf:{},
  inds:ls.get('inds',null),
  wl:ls.get('wl',['F:BTCUSDT','F:ETHUSDT','F:SOLUSDT','F:XRPUSDT','F:BNBUSDT','F:DOGEUSDT','F:AVAXUSDT','F:LINKUSDT','F:SUIUSDT','F:PAXGUSDT','S:BTCUSDT','S:ETHUSDT']),
  alarms:ls.get('alarms',[]),magnet:ls.get('magnet',false),
@@ -622,7 +622,7 @@ function vpSvg(r){const p=r.inst.p,rg=main.timeScale().getVisibleLogicalRange();
   h+=`<rect x="${S.W-wu-wd}" y="${y1}" width="${wu}" height="${hg}" fill="${esc(uc)}" fill-opacity="${op}"/><rect x="${S.W-wd}" y="${y1}" width="${wd}" height="${hg}" fill="${esc(dc)}" fill-opacity="${op}"/>`}
  const pp=lo+(poc+.5)*st,py=yOfP(pp);if(py!=null)h+=`<line x1="0" x2="${S.W}" y1="${py}" y2="${py}" stroke="#ff9800" stroke-dasharray="4 3"/><text x="6" y="${py-4}" fill="#ff9800" font-size="11" class="t">POC ${fmt(pp)}</text>`;
  return h}
-function specialSvg(){let h='';for(const u in R){const r=R[u];if(r.inst.hide||!tfVis(r.inst))continue;try{if(r.def.special==='kzp')h+=kzpSvg(r);else if(r.def.special==='vp')h+=vpSvg(r)}catch(e){console.error(e)}}return h?`<g style="pointer-events:none">${h}</g>`:''}
+function specialSvg(){let h='';for(const u in R){const r=R[u];if(r.inst.hide||!tfVis(r.inst))continue;try{if(r.def.special==='kzp')h+=kzpSvg(r);else if(r.def.special==='vp')h+=vpSvg(r);else if(r.out&&(r.out.ln||r.out.bx||r.out.mk))h+=primSvg(r)}catch(e){console.error(e)}}return h?`<g style="pointer-events:none">${h}</g>`:''}
 
 // ===== YENİ GÖSTERGE TANIMLARI =====
 const GS=[3,5,8,10,12,15],GL=[30,35,40,45,50,60];
@@ -686,7 +686,158 @@ const DEFS2=[
  {id:'adr',n:'Ortalama Mum Aralığı',s:'Ort. Aralık',cat:'vola',pane:1,dp:'main',p:{len:14},pl:[{k:'v',c:'#2962ff'}],f:(x,p)=>({v:sma(x.h.map((h,i)=>h-x.l[i]),p.len)})},
 ];
 
-DEFS.push(...DEFS2);
+// ===== POPÜLER TOPLULUK GÖSTERGELERİ (kendi uygulamamız) =====
+const GRN='#089981',RED='#f23645';
+const xover=(a,b,i)=>a[i]!=null&&b[i]!=null&&a[i-1]!=null&&b[i-1]!=null&&a[i]>b[i]&&a[i-1]<=b[i-1];
+const xunder=(a,b,i)=>a[i]!=null&&b[i]!=null&&a[i-1]!=null&&b[i-1]!=null&&a[i]<b[i]&&a[i-1]>=b[i-1];
+const slopeCols=(v,u=GRN,d=RED,k=1)=>v.map((q,i)=>q==null?null:v[i-k]==null||q>=v[i-k]?u:d);
+function pivList(x,L,R=L){const n=x.c.length,hs=[],ls=[];for(let i=L;i<n-R;i++){let H=true,Lo=true;
+ for(let j=1;j<=Math.max(L,R);j++){if(j<=L){if(x.h[i-j]>=x.h[i])H=false;if(x.l[i-j]<=x.l[i])Lo=false}if(j<=R){if(x.h[i+j]>x.h[i])H=false;if(x.l[i+j]<x.l[i])Lo=false}if(!H&&!Lo)break}
+ if(H)hs.push({i,p:x.h[i],c:i+R});if(Lo)ls.push({i,p:x.l[i],c:i+R})}return{hs,ls}}
+function maOf(type,v,n,vol){switch(type){case'EMA':return ema(v,n);case'WMA':return wma(v,n);case'RMA':return rma(v,n);case'HMA':return wma(zip(wma(v,Math.max(1,Math.round(n/2))),wma(v,n),(a,b)=>2*a-b),Math.max(1,Math.round(Math.sqrt(n))));
+ case'VWMA':return zip(sumN(v.map((c,i)=>c*vol[i]),n),sumN(vol,n),(a,b)=>b?a/b:null);case'TEMA':{const e=ema(v,n),e2=ema(e,n),e3=ema(e2,n);return e.map((a,i)=>a==null||e2[i]==null||e3[i]==null?null:3*a-3*e2[i]+e3[i])}default:return sma(v,n)}}
+const MAT=[['SMA','SMA'],['EMA','EMA'],['WMA','WMA'],['HMA','Hull (HMA)'],['VWMA','VWMA'],['RMA','RMA / SMMA'],['TEMA','TEMA']];
+const sigInp={k:'sig',t:'bool',l:'Al/Sat sinyallerini göster'};
+
+function utF(x,p){const n=x.c.length,atr=rma(trf(x),p.atr),ts=N(n),tC=N(n),mk=[];let t=null;
+ for(let i=0;i<n;i++){if(atr[i]==null)continue;const nl=p.key*atr[i],c=x.c[i],pc=i?x.c[i-1]:c,pt=t??c;
+  if(c>pt&&pc>pt)t=Math.max(pt,c-nl);else if(c<pt&&pc<pt)t=Math.min(pt,c+nl);else t=c>pt?c-nl:c+nl;ts[i]=t;tC[i]=c>t?GRN:RED;
+  if(p.sig&&ts[i-1]!=null){if(c>t&&pc<=ts[i-1])mk.push({i,p:x.l[i],up:1,t:'AL',c:GRN});else if(c<t&&pc>=ts[i-1])mk.push({i,p:x.h[i],up:0,t:'SAT',c:RED})}}
+ return{v:ts,vC:tC,mk}}
+function rfF(x,p){const n=x.c.length,c=x.c,ar=ema(c.map((v,i)=>i?Math.abs(v-c[i-1]):null),p.per),sr=ema(ar,p.per*2-1).map(v=>v==null?null:v*p.mult),f=N(n),fC=N(n),hb=N(n),lb=N(n),mk=[];let up=0,dn=0,st=0,pf=null;
+ for(let i=0;i<n;i++){const r=sr[i];if(r==null)continue;let v=c[i];if(pf!=null)v=c[i]>pf?(c[i]-r<pf?pf:c[i]-r):(c[i]+r>pf?pf:c[i]+r);
+  if(pf!=null){up=v>pf?up+1:v<pf?0:up;dn=v<pf?dn+1:v>pf?0:dn}f[i]=v;hb[i]=v+r;lb[i]=v-r;fC[i]=up>0?GRN:dn>0?RED:'#ff9800';
+  const L=(c[i]>v&&up>0),S_=(c[i]<v&&dn>0),ns=L?1:S_?-1:st;if(p.sig&&i){if(L&&st===-1)mk.push({i,p:x.l[i],up:1,t:'AL',c:GRN});if(S_&&st===1)mk.push({i,p:x.h[i],up:0,t:'SAT',c:RED})}st=ns;pf=v}
+ return{f,fC,h:hb,l:lb,mk}}
+function htF(x,p){const n=x.c.length,A=p.amp,atr2=rma(trf(x),100).map(v=>v==null?null:v/2),hp=hh(x.h,A),lp=ll(x.l,A),hm=sma(x.h,A),lm=sma(x.l,A),o=N(n),oC=N(n),mk=[];
+ let trend=0,next=0,maxLow=x.l[0],minHigh=x.h[0],up=null,down=null,pt=null,pu=null,pd=null;
+ for(let i=0;i<n;i++){if(hp[i]==null||atr2[i]==null)continue;
+  if(next===1){maxLow=Math.max(lp[i],maxLow);if(hm[i]<maxLow&&x.c[i]<(i?x.l[i-1]:x.l[i])){trend=1;next=0;minHigh=hp[i]}}
+  else{minHigh=Math.min(hp[i],minHigh);if(lm[i]>minHigh&&x.c[i]>(i?x.h[i-1]:x.h[i])){trend=0;next=1;maxLow=lp[i]}}
+  if(trend===0){if(pt!=null&&pt!==0){up=pd==null?down:pd;if(p.sig)mk.push({i,p:x.l[i],up:1,t:'AL',c:'#2962ff'})}else up=pu==null?maxLow:Math.max(maxLow,pu)}
+  else{if(pt!=null&&pt!==1){down=pu==null?up:pu;if(p.sig)mk.push({i,p:x.h[i],up:0,t:'SAT',c:RED})}else down=pd==null?minHigh:Math.min(minHigh,pd)}
+  o[i]=trend===0?up:down;oC[i]=trend===0?'#2962ff':RED;pt=trend;pu=up;pd=down}
+ return{v:o,vC:oC,mk}}
+function qqeF(x,p){const n=x.c.length,rs=ema(rsiF(x.c,p.rsi),p.sf),ar=rs.map((v,i)=>v==null||rs[i-1]==null?null:Math.abs(rs[i-1]-v)),dar=ema(ema(ar,p.rsi*2-1),p.rsi*2-1).map(v=>v==null?null:v*p.fac);
+ const tl=N(n);let lb=null,sb=null,tr=1,plb=null,psb=null;
+ for(let i=0;i<n;i++){const r=rs[i],d=dar[i];if(r==null||d==null)continue;const r1=rs[i-1];const nl=r-d,ns=r+d;
+  lb=plb!=null&&r1>plb&&r>plb?Math.max(plb,nl):nl;sb=psb!=null&&r1<psb&&r<psb?Math.min(psb,ns):ns;
+  if(psb!=null&&((r>psb&&r1<=psb)||(r<psb&&r1>=psb)))tr=1;else if(plb!=null&&((plb>r&&plb<=r1)||(plb<r&&plb>=r1)))tr=-1;
+  tl[i]=(tr===1?lb:sb)-50;plb=lb;psb=sb}
+ const h=rs.map(v=>v==null?null:v-50);return{h,hC:h.map(v=>v==null?null:v>p.th?'#00c3ff':v<-p.th?'#ff0062':'#787b86'),t:tl}}
+function nweF(x,p){const n=x.c.length,c=x.c,K=Math.min(p.len,Math.ceil(p.bw*6)),w=[...Array(K)].map((_,j)=>Math.exp(-(j*j)/(2*p.bw*p.bw))),m=N(n);
+ for(let i=0;i<n;i++){let s=0,ws=0;for(let j=0;j<K&&j<=i;j++){s+=c[i-j]*w[j];ws+=w[j]}m[i]=s/ws}
+ const mae=sma(c.map((v,i)=>Math.abs(v-m[i])),Math.min(p.len,Math.max(2,n-1))).map(v=>v==null?null:v*p.mult),u=zip(m,mae,(a,b)=>a+b),l=zip(m,mae,(a,b)=>a-b),mk=[];
+ if(p.sig)for(let i=1;i<n;i++){if(xunder(c,l,i))mk.push({i,p:x.l[i],up:1,t:'▲',c:GRN});if(xover(c,u,i))mk.push({i,p:x.h[i],up:0,t:'▼',c:RED})}
+ return{m,u,l,mk}}
+function hullSF(x,p){const h=maOf('HMA',x.c,p.len),cl=h.map((v,i)=>v==null||h[i-2]==null?null:v>h[i-2]?GRN:RED);return{a:h,aC:cl,b:h.map((v,i)=>h[i-2]??null),bC:cl}}
+function sslF(x,p){const n=x.c.length,H=sma(x.h,p.len),L=sma(x.l,p.len),u=N(n),d=N(n);let hl=0;for(let i=0;i<n;i++){if(H[i]==null)continue;hl=x.c[i]>H[i]?1:x.c[i]<L[i]?-1:hl;d[i]=hl<0?H[i]:L[i];u[i]=hl<0?L[i]:H[i]}return{u,d}}
+function wvfF(x,p){const H=hh(x.c,p.pd),w=x.l.map((l,i)=>H[i]==null?null:(H[i]-l)/H[i]*100),sd=stdev(w,p.bbl),m=sma(w,p.bbl),rh=hh(w,p.lb);
+ return{v:w,vC:w.map((v,i)=>v==null?null:(sd[i]!=null&&v>=m[i]+p.mult*sd[i])||(rh[i]!=null&&v>=rh[i]*p.ph)?'#00e676':'#787b86')}}
+function umaF(x,p){const a=maOf(p.type,x.c,p.len,x.v),o={a,aC:p.slope?slopeCols(a):null};if(p.two){o.b=maOf(p.type2,x.c,p.len2,x.v);o.bC=p.slope?slopeCols(o.b,'#00bcd4','#ff9800'):null}else o.b=N(x.c.length);
+ o.mk=[];if(p.two&&p.sig)for(let i=1;i<a.length;i++){if(xover(a,o.b,i))o.mk.push({i,p:x.l[i],up:1,t:'AL',c:GRN});if(xunder(a,o.b,i))o.mk.push({i,p:x.h[i],up:0,t:'SAT',c:RED})}return o}
+function engulf(x,i){const o=x.o,c=x.c;if(i<1)return 0;const b=Math.abs(c[i]-o[i]),pb=Math.abs(c[i-1]-o[i-1]);if(c[i]>o[i]&&c[i-1]<o[i-1]&&c[i]>=o[i-1]&&o[i]<=c[i-1]&&b>pb)return 1;if(c[i]<o[i]&&c[i-1]>o[i-1]&&c[i]<=o[i-1]&&o[i]>=c[i-1]&&b>pb)return-1;return 0}
+function tmaF(x,p){const o={a:rma(x.c,21),b:rma(x.c,50),c:rma(x.c,100),d:rma(x.c,200),mk:[]};if(p.eng)for(let i=Math.max(1,x.c.length-400);i<x.c.length;i++){const e=engulf(x,i);if(e>0)o.mk.push({i,p:x.l[i],up:1,t:'Y',c:GRN,sm:1});if(e<0)o.mk.push({i,p:x.h[i],up:0,t:'Y',c:RED,sm:1})}return o}
+function srbF(x,p){const n=x.c.length,{hs,ls}=pivList(x,p.left,p.right),r=N(n),s=N(n),mk=[],vo=zip(ema(x.v,5),ema(x.v,10),(a,b)=>b?100*(a-b)/b:0);
+ const fill=(arr,list)=>{list.forEach((q,k)=>{const nx=k+1<list.length,end=nx?list[k+1].c-1:n;for(let j=q.c;j<end;j++)arr[j]=q.p})};fill(r,hs);fill(s,ls);
+ for(let i=1;i<n;i++){if(s[i]!=null&&s[i-1]!=null&&s[i]===s[i-1]&&x.c[i]<s[i]&&x.c[i-1]>=s[i-1]&&vo[i]>p.vol)mk.push({i,p:x.h[i],up:0,t:'K',c:RED});
+  if(r[i]!=null&&r[i-1]!=null&&r[i]===r[i-1]&&x.c[i]>r[i]&&x.c[i-1]<=r[i-1]&&vo[i]>p.vol)mk.push({i,p:x.l[i],up:1,t:'K',c:GRN})}
+ return{r,s,mk}}
+function tlbF(x,p){const n=x.c.length,L=p.len,atr=rma(trf(x),L),{hs,ls}=pivList(x,L,L),ln=[],mk=[];
+ const run=(list,dn)=>{const out=[];list.forEach((q,k)=>{const a=atr[q.c]??atr[q.i];if(a==null)return;const sl=a/L*p.mult,end=k+1<list.length?list[k+1].c:n;let br=null;
+   for(let j=q.c;j<end;j++){const v=dn?q.p-sl*(j-q.i):q.p+sl*(j-q.i);if(dn?x.c[j]>v:x.c[j]<v){br=j;break}}
+   out.push({a:q.i,p0:q.p,b:br??n-1+(br==null?20:0),p1:dn?q.p-sl*((br??n+19)-q.i):q.p+sl*((br??n+19)-q.i),c:dn?'#2962ff':RED,d:br!=null,w:2});
+   if(br!=null)mk.push({i:br,p:dn?x.l[br]:x.h[br],up:dn?1:0,t:'K',c:dn?GRN:RED})});return out.slice(-p.show)};
+ return{ln:[...run(hs,true),...run(ls,false)],mk:mk.filter(m=>m.i>n-400)}}
+function rdivF(x,p){const n=x.c.length,r=rsiF(x.c,p.len),bu=N(n),be=N(n),lu=N(n),lbe=N(n),L=p.lb,R=p.rb,ph=[],pl=[];
+ for(let i=L;i<n-R;i++){if(r[i]==null)continue;let H=true,Lo=true;for(let j=1;j<=Math.max(L,R);j++){const a=r[i-j],b=r[i+j];if(j<=L&&a!=null){if(a>=r[i])H=false;if(a<=r[i])Lo=false}if(j<=R&&b!=null){if(b>r[i])H=false;if(b<r[i])Lo=false}}if(H)ph.push(i);if(Lo)pl.push(i)}
+ const seg=(arr,a,b)=>{for(let j=a;j<=b;j++)arr[j]=r[a]+(r[b]-r[a])*(j-a)/(b-a)};
+ for(let k=1;k<pl.length;k++){const a=pl[k-1],b=pl[k];if(b-a<5||b-a>60)continue;if(r[b]>r[a]&&x.l[b]<x.l[a]){bu[b]=r[b];seg(lu,a,b)}}
+ for(let k=1;k<ph.length;k++){const a=ph[k-1],b=ph[k];if(b-a<5||b-a>60)continue;if(r[b]<r[a]&&x.h[b]>x.h[a]){be[b]=r[b];seg(lbe,a,b)}}
+ return{v:r,lu,lbe,bu,be}}
+function fvgF(x,p){const n=x.c.length,bx=[];const all=[];
+ for(let i=2;i<n;i++){const sz=Math.abs(x.c[i-1]-x.o[i-1])/x.o[i-1]*100;if(sz<p.min)continue;
+  if(x.l[i]>x.h[i-2])all.push({a:i-2,top:x.l[i],bot:x.h[i-2],bull:1});if(x.h[i]<x.l[i-2])all.push({a:i-2,top:x.l[i-2],bot:x.h[i],bull:0})}
+ all.forEach(g=>{let f=null;for(let j=g.a+3;j<n;j++){if(g.bull?x.l[j]<g.bot:x.h[j]>g.top){f=j;break}}if(f!=null&&!p.showFilled)return;bx.push({a:g.a,b:f,top:g.top,bot:g.bot,c:g.bull?GRN:RED,o:f!=null?.08:.22,t:'FVG'})});
+ return{bx:bx.slice(-p.max)}}
+function candF(x,p){const n=x.c.length,mk=[],o=x.o,c=x.c,h=x.h,l=x.l,atr=rma(trf(x),14);const add=(i,up,t)=>mk.push({i,p:up?l[i]:h[i],up,t,c:up?GRN:RED,sm:1});
+ for(let i=Math.max(2,n-p.bars);i<n;i++){const b=Math.abs(c[i]-o[i]),r=h[i]-l[i],ut=h[i]-Math.max(o[i],c[i]),lt=Math.min(o[i],c[i])-l[i],a=atr[i]||r;if(!r)continue;
+  const e=engulf(x,i);if(p.eng&&e)add(i,e>0?1:0,'Yutan');
+  else if(p.ham&&lt>=2*b&&ut<=b*.5&&r>a*.6&&c[i-1]<c[i-2])add(i,1,'Çekiç');
+  else if(p.ham&&ut>=2*b&&lt<=b*.5&&r>a*.6&&c[i-1]>c[i-2])add(i,0,'Kayan Y.');
+  else if(p.star&&i>=2&&c[i-2]<o[i-2]&&Math.abs(c[i-1]-o[i-1])<Math.abs(c[i-2]-o[i-2])*.3&&c[i]>o[i]&&c[i]>(o[i-2]+c[i-2])/2)add(i,1,'Sabah Y.');
+  else if(p.star&&i>=2&&c[i-2]>o[i-2]&&Math.abs(c[i-1]-o[i-1])<Math.abs(c[i-2]-o[i-2])*.3&&c[i]<o[i]&&c[i]<(o[i-2]+c[i-2])/2)add(i,0,'Akşam Y.');
+  else if(p.doji&&b<=r*.08&&r>a*.5)mk.push({i,p:h[i],up:0,t:'Doji',c:'#787b86',sm:1})}
+ return{mk}}
+function pdhF(x,p){const n=x.c.length,ln=[];if(n<2)return{ln};const grp=(div)=>{const g=[];x.t.forEach((t,i)=>{const k=div(t);let cur=g[g.length-1];if(!cur||cur.k!==k){cur={k,a:i,h:x.h[i],l:x.l[i]};g.push(cur)}else{cur.h=Math.max(cur.h,x.h[i]);cur.l=Math.min(cur.l,x.l[i])}});return g};
+ const put=(g,nm,c)=>{if(g.length<2)return;const pv=g[g.length-2],cur=g[g.length-1];ln.push({a:cur.a,b:null,p0:pv.h,c,d:1,t:nm+' Y',w:1},{a:cur.a,b:null,p0:pv.l,c,d:1,t:nm+' D',w:1})};
+ if(p.day)put(grp(t=>Math.floor(t/86400)),'Önceki gün','#ff9800');if(p.week)put(grp(t=>Math.floor((t/86400+3)/7)),'Önceki hafta','#2962ff');if(p.month)put(grp(t=>{const d=new Date(t*1000);return d.getUTCFullYear()*12+d.getUTCMonth()}),'Önceki ay','#9c27b0');return{ln}}
+function phlF(x,p){const{hs,ls}=pivList(x,p.left,p.right),mk=[];hs.forEach(q=>mk.push({i:q.i,p:q.p,up:0,t:fmt(q.p),c:RED,sm:1,pl:1}));ls.forEach(q=>mk.push({i:q.i,p:q.p,up:1,t:fmt(q.p),c:GRN,sm:1,pl:1}));return{mk:mk.filter(m=>m.i>x.c.length-500)}}
+function vwbF(x,p){const n=x.c.length,v=N(n),u1=N(n),l1=N(n),u2=N(n),l2=N(n);let day=null,pv=0,vv=0,p2=0;
+ for(let i=0;i<n;i++){const d=Math.floor(x.t[i]/86400);if(d!==day){day=d;pv=0;vv=0;p2=0}const tp=(x.h[i]+x.l[i]+x.c[i])/3;pv+=tp*x.v[i];vv+=x.v[i];p2+=tp*tp*x.v[i];if(!vv)continue;const m=pv/vv,sd=Math.sqrt(Math.max(0,p2/vv-m*m));v[i]=m;u1[i]=m+p.m1*sd;l1[i]=m-p.m1*sd;u2[i]=m+p.m2*sd;l2[i]=m-p.m2*sd}
+ return{v,u1,l1,u2,l2}}
+function bbrsiF(x,p){const m=sma(x.c,p.len),s=stdev(x.c,p.len),u=zip(m,s,(a,b)=>a+p.mult*b),l=zip(m,s,(a,b)=>a-p.mult*b),r=rsiF(x.c,p.rsi),lvl=x.c.map(()=>p.lvl),mk=[];
+ for(let i=1;i<x.c.length;i++){if(xover(r,lvl,i)&&xover(x.c,l,i))mk.push({i,p:x.l[i],up:1,t:'AL',c:GRN});if(xunder(r,lvl,i)&&xunder(x.c,u,i))mk.push({i,p:x.h[i],up:0,t:'SAT',c:RED})}
+ return{m,u,l,mk}}
+function smcF(x,p){const n=x.c.length,out={ln:[],bx:[],mk:[]};if(n<20)return out;const atr=rma(trf(x),Math.min(200,n-1));
+ const struct=(L,internal)=>{const{hs,ls}=pivList(x,L,L);let hi=0,li=0,top=null,btm=null,trend=0;const lines=[],obs=[];
+  for(let k=0;k<n;k++){while(hi<hs.length&&hs[hi].c<=k){top={...hs[hi],x:0};hi++}while(li<ls.length&&ls[li].c<=k){btm={...ls[li],x:0};li++}
+   if(top&&!top.x&&x.c[k]>top.p){const t=trend<0?'CHoCH':'BOS';trend=1;top.x=1;lines.push({a:top.i,b:k,p0:top.p,c:internal?'#4caf50':GRN,d:internal,t,w:internal?1:2,up:1});
+    let m=top.i;for(let j=top.i;j<k;j++)if(x.l[j]<x.l[m])m=j;obs.push({a:m,top:x.h[m],bot:x.l[m],bull:1,mit:null})}
+   if(btm&&!btm.x&&x.c[k]<btm.p){const t=trend>0?'CHoCH':'BOS';trend=-1;btm.x=1;lines.push({a:btm.i,b:k,p0:btm.p,c:internal?'#ef5350':RED,d:internal,t,w:internal?1:2,up:0});
+    let m=btm.i;for(let j=btm.i;j<k;j++)if(x.h[j]>x.h[m])m=j;obs.push({a:m,top:x.h[m],bot:x.l[m],bull:0,mit:null})}
+   obs.forEach(o=>{if(o.mit==null&&o.a<k&&(o.bull?x.c[k]<o.bot:x.c[k]>o.top))o.mit=k})}
+  return{lines,obs,top,btm,hs,ls}};
+ const S1=p.swing?struct(p.slen,false):null,I1=p.internal?struct(p.ilen,true):null,recent=n-p.hist;
+ [S1,I1].forEach(st=>{if(!st)return;st.lines.filter(l=>l.b>=recent).forEach(l=>out.ln.push({...l,tp:'mid'}))});
+ if(p.ob){const pick=(st,cnt,sw)=>st?st.obs.filter(o=>o.mit==null).slice(-cnt).forEach(o=>out.bx.push({a:o.a,b:null,top:o.top,bot:o.bot,c:o.bull?(sw?'#1848cc':'#3179f5'):(sw?'#b22833':'#f77c80'),o:sw?.25:.18,t:sw?'OB':'iOB'})):0;pick(S1,p.obn,1);pick(I1,p.obn,0)}
+ if(p.fvg)fvgF(x,{min:0,max:p.fvgn,showFilled:false}).bx.forEach(b=>out.bx.push({...b,o:.18}));
+ if(p.eq){const{hs,ls}=pivList(x,3,3);const thr=i=>(atr[i]||0)*.1;
+  for(let k=1;k<hs.length;k++){const a=hs[k-1],b=hs[k];if(b.i<recent)continue;if(Math.abs(a.p-b.p)<thr(b.i))out.ln.push({a:a.i,b:b.i,p0:a.p,p1:b.p,c:RED,d:1,t:'EQH',w:1,up:1,tp:'mid'})}
+  for(let k=1;k<ls.length;k++){const a=ls[k-1],b=ls[k];if(b.i<recent)continue;if(Math.abs(a.p-b.p)<thr(b.i))out.ln.push({a:a.i,b:b.i,p0:a.p,p1:b.p,c:GRN,d:1,t:'EQL',w:1,up:0,tp:'mid'})}}
+ if(p.pd&&S1&&S1.hs.length&&S1.ls.length){const th=S1.hs[S1.hs.length-1],tb=S1.ls[S1.ls.length-1],a=Math.max(th.i,tb.i);let T=-Infinity,B=Infinity;for(let j=Math.min(th.i,tb.i);j<n;j++){T=Math.max(T,x.h[j]);B=Math.min(B,x.l[j])}const R_=T-B;
+  if(R_>0){out.bx.push({a,b:null,top:T,bot:T-.05*R_,c:RED,o:.15,t:'Premium'},{a,b:null,top:(T+B)/2+.025*R_,bot:(T+B)/2-.025*R_,c:'#787b86',o:.15,t:'Denge'},{a,b:null,top:B+.05*R_,bot:B,c:GRN,o:.15,t:'Discount'})}}
+ return out}
+function primSvg(r){const o=r.out,W=S.W;let h='';const X=i=>i==null?W+10:xOfL(i);
+ (o.bx||[]).forEach(b=>{const x0=X(b.a),x1=b.b==null?W+10:X(b.b),y0=yOfP(b.top),y1=yOfP(b.bot);if(x0==null||y0==null||y1==null||x1<0||x0>W)return;
+  h+=`<rect x="${x0}" y="${Math.min(y0,y1)}" width="${Math.max(1,x1-x0)}" height="${Math.max(1,Math.abs(y1-y0))}" fill="${esc(b.c)}" fill-opacity="${b.o??.2}" stroke="${esc(b.s||b.c)}" stroke-opacity=".5"/>`;
+  if(b.t&&Math.abs(y1-y0)>9){const st_=b.t==='FVG';h+=`<text x="${st_?Math.max(x0,0)+6:Math.min(x1,W)-6}" y="${(y0+y1)/2+4}" fill="${esc(b.c)}" font-size="10" font-weight="600" text-anchor="${st_?'start':'end'}" class="t">${esc(b.t)}</text>`}});
+ (o.ln||[]).forEach(l=>{const x0=X(l.a),x1=l.b==null?W+10:X(l.b),y0=yOfP(l.p0),y1=yOfP(l.p1??l.p0);if(x0==null||y0==null||y1==null||(x1<0&&x0<0)||x0>W)return;
+  h+=`<line x1="${x0}" y1="${y0}" x2="${x1}" y2="${y1}" stroke="${esc(l.c)}" stroke-width="${l.w||1}" stroke-dasharray="${l.d?'5 4':''}"/>`;
+  if(l.t){const mx=l.tp==='mid'?(x0+Math.min(x1,W))/2:Math.min(x1,W)-4,my=l.tp==='mid'?(y0+y1)/2:y0;h+=`<text x="${mx}" y="${my+(l.up===0?12:-4)}" fill="${esc(l.c)}" font-size="10" font-weight="600" text-anchor="${l.tp==='mid'?'middle':'end'}" class="t" style="paint-order:stroke;stroke:var(--bg);stroke-width:3px">${esc(l.t)}</text>`}});
+ const bs=Math.abs(XF?.bs||6);(o.mk||[]).forEach(m=>{const x=xOfL(m.i),y=yOfP(m.p);if(x==null||y==null||x<-30||x>W+30)return;
+  if(m.pl){h+=`<text x="${x}" y="${m.up?y+14:y-6}" fill="${esc(m.c)}" font-size="10" text-anchor="middle" class="t" style="paint-order:stroke;stroke:var(--bg);stroke-width:3px">${esc(m.t)}</text>`;return}
+  if(m.sm||bs<4){const k=m.up?1:-1,yy=y+k*8;h+=`<polygon points="${x},${yy} ${x-4},${yy+k*7} ${x+4},${yy+k*7}" fill="${esc(m.c)}"/>`;if(m.sm&&bs>=6)h+=`<text x="${x}" y="${m.up?yy+18:yy-10}" fill="${esc(m.c)}" font-size="9" text-anchor="middle" class="t">${esc(m.t)}</text>`;return}
+  const tw=m.t.length*6.5+8,k=m.up?1:-1,ty=y+k*10,by=m.up?ty+6:ty-6-16;
+  h+=`<polygon points="${x},${ty} ${x-5},${ty+k*6} ${x+5},${ty+k*6}" fill="${esc(m.c)}"/><rect x="${x-tw/2}" y="${by}" width="${tw}" height="16" rx="3" fill="${esc(m.c)}"/><text x="${x}" y="${by+12}" fill="#fff" font-size="10" font-weight="700" text-anchor="middle" class="t">${esc(m.t)}</text>`});
+ return h}
+const DEFS3=[
+ {id:'smc',n:'Smart Money Concepts (SMC) — BOS/CHoCH, Order Block, FVG',s:'SMC',cat:'trend',pane:0,special:'prim',full:1,p:{swing:true,slen:50,internal:true,ilen:5,ob:true,obn:5,fvg:true,fvgn:10,eq:true,pd:true,hist:300},pl:[],f:smcF,
+  inp:[{g:'Piyasa yapısı'},{k:'swing',t:'bool',l:'Swing yapısı (BOS/CHoCH)'},{k:'slen',t:'int',l:'Swing uzunluğu'},{k:'internal',t:'bool',l:'İç yapı (internal)'},{k:'ilen',t:'int',l:'İç yapı uzunluğu'},{k:'hist',t:'int',l:'Geriye dönük mum (etiketler)'},
+   {g:'Bölgeler'},{k:'ob',t:'bool',l:'Order Block'},{k:'obn',t:'int',l:'Order Block sayısı'},{k:'fvg',t:'bool',l:'Fair Value Gap (FVG)'},{k:'fvgn',t:'int',l:'FVG sayısı'},{k:'eq',t:'bool',l:'Eşit tepeler / dipler (EQH / EQL)'},{k:'pd',t:'bool',l:'Premium / Discount bölgeleri'}]},
+ {id:'utbot',n:'UT Bot (ATR iz süren stop + Al/Sat)',s:'UT Bot',cat:'trend',pane:0,special:'prim',p:{key:1,atr:10,sig:true},pl:[{k:'v',c:'#787b86',t:'dots',n:'İz süren stop'}],f:utF,inp:[{k:'key',t:'float',l:'Hassasiyet (anahtar değer)'},{k:'atr',t:'int',l:'ATR periyodu'},sigInp]},
+ {id:'nwe',n:'Nadaraya-Watson Zarfı',s:'NW Zarf',cat:'vola',pane:0,special:'prim',p:{bw:8,mult:3,len:500,sig:true},pl:[{k:'u',c:RED,n:'Üst'},{k:'m',c:'#787b86',n:'Orta'},{k:'l',c:GRN,n:'Alt'}],f:nweF,inp:[{k:'bw',t:'float',l:'Bant genişliği'},{k:'mult',t:'float',l:'Çarpan'},{k:'len',t:'int',l:'Pencere'},sigInp]},
+ {id:'hulls',n:'Hull Suite',s:'Hull Suite',cat:'trend',pane:0,p:{len:55},pl:[{k:'a',c:GRN,w:2,n:'Hull'},{k:'b',c:GRN,n:'Hull[2]'}],f:hullSF},
+ {id:'ssl',n:'SSL Kanalı',s:'SSL',cat:'trend',pane:0,p:{len:10},pl:[{k:'u',c:GRN,w:2,n:'Yukarı'},{k:'d',c:RED,w:2,n:'Aşağı'}],f:sslF},
+ {id:'rf',n:'Range Filter (Al/Sat)',s:'Range Filter',cat:'trend',pane:0,special:'prim',p:{per:100,mult:3,sig:true},pl:[{k:'h',c:'#2962ff',n:'Üst bant'},{k:'f',c:'#ff9800',w:2,n:'Filtre'},{k:'l',c:'#2962ff',n:'Alt bant'}],f:rfF,inp:[{k:'per',t:'int',l:'Örnekleme periyodu'},{k:'mult',t:'float',l:'Aralık çarpanı'},sigInp]},
+ {id:'ht',n:'HalfTrend',s:'HalfTrend',cat:'trend',pane:0,special:'prim',p:{amp:2,sig:true},pl:[{k:'v',c:'#2962ff',w:2}],f:htF,inp:[{k:'amp',t:'int',l:'Genlik'},sigInp]},
+ {id:'uma',n:'CM Ultimate MA (çoklu ortalama türü)',s:'Ultimate MA',cat:'trend',pane:0,special:'prim',p:{type:'EMA',len:20,slope:true,two:false,type2:'SMA',len2:50,sig:false},pl:[{k:'a',c:'#2962ff',w:2,n:'Ortalama 1'},{k:'b',c:'#ff9800',w:2,n:'Ortalama 2'}],f:umaF,
+  inp:[{k:'type',t:'sel',l:'Ortalama türü',o:MAT},{k:'len',t:'int',l:'Uzunluk'},{k:'slope',t:'bool',l:'Eğime göre renk değiştir'},{g:'İkinci ortalama'},{k:'two',t:'bool',l:'İkinci ortalamayı göster'},{k:'type2',t:'sel',l:'Tür',o:MAT},{k:'len2',t:'int',l:'Uzunluk'},{k:'sig',t:'bool',l:'Kesişim sinyalleri'}]},
+ {id:'tma',n:'TMA Overlay (SMMA 21/50/100/200 + yutan mum)',s:'TMA',cat:'trend',pane:0,special:'prim',p:{eng:true},pl:[{k:'a',c:'#b2b5be',n:'21'},{k:'b',c:'#089981',n:'50'},{k:'c',c:'#ffb300',n:'100'},{k:'d',c:RED,w:2,n:'200'}],f:tmaF,inp:[{k:'eng',t:'bool',l:'Yutan mum işaretleri'}]},
+ {id:'srb',n:'Kırılımlı Destek ve Direnç Seviyeleri',s:'S/R Kırılım',cat:'trend',pane:0,special:'prim',full:1,p:{left:15,right:15,vol:20},pl:[{k:'r',c:RED,w:2,gap:1,n:'Direnç'},{k:'s',c:'#2962ff',w:2,gap:1,n:'Destek'}],f:srbF,inp:[{k:'left',t:'int',l:'Sol mum'},{k:'right',t:'int',l:'Sağ mum'},{k:'vol',t:'int',l:'Hacim eşiği (%)'}]},
+ {id:'tlb',n:'Kırılımlı Trend Çizgileri',s:'Trend Kırılım',cat:'trend',pane:0,special:'prim',full:1,p:{len:14,mult:1,show:3},pl:[],f:tlbF,inp:[{k:'len',t:'int',l:'Salınım uzunluğu'},{k:'mult',t:'float',l:'Eğim çarpanı'},{k:'show',t:'int',l:'Gösterilecek çizgi sayısı'}]},
+ {id:'fvg',n:'Fair Value Gap (FVG) Bölgeleri',s:'FVG',cat:'trend',pane:0,special:'prim',full:1,p:{min:0,max:15,showFilled:false},pl:[],f:fvgF,inp:[{k:'min',t:'float',l:'En küçük mum gövdesi (%)'},{k:'max',t:'int',l:'Gösterilecek FVG sayısı'},{k:'showFilled',t:'bool',l:'Dolmuş FVG\'leri de göster'}]},
+ {id:'cand',n:'Mum Formasyonları (yutan, çekiç, yıldız, doji)',s:'Formasyon',cat:'trend',pane:0,special:'prim',full:1,p:{bars:300,eng:true,ham:true,star:true,doji:false},pl:[],f:candF,inp:[{k:'bars',t:'int',l:'Taranacak mum sayısı'},{k:'eng',t:'bool',l:'Yutan (engulfing)'},{k:'ham',t:'bool',l:'Çekiç / Kayan yıldız'},{k:'star',t:'bool',l:'Sabah / Akşam yıldızı'},{k:'doji',t:'bool',l:'Doji'}]},
+ {id:'pdh',n:'Önceki Gün / Hafta / Ay Yüksek-Düşük (PDH/PDL)',s:'PDH/PDL',cat:'trend',pane:0,special:'prim',full:1,p:{day:true,week:true,month:false},pl:[],f:pdhF,inp:[{k:'day',t:'bool',l:'Önceki gün'},{k:'week',t:'bool',l:'Önceki hafta'},{k:'month',t:'bool',l:'Önceki ay'}]},
+ {id:'phl',n:'Pivot Noktaları Yüksek/Düşük (etiketli)',s:'Pivot Y/D',cat:'trend',pane:0,special:'prim',full:1,p:{left:10,right:10},pl:[],f:phlF},
+ {id:'vwb',n:'VWAP + Standart Sapma Bantları',s:'VWAP Bant',cat:'vol',pane:0,p:{m1:1,m2:2},pl:[{k:'u2',c:'#f23645',n:'Üst 2'},{k:'u1',c:'#ff9800',n:'Üst 1'},{k:'v',c:'#2962ff',w:2,n:'VWAP'},{k:'l1',c:'#ff9800',n:'Alt 1'},{k:'l2',c:'#089981',n:'Alt 2'}],f:vwbF,inp:[{k:'m1',t:'float',l:'Bant 1 çarpanı'},{k:'m2',t:'float',l:'Bant 2 çarpanı'}]},
+ {id:'bbrsi',n:'Bollinger + RSI Çift Strateji (sinyal)',s:'BB+RSI',cat:'vola',pane:0,special:'prim',p:{len:200,mult:2,rsi:6,lvl:50},pl:[{k:'u',c:'#2962ff',n:'Üst'},{k:'m',c:'#ff6d00',n:'Orta'},{k:'l',c:'#2962ff',n:'Alt'}],f:bbrsiF,inp:[{k:'len',t:'int',l:'BB uzunluğu'},{k:'mult',t:'float',l:'BB çarpanı'},{k:'rsi',t:'int',l:'RSI uzunluğu'},{k:'lvl',t:'int',l:'RSI seviyesi'}]},
+ {id:'qqe',n:'QQE (Kalitatif Nicel Tahmin)',s:'QQE',cat:'osc',pane:1,p:{rsi:6,sf:5,fac:3,th:3},lv:[0],pl:[{k:'h',t:'hist',c:'#787b86',n:'RSI-50'},{k:'t',c:'#ff9800',w:2,n:'QQE çizgisi'}],f:qqeF,inp:[{k:'rsi',t:'int',l:'RSI uzunluğu'},{k:'sf',t:'int',l:'Yumuşatma'},{k:'fac',t:'float',l:'QQE faktörü'},{k:'th',t:'float',l:'Eşik'}]},
+ {id:'wvf',n:'Williams Vix Fix (dip bulucu)',s:'WVF',cat:'vola',pane:1,p:{pd:22,bbl:20,mult:2,lb:50,ph:.85},pl:[{k:'v',t:'hist',c:'#787b86'}],f:wvfF,inp:[{k:'pd',t:'int',l:'Geriye bakış (en yüksek kapanış)'},{k:'bbl',t:'int',l:'Bollinger uzunluğu'},{k:'mult',t:'float',l:'Bollinger çarpanı'},{k:'lb',t:'int',l:'Yüzdelik geriye bakış'},{k:'ph',t:'float',l:'En yüksek yüzdelik'}]},
+ {id:'rdiv',n:'RSI Uyumsuzluk (Divergence)',s:'RSI Uyumsuzluk',cat:'osc',pane:1,full:1,p:{len:14,lb:5,rb:5},lv:[70,50,30],pl:[{k:'v',c:'#7e57c2',n:'RSI'},{k:'lu',c:GRN,w:2,gap:1,n:'Boğa uyumsuzluğu'},{k:'lbe',c:RED,w:2,gap:1,n:'Ayı uyumsuzluğu'},{k:'bu',t:'dots',c:GRN,n:'Boğa'},{k:'be',t:'dots',c:RED,n:'Ayı'}],f:rdivF,inp:[{k:'len',t:'int',l:'RSI uzunluğu'},{k:'lb',t:'int',l:'Pivot sol'},{k:'rb',t:'int',l:'Pivot sağ'}]},
+];
+
+DEFS.push(...DEFS2,...DEFS3);
 const DEF=Object.fromEntries(DEFS.map(d=>[d.id,d]));
 const FLOATP=new Set(['mult','fac','start','inc','max','off','sigma','pct','dev','kcm']);
 const PL={off:'Ofset',sigma:'Sigma',pct:'Yüzde',jaw:'Çene uzunluğu',teeth:'Diş uzunluğu',lips:'Dudak uzunluğu',per:'Periyot',dev:'Sapma',k1:'Kısa periyot',k2:'Orta periyot',k3:'Uzun periyot',streak:'Seri RSI uzunluğu',rank:'Yüzde sıra uzunluğu',wma:'WMA uzunluğu',long:'Uzun uzunluk',short:'Kısa uzunluk',ch:'Kanal uzunluğu',avg:'Ortalama uzunluğu',kcm:'Keltner çarpanı',len:'Uzunluk',mult:'Std. sapma / çarpan',atr:'ATR uzunluğu',fast:'Hızlı uzunluk',slow:'Yavaş uzunluk',sig:'Sinyal uzunluğu',k:'%K uzunluğu',d:'%D yumuşatma',smooth:'Yumuşatma',rsi:'RSI uzunluğu',stoch:'Stokastik uzunluk',conv:'Dönüşüm hattı',base:'Taban hattı',span:'Öncü B uzunluğu',disp:'Kaydırma',start:'Başlangıç',inc:'Artış',max:'Maksimum',fac:'Faktör',ma:'Hacim ortalaması'};
