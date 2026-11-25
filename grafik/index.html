@@ -2006,7 +2006,7 @@ function gOf(d,sel,pv){
     b+=L(xL,y,xR,y,c,1,'')+T(xL-6,y+4,`${f} (${fmt(pr)})`,c,'end')});b+=L(p0.x,p0.y,p1.x,p1.y,'#787b86',1,'4 4')+lab((xL+Math.min(xR,W))/2,Math.min(p0.y,p1.y));break}
   case'fibext':{if(!p2){b=p1?L(p0.x,p0.y,p1.x,p1.y,'#787b86',1,'4 4'):'';break}b=`<polyline points="${p0.x},${p0.y} ${p1.x},${p1.y} ${p2.x},${p2.y}" fill="none" stroke="#787b86" stroke-dasharray="4 4"/>`;
    const xL=p2.x,xR=p2.x+Math.max(120,Math.abs(p1.x-p0.x)),mv=d.pts[1].p-d.pts[0].p;FIBE.forEach(([f,c])=>{const pr=d.pts[2].p+mv*f,y=yOfP(pr);if(y==null)return;b+=L(xL,y,xR,y,c,1,'')+T(xR+4,y+4,`${f} (${fmt(pr)})`,c)});b+=lab((xL+xR)/2,p2.y);break}
-  case'rect':{if(!p1)break;const xa=Math.min(p0.x,p1.x),xb=st.xr?W+10:Math.max(p0.x,p1.x);b=Rc(xa,p0.y,xb,p1.y,fc,fo,col,w,da);if(d.label)b+=lab((xa+Math.min(xb,W))/2,(p0.y+p1.y)/2+fs/3,'middle',0);hd.push([p0.x,p1.y,'c1'],[p1.x,p0.y,'c2']);break}
+  case'rect':{if(!p1)break;const xa=Math.min(p0.x,p1.x),xb=st.xr?W+10:Math.max(p0.x,p1.x);b=Rc(xa,p0.y,xb,p1.y,fc,fo,col,w,da);{const ml=st.ml??1;if(ml){const my=(p0.y+p1.y)/2;b+=`<line x1="${xa}" y1="${my}" x2="${xb}" y2="${my}" stroke="${st.mc||col}" stroke-width="${st.mw||1}" stroke-dasharray="${['','6 4','','2 3'][ml]}" pointer-events="none"/>`}}if(d.label)b+=lab((xa+Math.min(xb,W))/2,(p0.y+p1.y)/2+fs/3,'middle',0);hd.push([p0.x,p1.y,'c1'],[p1.x,p0.y,'c2']);break}
   case'circle':{if(!p1)break;const r=Math.hypot(p1.x-p0.x,p1.y-p0.y);b=`<circle class="f" cx="${p0.x}" cy="${p0.y}" r="${r}" fill="${fc}" fill-opacity="${fo}" stroke="${col}" stroke-width="${w}" stroke-dasharray="${da}"/>`+lab(p0.x,p0.y+fs/3,'middle',0);break}
   case'arrow':{if(!p1)break;const an=Math.atan2(p1.y-p0.y,p1.x-p0.x),s=10+w*2;b=L(p0.x,p0.y,p1.x,p1.y)+`<polygon class="f" points="${p1.x},${p1.y} ${p1.x-s*Math.cos(an-.45)},${p1.y-s*Math.sin(an-.45)} ${p1.x-s*Math.cos(an+.45)},${p1.y-s*Math.sin(an+.45)}" fill="${col}"/>`+lab(p0.x,p0.y,'middle',p1.y>p0.y?-8:16);break}
   case'brush':{const dd='M'+P.map(q=>q.x.toFixed(1)+' '+q.y.toFixed(1)).join(' L');b=`<path d="${dd}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="${da}"/><path class="h" d="${dd}" fill="none"/>`;hd=[];break}
@@ -2279,6 +2279,10 @@ function drawSettings(d){const st={...defSt(d.type),...(d.st||{})},isT=TXT.inclu
   <div class="fld"><label for="dsS">Çizgi stili</label><select id="dsS">${['Düz','Kesikli','Noktalı'].map((n,i)=>`<option value="${i}"${(st.s||0)===i?' selected':''}>${n}</option>`).join('')}</select></div></div>
   ${FILLT.includes(d.type)?`<div class="fld"><label for="dsF">Dolgu rengi</label><input id="dsF" type="color" value="${esc(st.f||st.c)}"></div><div class="fld"><label for="dsO">Dolgu opaklığı</label><input id="dsO" type="range" min="0" max="100" value="${Math.round((st.o??DEFO[d.type]??.15)*100)}"></div>`:''}
   ${(EXTT[d.type]||[]).map(k=>`<label class="ck"><input type="checkbox" id="ds_${k}"${st[k]?' checked':''}>${k==='xl'?'Sola uzat':'Sağa uzat'}</label>`).join('')}
+  ${d.type==='rect'?`<div class="psh">Orta çizgi</div>
+  <div class="fld"><label for="rmL">Orta çizgi</label><select id="rmL">${['Yok','Kesikli','Düz','Noktalı'].map((n,i)=>`<option value="${i}"${(st.ml??1)===i?' selected':''}>${n}</option>`).join('')}</select></div>
+  <div class="fld"><label for="rmC">Orta çizgi rengi</label><input id="rmC" type="color" value="${esc(st.mc||st.c)}"></div>
+  <div class="fld"><label for="rmW">Orta çizgi kalınlığı</label><select id="rmW">${[1,2,3,4].map(w=>`<option${(st.mw||1)===w?' selected':''}>${w}</option>`).join('')}</select></div>`:''}
   ${POST.includes(d.type)?`<div class="psh">Pozisyon görünümü</div>
   <div class="fld"><label for="psPC">Kâr bölgesi rengi</label><input id="psPC" type="color" value="${esc(st.pc||'#089981')}"></div>
   <div class="fld"><label for="psLC">Zarar bölgesi rengi</label><input id="psLC" type="color" value="${esc(st.lc||'#f23645')}"></div>
@@ -2301,13 +2305,14 @@ function drawSettings(d){const st={...defSt(d.type),...(d.st||{})},isT=TXT.inclu
  </div>
  <div class="dsec" data-sec="k">${d.pts.map((q,i)=>`<div class="fld"><label for="dk_${i}">${i+1}. nokta fiyatı</label><input id="dk_${i}" type="number" step="any" value="${(+q.p).toFixed(S.prec)}"></div>`).join('')}<p style="color:var(--mu);font-size:12px">Zaman: ${d.pts.map(q=>esc(fmtTime(q.t))).join(' → ')}</p></div>`;
  const apply=()=>{d.st={...st,c:$('#dsC').value,w:+$('#dsW').value,s:+$('#dsS').value};if($('#dsF')){d.st.f=$('#dsF').value;d.st.o=+$('#dsO').value/100}
+  if($('#rmL')){d.st.ml=+$('#rmL').value;d.st.mw=+$('#rmW').value;if($('#rmC').dataset.t)d.st.mc=$('#rmC').value}
   if($('#psPC')){Object.assign(d.st,{pc:$('#psPC').value,lc:$('#psLC').value,po:+$('#psPO').value/100,bd:$('#psBD').checked,ec:$('#psEC').value,ew:+$('#psEW').value,lo:+$('#psLO').value/100,rc:$('#psRC').value,lt:$('#psLT').checked,ls:$('#psLS').checked,lr:$('#psLR').checked})}
   (EXTT[d.type]||[]).forEach(k=>d.st[k]=$('#ds_'+k).checked);d.st.tc=$('#dsTC').value;d.st.fs=+$('#dsFS').value;
   const t=$('#dsT').value.trim();if(isT){if(t)d.text=t}else d.label=t;d.pts.forEach((q,i)=>{const v=parseFloat($('#dk_'+i)?.value);if(isFinite(v))q.p=v});dirty()};
  const restore=()=>{Object.assign(d,clone(bak));dirty()};
  dialog((TOOLS[d.type]||'Çizim')+' ayarları',body,[{t:'Varsayılan yap',cls:'g',left:1,keep:1,f:()=>{apply();const o={...d.st};S.dstyle[d.type]=o;ls.set('dstyle',S.dstyle);toast('Varsayılan kaydedildi','Yeni '+(TOOLS[d.type]||'çizim')+' çizimleri bu stille gelecek.','',3000);return false}},
   {t:'İptal',cls:'g',f:restore},{t:'Tamam',f:()=>{const now=clone(d);Object.assign(d,clone(bak));snap();Object.assign(d,now);saveDraws();dirty()}}],'md',restore);
- $('#dlgB').addEventListener('input',apply);$('#dlgB').addEventListener('change',apply);
+ $('#rmC')?.addEventListener('input',()=>$('#rmC').dataset.t=1);$('#dlgB').addEventListener('input',apply);$('#dlgB').addEventListener('change',apply);
  $('#dlgB').addEventListener('click',e=>{const q=e.target.closest('[data-pspr]');if(!q)return;const[a,b2,o]=q.dataset.pspr.split(',');$('#psPC').value=a;$('#psLC').value=b2;$('#psPO').value=o;['#psPC','#psLC'].forEach(k=>$(k).dispatchEvent(new Event('input',{bubbles:true})));apply()})}
 const POST=['long','short'];
 function finish(){const d=S.pending;S.pending=null;if(!d)return;
@@ -2372,12 +2377,13 @@ function posDtb(){const d=S.draws.find(x=>x.id===S.sel);if(!d||S.hidden||d.hide)
   dtb.innerHTML=COLORS.map(c=>`<button data-dc="${c}" title="Renk"><span class="sw" style="background:${c};${st.c===c?'outline:2px solid var(--ac);outline-offset:1px':''}"></span></button>`).join('')+
   `<i class="sp"></i>${[1,2,3,4].map(w=>`<button data-dw="${w}" class="${st.w===w?'on':''}" title="Kalınlık ${w}"><svg width="18" height="18"><line x1="2" y1="9" x2="16" y2="9" stroke="currentColor" stroke-width="${w}"/></svg></button>`).join('')}
   <i class="sp"></i>${[0,1,2].map(s=>`<button data-ds="${s}" class="${(st.s||0)===s?'on':''}" title="${['Düz','Kesikli','Noktalı'][s]}"><svg width="18" height="18"><line x1="1" y1="9" x2="17" y2="9" stroke="currentColor" stroke-width="2" stroke-dasharray="${['','5 3','1.5 2.5'][s]}"/></svg></button>`).join('')}
+  ${d.type==='rect'?`<i class="sp"></i><button data-da="mid" class="${(st.ml??1)?'on':''}" title="Orta çizgi: ${['Yok','Kesikli','Düz','Noktalı'][st.ml??1]} (tıkla: değiştir)"><svg width="18" height="18" fill="none" stroke="currentColor"><rect x="2" y="3" width="14" height="12" rx="1"/><line x1="2" y1="9" x2="16" y2="9" stroke-width="1.6" stroke-dasharray="${['0 20','3 2','','1 2'][st.ml??1]}"/></svg></button>`:''}
   <i class="sp"></i>${TXT.includes(d.type)?`<button data-da="edit" title="Metni düzenle">${ic('edit')}</button>`:''}${['hline','hray'].includes(d.type)?`<button data-da="alarm" title="Bu fiyata alarm kur">${ic('bell')}</button>`:''}
   <button data-da="cfg" title="Ayarlar (çift tık)">${ic('gear')}</button><button data-da="lock" class="${d.lock?'on':''}" title="${d.lock?'Kilidi aç':'Kilitle'}">${ic(d.lock?'lock':'unlock')}</button><button data-da="copy" title="Kopyala">${ic('copy')}</button><button data-da="del" title="Sil (Delete)">${ic('trash')}</button>`}
  dtb.classList.add('show')}
 dtb.addEventListener('click',e=>{const b=e.target.closest('button');const d=S.draws.find(x=>x.id===S.sel);if(!b||!d)return;snap();d.st=d.st||defSt(d.type);
  if(b.dataset.dc)d.st.c=b.dataset.dc;if(b.dataset.dw)d.st.w=+b.dataset.dw;if(b.dataset.ds)d.st.s=+b.dataset.ds;
- const a=b.dataset.da;if(a==='del'){S.draws=S.draws.filter(x=>x!==d);S.sel=null}if(a==='lock')d.lock=!d.lock;
+ const a=b.dataset.da;if(a==='del'){S.draws=S.draws.filter(x=>x!==d);S.sel=null}if(a==='lock')d.lock=!d.lock;if(a==='mid')d.st.ml=((d.st.ml??1)+1)%4;
  if(a==='copy'){const n=clone(d);n.id=uid();n.lock=false;n.pts=n.pts.map(q=>({t:l2t(t2l(q.t)+5),p:q.p}));S.draws.push(n);S.sel=n.id}
  if(a==='cfg'){S.hist.u.pop();drawSettings(d);return}if(a==='edit'){S.hist.u.pop();d.type==='emoji'?emojiPick(d):editText(d);return}if(a==='alarm'){S.hist.u.pop();alarmDlg(d.pts[0].p);return}
  saveDraws();dirty()});
