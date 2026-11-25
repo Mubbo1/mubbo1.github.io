@@ -2562,7 +2562,7 @@ function demoTick(k,px){const D=S.demo,p=D.pos[k];if(!p&&!D.ord.length)return;le
  if(!ch)dmSoon()}
 let dmT=null;function dmSoon(){if(dmT)return;dmT=setTimeout(()=>{dmT=null;renderDmSum();if(DM.tab==='pos')renderDmList();dmLines();updDemoBtn()},1000)}
 let dmPL=[];
-function dmLines(){if(!mainS)return;dmPL.forEach(l=>{try{mainS.removePriceLine(l)}catch(e){}});dmPL=[];const k=S.key,p=S.demo.pos[k],add=o=>dmPL.push(mainS.createPriceLine({lineWidth:1,axisLabelVisible:true,...o}));
+function dmLines(){if(!mainS)return;dmPL.forEach(l=>{try{mainS.removePriceLine(l)}catch(e){}});dmPL=[];const k=S.key,p=S.demo.pos[k],add=o=>dmPL.push(mainS.createPriceLine({lineWidth:1,axisLabelVisible:true,...o,...(S.ui.dmOn!==false&&o.title!=='Likidasyon'?{title:''}:{})}));
  if(p){const u=upnl(k,p);add({price:p.entry,color:trC(p.side),lineStyle:0,title:`${p.side>0?'LONG':'SHORT'} ${fmtQ(p.qty)} · ${u>=0?'+':''}${fmt(u,2)} $`});
   if(p.tp)add({price:p.tp,color:trC(1),lineStyle:2,title:'TP'});if(p.sl)add({price:p.sl,color:trC(-1),lineStyle:2,title:'SL'});const lq=liqOf(p);if(lq)add({price:lq,color:'#ff9800',lineStyle:1,title:'Likidasyon'})}
  S.demo.ord.filter(o=>o.k===k).forEach(o=>add({price:o.price,color:trC(o.side),lineStyle:2,title:`${o.type==='limit'?'Limit':'Stop'} ${o.side>0?'AL':'SAT'} ${fmtQ(o.qty)}`}));dirty()}
