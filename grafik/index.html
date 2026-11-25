@@ -404,6 +404,9 @@ aside.wide .wr,aside.wide .wlh2{grid-template-columns:4px 22px minmax(0,1fr) 80p
 .bkr i{position:absolute;right:0;top:1px;bottom:1px;opacity:.16;pointer-events:none}.bkm{display:flex;align-items:baseline;gap:10px;padding:6px 12px;border-top:1px solid var(--ln);border-bottom:1px solid var(--ln);margin:3px 0}.bkm b{font-size:16px}.bkm small{color:var(--mu)}
 .bkratio{display:flex;align-items:center;padding:8px 12px;font-size:11px}
 @media(max-width:1100px){#cmdBtn kbd,#cmdBtn .lbl{display:none}}
+.chips.sm{margin-top:-4px}.chips.sm button{font-size:11px;padding:3px 9px}
+#qlist .li{display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:44px}#qlist .qn{display:flex;align-items:center;gap:10px;min-width:0}#qlist .qn>span:last-child{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#qlist .qr{display:flex;align-items:center;gap:12px;flex:none;text-align:right}#qlist .qp{min-width:96px}.exb{font-size:10px;font-weight:700;letter-spacing:.03em;color:var(--exc);border:1px solid color-mix(in srgb,var(--exc) 45%,transparent);border-radius:4px;padding:2px 5px}
 </style>
 </head>
 <body>
@@ -485,8 +488,8 @@ aside.wide .wr,aside.wide .wlh2{grid-template-columns:4px 22px minmax(0,1fr) 80p
 </div>
 
 <div class="modal" id="mSym"><div class="box"><div class="mh"><span id="mSymT">Sembol ara</span><button data-close><i data-ic="x"></i></button></div>
- <div class="mb"><input class="srch" id="q" placeholder="Sembol ara, ör. BTC, ETH, SOL" autocomplete="off" spellcheck="false">
- <div class="chips" id="qtab"><button class="on" data-m="">Tümü</button><button data-m="F">Vadeli (Perp)</button><button data-m="S">Spot</button></div>
+ <div class="mb"><input class="srch" id="q" placeholder="Sembol veya isim ara: BTC, ETH, altın, AAPL, EURUSD, Tesla…" autocomplete="off" spellcheck="false">
+ <div class="chips" id="qtab"><button class="on" data-m="">Tümü</button><button data-m="crypto">Kripto</button><button data-m="perp">Vadeli</button><button data-m="stock">Hisse</button><button data-m="fund">Fon</button><button data-m="index">Endeks</button><button data-m="forex">Forex</button><button data-m="commodity">Emtia</button></div><div class="chips sm" id="qex"><button class="on" data-e="">Tüm borsalar</button><button data-e="Binance">Binance</button><button data-e="Bybit">Bybit</button><button data-e="OKX">OKX</button><button data-e="Bitget">Bitget</button></div>
  <div id="qlist"></div></div></div></div>
 
 <div class="modal" id="mInd"><div class="box"><div class="mh"><span>Göstergeler</span><button data-close><i data-ic="x"></i></button></div>
@@ -669,8 +672,8 @@ function tickFmt(t,type){const d=new Date(t*1000);return type===0?String(d.getFu
 function fmtDur(s){s=Math.abs(s);const d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60);return[d?d+'g':'',h?h+'s':'',m?m+'d':''].filter(Boolean).join(' ')||'0d'}
 
 // ---------------- durum ----------------
-const TFS=[['1m','1d','1 dakika'],['3m','3d','3 dakika'],['5m','5d','5 dakika'],['15m','15d','15 dakika'],['30m','30d','30 dakika'],['1h','1s','1 saat'],['2h','2s','2 saat'],['4h','4s','4 saat'],['6h','6s','6 saat'],['12h','12s','12 saat'],['1d','G','1 gün'],['3d','3G','3 gün'],['1w','H','1 hafta'],['1M','A','1 ay']];
-const TFSEC={'1m':60,'3m':180,'5m':300,'15m':900,'30m':1800,'1h':3600,'2h':7200,'4h':14400,'6h':21600,'12h':43200,'1d':86400,'3d':259200,'1w':604800,'1M':2592000};
+const TFS=[['1m','1d','1 dakika'],['3m','3d','3 dakika'],['5m','5d','5 dakika'],['15m','15d','15 dakika'],['30m','30d','30 dakika'],['45m','45d','45 dakika'],['1h','1s','1 saat'],['2h','2s','2 saat'],['3h','3s','3 saat'],['4h','4s','4 saat'],['6h','6s','6 saat'],['8h','8s','8 saat'],['12h','12s','12 saat'],['1d','G','1 gün'],['2d','2G','2 gün'],['3d','3G','3 gün'],['1w','H','1 hafta'],['1M','A','1 ay']];
+const TFSEC={'1m':60,'3m':180,'5m':300,'15m':900,'30m':1800,'45m':2700,'1h':3600,'2h':7200,'3h':10800,'4h':14400,'6h':21600,'8h':28800,'12h':43200,'1d':86400,'2d':172800,'3d':259200,'1w':604800,'1M':2592000};
 const CTYPES=[['candle','Mumlar'],['hollow','İçi boş mumlar'],['ha','Heikin Ashi'],['bar','Barlar'],['hlc','Yüksek-düşük'],['col','Sütunlar'],['line','Çizgi'],['lmark','İşaretçili çizgi'],['step','Basamaklı çizgi'],['area','Alan'],['base','Baz çizgisi']];
 const REST={F:'https://fapi.binance.com/fapi/v1',S:'https://api.binance.com/api/v3'};
 const WSF=['wss://fstream.binance.com/market/ws/','wss://fstream.binance.com/ws/'];let wsFi=0;
@@ -705,8 +708,8 @@ const S={
  draws:[],hist:{u:[],r:[]},locked:false,hidden:false,hover:null,replay:null,kws:null,noMore:false,loadingMore:false,lgOpen:ls.get('ui',{}).lgOpen??true,dv:0,lastPx:{},W:0,H:0,det:{}
 };
 const mk=k=>{const i=k.indexOf(':');return{m:k.slice(0,i),s:k.slice(i+1)}};
-const lbl=k=>{const{m,s}=mk(k);return s+(m==='F'?'.P':'')};
-function precOf(k){const s=S.syms.find(x=>x.k===k);if(s&&s.prec!=null)return s.prec;const p=S.tick[k]?.c||S.full.at(-1)?.close;if(!p)return 2;return p>=1000?2:p>=100?2:p>=1?4:p>=.01?5:p>=.0001?7:8}
+const lbl=k=>{const x=S.symi&&S.symi.get(k),{m,s}=mk(k);return(x?x.s:s.replace(/-SWAP$/,'').replace(/-/g,''))+(['F','BY','OK','BG'].includes(m)?'.P':'')};
+function precOf(k){const s=S.symi?S.symi.get(k):null;if(s&&s.prec!=null)return s.prec;const p=S.tick[k]?.c||S.full.at(-1)?.close;if(!p)return 2;return p>=1000?2:p>=100?2:p>=1?4:p>=.01?5:p>=.0001?7:8}
 const pf=()=>({type:'price',precision:S.prec,minMove:1/10**S.prec});
 
 // ---------------- grafikler ----------------
@@ -1386,7 +1389,7 @@ function legend(){
  const d=S.data;if(!d.length){$('#lg').innerHTML='';return}
  const i=S.hover!=null&&S.hover>=0&&S.hover<d.length?S.hover:d.length-1,c=d[i],up=c.close>=c.open,cl=up?'up':'dn',ch=c.close-c.open,chp=ch/c.open*100,tfl=TFS.find(t=>t[0]===S.tf)?.[1]||S.tf;
  const{m}=mk(S.key);
- let h=`<div class="r1"><span class="nm">${avatar(S.key,18)}${esc(lbl(S.key))} · ${esc(tfl)} · Binance${m==='F'?' Vadeli':' Spot'}</span>
+ let h=`<div class="r1"><span class="nm">${avatar(S.key,18)}${esc(lbl(S.key))} · ${esc(tfl)} · ${esc(exOf(S.key))}${isPerp(S.key)?' Vadeli':' Spot'}</span>
  <span><span class="k">A</span> <span class="${cl}">${fmt(c.open)}</span></span><span><span class="k">Y</span> <span class="${cl}">${fmt(c.high)}</span></span>
  <span><span class="k">D</span> <span class="${cl}">${fmt(c.low)}</span></span><span><span class="k">K</span> <span class="${cl}">${fmt(c.close)}</span></span>
  <span class="${cl}">${ch>=0?'+':''}${fmt(ch)} (${pct(chp)})</span><span><span class="k">Hac</span> ${fmtBig(c.volume)}</span></div>`;
@@ -1418,17 +1421,106 @@ hookCross(main,null);
 
 // ---------------- veri ----------------
 const k2c=k=>({time:k[0]/1000,open:+k[1],high:+k[2],low:+k[3],close:+k[4],volume:+k[5],tb:+k[9]});
+// ================= çoklu borsa + varlık sınıfları (v5) =================
+const EXN={F:'Binance',S:'Binance',BY:'Bybit',BYS:'Bybit',OK:'OKX',OKS:'OKX',BG:'Bitget'};
+const EXC={Binance:'#f0b90b',Bybit:'#f7a600',OKX:'#dfe3ea',Bitget:'#00c8d6'};
+const PERPM=new Set(['F','BY','OK','BG']);
+const isPerp=k=>PERPM.has(mk(k).m);
+const exOf=k=>EXN[mk(k).m]||'Binance';
+const isBin=k=>{const m=mk(k).m;return m==='F'||m==='S'};
+S.symi=new Map();
+const symOf=k=>S.symi.get(k);
+const CATN={crypto:'Kripto',perp:'Vadeli',stock:'Hisse',fund:'Fon',index:'Endeks',forex:'Forex',commodity:'Emtia'};
+const CUR='EUR|GBP|AUD|NZD|USD|CAD|CHF|JPY|CNH|CNY|TRY|MXN|BRL|ZAR|SGD|HKD|SEK|NOK|KRW|INR';
+const FXRE=new RegExp(`^(${CUR})(${CUR})$`);
+const COMM={XAU:'Altın',XAG:'Gümüş',XPT:'Platin',XPD:'Paladyum',CL:'Ham petrol (WTI)',WTI:'Ham petrol (WTI)',BZ:'Brent petrol',BRENT:'Brent petrol',USOIL:'Ham petrol (WTI)',UKOIL:'Brent petrol',NATGAS:'Doğalgaz',NG:'Doğalgaz',COPPER:'Bakır',HG:'Bakır'};
+const INDEXF=new Set(['SPY','QQQ','IWM','DIA','VOO','IVV','VTI','KODEX200','SPX500','NAS100','US30','US100','US500','DAX','NDX','SPX']);
+const FUNDS=new Set(['EWY','EWJ','EWT','EWZ','EWG','EWU','EWH','EWW','INDA','FXI','KWEB','SOXL','SOXS','TQQQ','SQQQ','SPXL','SPXS','UPRO','TLT','GLD','SLV','USO','UNG','ARKK','XLF','XLE','XLK','SMH','EIDO','IBIT','ETHA','GDX','BITO','MSTU','TSLL','NVDL','CONL','AMDL','CRML']);
+const FXN={EUR:'Euro',GBP:'Sterlin',AUD:'Avustralya doları',NZD:'Yeni Zelanda doları',USD:'ABD doları',CAD:'Kanada doları',CHF:'İsviçre frangı',JPY:'Japon yeni',CNH:'Çin yuanı',TRY:'Türk lirası',MXN:'Meksika pesosu',BRL:'Brezilya reali',ZAR:'G. Afrika randı',HKD:'Hong Kong doları',SGD:'Singapur doları',KRW:'Kore wonu',INR:'Hint rupisi'};
+function tradCat(base,hint){const b=base.toUpperCase();if(FXRE.test(b))return'forex';if(COMM[b])return'commodity';if(INDEXF.has(b))return'index';if(FUNDS.has(b)||/^CSOP/.test(b)||hint==='ETF')return'fund';return'stock'}
+function tradName(base,cat){const b=base.toUpperCase();if(cat==='forex'){const m=FXRE.exec(b);return m?`${FXN[m[1]]||m[1]} / ${FXN[m[2]]||m[2]}`:''}if(cat==='commodity')return COMM[b]||'';return''}
+const tick2=(c,o,h,l,q)=>({c,o,h,l,q,p:o?(c-o)/o*100:0});
+const precOfTick=t=>{t=String(t||'');if(/e-/i.test(t))return+t.split(/e-/i)[1];const s=t.replace(/0+$/,''),i=s.indexOf('.');return i<0?0:s.length-i-1};
+function addSyms(list){list.forEach(x=>{if(S.symi.has(x.k))return;S.symi.set(x.k,x);S.syms.push(x)})}
+function fillNames(){const nm={};S.syms.forEach(x=>{if(x.nm&&!/[\/]/.test(x.nm)&&x.cat!=='crypto'&&x.cat!=='perp')nm[x.b]=nm[x.b]||x.nm});S.syms.forEach(x=>{if(!x.nm&&nm[x.b])x.nm=nm[x.b]})}
+// ---- sembol listeleri ----
+const EXL={
+ BY:async()=>{const g=c=>getJSON(`https://api.bybit.com/v5/market/instruments-info?category=${c}&limit=1000`);const[li,sp,tl,ts]=await Promise.all([g('linear'),g('spot'),getJSON('https://api.bybit.com/v5/market/tickers?category=linear'),getJSON('https://api.bybit.com/v5/market/tickers?category=spot')]);
+  const L=[];(li.result?.list||[]).filter(s=>s.status==='Trading'&&s.contractType==='LinearPerpetual'&&/USDT|USDC/.test(s.quoteCoin)).forEach(s=>{const st=(s.symbolType||'').toLowerCase(),trad=['stock','etf','forex','commodity'].includes(st),base=(s.underlyingTicker||s.baseCoin||'').replace(/USDT$/,''),cat=trad?(st==='forex'?'forex':st==='commodity'?'commodity':tradCat(base,st==='etf'?'ETF':'')):'perp';
+   L.push({k:'BY:'+s.symbol,s:s.symbol,id:s.symbol,b:trad?base:s.baseCoin,q:s.quoteCoin,m:'BY',prec:precOfTick(s.priceFilter?.tickSize),cat,nm:trad?(s.fullName&&s.fullName!==s.symbol?s.fullName:tradName(base,cat)):''})});
+  (sp.result?.list||[]).filter(s=>s.status==='Trading'&&/^(USDT|USDC|BTC|ETH|EUR)$/.test(s.quoteCoin)).forEach(s=>L.push({k:'BYS:'+s.symbol,s:s.symbol,id:s.symbol,b:s.baseCoin,q:s.quoteCoin,m:'BYS',prec:precOfTick(s.priceFilter?.tickSize),cat:'crypto'}));
+  addSyms(L);EXT.BY(tl);EXT.BYS(ts)},
+ OK:async()=>{const g=t=>getJSON(`https://www.okx.com/api/v5/public/instruments?instType=${t}`);const[sw,sp]=await Promise.all([g('SWAP'),g('SPOT')]);const L=[];
+  (sw.data||[]).filter(s=>s.state==='live'&&/-(USDT|USDC)-SWAP$/.test(s.instId)).forEach(s=>{const[b,q]=s.instId.split('-'),c=s.instCategory,trad=c&&c!=='1',cat=trad?(c==='4'?'commodity':tradCat(b)):'perp';L.push({k:'OK:'+s.instId,s:b+q,id:s.instId,b,q,m:'OK',prec:precOfTick(s.tickSz),cat,nm:trad?tradName(b,cat):'',cv:+s.ctVal||1})});
+  (sp.data||[]).filter(s=>s.state==='live'&&/^(USDT|USDC|BTC|ETH|EUR)$/.test(s.quoteCcy)).forEach(s=>L.push({k:'OKS:'+s.instId,s:s.baseCcy+s.quoteCcy,id:s.instId,b:s.baseCcy,q:s.quoteCcy,m:'OKS',prec:precOfTick(s.tickSz),cat:'crypto'}));
+  addSyms(L);await EXT.OK()},
+ BG:async()=>{const[c,t]=await Promise.all([getJSON('https://api.bitget.com/api/v2/mix/market/contracts?productType=USDT-FUTURES'),getJSON('https://api.bitget.com/api/v2/mix/market/tickers?productType=USDT-FUTURES')]);const L=[];
+  (c.data||[]).filter(s=>s.symbolStatus==='normal'&&s.symbolType==='perpetual').forEach(s=>{const rwa=s.isRwa==='YES'||s.isRwa===true,cat=rwa?tradCat(s.baseCoin):'perp';L.push({k:'BG:'+s.symbol,s:s.symbol,id:s.symbol,b:s.baseCoin,q:s.quoteCoin,m:'BG',prec:+s.pricePlace,cat,nm:rwa?tradName(s.baseCoin,cat):''})});
+  addSyms(L);EXT.BG(t)}};
+const EXT={
+ BY:j=>(j.result?.list||[]).forEach(t=>{S.tick['BY:'+t.symbol]=tick2(+t.lastPrice,+t.prevPrice24h,+t.highPrice24h,+t.lowPrice24h,+t.turnover24h)}),
+ BYS:j=>(j.result?.list||[]).forEach(t=>{S.tick['BYS:'+t.symbol]=tick2(+t.lastPrice,+t.prevPrice24h,+t.highPrice24h,+t.lowPrice24h,+t.turnover24h)}),
+ OK:async()=>{const[a,b]=await Promise.all([getJSON('https://www.okx.com/api/v5/market/tickers?instType=SWAP'),getJSON('https://www.okx.com/api/v5/market/tickers?instType=SPOT')]);
+  (a.data||[]).forEach(t=>{S.tick['OK:'+t.instId]=tick2(+t.last,+t.open24h,+t.high24h,+t.low24h,+t.volCcy24h*+t.last)});(b.data||[]).forEach(t=>{S.tick['OKS:'+t.instId]=tick2(+t.last,+t.open24h,+t.high24h,+t.low24h,+t.volCcy24h)})},
+ BG:j=>(j.data||[]).forEach(t=>{S.tick['BG:'+t.symbol]=tick2(+t.lastPr,+t.open24h,+t.high24h,+t.low24h,+t.quoteVolume)})};
+let exLoaded=false;
+async function loadOtherEx(){await Promise.allSettled(Object.entries(EXL).map(([m,f])=>f().catch(()=>{})));fillNames();exLoaded=true;
+ if($('#mSym').classList.contains('show'))renderQ();renderWl();if(!isBin(S.key))renderDet()}
+async function pollEx(){if(!exLoaded||document.hidden)return;const used=new Set([S.key,...S.wl,...S.cmp].map(k=>mk(k).m));
+ try{if(used.has('BY')||used.has('BYS')){const[a,b]=await Promise.all([getJSON('https://api.bybit.com/v5/market/tickers?category=linear'),getJSON('https://api.bybit.com/v5/market/tickers?category=spot')]);EXT.BY(a);EXT.BYS(b)}
+  if(used.has('OK')||used.has('OKS'))await EXT.OK();if(used.has('BG'))EXT.BG(await getJSON('https://api.bitget.com/api/v2/mix/market/tickers?productType=USDT-FUTURES'))}catch(e){}
+ for(const k of new Set([...S.wl,S.key]))if(!isBin(k)&&S.tick[k])checkAlarm(k,S.tick[k].c);wlSoon();if(!isBin(S.key))renderDet()}
+setInterval(pollEx,15000);
+// ---- WebSocket yardımcı (otomatik yeniden bağlanma + ping) ----
+function wsOpen(url,sub,onMsg,ping,pingMs){const h={dead:false,ws:null,onclose:null,close(){this.dead=true;clearInterval(this.pi);try{this.ws&&this.ws.close()}catch(e){}}};
+ const go=()=>{if(h.dead)return;const w=new WebSocket(url);h.ws=w;w.onopen=()=>{w.send(JSON.stringify(sub));clearInterval(h.pi);h.pi=setInterval(()=>{try{w.send(ping)}catch(e){}},pingMs)};
+  w.onmessage=e=>{if(typeof e.data!=='string'||e.data==='pong')return;let j;try{j=JSON.parse(e.data)}catch(_){return}onMsg(j)};w.onclose=()=>{clearInterval(h.pi);if(!h.dead)setTimeout(go,2500)}};go();return h}
+// ---- mum verisi adaptörleri ----
+const bySub=cat=>({tf:{'1m':'1','3m':'3','5m':'5','15m':'15','30m':'30','1h':'60','2h':'120','4h':'240','6h':'360','12h':'720','1d':'D','1w':'W','1M':'M'},per:1000,
+ async k(id,tf,lim,end){const j=await getJSON(`https://api.bybit.com/v5/market/kline?category=${cat}&symbol=${id}&interval=${this.tf[tf]}&limit=${Math.min(lim,1000)}${end?'&end='+(end*1000-1):''}`);return(j.result?.list||[]).map(r=>({time:+r[0]/1000,open:+r[1],high:+r[2],low:+r[3],close:+r[4],volume:+r[5]})).reverse()},
+ ws(id,tf,cb){return wsOpen('wss://stream.bybit.com/v5/public/'+cat,{op:'subscribe',args:[`kline.${this.tf[tf]}.${id}`]},m=>{if(!m.topic||!Array.isArray(m.data))return;m.data.forEach(d=>cb({time:+d.start/1000,open:+d.open,high:+d.high,low:+d.low,close:+d.close,volume:+d.volume}))},JSON.stringify({op:'ping'}),20000)}});
+const okSub=sw=>({tf:{'1m':'1m','3m':'3m','5m':'5m','15m':'15m','30m':'30m','1h':'1H','2h':'2H','4h':'4H','6h':'6Hutc','12h':'12Hutc','1d':'1Dutc','3d':'3Dutc','1w':'1Wutc','1M':'1Mutc'},per:100,
+ row:r=>({time:+r[0]/1000,open:+r[1],high:+r[2],low:+r[3],close:+r[4],volume:sw?+r[6]:+r[5]}),
+ async k(id,tf,lim,end){let out=[],after=end?end*1000:null,first=!end;for(let p=0;p<8&&out.length<lim;p++){const u=first?`https://www.okx.com/api/v5/market/candles?instId=${id}&bar=${this.tf[tf]}&limit=300`:`https://www.okx.com/api/v5/market/history-candles?instId=${id}&bar=${this.tf[tf]}&limit=100&after=${after}`;
+   const j=await getJSON(u),d=(j.data||[]).map(this.row);first=false;if(!d.length)break;out=out.concat(d);after=+j.data[j.data.length-1][0]}return out.slice(0,lim).reverse()},
+ ws(id,tf,cb){return wsOpen('wss://ws.okx.com:443/ws/v5/business',{op:'subscribe',args:[{channel:'candle'+this.tf[tf],instId:id}]},m=>{if(!m.arg||!Array.isArray(m.data))return;m.data.forEach(r=>cb(this.row(r)))},'ping',25000)}});
+const BGA={tf:{'1m':'1m','3m':'3m','5m':'5m','15m':'15m','30m':'30m','1h':'1H','2h':'2H','4h':'4H','6h':'6Hutc','12h':'12Hutc','1d':'1Dutc','3d':'3Dutc','1w':'1Wutc','1M':'1Mutc'},per:1000,
+ row:r=>({time:+r[0]/1000,open:+r[1],high:+r[2],low:+r[3],close:+r[4],volume:+r[5]}),
+ async k(id,tf,lim,end){const g=this.tf[tf];if(!end){const j=await getJSON(`https://api.bitget.com/api/v2/mix/market/candles?symbol=${id}&productType=USDT-FUTURES&granularity=${g}&limit=${Math.min(lim,1000)}`);return(j.data||[]).map(this.row)}
+  let out=[],e=end*1000-1;for(let p=0;p<6&&out.length<lim;p++){const j=await getJSON(`https://api.bitget.com/api/v2/mix/market/history-candles?symbol=${id}&productType=USDT-FUTURES&granularity=${g}&limit=200&endTime=${e}`),d=(j.data||[]).map(this.row);if(!d.length)break;out=d.concat(out);e=d[0].time*1000-1}return out.slice(-lim)},
+ ws(id,tf,cb){return wsOpen('wss://ws.bitget.com/v2/ws/public',{op:'subscribe',args:[{instType:'USDT-FUTURES',channel:'candle'+this.tf[tf],instId:id}]},m=>{if(!m.arg||!Array.isArray(m.data))return;m.data.forEach(r=>cb(this.row(r)))},'ping',25000)}};
+const BNA=m=>({tf:Object.fromEntries(['1m','3m','5m','15m','30m','1h','2h','4h','6h','8h','12h','1d','3d','1w','1M'].map(t=>[t,t])),per:m==='F'?1500:1000,
+ async k(id,tf,lim,end){const j=await getJSON(`${REST[m]}/klines?symbol=${id}&interval=${tf}&limit=${Math.min(lim,this.per)}${end?'&endTime='+(end*1000-1):''}`);if(!Array.isArray(j))throw 0;return j.map(k2c)},
+ ws(id,tf,cb){const h={dead:false,ws:null,onclose:null,close(){this.dead=true;try{this.ws.close()}catch(e){}}};const go=()=>{if(h.dead)return;const w=new WebSocket(`${WSB[m]}${id.toLowerCase()}@kline_${tf}`);h.ws=w;
+  w.onmessage=e=>{let k;try{k=JSON.parse(e.data).k}catch(_){return}if(k)cb({time:k.t/1000,open:+k.o,high:+k.h,low:+k.l,close:+k.c,volume:+k.v,tb:+k.V})};w.onclose=()=>{if(!h.dead)setTimeout(go,3000)}};go();return h}});
+const AD={F:BNA('F'),S:BNA('S'),BY:bySub('linear'),BYS:bySub('spot'),OK:okSub(true),OKS:okSub(false),BG:BGA};
+const idOf=k=>symOf(k)?.id||mk(k).s;
+// desteklenmeyen zaman dilimini daha küçük olandan birleştir (ör. 8s = 2×4s)
+function bucketOf(t,tf){if(tf==='1M'){const d=new Date(t*1000);return Date.UTC(d.getUTCFullYear(),d.getUTCMonth(),1)/1000}if(tf==='1w')return Math.floor((t/86400+3)/7)*7*86400-3*86400;const s=TFSEC[tf];return Math.floor(t/s)*s}
+function baseTf(ad,tf){if(ad.tf[tf])return tf;const T=TFSEC[tf];let best=null;for(const t of Object.keys(ad.tf)){const s=TFSEC[t];if(!s)continue;if(tf==='1M'?s<=86400:(s<T&&T%s===0))if(!best||s>TFSEC[best])best=t}return best||'1m'}
+function aggC(arr,tf){const o=[];let cur=null;for(const c of arr){const b=bucketOf(c.time,tf);if(!cur||cur.time!==b){cur={time:b,open:c.open,high:c.high,low:c.low,close:c.close,volume:c.volume||0,tb:c.tb!=null&&isFinite(c.tb)?c.tb:undefined};o.push(cur)}else{cur.high=Math.max(cur.high,c.high);cur.low=Math.min(cur.low,c.low);cur.close=c.close;cur.volume+=c.volume||0;if(cur.tb!=null&&c.tb!=null)cur.tb+=c.tb}}return o}
+const AGB={};
+async function fetchK(k,tf,lim,end){const m=mk(k).m,ad=AD[m]||AD.F,id=idOf(k),bt=baseTf(ad,tf);
+ if(bt===tf){let out=[],e=end;while(out.length<lim){const d=await ad.k(id,tf,lim-out.length,e);if(!d.length)break;out=d.concat(out);if(d.length<Math.min(lim,ad.per)*.5||m==='OK'||m==='OKS')break;e=d[0].time}return dedup(out)}
+ const f=Math.max(1,Math.round((tf==='1M'?30*86400:TFSEC[tf])/TFSEC[bt]));let need=Math.min(lim*f,4000),out=[],e=end;
+ for(let p=0;p<8&&out.length<need;p++){const d=await ad.k(id,bt,Math.min(need-out.length,ad.per),e);if(!d.length)break;out=d.concat(out);e=d[0].time}
+ out=dedup(out);const ag=aggC(out,tf);if(!end&&ag.length){const lb=ag.at(-1).time;AGB[k+'|'+tf]=out.filter(c=>bucketOf(c.time,tf)===lb)}return ag}
+function dedup(a){const o=[];let lt=-Infinity;a.sort((x,y)=>x.time-y.time).forEach(c=>{if(c.time>lt){o.push(c);lt=c.time}});return o}
+function subK(k,tf,cb){const m=mk(k).m,ad=AD[m]||AD.F,id=idOf(k),bt=baseTf(ad,tf);if(bt===tf)return ad.ws(id,tf,cb);
+ let parts=new Map((AGB[k+'|'+tf]||[]).map(c=>[c.time,c])),cb0=null;
+ return ad.ws(id,bt,c=>{const b=bucketOf(c.time,tf);if(cb0!==null&&b!==cb0){if(b<cb0)return;parts=new Map()}cb0=b;parts.set(c.time,c);const arr=[...parts.values()].filter(x=>bucketOf(x.time,tf)===b).sort((x,y)=>x.time-y.time);const a=aggC(arr,tf)[0];if(a)cb(a)})}
+
 function setStatus(ok,t){const s=$('#status');s.classList.toggle('live',!!ok);s.innerHTML='<i></i>'+esc(t)}
 async function getJSON(u){const r=await fetch(u);if(!r.ok)throw new Error(r.status);return r.json()}
 async function loadSymbols(){
  const [fi,ft,st]=await Promise.allSettled([getJSON(REST.F+'/exchangeInfo'),getJSON(REST.F+'/ticker/24hr'),getJSON(REST.S+'/ticker/24hr')]);
  const syms=[];
- if(fi.status==='fulfilled')fi.value.symbols.filter(s=>s.contractType==='PERPETUAL'&&s.status==='TRADING').forEach(s=>{const t=s.filters.find(f=>f.filterType==='PRICE_FILTER')?.tickSize||'0.01',tt=t.replace(/0+$/,''),i=tt.indexOf('.');syms.push({k:'F:'+s.symbol,s:s.symbol,b:s.baseAsset,q:s.quoteAsset,m:'F',prec:i<0?0:tt.length-i-1})});
+ if(fi.status==='fulfilled')fi.value.symbols.filter(s=>(s.contractType==='PERPETUAL'||s.contractType==='TRADIFI_PERPETUAL')&&s.status==='TRADING').forEach(s=>{const t=s.filters.find(f=>f.filterType==='PRICE_FILTER')?.tickSize||'0.01',tt=t.replace(/0+$/,''),i=tt.indexOf('.'),tr=s.contractType==='TRADIFI_PERPETUAL',ut=s.underlyingType,cat=!tr?'perp':ut==='COMMODITY'?'commodity':ut==='FX'?'forex':tradCat(s.baseAsset);syms.push({k:'F:'+s.symbol,s:s.symbol,id:s.symbol,b:s.baseAsset,q:s.quoteAsset,m:'F',prec:i<0?0:tt.length-i-1,cat,nm:tr?tradName(s.baseAsset,cat):''})});
  const put=(m,a)=>a.forEach(t=>{S.tick[m+':'+t.symbol]={c:+t.lastPrice,o:+t.openPrice,h:+t.highPrice,l:+t.lowPrice,q:+t.quoteVolume,p:+t.priceChangePercent}});
  if(ft.status==='fulfilled')put('F',ft.value);
  if(st.status==='fulfilled'){put('S',st.value);const Q=['USDT','USDC','FDUSD','TRY','BTC','ETH','EUR','BNB'];
-  st.value.filter(t=>+t.quoteVolume>0&&+t.count>0).forEach(t=>{const q=Q.find(q=>t.symbol.endsWith(q)&&t.symbol.length>q.length);if(!q)return;syms.push({k:'S:'+t.symbol,s:t.symbol,b:t.symbol.slice(0,-q.length),q,m:'S',prec:null})})}
- S.syms=syms;
+  st.value.filter(t=>+t.quoteVolume>0&&+t.count>0).forEach(t=>{const q=Q.find(q=>t.symbol.endsWith(q)&&t.symbol.length>q.length);if(!q)return;syms.push({k:'S:'+t.symbol,s:t.symbol,id:t.symbol,b:t.symbol.slice(0,-q.length),q,m:'S',prec:null,cat:'crypto'})})}
+ S.syms=[];S.symi=new Map();addSyms(syms);setTimeout(loadOtherEx,30);
 }
 async function loadChart(){if(S.side==='book')setTimeout(bookStart,0);
  const key=S.key,tf=S.tf,{m,s}=mk(key);
@@ -1437,10 +1529,10 @@ async function loadChart(){if(S.side==='book')setTimeout(bookStart,0);
  mainS.applyOptions({priceFormat:pf()});
  for(const u in R)if(R[u].def.pane===0)for(const k in R[u].series)if(!R[u].def.pl.find(p=>p.k===k).scale)R[u].series[k].applyOptions({priceFormat:pf()});
  $('#symTxt').textContent=lbl(key);$('#symAv').innerHTML=avatar(key);markTf();loadDraws();setStatus(0,'yükleniyor');
- let j;try{j=await getJSON(`${REST[m]}/klines?symbol=${s}&interval=${tf}&limit=${m==='F'?1500:1000}`);if(!Array.isArray(j))throw 0}
- catch(e){if(key===S.key&&tf===S.tf){setStatus(0,'bağlantı hatası');toast('Veri alınamadı','Binance\'e bağlanılamadı. Dosyayı Claude önizlemesinde açtıysanız: indirin, çift tıklayıp Chrome/Edge\'de açın. Değilse internet bağlantınızı kontrol edin.','',20000)}return}
+ let j;try{j=await fetchK(key,tf,m==='F'?1500:1000);if(!j.length)throw 0}
+ catch(e){if(key===S.key&&tf===S.tf){setStatus(0,'bağlantı hatası');toast('Veri alınamadı',`${exOf(key)} verisine ulaşılamadı. İnternet bağlantınızı kontrol edin; sorun sürerse başka bir borsadaki aynı pariteyi deneyin.`,'',12000)}return}
  if(key!==S.key||tf!==S.tf)return;
- S.full=j.map(k2c);S.data=S.full;S.refP=S.full.at(-1)?.close||1;
+ S.full=j;S.data=S.full;S.refP=S.full.at(-1)?.close||1;
  if(S.ctype==='base')mkMain();else mainS.setData(mainData());
  computeAll(true);updVis();refreshAlarmLines();dmLines();if(S.side==='trade')renderTrade();if(S.set.wm)main.applyOptions({watermark:{text:wmText()}});
  const n=S.data.length;
@@ -1449,14 +1541,15 @@ async function loadChart(){if(S.side==='book')setTimeout(bookStart,0);
 }
 async function loadMore(){
  S.loadingMore=true;const key=S.key,tf=S.tf,{m,s}=mk(key),first=S.full[0].time*1000;
- try{const j=await getJSON(`${REST[m]}/klines?symbol=${s}&interval=${tf}&endTime=${first-1}&limit=1000`);
+ try{const j=(await fetchK(key,tf,1000,first/1000)).filter(c=>c.time<first/1000);
   if(key!==S.key||tf!==S.tf)return;
-  if(!j.length)S.noMore=true;else{const r=main.timeScale().getVisibleLogicalRange();S.full=j.map(k2c).concat(S.full);S.data=S.full;mainS.setData(mainData());computeAll(true);
+  if(!j.length)S.noMore=true;else{const r=main.timeScale().getVisibleLogicalRange();S.full=j.concat(S.full);S.data=S.full;mainS.setData(mainData());computeAll(true);
    if(r){const nr={from:r.from+j.length,to:r.to+j.length};charts().forEach(c=>c.timeScale().setVisibleLogicalRange(nr))}dirty()}
  }catch(e){}finally{S.loadingMore=false}
 }
 function openKline(){
  if(S.kws){S.kws.onclose=null;try{S.kws.close()}catch(e){}}
+ if(!isBin(S.key)||!AD[mk(S.key).m].tf[S.tf]){const key=S.key,tf=S.tf;let got=false;setStatus(1,'bağlanıyor');S.kws=subK(key,tf,c=>{if(key!==S.key||tf!==S.tf)return;if(!got){got=true;setStatus(1,'canlı')}onKc(key,c)});return}
  const key=S.key,tf=S.tf,{m,s}=mk(key),ws=new WebSocket(`${WSB[m]}${s.toLowerCase()}@kline_${tf}`);S.kws=ws;
  ws.onopen=()=>setStatus(1,'bağlandı');let gotMsg=false;const wd=setTimeout(()=>{if(!gotMsg&&S.kws===ws){if(m==='F')wsFi=(wsFi+1)%WSF.length;try{ws.close()}catch(e){}}},15000);
  ws.onmessage=e=>{if(!gotMsg){gotMsg=true;clearTimeout(wd);setStatus(1,'canlı')}let k;try{k=JSON.parse(e.data).k}catch(_){return}if(!k||key!==S.key||tf!==S.tf)return;
@@ -1469,6 +1562,10 @@ function openKline(){
   if(S.hover==null&&!isNew)legendSoon();if(isNew)legend()};
  ws.onclose=()=>{setStatus(0,'yeniden bağlanıyor');setTimeout(()=>{if(S.kws===ws)openKline()},2500)};
 }
+function onKc(key,c){const f=S.full,last=f.at(-1);let isNew=false;if(last&&last.time===c.time)f[f.length-1]=c;else if(!last||c.time>last.time){f.push(c);isNew=true}else return;
+ const t=S.tick[key];if(t){t.c=c.close;if(t.o)t.p=(t.c-t.o)/t.o*100;t.h=Math.max(t.h||c.high,c.high);t.l=Math.min(t.l||c.low,c.low)}else S.tick[key]=tick2(c.close,c.open,c.high,c.low,0);wlSoon();
+ checkAlarm(key,c.close);if(S.replay)return;if(S.ctype==='ha')mainS.setData(mainData());else mainS.update(mainData().at(-1));
+ if(isNew){computeAll(true);dirty()}else computeSoon();if(S.hover==null&&!isNew)legendSoon();if(isNew)legend()}
 let lgT=null;const legendSoon=()=>{if(lgT)return;lgT=setTimeout(()=>{lgT=null;if(S.hover==null)legend()},250)};
 function openTicker(m){
  const ws=new WebSocket(WSB[m]+'!miniTicker@arr');
@@ -1487,7 +1584,7 @@ setInterval(loadExtra,20000);
 let wlT=null;const wlSoon=()=>{if(wlT)return;wlT=setTimeout(()=>{wlT=null;updWl();renderDet();renderHot();cmpTick()},600)};
 const AVK={BTC:'#f7931a',ETH:'#627eea',SOL:'#9945ff',XRP:'#23292f',BNB:'#f3ba2f',DOGE:'#c2a633',AVAX:'#e84142',LINK:'#2a5ada',SUI:'#4da2ff',PAXG:'#e4b04a',ADA:'#0033ad',TRX:'#eb0029',TON:'#0098ea',DOT:'#e6007a',LTC:'#345d9d',BCH:'#0ac18e',PEPE:'#3d9b2f',SHIB:'#e42d04',NEAR:'#00c08b',APT:'#2ed8a3',ARB:'#28a0f0',OP:'#ff0420',UNI:'#ff007a',ATOM:'#2e3148',FIL:'#0090ff',INJ:'#00a3ff',WIF:'#c48a5a',TIA:'#7b2bf9',SEI:'#9e1f19'};
 const AVC=['#2962ff','#089981','#f23645','#ff9800','#9c27b0','#00bcd4','#e91e63','#607d8b','#795548','#3f51b5'];
-function baseOf(k){return S.syms.find(x=>x.k===k)?.b||mk(k).s.replace(/(USDT|USDC|FDUSD|TRY|BTC|ETH|EUR|BNB)$/,'')||mk(k).s}
+function baseOf(k){return (S.symi&&S.symi.get(k)?.b)||mk(k).s.split('-')[0].replace(/(USDT|USDC|FDUSD|TRY|BTC|ETH|EUR|BNB)$/,'')||mk(k).s}
 function avatar(k,sz=22){const b=baseOf(k);let h=0;for(const ch of b)h=(h*31+ch.charCodeAt(0))>>>0;const c=AVK[b]||AVC[h%AVC.length];return`<span class="av" style="background:${c};width:${sz}px;height:${sz}px;font-size:${sz<20?7:b.length>3?8:9}px">${esc(b.replace(/^1000/,'').slice(0,4))}</span>`}
 const FLAGS=[['#f23645','Kırmızı'],['#2962ff','Mavi'],['#089981','Yeşil'],['#ff9800','Turuncu'],['#9c27b0','Mor'],['#00bcd4','Turkuaz']];
 function wlRows(){let a=S.wl.slice();const so=S.wlSort;if(so){const v=k=>so.c==='s'?k.split(':')[1]:so.c==='p'?(S.tick[k]?.c??0):so.c==='d'?((S.tick[k]?.c??0)-(S.tick[k]?.o??0)):(S.tick[k]?.p??0);a.sort((x,y)=>{const A=v(x),B=v(y);return(A>B?1:A<B?-1:0)*so.d})}return a}
@@ -1495,9 +1592,9 @@ function renderWl(){
  const so=S.wlSort,hd=(c,t,cls='')=>`<button data-ws="${c}" class="${cls}${so&&so.c===c?' s':''}">${t}${so&&so.c===c?(so.d>0?' ▲':' ▼'):''}</button>`;
  $('#wlHead').innerHTML=`<span></span><span></span>${hd('s','Sembol')}${hd('p','Son')}${hd('d','Değ','hd')}${hd('c','Değ%')}`;
  const rows=wlRows();let h='';
- [['F','Vadeli (sürekli)'],['S','Spot']].forEach(([m,nm])=>{const g=rows.filter(k=>k.startsWith(m+':'));if(!g.length)return;const cl=!!S.wlColl[m];
+ const cg=k=>{const c=symOf(k)?.cat||(isPerp(k)?'perp':'crypto');return c==='index'?'fund':c};[['perp','Kripto vadeli (sürekli)'],['crypto','Kripto spot'],['stock','Hisse'],['fund','Fon / Endeks'],['forex','Forex'],['commodity','Emtia']].forEach(([m,nm])=>{const g=rows.filter(k=>cg(k)===m);if(!g.length)return;const cl=!!S.wlColl[m];
   h+=`<div class="wsec${cl?' cl':''}" data-wsec="${m}">${ic('chev')}${nm}<span class="cn">${g.length}</span></div>`;
-  if(!cl)h+=g.map(k=>{const{s:sy}=mk(k),sym=S.syms.find(x=>x.k===k);return`<div class="wr${k===S.key?' on':''}" data-k="${esc(k)}"><span class="fl" style="background:${S.flags[k]||'transparent'}"></span>${avatar(k)}<span class="n">${esc(sy)}<small>${m==='F'?'Sürekli':'Spot'}${sym?' · '+esc(sym.q):''}</small></span><span class="p"></span><span class="d"></span><span class="c"></span><button class="x" data-x="${esc(k)}" title="Listeden çıkar">${ic('x')}</button></div>`}).join('')});
+  if(!cl)h+=g.map(k=>{const{s:sy}=mk(k),sym=symOf(k);return`<div class="wr${k===S.key?' on':''}" data-k="${esc(k)}"><span class="fl" style="background:${S.flags[k]||'transparent'}"></span>${avatar(k)}<span class="n">${esc(sym?.s||sy)}<small>${esc(exOf(k))}${isPerp(k)?' · Sürekli':''}${sym?' · '+esc(sym.nm&&sym.cat!=='perp'?sym.nm:sym.q):''}</small></span><span class="p"></span><span class="d"></span><span class="c"></span><button class="x" data-x="${esc(k)}" title="Listeden çıkar">${ic('x')}</button></div>`}).join('')});
  $('#wl').innerHTML=h||'<div class="empty">Liste boş. + ile sembol ekleyin.</div>';
  updWl();
 }
@@ -1523,7 +1620,7 @@ function renderDet(){
  if(!t){$('#det').innerHTML=`<div class="dn1">${esc(lbl(k))}</div>`;return}
  const pos=t.h>t.l?Math.max(0,Math.min(100,(t.c-t.l)/(t.h-t.l)*100)):50,cl=t.p>=0?'up':'dn';
  let cd='';if(dt.next){const ms=dt.next-Date.now();if(ms>0){const h=Math.floor(ms/3.6e6),mi=Math.floor(ms%3.6e6/6e4),se=Math.floor(ms%6e4/1e3);cd=`${pad(h)}:${pad(mi)}:${pad(se)}`}}
- $('#det').innerHTML=`<div class="dn1">${esc(sy?sy.b+' / '+sy.q:s)} · ${m==='F'?'Sürekli vadeli':'Spot'} · Binance</div>
+ $('#det').innerHTML=`<div class="dn1">${esc(sy?(sy.nm?sy.nm+' · ':'')+sy.b+' / '+sy.q:lbl(k))} · ${isPerp(k)?'Sürekli vadeli':'Spot'} · ${esc(exOf(k))}${sy&&sy.cat&&sy.cat!=='perp'&&sy.cat!=='crypto'?' · '+CATN[sy.cat]:''}</div>
  <div class="pr ${cl}">${fmt(t.c)}</div><div class="ch ${cl}">${t.c-t.o>=0?'+':''}${fmt(t.c-t.o)} (${pct(t.p)}) <span style="color:var(--mu);font-weight:400">24s</span></div>
  <div class="rng"><i style="left:${pos}%"></i></div><div class="rngl"><span>${fmt(t.l)}</span><span>24s aralık</span><span>${fmt(t.h)}</span></div>
  <dl><dt>24s hacim</dt><dd>${fmtBig(t.q)} ${esc(sy?.q||'')}</dd>
@@ -1534,13 +1631,16 @@ function renderDet(){
 setInterval(()=>{if(S.det.next)renderDet()},1000);
 
 // ---------------- sembol arama ----------------
-let qMode='pick',qSel=0,qM='';
+let qMode='pick',qSel=0,qM='',qE='';
 function openSym(mode,initial=''){qMode=mode;$('#mSymT').textContent=mode==='add'?'İzleme listesine ekle':mode==='cmp'?'Sembol karşılaştır':mode.startsWith('mc')?'Grafik '+(+mode.slice(2)+2)+' için sembol':'Sembol ara';openModal('mSym');$('#q').value=initial;qSel=0;renderQ();setTimeout(()=>$('#q').focus(),20)}
-function qItems(){const q=$('#q').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');
- let a=S.syms.filter(s=>(!qM||s.m===qM)&&(!q||s.s.includes(q)));
- a.sort((x,y)=>{const ex=(q&&x.b===q?1:0),ey=(q&&y.b===q?1:0);if(ex!==ey)return ey-ex;return(S.tick[y.k]?.q||0)*(y.q==='USDT'?1:.5)-(S.tick[x.k]?.q||0)*(x.q==='USDT'?1:.5)});return a.slice(0,80)}
-function renderQ(){const it=qItems();$('#qlist').innerHTML=it.map((s,i)=>{const t=S.tick[s.k];return`<div class="li${i===qSel?' sel':''}" data-k="${esc(s.k)}"><span><b>${esc(s.s)}${s.m==='F'?'.P':''}</b> <small>${esc(s.b)} / ${esc(s.q)}</small> <span class="tag">${s.m==='F'?'VADELİ':'SPOT'}</span></span><span style="text-align:right"><span>${t?fmt(t.c,precOf(s.k)):''}</span> <small class="${t&&t.p>=0?'up':'dn'}">${t?pct(t.p):''}</small></span></div>`}).join('')||`<div class="empty">${S.syms.length?'Sonuç bulunamadı':'Sembol listesi yükleniyor…'}</div>`}
+function qItems(){const raw=trN($('#q').value.trim()),q=$('#q').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');
+ let a=S.syms.filter(s=>(!qM||s.cat===qM)&&(!qE||EXN[s.m]===qE)&&(!q||s.s.includes(q)||(raw.length>2&&s.nm&&trN(s.nm).includes(raw))));
+ const vol=s=>(S.tick[s.k]?.q||0)*(/USD/.test(s.q)?1:.3)*(s.m==='F'||s.m==='S'?1.3:1);
+ a.sort((x,y)=>{if(q){const ex=(x.b===q?2:x.s.startsWith(q)?1:0),ey=(y.b===q?2:y.s.startsWith(q)?1:0);if(ex!==ey)return ey-ex}return vol(y)-vol(x)});return a.slice(0,100)}
+function renderQ(){const it=qItems();$('#qlist').innerHTML=it.map((s,i)=>{const t=S.tick[s.k],ex=EXN[s.m];return`<div class="li${i===qSel?' sel':''}" data-k="${esc(s.k)}"><span class="qn">${avatar(s.k,22)}<span><b>${esc(s.s)}${isPerp(s.k)?'.P':''}</b> <span class="tag">${esc(CATN[s.cat]||'')}</span><br><small>${esc(s.nm||s.b+' / '+s.q)}</small></span></span><span class="qr"><span class="exb" style="--exc:${EXC[ex]}">${esc(ex)}</span><span class="qp">${t?fmt(t.c,precOf(s.k)):''} <small class="${t&&t.p>=0?'up':'dn'}">${t?pct(t.p):''}</small></span></span></div>`}).join('')||`<div class="empty">${S.syms.length?'Sonuç bulunamadı':'Sembol listesi yükleniyor…'}</div>`;
+ if(!exLoaded)$('#qlist').insertAdjacentHTML('beforeend','<div class="empty" style="padding:8px">Bybit, OKX ve Bitget sembolleri yükleniyor…</div>')}
 $('#q').addEventListener('input',()=>{qSel=0;renderQ()});
+$('#qex').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;qE=b.dataset.e;$$('#qex button').forEach(x=>x.classList.toggle('on',x===b));qSel=0;renderQ()});
 $('#qtab').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;qM=b.dataset.m;$$('#qtab button').forEach(x=>x.classList.toggle('on',x===b));qSel=0;renderQ()});
 $('#q').addEventListener('keydown',e=>{const n=qItems().length;if(e.key==='ArrowDown'){qSel=Math.min(n-1,qSel+1);renderQ();e.preventDefault()}if(e.key==='ArrowUp'){qSel=Math.max(0,qSel-1);renderQ();e.preventDefault()}
  if(e.key==='Enter'){const s=qItems()[qSel];if(s)chooseSym(s.k)}});
@@ -2222,7 +2322,7 @@ $('#hot').addEventListener('click',e=>{const r=e.target.closest('[data-k]');if(r
 function renderNote(){$('#noteSym').textContent=lbl(S.key);$('#note').value=ls.get('note_'+S.key,'')}
 $('#note').addEventListener('input',()=>ls.set('note_'+S.key,$('#note').value));
 async function loadPerf(){const k=S.key,{m,s}=mk(k);if(S.perf[k]&&Date.now()-S.perf[k].at<36e5){renderDet();return}
- try{const j=await getJSON(`${REST[m]}/klines?symbol=${s}&interval=1d&limit=400`);S.perf[k]={at:Date.now(),d:j.map(x=>({t:x[0]/1000,c:+x[4]}))};if(k===S.key)renderDet()}catch(e){}}
+ try{const j=await fetchK(k,'1d',400);S.perf[k]={at:Date.now(),d:j.map(x=>({t:x.time,c:x.close}))};if(k===S.key)renderDet()}catch(e){}}
 function perfHtml(k,price){const pf_=S.perf[k];if(!pf_||!pf_.d.length||!price)return'';const d=pf_.d,last=d[d.length-1].t,yb=new Date(new Date().getFullYear(),0,1).getTime()/1000;
  const at=t=>{let r=null;for(const x of d){if(x.t<=t)r=x;else break}return r?.c??d[0].c};
  const P=[['1H',last-7*86400],['1A',last-30*86400],['3A',last-90*86400],['6A',last-182*86400],['YB',yb-86400],['1Y',last-365*86400]];
@@ -2279,8 +2379,8 @@ async function loadCmp(){for(const k in cmpS){try{main.removeSeries(cmpS[k].seri
  if(!S.cmp.length){if(cmpForced){cmpForced=false;setScale({smode:0})}legend();return}
  if((S.set.smode||0)!==2){cmpForced=true;setScale({smode:2})}
  const key0=S.key,tf=S.tf,t0=S.full[0]?.time||0;
- await Promise.all(S.cmp.map(async(k,ci)=>{const{m,s}=mk(k);try{const j=await getJSON(`${REST[m]}/klines?symbol=${s}&interval=${tf}&limit=${m==='F'?1500:1000}`);if(key0!==S.key||tf!==S.tf||!S.cmp.includes(k))return;
-  const data=j.map(k2c).filter(c=>c.time>=t0).map(c=>({time:c.time,value:c.close})),dp=precOf(k);
+ await Promise.all(S.cmp.map(async(k,ci)=>{const{m,s}=mk(k);try{const j=await fetchK(k,tf,m==='F'?1500:1000);if(key0!==S.key||tf!==S.tf||!S.cmp.includes(k))return;
+  const data=j.filter(c=>c.time>=t0).map(c=>({time:c.time,value:c.close})),dp=precOf(k);
   const series=main.addLineSeries({color:CMPC[ci%CMPC.length],lineWidth:2,priceLineVisible:false,lastValueVisible:true,title:mk(k).s,priceFormat:{type:'price',precision:dp,minMove:1/10**dp}});series.setData(data);cmpS[k]={series,data}}catch(e){}}));legend()}
 function cmpTick(){const last=S.full.at(-1);if(!last||S.replay)return;for(const k in cmpS){const t=S.tick[k],c=cmpS[k],d=c.data;if(!t||!d.length)continue;const pt={time:Math.max(last.time,d.at(-1).time),value:t.c};try{c.series.update(pt);if(d.at(-1).time===pt.time)d[d.length-1]=pt;else d.push(pt)}catch(e){}}}
 
@@ -2302,14 +2402,12 @@ function createMc(i){if(!S.mcs[i])S.mcs[i]={key:S.key,tf:'1h'};const el=document
 function closeMc(m){if(m.ws){m.ws.onclose=null;try{m.ws.close()}catch(e){}}try{m.chart.remove()}catch(e){}m.el.remove()}
 async function loadMc(m){const c={...S.mcs[m.i]},{m:mm,s:sy}=mk(c.key);m.el.querySelector('.ms').innerHTML=avatar(c.key,18)+esc(lbl(c.key));m.el.querySelector('.mt').value=c.tf;
  if(m.ws){m.ws.onclose=null;try{m.ws.close()}catch(e){}m.ws=null}
- try{const j=await getJSON(`${REST[mm]}/klines?symbol=${sy}&interval=${c.tf}&limit=500`);if(S.mcs[m.i].key!==c.key||S.mcs[m.i].tf!==c.tf||!MCS.includes(m))return;m.data=j.map(k2c);const dp=precOf(c.key);
+ try{const j=await fetchK(c.key,c.tf,500);if(S.mcs[m.i].key!==c.key||S.mcs[m.i].tf!==c.tf||!MCS.includes(m))return;m.data=j;const dp=precOf(c.key);
   m.s.applyOptions({priceFormat:{type:'price',precision:dp,minMove:1/10**dp}});m.chart.applyOptions({localization:{locale:'tr-TR',timeFormatter:fmtTime,priceFormatter:p=>fmt(p,dp)}});
   m.s.setData(m.data);m.v.setData(m.data.map(d=>({time:d.time,value:d.volume,color:(d.close>=d.open?S.set.up:S.set.down)+'66'})));const n=m.data.length;m.chart.timeScale().setVisibleLogicalRange({from:n-120,to:n+6});mcPrice(m)}
  catch(e){m.el.querySelector('.mp').textContent='bağlantı hatası';return}
- const ws=new WebSocket(`${WSB[mm]}${sy.toLowerCase()}@kline_${c.tf}`);m.ws=ws;
- ws.onmessage=e=>{let k;try{k=JSON.parse(e.data).k}catch(_){return}if(!k)return;const cc={time:k.t/1000,open:+k.o,high:+k.h,low:+k.l,close:+k.c,volume:+k.v},l=m.data.at(-1);
-  if(l&&l.time===cc.time)m.data[m.data.length-1]=cc;else if(!l||cc.time>l.time)m.data.push(cc);else return;try{m.s.update(cc);m.v.update({time:cc.time,value:cc.volume,color:(cc.close>=cc.open?S.set.up:S.set.down)+'66'})}catch(_){}mcPrice(m)};
- ws.onclose=()=>{setTimeout(()=>{if(m.ws===ws&&MCS.includes(m))loadMc(m)},3000)}}
+ m.ws=subK(c.key,c.tf,cc=>{if(!MCS.includes(m))return;const l=m.data.at(-1);
+  if(l&&l.time===cc.time)m.data[m.data.length-1]=cc;else if(!l||cc.time>l.time)m.data.push(cc);else return;try{m.s.update(cc);m.v.update({time:cc.time,value:cc.volume,color:(cc.close>=cc.open?S.set.up:S.set.down)+'66'})}catch(_){}mcPrice(m)})}
 function mcPrice(m){const d=m.data;if(d.length<2)return;const l=d.at(-1),p=d.at(-2).close,ch=(l.close-p)/p*100;m.el.querySelector('.mp').innerHTML=`<span class="${ch>=0?'up':'dn'}">${fmt(l.close,precOf(S.mcs[m.i].key))} <small>${pct(ch)}</small></span>`}
 function syncCross(src,p){const t=p.time,all=[{chart:main,s:mainS,data:S.data,me:src===null},...MCS.map(x=>({chart:x.chart,s:x.s,data:x.data,me:x===src}))];
  all.forEach(o=>{if(o.me)return;try{if(t==null){o.chart.clearCrosshairPosition();return}const d=o.data;let lo=0,hi=d.length-1,q=null;while(lo<=hi){const md=(lo+hi)>>1;if(d[md].time<=t){q=d[md];lo=md+1}else hi=md-1}if(q)o.chart.setCrosshairPosition(q.close,q.time,o.s);else o.chart.clearCrosshairPosition()}catch(e){}})}
@@ -2353,7 +2451,7 @@ function tplClick(e){if(e.target.closest('#tplSave')){const n=$('#tplN').value.t
 const DM0={bal:10000,start:10000,pos:{},ord:[],hist:[]};
 S.demo={...clone(DM0),...ls.get('demo',{})};
 const DM={side:1,type:'market',unit:'USDT',lev:10,tab:'pos',amt:'',px:null};
-const feeR=k=>k.startsWith('F:')?.0004:.001;
+const feeR=k=>isPerp(k)?.0004:.001;
 const pxOf=k=>S.tick[k]?.c??(k===S.key?S.full.at(-1)?.close:null);
 const fmtQ=q=>q>=100?fmt(q,2):q>=1?fmt(q,4):fmt(q,6);
 function liqOf(p){if(p.lev<=1)return null;const mmr=.004;return p.side>0?p.entry*(1-1/p.lev+mmr):p.entry*(1+1/p.lev-mmr)}
@@ -2363,13 +2461,13 @@ let dmSaveT=null;const dmSave=()=>{clearTimeout(dmSaveT);dmSaveT=setTimeout(()=>
 function dmFill(k,side,qty,px,lev,tp,sl,kind){const D=S.demo,r=feeR(k);let p=D.pos[k];
  if(p&&p.side!==side){const cq=Math.min(qty,p.qty),pnl=(px-p.entry)*cq*p.side,fee=cq*px*r;D.bal+=pnl-fee;D.hist.unshift({t:Date.now(),k,side,qty:cq,price:px,pnl,fee,kind:kind||'close',entry:p.entry});
   p.qty-=cq;if(p.qty<=1e-12)delete D.pos[k];qty-=cq;if(qty<=1e-12){dmAfter();return true}p=D.pos[k]}
- if(k.startsWith('S:')&&side<0){dmAfter();return true}
+ if(!isPerp(k)&&side<0){dmAfter();return true}
  const need=qty*px/lev,st=dmStats();if(need>st.free+1e-9){toast('Yetersiz bakiye',`Gerekli marj ${fmt(need,2)} USDT, kullanılabilir ${fmt(st.free,2)} USDT.`,'',4500);dmAfter();return false}
  const fee=qty*px*r;D.bal-=fee;
  if(p){p.entry=(p.entry*p.qty+px*qty)/(p.qty+qty);p.qty+=qty;if(tp)p.tp=tp;if(sl)p.sl=sl}else D.pos[k]={side,qty,entry:px,lev,tp:tp||null,sl:sl||null,t:Date.now()};
  D.hist.unshift({t:Date.now(),k,side,qty,price:px,pnl:0,fee,kind:'open'});dmAfter();return true}
 function dmAfter(){S.demo.hist=S.demo.hist.slice(0,300);dmSave();dmLines();renderDmSum();renderDmList();updDemoBtn()}
-function dmSubmit(){const k=S.key,side=DM.side,isF=k.startsWith('F:'),px=pxOf(k);if(px==null){toast('Fiyat yok','Fiyat verisi bekleniyor.');return}
+function dmSubmit(){const k=S.key,side=DM.side,isF=isPerp(k),px=pxOf(k);if(px==null){toast('Fiyat yok','Fiyat verisi bekleniyor.');return}
  const lev=isF?DM.lev:1,amt=parseFloat($('#dmAmt')?.value),price=DM.type==='market'?px:parseFloat($('#dmPx')?.value);
  if(!(amt>0)){toast('Miktar girin','Lütfen geçerli bir miktar girin.');$('#dmAmt')?.focus();return}if(!(price>0)){toast('Fiyat girin','Lütfen geçerli bir fiyat girin.');return}
  const qty=DM.unit==='USDT'?amt/price:amt,tp=parseFloat($('#dmTp')?.value)||null,sl=parseFloat($('#dmSl')?.value)||null;
@@ -2395,7 +2493,7 @@ function tradeAt(side,price){DM.side=side;DM.type='limit';DM.px=+price.toFixed(S
 function renderTrade(){const el=$('#trade');if(!el)return;if(!$('#dmSum'))el.innerHTML=`<div class="dm"><div class="dmsum" id="dmSum"></div><div id="dmForm"></div><div class="dtabs2" id="dmTabs"></div><div id="dmList"></div></div>`;renderDmSum();renderDmForm();renderDmList()}
 function renderDmSum(){const e=$('#dmSum');if(!e)return;const st=dmStats(),c=v=>v>=0?'up':'dn';
  e.innerHTML=`<div><small>Özsermaye</small><b>${fmt(st.eq,2)}</b></div><div><small>Gerçekleşmemiş K/Z</small><b class="${c(st.u)}">${st.u>=0?'+':''}${fmt(st.u,2)}</b></div><div><small>Bakiye</small><b>${fmt(S.demo.bal,2)}</b></div><div><small>Kullanılabilir</small><b>${fmt(st.free,2)}</b></div>`}
-function renderDmForm(){const e=$('#dmForm');if(!e)return;const k=S.key,isF=k.startsWith('F:'),px=pxOf(k),st=dmStats(),dp=precOf(k);if(!isF&&DM.type==='stop'&&false)DM.type='market';
+function renderDmForm(){const e=$('#dmForm');if(!e)return;const k=S.key,isF=isPerp(k),px=pxOf(k),st=dmStats(),dp=precOf(k);if(!isF&&DM.type==='stop'&&false)DM.type='market';
  e.innerHTML=`<div class="sides"><button class="b${DM.side>0?' on':''}" data-dside="1" type="button">AL${isF?' / LONG':''}</button><button class="s${DM.side<0?' on':''}" data-dside="-1" type="button">SAT${isF?' / SHORT':''}</button></div>
  <div class="otype">${[['market','Piyasa'],['limit','Limit'],['stop','Stop']].map(([a,b])=>`<button type="button" data-dtype="${a}" class="${DM.type===a?'on':''}">${b}</button>`).join('')}</div>
  ${DM.type!=='market'?`<div class="dfl"><label>${DM.type==='limit'?'Limit':'Tetik'} fiyatı<span>Son: ${fmt(px,dp)}</span></label><div class="ig"><input id="dmPx" type="number" step="any" value="${DM.px??(px!=null?+px.toFixed(dp):'')}"><span>USDT</span></div></div>`:''}
@@ -2404,7 +2502,7 @@ function renderDmForm(){const e=$('#dmForm');if(!e)return;const k=S.key,isF=k.st
  ${isF?`<div class="dfl"><label>Kaldıraç<span id="dmLevV">${DM.lev}x</span></label><input id="dmLev" type="range" min="1" max="125" value="${DM.lev}" style="width:100%;accent-color:var(--ac)"></div>`:''}
  <div class="row2" style="gap:6px;align-items:flex-start"><div class="dfl" style="flex:1"><label>Kâr al (TP)</label><div class="ig"><input id="dmTp" type="number" step="any" placeholder="İsteğe bağlı"></div></div><div class="dfl" style="flex:1"><label>Zarar durdur (SL)</label><div class="ig"><input id="dmSl" type="number" step="any" placeholder="İsteğe bağlı"></div></div></div>
  <button type="button" class="dmsub" id="dmGo" style="background:${DM.side>0?S.set.up:S.set.down}">${DM.side>0?'AL':'SAT'} · ${esc(lbl(k))}</button><div class="dminfo" id="dmInfo"></div>`;dmInfo()}
-function dmInfo(){const e=$('#dmInfo');if(!e)return;const k=S.key,isF=k.startsWith('F:'),px=DM.type==='market'?pxOf(k):parseFloat($('#dmPx')?.value),amt=parseFloat($('#dmAmt')?.value),lev=isF?DM.lev:1;
+function dmInfo(){const e=$('#dmInfo');if(!e)return;const k=S.key,isF=isPerp(k),px=DM.type==='market'?pxOf(k):parseFloat($('#dmPx')?.value),amt=parseFloat($('#dmAmt')?.value),lev=isF?DM.lev:1;
  if(!(amt>0)||!(px>0)){e.innerHTML=`Ücret: %${fmt(feeR(k)*100,2)} · ${isF?'Vadeli, izole marj':'Spot, kaldıraçsız'} · Sanal para, gerçek işlem yapılmaz.`;return}
  const qty=DM.unit==='USDT'?amt/px:amt,val=qty*px;const lq=isF?liqOf({side:DM.side,entry:px,lev}):null;
  e.innerHTML=`Miktar: <b>${fmtQ(qty)} ${esc(baseOf(k))}</b> · Değer: <b>${fmt(val,2)} USDT</b><br>Gerekli marj: <b>${fmt(val/lev,2)} USDT</b> · Ücret: ${fmt(val*feeR(k),2)} USDT${lq?`<br>Tahmini likidasyon: <b style="color:#ff9800">${fmt(lq,precOf(k))}</b>`:''}`}
@@ -2420,7 +2518,7 @@ function renderDmList(){const tb=$('#dmTabs'),el=$('#dmList');if(!tb||!el)return
 $('#trade').addEventListener('click',e=>{const b=e.target.closest('button,[data-dk]');if(!b)return;const d=b.dataset;
  if(d.dside){DM.side=+d.dside;renderDmForm();return}if(d.dtype){DM.type=d.dtype;if(DM.type!=='market'&&DM.px==null)DM.px=null;renderDmForm();return}
  if(d.dunit){const px=DM.type==='market'?pxOf(S.key):parseFloat($('#dmPx')?.value),a=parseFloat($('#dmAmt')?.value);if(a>0&&px>0)DM.amt=String(DM.unit==='USDT'?+(a/px).toPrecision(6):+(a*px).toFixed(2));DM.unit=DM.unit==='USDT'?'COIN':'USDT';renderDmForm();return}
- if(d.dpct){const st=dmStats(),isF=S.key.startsWith('F:'),lev=isF?DM.lev:1,px=DM.type==='market'?pxOf(S.key):parseFloat($('#dmPx')?.value);let v=st.free*(+d.dpct/100)*lev*.998;
+ if(d.dpct){const st=dmStats(),isF=isPerp(S.key),lev=isF?DM.lev:1,px=DM.type==='market'?pxOf(S.key):parseFloat($('#dmPx')?.value);let v=st.free*(+d.dpct/100)*lev*.998;
   if(!isF&&DM.side<0){const p=S.demo.pos[S.key];v=p?p.qty*(+d.dpct/100)*px:0}DM.amt=String(DM.unit==='USDT'?+v.toFixed(2):+(v/px).toPrecision(6));$('#dmAmt').value=DM.amt;dmInfo();return}
  if(b.id==='dmGo'){dmSubmit();return}if(d.dtab){DM.tab=d.dtab;renderDmList();return}
  if(d.dclose||d.dhalf){const k=d.dclose||d.dhalf,p=S.demo.pos[k],px=pxOf(k);if(!p||px==null)return;dmFill(k,-p.side,d.dhalf?p.qty/2:p.qty,px,p.lev,null,null,'close');toast('Pozisyon kapatıldı',`${lbl(k)} @ ${fmt(px,precOf(k))}`,'',2500);return}
@@ -2455,7 +2553,7 @@ function cmdItems(){const A=[];
  CTYPES.forEach(([k,t])=>A.push({g:'Grafik tipi',t,ic:IT[k]||IC[k]?k:'candle',f:()=>{S.ctype=k;ls.set('ctype',k);mkMain();rebuildInds();dirty()},kw:'grafik tipi chart'}));
  GROUPS.flat().filter(t=>t[0]!=='#').forEach(t=>A.push({g:'Çizim aracı',t:TOOLS[t],ic:t,f:()=>setTool(t),kw:t,k:KEYS[t]||''}));
  DEFS.forEach(d=>A.push({g:'Gösterge ekle',t:d.n,ic:'fx',f:()=>{if(d.id==='liqmap'){addLiqMap();return}S.inds.push(newInst(d.id));saveInds();rebuildInds();toast('Gösterge eklendi',d.n,'',2500)},kw:d.s+' '+d.id+' '+(CATS[d.cat]||'')}));
- S.syms.forEach(x=>A.push({g:'Sembol',t:lbl(x.k),sub:mk(x.k).m==='F'?'Vadeli':'Spot',sym:x.k,f:()=>pick(x.k),kw:x.b||'',v:S.tick[x.k]?.q||0}));
+ S.syms.forEach(x=>A.push({g:'Sembol',t:lbl(x.k),sub:(x.nm?x.nm+' · ':'')+(CATN[x.cat]||'')+' · '+EXN[x.m],sym:x.k,f:()=>pick(x.k),kw:(x.b||'')+' '+(x.nm||'')+' '+EXN[x.m],v:S.tick[x.k]?.q||0}));
  return A}
 let cmdSel=0,cmdList=[];
 function cmdOpen(){const el=$('#cmdk');$$('.modal.show').forEach(hideModal);pop.classList.remove('show');el.classList.add('show');const q=$('#cmdQ');q.value='';q.focus();cmdRender()}
@@ -2477,7 +2575,7 @@ $('#cmdBtn').addEventListener('click',cmdOpen);
 // ---------------- v5: emir defteri + son işlemler ----------------
 var BK={ws:null,tws:null,key:null,b:[],a:[],tr:[],t:0};
 function bookStop(){try{BK.ws&&BK.ws.close()}catch(e){}try{BK.tws&&BK.tws.close()}catch(e){}BK.ws=BK.tws=null;BK.key=null}
-function bookStart(){if(!BK)return;if(S.side!=='book'){bookStop();return}if(BK.key===S.key&&BK.ws)return;bookStop();const key=S.key,{m,s}=mk(key);BK.key=key;BK.b=[];BK.a=[];BK.tr=[];renderBook(true);
+function bookStart(){if(!BK)return;if(S.side!=='book'){bookStop();return}if(BK.key===S.key&&BK.ws)return;bookStop();if(!isBin(S.key)){$('#book').innerHTML=`<div class="empty">Emir defteri şimdilik Binance sembollerinde canlı. ${esc(exOf(S.key))} için yakında.</div>`;$('#trades').innerHTML='';return}const key=S.key,{m,s}=mk(key);BK.key=key;BK.b=[];BK.a=[];BK.tr=[];renderBook(true);
  const ws=new WebSocket(`${WSD[m]}${s.toLowerCase()}@depth20@100ms`);BK.ws=ws;
  ws.onmessage=e=>{if(BK.key!==key)return;let j;try{j=JSON.parse(e.data)}catch(_){return}const b=j.b||j.bids,a=j.a||j.asks;if(!b||!a)return;BK.b=b.map(x=>[+x[0],+x[1]]).filter(x=>x[1]>0);BK.a=a.map(x=>[+x[0],+x[1]]).filter(x=>x[1]>0);renderBookSoon()};
  ws.onclose=()=>{if(BK.ws===ws&&S.side==='book'){BK.ws=null;BK.key=null;setTimeout(bookStart,3000)}};
