@@ -636,6 +636,12 @@ Object.assign(IT,{
  sign:'<path d="M8 25V4"/><path d="M8 5.5h13l3.5 4-3.5 4H8" stroke-linejoin="round"/>',
  flag:'<path d="M7 25V4"/><path d="M7 5c5-3 9 3 15 0v10c-6 3-10-3-15 0"/>',
  emoji:'<circle cx="14" cy="14" r="10"/><path d="M10 17c2 2.5 6 2.5 8 0"/><circle cx="10.5" cy="11.5" r="1.2" fill="currentColor"/><circle cx="17.5" cy="11.5" r="1.2" fill="currentColor"/>',
+ magw:'<path d="M8 5v8a6 6 0 0012 0V5" stroke-dasharray="2.5 2"/><path d="M8 5h3.5v8a2.5 2.5 0 005 0V5H20"/>',
+ keepdraw:'<path d="M5 20l10-10 3 3L8 23H5z"/><rect x="17" y="17" width="7" height="6" rx="1"/><path d="M18.5 17v-1.5a2 2 0 014 0V17"/>',
+ ipitch:`<path d="M8 14H25M12.5 7.5H25M12.5 20.5H25M12.5 7.5v13"/><path d="M3.5 9L8 14" opacity=".5"/><circle cx="3.5" cy="9" r="1.8" ${H}/>`,
+ gannsqr:'<rect x="4" y="4" width="20" height="20" rx="1"/><path d="M4 24L24 4" opacity=".8"/><path d="M14 4a10 20 0 0110 20M9 4a15 20 0 0115 20" opacity=".55"/>',
+ ghost:'<path d="M3 20l6-6 5 4 10-11" stroke-dasharray="3 2" opacity=".6"/><path d="M8 12v6M13 14v7M18 8v8M22 6v6" stroke-width="2.4"/>',
+ avp:`<path d="M5 4v20M7 7h9M7 11h14M7 15h10M7 19h5"/><circle cx="5" cy="4" r="1.8" ${H}/>`,
  book:'<path d="M4 6h9M4 10h7M4 14h11M15 18h9M17 22h7M13 14h11"/><path d="M4 18h6M4 22h4" opacity=".5"/>',
  kbd:'<rect x="3" y="7" width="22" height="14" rx="2"/><path d="M7 11h1M11 11h1M15 11h1M19 11h1M8 16.5h12"/>',
  clock:'<circle cx="14" cy="14" r="10"/><path d="M14 8v6l4 3"/>',
@@ -667,7 +673,9 @@ const TFS=[['1m','1d','1 dakika'],['3m','3d','3 dakika'],['5m','5d','5 dakika'],
 const TFSEC={'1m':60,'3m':180,'5m':300,'15m':900,'30m':1800,'1h':3600,'2h':7200,'4h':14400,'6h':21600,'12h':43200,'1d':86400,'3d':259200,'1w':604800,'1M':2592000};
 const CTYPES=[['candle','Mumlar'],['hollow','İçi boş mumlar'],['ha','Heikin Ashi'],['bar','Barlar'],['hlc','Yüksek-düşük'],['col','Sütunlar'],['line','Çizgi'],['lmark','İşaretçili çizgi'],['step','Basamaklı çizgi'],['area','Alan'],['base','Baz çizgisi']];
 const REST={F:'https://fapi.binance.com/fapi/v1',S:'https://api.binance.com/api/v3'};
-const WSB={F:'wss://fstream.binance.com/ws/',S:'wss://stream.binance.com:9443/ws/'};
+const WSF=['wss://fstream.binance.com/market/ws/','wss://fstream.binance.com/ws/'];let wsFi=0;
+const WSB={get F(){return WSF[wsFi]},S:'wss://stream.binance.com:9443/ws/'};
+const WSD={F:'wss://fstream.binance.com/public/ws/',S:'wss://stream.binance.com:9443/ws/'};
 const THEMES={
  koyu:{n:'Koyu',bg:'#0f1218',bg2:'',grid:'#1b2029',text:'#8b95a5',cross:'#6a7385',up:'#089981',down:'#f23645'},
  acik:{n:'Açık',bg:'#ffffff',bg2:'',grid:'#f0f3fa',text:'#5d6573',cross:'#9598a1',up:'#089981',down:'#f23645'},
@@ -706,7 +714,7 @@ function wmText(){return `${lbl(S.key)} · ${TFS.find(t=>t[0]===S.tf)?.[1]||''}`
 function chartOpts(sub,fmtDp){const s=S.set,dark=lum(s.bg)<.5,border=dark?'#262c38':'#d1d4dc',lb=dark?'#363c4e':'#131722',T='rgba(0,0,0,0)';
  return{layout:{background:s.bg2?{type:'gradient',topColor:s.bg,bottomColor:s.bg2}:{type:'solid',color:s.bg},attributionLogo:!sub,textColor:s.text,fontFamily:`${S.ui?.font||'Inter'},system-ui,sans-serif`,fontSize:s.fs||11},
   grid:{vertLines:{color:s.gv?s.gridV:T},horzLines:{color:s.gh?s.gridH:T}},
-  crosshair:{mode:S.magnet?1:0,vertLine:{color:s.cross,labelBackgroundColor:lb,visible:S.cursor==='cross'},horzLine:{color:s.cross,labelBackgroundColor:lb,visible:S.cursor==='cross'}},
+  crosshair:{mode:S.magnet===2||S.magnet===true?1:0,vertLine:{color:s.cross,labelBackgroundColor:lb,visible:S.cursor==='cross'},horzLine:{color:s.cross,labelBackgroundColor:lb,visible:S.cursor==='cross'}},
   rightPriceScale:{borderColor:border,minimumWidth:78,scaleMargins:sub?{top:.12,bottom:.08}:{top:.08,bottom:.12},...(sub?{}:{mode:s.smode||0,invertScale:!!s.sinv})},
   timeScale:{borderColor:border,timeVisible:true,secondsVisible:false,rightOffset:12,tickMarkFormatter:tickFmt,visible:!sub},
   watermark:{visible:!sub&&!!s.wm,text:sub?'':wmText(),color:dark?'rgba(255,255,255,.07)':'rgba(0,0,0,.07)',fontSize:52,horzAlign:'center',vertAlign:'center'},
@@ -907,7 +915,7 @@ function vpSvg(r){const p=r.inst.p,rg=main.timeScale().getVisibleLogicalRange();
   h+=`<rect x="${S.W-wu-wd}" y="${y1}" width="${wu}" height="${hg}" fill="${esc(uc)}" fill-opacity="${op}"/><rect x="${S.W-wd}" y="${y1}" width="${wd}" height="${hg}" fill="${esc(dc)}" fill-opacity="${op}"/>`}
  const pp=lo+(poc+.5)*st,py=yOfP(pp);if(py!=null)h+=`<line x1="0" x2="${S.W}" y1="${py}" y2="${py}" stroke="#ff9800" stroke-dasharray="4 3"/><text x="${S.W-maxW-8}" y="${py-4}" fill="#ff9800" font-size="11" text-anchor="end" class="t" style="paint-order:stroke;stroke:var(--bg);stroke-width:3px">POC ${fmt(pp)}</text>`;
  return h}
-function specialSvg(){let h='';for(const u in R){const r=R[u];if(r.inst.hide||!tfVis(r.inst))continue;try{if(r.def.special==='kzp')h+=kzpSvg(r);else if(r.def.special==='heat')h+=heatSvg(r);else if(r.def.special==='vp')h+=vpSvg(r);else if(r.out&&(r.out.ln||r.out.bx||r.out.mk))h+=primSvg(r)}catch(e){console.error(e)}}return h?`<g style="pointer-events:none">${h}</g>`:''}
+function specialSvg(){let h='';for(const u in R){const r=R[u];if(S.hideInds||r.inst.hide||!tfVis(r.inst))continue;try{if(r.def.special==='kzp')h+=kzpSvg(r);else if(r.def.special==='heat')h+=heatSvg(r);else if(r.def.special==='vp')h+=vpSvg(r);else if(r.out&&(r.out.ln||r.out.bx||r.out.mk))h+=primSvg(r)}catch(e){console.error(e)}}return h?`<g style="pointer-events:none">${h}</g>`:''}
 
 // ===== YENİ GÖSTERGE TANIMLARI =====
 const GS=[3,5,8,10,12,15],GL=[30,35,40,45,50,60];
@@ -1262,7 +1270,7 @@ function virC(v){v=Math.max(0,Math.min(1,v))*(VIR.length-1);const i=Math.min(VIR
  return'#'+[0,1,2].map(k=>Math.round(h(a,k)+(h(b,k)-h(a,k))*f).toString(16).padStart(2,'0')).join('')}
 
 const heatC=document.createElement('canvas');heatC.id='heat';
-function heatDraw(){const r=Object.values(R).find(x=>x.def.id==='liqmap'&&!x.inst.hide&&tfVis(x.inst)),W=Math.max(0,Math.floor(S.W)),H=Math.max(0,Math.floor(S.H)),dpr=devicePixelRatio||1;
+function heatDraw(){const r=S.hideInds?null:Object.values(R).find(x=>x.def.id==='liqmap'&&!x.inst.hide&&tfVis(x.inst)),W=Math.max(0,Math.floor(S.W)),H=Math.max(0,Math.floor(S.H)),dpr=devicePixelRatio||1;
  if(!heatC.isConnected)$('#draw').before(heatC);const g=heatC.getContext('2d');
  if(heatC.width!==Math.round(W*dpr)||heatC.height!==Math.round(H*dpr)){heatC.width=Math.round(W*dpr);heatC.height=Math.round(H*dpr);heatC.style.width=W+'px';heatC.style.height=H+'px'}
  g.setTransform(1,0,0,1,0,0);g.clearRect(0,0,heatC.width,heatC.height);
@@ -1292,7 +1300,7 @@ const STYK=['c','w','ls','pt','pv','lv','sl','sv','si','dp','vis'];
 const newInst=(id,extra={})=>{const df=S.indDef[id]||{};const o={u:uid(),id,p:{...DEF[id].p,...(df.p||{})},c:{},hide:false};STYK.forEach(k=>{if(df[k]!=null)o[k]=clone(df[k])});o.c=o.c||{};return{...o,...extra,p:{...o.p,...(extra.p||{})},c:{...o.c,...(extra.c||{})}}};
 const tfGroup=()=>{const s=TFSEC[S.tf]||60;return s<3600?'m':s<86400?'h':s<604800?'d':s<2592000?'w':'M'};
 const tfVis=inst=>!inst.vis||inst.vis[tfGroup()]!==false;
-const plVis=(inst,pl)=>!inst.hide&&inst.pv?.[pl.k]!==false&&tfVis(inst);
+const plVis=(inst,pl)=>!S.hideInds&&!inst.hide&&inst.pv?.[pl.k]!==false&&tfVis(inst);
 if(!Array.isArray(S.inds))S.inds=[newInst('vol'),newInst('ema',{p:{len:20},c:{v:'#f7a600'}}),newInst('ema',{p:{len:50},c:{v:'#2962ff'}}),newInst('ema',{p:{len:200},c:{v:'#e040fb'}}),newInst('rsi')];
 S.inds=S.inds.filter(i=>DEF[i.id]);
 const saveInds=()=>ls.set('inds',S.inds);
@@ -1450,8 +1458,8 @@ async function loadMore(){
 function openKline(){
  if(S.kws){S.kws.onclose=null;try{S.kws.close()}catch(e){}}
  const key=S.key,tf=S.tf,{m,s}=mk(key),ws=new WebSocket(`${WSB[m]}${s.toLowerCase()}@kline_${tf}`);S.kws=ws;
- ws.onopen=()=>setStatus(1,'canlı');
- ws.onmessage=e=>{let k;try{k=JSON.parse(e.data).k}catch(_){return}if(!k||key!==S.key||tf!==S.tf)return;
+ ws.onopen=()=>setStatus(1,'bağlandı');let gotMsg=false;const wd=setTimeout(()=>{if(!gotMsg&&S.kws===ws){if(m==='F')wsFi=(wsFi+1)%WSF.length;try{ws.close()}catch(e){}}},15000);
+ ws.onmessage=e=>{if(!gotMsg){gotMsg=true;clearTimeout(wd);setStatus(1,'canlı')}let k;try{k=JSON.parse(e.data).k}catch(_){return}if(!k||key!==S.key||tf!==S.tf)return;
   const c={time:k.t/1000,open:+k.o,high:+k.h,low:+k.l,close:+k.c,volume:+k.v,tb:+k.V},f=S.full,last=f.at(-1);
   let isNew=false;if(last&&last.time===c.time)f[f.length-1]=c;else if(!last||c.time>last.time){f.push(c);isNew=true}else return;
   checkAlarm(key,c.close);
@@ -1649,7 +1657,9 @@ const xOfL=l=>XF?XF.a+XF.bs*l:null,lOfX=x=>XF?(x-XF.a)/XF.bs:0;
 const yOfP=p=>mainS?mainS.priceToCoordinate(p):null,pOfY=y=>mainS?mainS.coordinateToPrice(y):null;
 const scr=pt=>({x:xOfL(t2l(pt.t)),y:yOfP(pt.p)});
 function fromScreen(x,y,useMag=S.magnet){let l=lOfX(x),p=pOfY(y);if(p==null)return null;
- if(useMag&&S.data.length){const i=Math.max(0,Math.min(S.data.length-1,Math.round(l))),c=S.data[i];l=i;p=[c.open,c.high,c.low,c.close].reduce((a,b)=>Math.abs(b-p)<Math.abs(a-p)?b:a)}
+ if(useMag&&S.data.length){const i=Math.max(0,Math.min(S.data.length-1,Math.round(l))),c=S.data[i],cd=[c.open,c.high,c.low,c.close];
+  if(S.magInd)for(const u in R){const r=R[u];if(r.def.pane!==0||r.inst.hide||!r.out)continue;r.def.pl.forEach(pl=>{const v=valAt(r,pl,i);if(v!=null)cd.push(v)})}
+  const best=cd.reduce((a,b)=>Math.abs(b-p)<Math.abs(a-p)?b:a),yb=yOfP(best);if(useMag!==1||(yb!=null&&Math.abs(yb-y)<=14&&Math.abs(xOfL(i)-x)<=Math.max(10,Math.abs(XF?.bs||0)))){l=i;p=best}}
  return{t:l2t(l),p}}
 function extend(f,t){const dx=t.x-f.x,dy=t.y-f.y,W=S.W,H=S.H;if(Math.abs(dx)<1e-6)return{x:t.x,y:dy>0?H+50:-50};const tx=dx>0?W+50:-50,k=(tx-f.x)/dx;let y=f.y+dy*k;y=Math.max(-1e5,Math.min(1e5,y));return{x:tx,y}}
 const priceBox=(x,y,txt,col,anchor='end')=>{const w=txt.length*6.6+10;const bx=anchor==='end'?x-w:anchor==='mid'?x-w/2:x;return`<rect x="${bx}" y="${y-9}" width="${w}" height="18" rx="3" fill="${col}"/><text x="${bx+w/2}" y="${y+4}" fill="#fff" font-size="11" font-weight="600" text-anchor="middle" class="t">${esc(txt)}</text>`};
@@ -1716,18 +1726,22 @@ function renderTools(){
  let h=GROUPS.map((g,gi)=>{const cur=g.includes(grpCur[gi])?grpCur[gi]:gReal(g)[0];const on=gi===0?S.tool==='eraser'||(g.includes(S.cursor)&&!isDraw(S.tool)):g.includes(S.tool);const t=gi===0?(S.tool==='eraser'?'eraser':S.cursor):cur;
   return`<button class="tb${g.length>1?' grp':''}${on?' on':''}" data-g="${gi}" data-pop="1" title="${esc(TOOLS[t])}">${ic(t)}</button>`}).join('');
  h+=`<button class="tb" data-t="alltools" title="Tüm çizim araçları (ara)">${ic('alltools')}</button><i class="tsep"></i><button class="tb${S.tool==='measure'?' on':''}" data-t="measure" title="Cetvel / ölçüm">${ic('ruler')}</button><button class="tb${S.tool==='zoom'?' on':''}" data-t="zoom" title="Yakınlaştır (alan seç)">${ic('zoom')}</button>
- <i class="tsep"></i><button class="tb${S.magnet?' on':''}" data-t="magnet" title="Mıknatıs modu">${ic('magnet')}</button><button class="tb${S.locked?' on':''}" data-t="lockall" title="Tüm çizimleri kilitle">${ic(S.locked?'lock':'unlock')}</button>
- <button class="tb${S.hidden?' on':''}" data-t="hideall" title="Tüm çizimleri gizle">${ic(S.hidden?'eyeoff':'eye')}</button><button class="tb" data-t="clear" title="Tüm çizimleri kaldır">${ic('trash')}</button>`;
+ <i class="tsep"></i><button class="tb grp${S.magnet?' on':''}" data-t="magnet" title="Mıknatıs: ${S.magnet===1?'zayıf':S.magnet?'güçlü':'kapalı'}">${ic(S.magnet===1?'magw':'magnet')}</button><button class="tb${S.keepDraw?' on':''}" data-t="keepdraw" title="Çizim modunu kilitle (araç çizimden sonra seçili kalsın)">${ic('keepdraw')}</button><button class="tb${S.locked?' on':''}" data-t="lockall" title="Tüm çizimleri kilitle">${ic(S.locked?'lock':'unlock')}</button>
+ <button class="tb grp${S.hidden||S.hideInds?' on':''}" data-t="hideall" title="Gizle: çizimler / göstergeler">${ic(S.hidden?'eyeoff':'eye')}</button><button class="tb grp" data-t="clear" title="Kaldır: çizimler / göstergeler">${ic('trash')}</button>`;
  $('#tools').innerHTML=h}
 $('#tools').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
  if(b.dataset.g!=null){const gi=+b.dataset.g,g=GROUPS[gi],cur=gi===0?S.cursor:(g.includes(grpCur[gi])?grpCur[gi]:gReal(g)[0]);
   setTool(cur);if(g.length>1)openPop($(`#tools [data-g="${gi}"]`),g.map(t=>t[0]==='#'?{h:t.slice(1)}:({t:TOOLS[t],ic:t,k:KEYS[t],on:(gi===0?S.cursor:S.tool)===t,star:S.favT.includes(t),sf:gi===0?null:()=>toggleFavTool(t),f:()=>{grpCur[gi]=t;ls.set('grp',grpCur);setTool(t)}})));return}
  const t=b.dataset.t;
  if(t==='alltools'){toolsDlg();return}
- if(t==='magnet'){S.magnet=!S.magnet;ls.set('magnet',S.magnet);charts().forEach(c=>c.applyOptions({crosshair:{mode:S.magnet?1:0}}));renderTools();return}
+ if(t==='magnet'){const setM=v=>{S.magnet=v;ls.set('magnet',v);charts().forEach(c=>c.applyOptions({crosshair:{mode:v===2?1:0}}));renderTools()};
+  openPop(b,[{t:'Kapalı',ic:'magnet',on:!S.magnet,f:()=>setM(0)},{t:'Zayıf mıknatıs (yakındaysa yapıştır)',ic:'magw',on:S.magnet===1,f:()=>setM(1)},{t:'Güçlü mıknatıs (her zaman yapıştır)',ic:'magnet',on:S.magnet===2,f:()=>setM(2)},{h:'Seçenek'},{t:(S.magInd?'✓ ':'')+'Göstergelere de yapıştır',ic:'fx',f:()=>{S.magInd=!S.magInd;ls.set('magInd',S.magInd);if(!S.magnet)setM(2)}}]);return}
+ if(t==='keepdraw'){S.keepDraw=!S.keepDraw;ls.set('keepDraw',S.keepDraw);renderTools();toast('Çizim modu',S.keepDraw?'Kilitli: araç her çizimden sonra seçili kalır (çıkmak için Esc).':'Kapalı: her çizimden sonra imlece dönülür.','',2500);return}
  if(t==='lockall'){S.locked=!S.locked;renderTools();dirty();return}
- if(t==='hideall'){S.hidden=!S.hidden;S.sel=null;renderTools();dirty();return}
- if(t==='clear'){if(!S.draws.length)return;confirmDlg('Çizimleri kaldır',`${lbl(S.key)} grafiğindeki ${S.draws.length} çizim kaldırılsın mı? (Geri al ile geri getirebilirsiniz.)`,()=>{snap();S.draws=[];S.sel=null;saveDraws();dirty()});return}
+ if(t==='hideall'){const setH=(d,i)=>{S.hidden=d;S.hideInds=i;S.sel=null;updVis();renderTools();dirty()};openPop(b,[{t:(S.hidden?'Çizimleri göster':'Çizimleri gizle'),ic:S.hidden?'eye':'eyeoff',f:()=>setH(!S.hidden,S.hideInds)},{t:(S.hideInds?'Göstergeleri göster':'Göstergeleri gizle'),ic:S.hideInds?'eye':'eyeoff',f:()=>setH(S.hidden,!S.hideInds)},{t:(S.hidden&&S.hideInds?'Hepsini göster':'Hepsini gizle'),ic:'eye',f:()=>{const v=!(S.hidden&&S.hideInds);setH(v,v)}}]);return}
+ if(t==='clear'){const delI=()=>{if(!S.inds.length)return;confirmDlg('Göstergeleri kaldır',`${S.inds.length} gösterge grafikten kaldırılsın mı?`,()=>{S.inds=[];saveInds();rebuildInds()})};
+  openPop(b,[{t:`Çizimleri kaldır (${S.draws.length})`,ic:'trash',f:()=>clearD()},{t:`Göstergeleri kaldır (${S.inds.length})`,ic:'trash',f:delI},{t:'Hepsini kaldır',ic:'trash',f:()=>confirmDlg('Hepsini kaldır','Tüm çizimler ve göstergeler kaldırılsın mı?',()=>{snap();S.draws=[];S.sel=null;saveDraws();S.inds=[];saveInds();rebuildInds();dirty()})}]);return}
+ function clearD(){if(!S.draws.length)return;confirmDlg('Çizimleri kaldır',`${lbl(S.key)} grafiğindeki ${S.draws.length} çizim kaldırılsın mı? (Geri al ile geri getirebilirsiniz.)`,()=>{snap();S.draws=[];S.sel=null;saveDraws();dirty()});return}
  setTool(S.tool===t?'cursor':t)});
 function setTool(t){
  if(t==='cursor')t=S.cursor;
@@ -1750,34 +1764,34 @@ const DEFO={channel:.1,fib:.07,circle:.12,rect:.15,measure:.15};
 const FILLT=['rect','circle','channel','fib','fibext','measure'],EXTT={trend:['xl','xr'],rect:['xr'],fib:['xr'],channel:['xr']};
 // ---------------- v5: genişletilmiş çizim araçları ----------------
 Object.assign(TOOLS,{eraser:'Silgi',infoline:'Bilgi çizgisi',angle:'Açılı trend çizgisi',crossl:'Çapraz çizgi',regr:'Regresyon trendi',flat:'Düz üst / alt',disj:'Ayrık kanal',
- pitchfork:'Andrews tırmığı (Pitchfork)',schiff:'Schiff tırmığı',mschiff:'Değiştirilmiş Schiff tırmığı',pitchfan:'Tırmık yelpazesi',
+ pitchfork:'Dirgen (Andrews Pitchfork)',schiff:'Schiff dirgeni',mschiff:'Modifiye Schiff dirgeni',ipitch:'İç dirgen',pitchfan:'Dirgen yelpazesi (Pitchfan)',gannsqr:'Gann karesi',ghost:'Hayalet çizgiler (Ghost feed)',avp:'Sabitlenmiş hacim profili',
  fibch:'Fib kanalı',fibtz:'Fib zaman bölgeleri',fibfan:'Fib hız direnç yelpazesi',fibtt:'Trend bazlı Fib zamanı',fibcirc:'Fib çemberleri',fibsp:'Fib sarmalı',fibarc:'Fib hız direnç yayları',fibwedge:'Fib kaması',
- gannbox:'Gann kutusu',gannsq:'Gann karesi',gannfan:'Gann yelpazesi',
+ gannbox:'Gann kutusu',gannsq:'Sabit Gann karesi',gannfan:'Gann yelpazesi',
  xabcd:'XABCD formasyonu',cypher:'Cypher formasyonu',hs:'Omuz baş omuz',abcd:'ABCD formasyonu',tripat:'Üçgen formasyonu',threedr:'Üç sürüş (Three Drives)',
  ew_imp:'Elliott itki dalgası (12345)',ew_cor:'Elliott düzeltme dalgası (ABC)',ew_tri:'Elliott üçgen dalgası (ABCDE)',ew_wxy:'Elliott ikili kombinasyon (WXY)',ew_wxyxz:'Elliott üçlü kombinasyon (WXYXZ)',
  cyc:'Döngüsel çizgiler',tcyc:'Zaman döngüleri',sine:'Sinüs çizgisi',
  fcast:'Tahmin',barsp:'Bar deseni (geçmişi kopyala)',proj:'Projeksiyon',avwap:'Sabitlenmiş VWAP',frvp:'Sabit aralık hacim profili',prange:'Fiyat aralığı',drange:'Tarih aralığı',
  hl:'Vurgulayıcı',amark:'Ok işaretçisi',rrect:'Döndürülmüş dikdörtgen',path:'Yol (çok noktalı ok)',ell:'Elips',poly:'Çoklu çizgi (alan)',tri:'Üçgen',arc:'Yay',curve:'Eğri',dcurve:'Çift eğri',
  note:'Not',pnote:'Fiyat notu',callout:'Açıklama balonu',comment:'Yorum',plabel:'Fiyat etiketi',pin:'Raptiye',sign:'Tabela',flag:'Bayrak',emoji:'Emoji ve çıkartma'});
-Object.assign(NEED,{infoline:2,angle:2,crossl:1,regr:2,flat:3,disj:3,pitchfork:3,schiff:3,mschiff:3,pitchfan:3,fibch:3,fibtz:2,fibfan:2,fibtt:3,fibcirc:2,fibsp:2,fibarc:2,fibwedge:3,gannbox:2,gannsq:2,gannfan:2,
+Object.assign(NEED,{ipitch:3,gannsqr:2,ghost:-1,avp:1,infoline:2,angle:2,crossl:1,regr:2,flat:3,disj:3,pitchfork:3,schiff:3,mschiff:3,pitchfan:3,fibch:3,fibtz:2,fibfan:2,fibtt:3,fibcirc:2,fibsp:2,fibarc:2,fibwedge:3,gannbox:2,gannsq:2,gannfan:2,
  xabcd:5,cypher:5,hs:7,abcd:4,tripat:4,threedr:6,ew_imp:6,ew_cor:4,ew_tri:6,ew_wxy:4,ew_wxyxz:6,cyc:2,tcyc:2,sine:2,fcast:2,barsp:2,proj:3,avwap:1,frvp:2,prange:2,drange:2,
  amark:2,rrect:3,path:-1,poly:-1,ell:2,tri:3,arc:3,curve:3,dcurve:4,note:1,pnote:2,callout:2,comment:1,plabel:1,pin:1,sign:1,flag:1,emoji:1});
 Object.assign(KEYS,{eraser:'Alt+E',fibch:'',pitchfork:'Alt+P',xabcd:'',long:'Alt+L',short:'Alt+S',prange:'',brush:'Alt+B'});
-Object.assign(DCOL,{hl:'#ffeb3b',pin:'#f23645',flag:'#f23645',note:'#2962ff',callout:'#2962ff',comment:'#2962ff',plabel:'#2962ff',pnote:'#2962ff',sign:'#ff9800',
+Object.assign(DCOL,{ipitch:'#f23645',gannsqr:'#ff9800',ghost:'#2962ff',avp:'#2962ff',hl:'#ffeb3b',pin:'#f23645',flag:'#f23645',note:'#2962ff',callout:'#2962ff',comment:'#2962ff',plabel:'#2962ff',pnote:'#2962ff',sign:'#ff9800',
  fibch:'#787b86',fibtz:'#787b86',fibfan:'#787b86',fibtt:'#787b86',fibcirc:'#787b86',fibsp:'#ff9800',fibarc:'#787b86',fibwedge:'#787b86',gannbox:'#ff9800',gannsq:'#ff9800',gannfan:'#ff9800',
  avwap:'#2962ff',frvp:'#2962ff',fcast:'#2962ff',pitchfork:'#f23645',schiff:'#f23645',mschiff:'#f23645',pitchfan:'#ff9800',xabcd:'#2962ff',cypher:'#2962ff',hs:'#089981',abcd:'#2962ff',tripat:'#9c27b0',threedr:'#9c27b0',
  ew_imp:'#2962ff',ew_cor:'#f23645',ew_tri:'#ff9800',ew_wxy:'#089981',ew_wxyxz:'#089981',cyc:'#787b86',tcyc:'#787b86',sine:'#2962ff',ell:'#9c27b0',poly:'#9c27b0',tri:'#9c27b0',rrect:'#9c27b0',arc:'#ff9800',amark:'#2962ff'});
-Object.assign(DEFO,{flat:.12,disj:.12,pitchfork:.08,schiff:.08,mschiff:.08,fibch:.06,gannbox:.04,gannsq:.04,xabcd:.18,cypher:.18,hs:.12,tripat:.12,threedr:0,prange:.12,drange:.12,regr:.08,
+Object.assign(DEFO,{ipitch:.08,gannsqr:.04,avp:.45,flat:.12,disj:.12,pitchfork:.08,schiff:.08,mschiff:.08,fibch:.06,gannbox:.04,gannsq:.04,xabcd:.18,cypher:.18,hs:.12,tripat:.12,threedr:0,prange:.12,drange:.12,regr:.08,
  rrect:.15,ell:.12,poly:.15,tri:.15,arc:.15,proj:.12,fibwedge:.06,frvp:.45});
-FILLT.push('flat','disj','pitchfork','schiff','mschiff','fibch','gannbox','gannsq','xabcd','cypher','hs','tripat','prange','drange','regr','rrect','ell','poly','tri','arc','proj','fibwedge','note','callout','comment');
+FILLT.push('ipitch','gannsqr','avp','flat','disj','pitchfork','schiff','mschiff','fibch','gannbox','gannsq','xabcd','cypher','hs','tripat','prange','drange','regr','rrect','ell','poly','tri','arc','proj','fibwedge','note','callout','comment');
 Object.assign(EXTT,{regr:['xr'],fibch:['xr'],flat:['xr'],infoline:['xl','xr'],angle:['xr']});
 const TXT=['text','note','pnote','callout','comment','pin','sign','emoji'];
 const GROUPS2=[
  ['cross','dot','arrowc','eraser'],
- ['#Çizgiler','trend','ray','infoline','ext','angle','hline','hray','vline','crossl','#Kanallar','channel','regr','flat','disj','#Tırmıklar','pitchfork','schiff','mschiff','pitchfan'],
- ['#Fibonacci','fib','fibext','fibch','fibtz','fibfan','fibtt','fibcirc','fibsp','fibarc','fibwedge','#Gann','gannbox','gannsq','gannfan'],
+ ['#Çizgiler','trend','ray','infoline','ext','angle','hline','hray','vline','crossl','#Kanallar','channel','regr','flat','disj','#Dirgenler','pitchfork','schiff','mschiff','ipitch','pitchfan'],
+ ['#Fibonacci','fib','fibext','fibch','fibtz','fibfan','fibtt','fibcirc','fibsp','fibarc','fibwedge','#Gann','gannbox','gannsq','gannsqr','gannfan'],
  ['#Harmonik formasyonlar','xabcd','cypher','hs','abcd','tripat','threedr','#Elliott dalgaları','ew_imp','ew_cor','ew_tri','ew_wxy','ew_wxyxz','#Döngüler','cyc','tcyc','sine'],
- ['#Tahmin','long','short','fcast','barsp','proj','#Hacim tabanlı','avwap','frvp','#Ölçüm','prange','drange','measure'],
+ ['#Tahmin','long','short','fcast','barsp','ghost','proj','#Hacim tabanlı','avwap','frvp','avp','#Ölçüm','prange','drange','measure'],
  ['#Fırçalar','brush','hl','#Oklar','arrow','amark','up','down','#Şekiller','rect','rrect','path','circle','ell','poly','tri','arc','curve','dcurve'],
  ['#Metin ve notlar','text','note','pnote','callout','comment','plabel','pin','sign','flag','#Simgeler','emoji']];
 GROUPS.splice(0,GROUPS.length,...GROUPS2);
@@ -1805,6 +1819,14 @@ function gExt(d,P,K){const{L,T,Rc,lab,col,w,da,fc,fo,tc,fs,st,W,H}=K;const[p0,p1
   case'angle':{if(!p1)return null;const r=Math.min(46,Math.hypot(p1.x-p0.x,p1.y-p0.y)*.6),an=Math.atan2(p1.y-p0.y,p1.x-p0.x),deg=-an*180/Math.PI,z=st.xr?extend(p0,p1):p1;
    b=L(p0.x,p0.y,z.x,z.y)+L(p0.x,p0.y,p0.x+Math.max(r*1.6,Math.abs(p1.x-p0.x)),p0.y,col,1,'4 4')+`<path d="M${p0.x+r} ${p0.y} A${r} ${r} 0 ${Math.abs(an)>Math.PI?1:0} ${an>0?1:0} ${p0.x+r*Math.cos(an)} ${p0.y+r*Math.sin(an)}" fill="none" stroke="${col}" stroke-width="1"/>`+T(p0.x+r+6,p0.y+(an>0?14:-6),deg.toFixed(1)+'°',tc);break}
   case'crossl':b=L(-10,p0.y,W+10,p0.y)+L(p0.x,-10,p0.x,H+10)+priceBox(W-2,p0.y,fmt(A[0].p),col)+priceBox(p0.x,H-12,fmtTime(A[0].t).replace(/^\S+ /,''),col,'mid');hd=[[p0.x,p0.y,0]];break;
+  case'gannsqr':{if(!p1)return null;const G=[.25,.382,.5,.618,.75];b=Rc(p0.x,p0.y,p1.x,p1.y,fc,fo,col,w,da);const dx=p1.x-p0.x,dy=p1.y-p0.y;
+   G.forEach((f,i)=>{const c=FPAL[(i+1)%FPAL.length];b+=L(p0.x+dx*f,p0.y,p0.x+dx*f,p1.y,c,.8,'')+L(p0.x,p0.y+dy*f,p1.x,p0.y+dy*f,c,.8,'')+T(p0.x+dx*f,Math.min(p0.y,p1.y)-4,f+'',c,'middle',10)});
+   [.25,.5,.75,1].forEach((f,i)=>{const rx=Math.abs(dx)*f,ry=Math.abs(dy)*f,sx=Math.sign(dx)||1,sy=Math.sign(dy)||1,c=FPAL[(i+3)%FPAL.length];b+=`<path d="M${p0.x+sx*rx} ${p0.y} A${rx} ${ry} 0 0 ${sx*sy>0?1:0} ${p0.x} ${p0.y+sy*ry}" fill="none" stroke="${c}"/>`});
+   b+=L(p0.x,p0.y,p1.x,p1.y,col,1,'')+L(p0.x,p0.y,p1.x,p0.y+dy/2,col,.8,'4 3')+L(p0.x,p0.y,p0.x+dx/2,p1.y,col,.8,'4 3');break}
+  case'ghost':{if(!p1)return null;const bs=Math.abs(XF?.bs||6),bw=Math.max(1,bs*.6),atr=(()=>{const D=S.data,n=D.length;let s_=0,c_=0;for(let i=Math.max(1,n-50);i<n;i++){s_+=D[i].high-D[i].low;c_++}return c_?s_/c_:0})();
+   b=pl(P,col,1,'3 3');let prev=A[0].p,k=0;for(let j=1;j<A.length;j++){const l0=t2l(A[j-1].t),l1=t2l(A[j].t),nb=Math.max(1,Math.round(Math.abs(l1-l0))),dir=l1>=l0?1:-1;
+    for(let q=1;q<=nb&&k<800;q++,k++){const c=A[j-1].p+(A[j].p-A[j-1].p)*q/nb,o=prev,rnd=.35+.3*Math.abs(Math.sin(k*12.9898)),hi=Math.max(o,c)+atr*rnd*.5,lo=Math.min(o,c)-atr*(.85-rnd)*.5,x=xOfL(l0+dir*q),yo=yOfP(o),yc=yOfP(c),yh=yOfP(hi),yl=yOfP(lo);prev=c;
+     if([x,yo,yc,yh,yl].some(v=>v==null))continue;const cc=c>=o?S.set.up:S.set.down;b+=`<line x1="${x}" x2="${x}" y1="${yh}" y2="${yl}" stroke="${cc}" stroke-opacity=".6"/><rect x="${x-bw/2}" y="${Math.min(yo,yc)}" width="${bw}" height="${Math.max(1,Math.abs(yc-yo))}" fill="${cc}" fill-opacity=".5"/>`}}break}
   case'regr':{if(!p1)return null;let i0=iOf(A[0].t),i1=iOf(A[1].t);if(i0>i1)[i0,i1]=[i1,i0];const n=i1-i0+1;if(n<2){b=L(p0.x,p0.y,p1.x,p1.y);break}
    let sx=0,sy=0,sxx=0,sxy=0;for(let i=i0;i<=i1;i++){const y=S.data[i].close,k=i-i0;sx+=k;sy+=y;sxx+=k*k;sxy+=k*y}const sl=(n*sxy-sx*sy)/(n*sxx-sx*sx||1),ic0=(sy-sl*sx)/n;
    let se=0;for(let i=i0;i<=i1;i++){const e=S.data[i].close-(ic0+sl*(i-i0));se+=e*e}const sd=Math.sqrt(se/n),dev=st.dev||2,iE=st.xr?i1+Math.max(20,n):i1,val=i=>ic0+sl*(i-i0);
@@ -1814,8 +1836,8 @@ function gExt(d,P,K){const{L,T,Rc,lab,col,w,da,fc,fo,tc,fs,st,W,H}=K;const[p0,p1
    b=poly([p0,z,{x:xr,y:y2},{x:p0.x,y:y2}])+L(p0.x,p0.y,z.x,z.y)+L(p0.x,y2,xr,y2)+lab((p0.x+p1.x)/2,Math.min(p0.y,y2));hd=[[p0.x,p0.y,0],[p1.x,p1.y,1],[(p0.x+p1.x)/2,y2,2]];break}
   case'disj':{if(!p1)return null;if(!p2){b=L(p0.x,p0.y,p1.x,p1.y);break}const q0={x:p0.x,y:p2.y},q1={x:p1.x,y:p2.y-(p1.y-p0.y)};
    b=poly([p0,p1,q1,q0])+L(p0.x,p0.y,p1.x,p1.y)+L(q0.x,q0.y,q1.x,q1.y)+lab((p0.x+p1.x)/2,Math.min(p0.y,q0.y));hd=[[p0.x,p0.y,0],[p1.x,p1.y,1],[q0.x,q0.y,2]];break}
-  case'pitchfork':case'schiff':case'mschiff':{if(!p1)return null;if(!p2){b=L(p0.x,p0.y,p1.x,p1.y);break}
-   const o=d.type==='schiff'?{x:p0.x,y:(p0.y+p1.y)/2}:d.type==='mschiff'?mid(p0,p1):p0,m=mid(p1,p2),dx=m.x-o.x,dy=m.y-o.y;
+  case'pitchfork':case'schiff':case'mschiff':case'ipitch':{if(!p1)return null;if(!p2){b=L(p0.x,p0.y,p1.x,p1.y);break}
+   const m=mid(p1,p2),o=d.type==='schiff'?{x:p0.x,y:(p0.y+p1.y)/2}:d.type==='mschiff'?mid(p0,p1):d.type==='ipitch'?mid(p0,m):p0,dx=m.x-o.x,dy=m.y-o.y;
    const e1=extend(p1,{x:p1.x+dx,y:p1.y+dy}),e2=extend(p2,{x:p2.x+dx,y:p2.y+dy}),em=extend(o,m);
    b=poly([p1,e1,e2,p2])+L(o.x,o.y,em.x,em.y)+L(p1.x,p1.y,e1.x,e1.y)+L(p2.x,p2.y,e2.x,e2.y)+L(p1.x,p1.y,p2.x,p2.y,col,1,'');
    [.5].forEach(f=>{[[p1,m],[p2,m]].forEach(([a,z])=>{const s={x:a.x+(z.x-a.x)*f,y:a.y+(z.y-a.y)*f},e=extend(s,{x:s.x+dx,y:s.y+dy});b+=L(s.x,s.y,e.x,e.y,col,1,'4 4')})});
@@ -1878,13 +1900,13 @@ function gExt(d,P,K){const{L,T,Rc,lab,col,w,da,fc,fo,tc,fs,st,W,H}=K;const[p0,p1
    b=poly([p0,p1,p2])+L(p0.x,p0.y,p1.x,p1.y)+L(p0.x,p0.y,p2.x,p2.y)+L(p1.x,p1.y,p2.x,p2.y,col,1,'4 4')+box(p1.x+10,p1.y,[pct(c1)],c1>=0?'#089981':'#f23645')+box(p2.x+10,p2.y,[pct(c2)],c2>=0?'#089981':'#f23645');break}
   case'avwap':{const D=S.data,i0=iOf(A[0].t),Q=[];let pv=0,vv=0;for(let i=i0;i<D.length;i++){const c=D[i],tp=(c.high+c.low+c.close)/3;pv+=tp*c.volume;vv+=c.volume;const y=yOfP(vv?pv/vv:tp),x=xOfL(i);if(x==null||y==null)continue;Q.push({x,y})}
    if(Q.length<1)return null;b=pl(Q)+priceBox(W-2,Q.at(-1).y,fmt(vv?pv/vv:D.at(-1).close),col)+`<circle cx="${Q[0].x}" cy="${Q[0].y}" r="4" fill="${col}"/>`+T(Q[0].x+6,Q[0].y+16,d.label||'AVWAP',tc);hd=[[Q[0].x,Q[0].y,0]];break}
-  case'frvp':{if(!p1)return null;let i0=iOf(A[0].t),i1=iOf(A[1].t);if(i0>i1)[i0,i1]=[i1,i0];const D=S.data,rows=st.rows||24;let hi=-Infinity,lo=Infinity;for(let i=i0;i<=i1;i++){hi=Math.max(hi,D[i].high);lo=Math.min(lo,D[i].low)}if(!(hi>lo))return null;
+  case'frvp':case'avp':{if(d.type==='frvp'&&!p1)return null;let i0=iOf(A[0].t),i1=d.type==='avp'?S.data.length-1:iOf(A[1].t);if(i0>i1)[i0,i1]=[i1,i0];const D=S.data,rows=st.rows||24;let hi=-Infinity,lo=Infinity;for(let i=i0;i<=i1;i++){hi=Math.max(hi,D[i].high);lo=Math.min(lo,D[i].low)}if(!(hi>lo))return null;
    const rh=(hi-lo)/rows,U=new Array(rows).fill(0),Dn=new Array(rows).fill(0);for(let i=i0;i<=i1;i++){const c=D[i],r=c.high-c.low||rh;for(let k=Math.max(0,Math.floor((c.low-lo)/rh));k<rows&&lo+k*rh<=c.high;k++){const a=Math.max(c.low,lo+k*rh),z=Math.min(c.high,lo+(k+1)*rh),f=c.high===c.low?1:Math.max(0,z-a)/r;(c.close>=c.open?U:Dn)[k]+=c.volume*f}}
    const T_=U.map((u,k)=>u+Dn[k]),mx=Math.max(...T_),poc=T_.indexOf(mx),tot=T_.reduce((a,z)=>a+z,0);let va=new Set([poc]),acc=T_[poc],lo2=poc,hi2=poc;while(acc<tot*.7&&(lo2>0||hi2<rows-1)){const dn=lo2>0?T_[lo2-1]:-1,upv=hi2<rows-1?T_[hi2+1]:-1;if(upv>=dn){hi2++;acc+=T_[hi2];va.add(hi2)}else{lo2--;acc+=T_[lo2];va.add(lo2)}}
    const xa=xOfL(i0),xb=xOfL(i1),maxW=Math.max(60,(xb-xa)*.45);b=Rc(xa,yOfP(hi),xb,yOfP(lo),col,.03,col,.6,'3 3');
    for(let k=0;k<rows;k++){const y1=yOfP(lo+(k+1)*rh),y0=yOfP(lo+k*rh);if(y1==null||y0==null)continue;const hh_=Math.max(1,Math.abs(y0-y1)-1),wu=mx?U[k]/mx*maxW:0,wd=mx?Dn[k]/mx*maxW:0,op=va.has(k)?fo:fo*.45;
     b+=`<rect x="${xa}" y="${Math.min(y0,y1)}" width="${wu}" height="${hh_}" fill="#089981" fill-opacity="${op}"/><rect x="${xa+wu}" y="${Math.min(y0,y1)}" width="${wd}" height="${hh_}" fill="#f23645" fill-opacity="${op}"/>`}
-   const yp=yOfP(lo+(poc+.5)*rh);b+=L(xa,yp,xb,yp,'#ff9800',1.5,'')+T(xb+4,yp+4,'POC '+fmt(lo+(poc+.5)*rh),'#ff9800')+`<rect class="h" x="${xa}" y="${Math.min(yOfP(hi),yOfP(lo))}" width="${Math.max(1,xb-xa)}" height="${Math.abs(yOfP(hi)-yOfP(lo))}" fill="transparent"/>`;hd=[[xa,yOfP(hi),0],[xb,yOfP(lo),1]];break}
+   const yp=yOfP(lo+(poc+.5)*rh);b+=L(xa,yp,xb,yp,'#ff9800',1.5,'')+T(xb+4,yp+4,'POC '+fmt(lo+(poc+.5)*rh),'#ff9800')+`<rect class="h" x="${xa}" y="${Math.min(yOfP(hi),yOfP(lo))}" width="${Math.max(1,xb-xa)}" height="${Math.abs(yOfP(hi)-yOfP(lo))}" fill="transparent"/>`;hd=d.type==='avp'?[[xa,yOfP(hi),0]]:[[xa,yOfP(hi),0],[xb,yOfP(lo),1]];break}
   case'prange':{if(!p1)return null;const dp=A[1].p-A[0].p,pc=dp/A[0].p*100,mx=(p0.x+p1.x)/2,c2=dp>=0?'#2962ff':'#f23645';b=Rc(p0.x,p0.y,p1.x,p1.y,c2,fo)+L(p0.x,p0.y,p1.x,p0.y,c2,1,'')+L(p0.x,p1.y,p1.x,p1.y,c2,1,'')+L(mx,p0.y,mx,p1.y,c2,1,'');
    const k=p1.y<p0.y?1:-1;b+=`<polygon points="${mx},${p1.y} ${mx-5},${p1.y+k*8} ${mx+5},${p1.y+k*8}" fill="${c2}"/>`+box(mx,p1.y-k*22,[`${dp>=0?'+':''}${fmt(dp)} (${pct(pc)})`],c2,'mid');break}
   case'drange':{if(!p1)return null;let i0=iOf(A[0].t),i1=iOf(A[1].t);const bars=Math.round(t2l(A[1].t)-t2l(A[0].t));let vol=0;for(let i=Math.min(i0,i1);i<=Math.max(i0,i1);i++)vol+=S.data[i].volume;const my=(p0.y+p1.y)/2,c2=bars>=0?'#2962ff':'#f23645';
@@ -1954,7 +1976,7 @@ function finish(){const d=S.pending;S.pending=null;if(!d)return;
  if((d.type==='channel'||d.type==='fibch')&&d.pts.length===3){const[a,b,c]=d.pts,la=t2l(a.t),lb=t2l(b.t),lc=t2l(c.t),onLine=lb===la?a.p:a.p+(b.p-a.p)*(lc-la)/(lb-la);d.pts[2]={t:a.t,p:a.p+(c.p-onLine)}}
  snap();S.draws.push(d);S.sel=d.id;saveDraws();
  if(d.type==='emoji')emojiPick(d,true);else if(['text','note','comment','callout'].includes(d.type))editText(d,true);
- setTool('cursor');dirty()}
+ if(S.keepDraw&&d.type!=='measure'){S.sel=null;dirty();return}setTool('cursor');dirty()}
 function pos(e){const r=mainEl.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
 function onDown(e){
  if(e.button===2)return;const p=pos(e),tool=S.tool;XF=xform();
@@ -2456,7 +2478,7 @@ $('#cmdBtn').addEventListener('click',cmdOpen);
 var BK={ws:null,tws:null,key:null,b:[],a:[],tr:[],t:0};
 function bookStop(){try{BK.ws&&BK.ws.close()}catch(e){}try{BK.tws&&BK.tws.close()}catch(e){}BK.ws=BK.tws=null;BK.key=null}
 function bookStart(){if(!BK)return;if(S.side!=='book'){bookStop();return}if(BK.key===S.key&&BK.ws)return;bookStop();const key=S.key,{m,s}=mk(key);BK.key=key;BK.b=[];BK.a=[];BK.tr=[];renderBook(true);
- const ws=new WebSocket(`${WSB[m]}${s.toLowerCase()}@depth20@100ms`);BK.ws=ws;
+ const ws=new WebSocket(`${WSD[m]}${s.toLowerCase()}@depth20@100ms`);BK.ws=ws;
  ws.onmessage=e=>{if(BK.key!==key)return;let j;try{j=JSON.parse(e.data)}catch(_){return}const b=j.b||j.bids,a=j.a||j.asks;if(!b||!a)return;BK.b=b.map(x=>[+x[0],+x[1]]).filter(x=>x[1]>0);BK.a=a.map(x=>[+x[0],+x[1]]).filter(x=>x[1]>0);renderBookSoon()};
  ws.onclose=()=>{if(BK.ws===ws&&S.side==='book'){BK.ws=null;BK.key=null;setTimeout(bookStart,3000)}};
  const tw=new WebSocket(`${WSB[m]}${s.toLowerCase()}@aggTrade`);BK.tws=tw;
