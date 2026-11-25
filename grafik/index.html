@@ -64,6 +64,8 @@ svg.i.t28{width:26px;height:26px;stroke-width:1.15}
 .ir{display:flex;gap:6px;align-items:center;margin-top:2px;white-space:nowrap}
 .ir .in{color:var(--ink)}
 .ir.off .in,.ir.off .vv{opacity:.4}
+.psh{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--mu);margin:14px 0 6px}.pspr{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.pspr .btn{display:inline-flex;align-items:center;gap:3px;padding:4px 9px;font-size:12px}.pspr i{width:10px;height:10px;border-radius:3px;display:inline-block}.pspr i+i{margin-right:4px}
+.btl{background:var(--bg2,rgba(127,127,127,.12));border-radius:4px;padding:1px 6px;color:var(--fg)!important;font-size:11px}.btl .up{color:#089981}.btl .dn{color:#f23645}
 .ib{display:inline-flex;gap:1px;pointer-events:auto;opacity:.55}
 .ir:hover .ib,.ib:hover{opacity:1}
 .ib button{width:22px;height:22px;display:grid;place-items:center;background:var(--pn);border:1px solid var(--ln)}
@@ -1352,7 +1354,110 @@ const DEFS4=[
  {id:'lsr',n:'Long / Short Oranı'+FUTN,s:'Long/Short',cat:'fut',pane:1,p:{},lv:[1],pl:[{k:'g',c:'#2962ff',w:2,n:'Tüm hesaplar'},{k:'t',c:'#ff9800',w:2,n:'Büyük traderlar (pozisyon)'}],f:lsrF},
 ];
 
-DEFS.push(...DEFS2,...DEFS3,...DEFS4);
+// ---------------- v8: topluluk göstergeleri + stratejiler ----------------
+function btest(x,sig,o={}){const n=x.c.length,fee=.0008;let pos=0,ent=0,eq=1,peak=1,mdd=0;const tr=[];
+ const close=(i,px)=>{const r=pos*(px-ent)/ent;eq*=1+r-fee;tr.push(r);peak=Math.max(peak,eq);mdd=Math.max(mdd,(peak-eq)/peak);pos=0};
+ for(let i=0;i<n;i++){if(pos&&o.tp&&o.tp[i]!=null){close(i,o.tp[i]);continue}const s=sig[i];if(!s||s===pos)continue;if(pos)close(i,x.c[i]);if(o.long&&s<0)continue;pos=s;ent=x.c[i]}
+ if(pos){const r=pos*(x.c[n-1]-ent)/ent;tr.push(r);eq*=1+r}const w=tr.filter(r=>r>0).length;return{n:tr.length,win:tr.length?w/tr.length*100:0,net:(eq-1)*100,mdd:mdd*100,pos}}
+const btLbl=o=>o&&o.bt?`<span class="vv btl">${o.bt.n} işlem · kazanma %${fmt(o.bt.win,0)} · net <b class="${o.bt.net>=0?'up':'dn'}">${o.bt.net>=0?'+':''}${fmt(o.bt.net,1)}%</b> · maks. düşüş %${fmt(o.bt.mdd,1)}${o.bt.pos?` · açık: ${o.bt.pos>0?'LONG':'SHORT'}`:''}</span>`:'';
+function sigMk(x,sig,from,lab=['AL','SAT']){const mk=[];for(let i=Math.max(1,from);i<sig.length;i++){if(sig[i]===1)mk.push({i,p:x.l[i],up:1,t:lab[0],c:GRN});else if(sig[i]===-1)mk.push({i,p:x.h[i],up:0,t:lab[1],c:RED})}return mk}
+const cross=(a,b,i)=>a[i]!=null&&b[i]!=null&&a[i-1]!=null&&b[i-1]!=null&&a[i-1]<=b[i-1]&&a[i]>b[i];
+const crossV=(a,v,i)=>a[i]!=null&&a[i-1]!=null&&a[i-1]<=v&&a[i]>v,crossUV=(a,v,i)=>a[i]!=null&&a[i-1]!=null&&a[i-1]>=v&&a[i]<v;
+function strat(x,p,sig,extra={}){const n=x.c.length;return{...extra,bt:btest(x,sig,{long:p.long,tp:extra._tp}),mk:p.sig===false?[]:sigMk(x,sig,n-(p.hist||400))}}
+const STRI=[{k:'long',t:'bool',l:'Yalnızca long (short açma)'},{k:'sig',t:'bool',l:'Al/Sat işaretlerini göster'},{k:'hist',t:'int',l:'İşaretlerin gösterileceği son mum sayısı'}];
+// Chandelier Exit (everget)
+function ceSF(x,p){const n=x.c.length,atr=rma(trf(x),p.len).map(a=>a==null?null:a*p.mult),src=p.close?x.c:null,H=hh(src||x.h,p.len),L=ll(src||x.l,p.len),ls=N(n),ss=N(n),lo=N(n),so=N(n),sig=N(n);let dir=1,lp=null,sp=null;
+ for(let i=0;i<n;i++){if(atr[i]==null||H[i]==null)continue;let l=H[i]-atr[i],s=L[i]+atr[i];if(lp!=null&&x.c[i-1]>lp)l=Math.max(l,lp);if(sp!=null&&x.c[i-1]<sp)s=Math.min(s,sp);const pd=dir;if(sp!=null&&x.c[i]>sp)dir=1;else if(lp!=null&&x.c[i]<lp)dir=-1;if(dir!==pd)sig[i]=dir;lp=l;sp=s;if(dir>0)lo[i]=l;else so[i]=s}
+ return{l:lo,s:so,...strat(x,p,sig)}}
+// Bollinger stratejisi (TradingView yerleşik)
+function bbSF(x,p){const n=x.c.length,m=sma(x.c,p.len),s=stdev(x.c,p.len),u=zip(m,s,(a,b)=>a+p.mult*b),l=zip(m,s,(a,b)=>a-p.mult*b),sig=N(n);for(let i=1;i<n;i++){if(crossUVa(x.c,l,i))sig[i]=1;else if(crossDVa(x.c,u,i))sig[i]=-1}return{u,m,l,...strat(x,p,sig)}}
+const crossUVa=(a,b,i)=>b[i]!=null&&b[i-1]!=null&&a[i-1]<=b[i-1]&&a[i]>b[i],crossDVa=(a,b,i)=>b[i]!=null&&b[i-1]!=null&&a[i-1]>=b[i-1]&&a[i]<b[i];
+// BullBear + hacim yüzdelik TP (yaklaşık)
+function bbvpF(x,p){const n=x.c.length,e=ema(x.c,p.len),pw=x.c.map((_,i)=>e[i]==null?null:(x.h[i]-e[i])+(x.l[i]-e[i])),sm=ema(pw,p.sm),atr=rma(trf(x),14),sig=N(n),tp=N(n);let pos=0,tgt=null;
+ for(let i=p.vlb;i<n;i++){const w=x.v.slice(i-p.vlb,i).sort((a,b)=>a-b),thr=w[Math.floor(w.length*p.pct/100)]||0;
+  if(pos&&tgt!=null&&(pos>0?x.h[i]>=tgt:x.l[i]<=tgt)){tp[i]=tgt;pos=0;tgt=null}
+  if(sm[i]==null||sm[i-1]==null)continue;const vok=x.v[i]>=thr;
+  if(sm[i-1]<=0&&sm[i]>0&&vok){sig[i]=1;pos=1;tgt=x.c[i]+atr[i]*p.tpm}else if(sm[i-1]>=0&&sm[i]<0&&vok){sig[i]=-1;pos=-1;tgt=x.c[i]-atr[i]*p.tpm}}
+ const o=strat(x,p,sig,{_tp:tp});tp.forEach((v,i)=>{if(v!=null&&p.sig!==false&&i>n-(p.hist||400))o.mk.push({i,p:v,up:0,t:'TP',c:'#2962ff',sm:1})});return{v:sm,vC:sm.map(v=>v==null?null:v>=0?GRN:RED),...o}}
+// Faytterro Bands (yaklaşık)
+function faytF(x,p){const n=x.c.length,src=hlc3(x),m=wma(src,p.len),dev=sma(src.map((v,i)=>m[i]==null?null:Math.abs(v-m[i])),p.len),u=zip(m,dev,(a,b)=>a+b*p.mult),l=zip(m,dev,(a,b)=>a-b*p.mult),sig=N(n);
+ for(let i=1;i<n;i++){if(u[i-1]==null)continue;if(x.c[i-1]>u[i-1]&&x.c[i]<=u[i])sig[i]=-1;else if(x.c[i-1]<l[i-1]&&x.c[i]>=l[i])sig[i]=1}return{u,m,l,mk:p.sig?sigMk(x,sig,n-400):[]}}
+// Future Grand Trend (yaklaşık: regresyon trendi + ileri projeksiyon)
+function fgtF(x,p){const n=x.c.length,L=Math.min(p.len,n-1),s0=n-L,ln=[];if(L<5)return{ln};let sx=0,sy=0,sxx=0,sxy=0;for(let i=s0;i<n;i++){const k=i-s0;sx+=k;sy+=x.c[i];sxx+=k*k;sxy+=k*x.c[i]}
+ const sl=(L*sxy-sx*sy)/(L*sxx-sx*sx||1),b=(sy-sl*sx)/L,val=i=>b+sl*(i-s0);let se=0;for(let i=s0;i<n;i++)se+=(x.c[i]-val(i))**2;const sd=Math.sqrt(se/L)*p.mult,c=sl>=0?GRN:RED,e=n-1+p.fut;
+ ln.push({a:s0,b:n-1,p0:val(s0),p1:val(n-1),c,w:2},{a:n-1,b:e,p0:val(n-1),p1:val(e),c,w:2,d:1,t:'Tahmin',tp:'end'},{a:s0,b:e,p0:val(s0)+sd,p1:val(e)+sd,c,w:1,d:1},{a:s0,b:e,p0:val(s0)-sd,p1:val(e)-sd,c,w:1,d:1});return{ln}}
+// RedK SALMA
+function salmaF(x,p){const v=wma(wma(x.c,p.len),p.sm),u=N(v.length),d=N(v.length);v.forEach((a,i)=>{if(a==null)return;const up=i&&v[i-1]!=null?a>=v[i-1]:true;if(up){u[i]=a;if(i&&d[i-1]!=null)u[i-1]=v[i-1]}else{d[i]=a;if(i&&u[i-1]!=null)d[i-1]=v[i-1]}});
+ if(!p.ch)return{u,d};const sd=stdev(x.c,p.len);return{u,d,cu:zip(v,sd,(a,b)=>a+b*p.chm),cl:zip(v,sd,(a,b)=>a-b*p.chm)}}
+// RSI Bands / %B / Bandwidth (LazyBear)
+function rsiBands(x,p){const src=x.c,ep=2*p.len-1,auc=ema(src.map((v,i)=>i?Math.max(v-src[i-1],0):null),ep),adc=ema(src.map((v,i)=>i?Math.max(src[i-1]-v,0):null),ep);
+ const lvl=(lv)=>src.map((v,i)=>{if(auc[i]==null)return null;const k=(p.len-1)*(adc[i]*lv/(100-lv)-auc[i]);return k>=0?v+k:v+k*(100-lv)/lv});const ub=lvl(p.ob),lb=lvl(p.os);return{ub,lb,mid:zip(ub,lb,(a,b)=>(a+b)/2)}}
+function rsiPBF(x,p){const{ub,lb}=rsiBands(x,p);return{pb:x.c.map((v,i)=>ub[i]==null||ub[i]===lb[i]?null:(v-lb[i])/(ub[i]-lb[i])),bw:zip(ub,lb,(a,b)=>(a-b)/((a+b)/2)*100)}}
+// RSI mumları
+function rsicF(x,p){const r=rsiF(x.c,p.len),rh=rsiF(x.h,p.len),rl=rsiF(x.l,p.len),o=r.map((v,i)=>{if(v==null||!i||r[i-1]==null)return null;const op=r[i-1];return[op,Math.max(op,v,rh[i]??v),Math.min(op,v,rl[i]??v),v]});return{o,v:r}}
+// SuperTrend (Kıvanç Özbilgiç) al/sat
+function stkF(x,p){const n=x.c.length,s=stF(x,{atr:p.atr,fac:p.fac}),sig=N(n);let d=0;for(let i=0;i<n;i++){const nd=s.up[i]!=null?1:s.dn[i]!=null?-1:0;if(nd&&d&&nd!==d)sig[i]=nd;if(nd)d=nd}return{up:s.up,dn:s.dn,...strat(x,p,sig)}}
+// Swing yüksek/düşük destek-direnç
+function swsrF(x,p){const n=x.c.length,{hs,ls}=pivList(x,p.left,p.right),ln=[];const run=(list,hi)=>list.slice(-p.cnt).forEach(q=>{let b=null;for(let j=q.c+1;j<n;j++){if(hi?x.c[j]>q.p:x.c[j]<q.p){b=j;break}}if(b!=null&&!p.broken)return;ln.push({a:q.i,b,p0:q.p,c:hi?RED:GRN,w:b==null?2:1,d:b!=null?1:0,t:b==null?(hi?'Direnç ':'Destek ')+fmt(q.p):'',tp:'end',up:hi?1:0})});run(hs,true);run(ls,false);return{ln}}
+// Trend çizgisi kırılımı + hedefler (ChartPrime tarzı)
+function tlbtF(x,p){const o=tlbF(x,{len:p.len,mult:p.mult,show:p.show}),atr=rma(trf(x),14),n=x.c.length,ln=o.ln.slice();o.mk.forEach(m=>{const a=atr[m.i];if(a==null)return;const up=m.up===1,t=x.c[m.i]+(up?1:-1)*a*p.tm,s=x.c[m.i]-(up?1:-1)*a*p.sm;
+ ln.push({a:m.i,b:Math.min(n+15,m.i+40),p0:t,c:up?GRN:RED,w:1,d:1,t:'Hedef '+fmt(t),tp:'end',up:up?1:0},{a:m.i,b:Math.min(n+15,m.i+40),p0:s,c:'#787b86',w:1,d:1,t:'Stop',tp:'end',up:up?0:1})});return{ln,mk:o.mk}}
+// Twin Range Filter (colinmck)
+function twinF(x,p){const n=x.c.length,c=x.c,sr=(t,m)=>{const a=c.map((v,i)=>i?Math.abs(v-c[i-1]):null);return ema(ema(a,t),t*2-1).map(v=>v==null?null:v*m)},r1=sr(p.p1,p.m1),r2=sr(p.p2,p.m2),f=N(n),sig=N(n);let ft=null,up=0,dn=0,ci=0;
+ for(let i=0;i<n;i++){if(r1[i]==null||r2[i]==null){continue}const r=(r1[i]+r2[i])/2,v=c[i];const pf=ft??v;ft=v>pf?(v-r<pf?pf:v-r):(v+r>pf?pf:v+r);f[i]=ft;up=ft>pf?up+1:ft<pf?0:up;dn=ft<pf?dn+1:ft>pf?0:dn;
+  const L=v>ft&&up>0,S=v<ft&&dn>0,nc=L?1:S?-1:ci;if(L&&ci===-1)sig[i]=1;else if(S&&ci===1)sig[i]=-1;ci=nc}
+ return{f,fC:f.map((v,i)=>v==null?null:up&&c[i]>v?GRN:RED),...strat(x,p,sig)}}
+// Vegas SuperTrend Enhanced (yaklaşık)
+function vegasF(x,p){const n=x.c.length,vm=sma(x.c,p.vlen),sd=stdev(x.c,p.vlen),atr=rma(trf(x),p.atr),up=N(n),dnl=N(n),sig=N(n);let tu=null,td=null,d=1;
+ for(let i=1;i<n;i++){if(vm[i]==null||atr[i]==null)continue;const w=(2*sd[i])/vm[i],m=p.mult+p.adj*w*10,mid=(x.h[i]+x.l[i])/2;let u=mid-m*atr[i],dd=mid+m*atr[i];if(tu!=null){u=x.c[i-1]>tu?Math.max(u,tu):u;dd=x.c[i-1]<td?Math.min(dd,td):dd}
+  const pd=d;if(td!=null&&x.c[i]>td)d=1;else if(tu!=null&&x.c[i]<tu)d=-1;if(d!==pd)sig[i]=d;tu=u;td=dd;if(d>0)up[i]=u;else dnl[i]=dd}
+ return{up,dn:dnl,vm,...strat(x,p,sig)}}
+// WaveTrend kesişimleri
+function wtcF(x,p){const o=wtF(x,p),n=x.c.length,xu=N(n),xd=N(n);for(let i=1;i<n;i++){if(cross(o.a,o.b,i))xu[i]=o.a[i];else if(cross(o.b,o.a,i))xd[i]=o.a[i]}return{...o,xu,xd}}
+// basit stratejiler
+function rsiSF(x,p){const r=rsiF(x.c,p.len),n=x.c.length,sig=N(n);for(let i=1;i<n;i++){if(crossV(r,p.os,i))sig[i]=1;else if(crossUV(r,p.ob,i))sig[i]=-1}return{v:r,...strat(x,p,sig)}}
+function macdSF(x,p){const m=zip(ema(x.c,p.fast),ema(x.c,p.slow),(a,b)=>a-b),s=ema(m,p.sig2),h=zip(m,s,(a,b)=>a-b),n=x.c.length,sig=N(n);for(let i=1;i<n;i++){if(crossV(h,0,i))sig[i]=1;else if(crossUV(h,0,i))sig[i]=-1}return{h,hC:h.map(v=>v==null?null:v>=0?GRN:RED),m,s,...strat(x,p,sig)}}
+function maxSF(x,p){const a=maOf(p.type,x.c,p.fast,x.v),b=maOf(p.type,x.c,p.slow,x.v),n=x.c.length,sig=N(n);for(let i=1;i<n;i++){if(cross(a,b,i))sig[i]=1;else if(cross(b,a,i))sig[i]=-1}return{a,b,...strat(x,p,sig)}}
+// Tüm grafik formasyonları (otomatik)
+function chartpF(x,p){const n=x.c.length,{hs,ls}=pivList(x,p.len,p.len),atr=rma(trf(x),14),ln=[],mk=[],from=n-p.hist,tol=i=>(atr[i]||0)*p.tol,lab=(i,pr,t,c,up)=>mk.push({i,p:pr,up,t,c,pl:1});
+ const H=hs.filter(q=>q.i>=from),Lw=ls.filter(q=>q.i>=from);
+ if(p.dbl){for(let k=1;k<H.length;k++){const a=H[k-1],b=H[k];if(b.i-a.i<5||Math.abs(a.p-b.p)>tol(b.i))continue;const tr=Lw.find(q=>q.i>a.i&&q.i<b.i);if(!tr||Math.max(a.p,b.p)-tr.p<(atr[b.i]||0)*1.5)continue;ln.push({a:a.i,b:b.i,p0:a.p,p1:b.p,c:RED,w:2},{a:a.i,b:Math.min(n+10,b.i+25),p0:tr.p,c:RED,w:1,d:1,t:'Boyun',tp:'end',up:0});lab((a.i+b.i)>>1,Math.max(a.p,b.p),'İkili tepe',RED,0)}
+  for(let k=1;k<Lw.length;k++){const a=Lw[k-1],b=Lw[k];if(b.i-a.i<5||Math.abs(a.p-b.p)>tol(b.i))continue;const pk=H.find(q=>q.i>a.i&&q.i<b.i);if(!pk||pk.p-Math.min(a.p,b.p)<(atr[b.i]||0)*1.5)continue;ln.push({a:a.i,b:b.i,p0:a.p,p1:b.p,c:GRN,w:2},{a:a.i,b:Math.min(n+10,b.i+25),p0:pk.p,c:GRN,w:1,d:1,t:'Boyun',tp:'end',up:1});lab((a.i+b.i)>>1,Math.min(a.p,b.p),'İkili dip',GRN,1)}}
+ if(p.hs){for(let k=2;k<H.length;k++){const l=H[k-2],h=H[k-1],r=H[k];if(!(h.p>l.p&&h.p>r.p)||Math.abs(l.p-r.p)>tol(r.i)*1.5||h.p-Math.max(l.p,r.p)<(atr[h.i]||0))continue;const t1=Lw.find(q=>q.i>l.i&&q.i<h.i),t2=Lw.find(q=>q.i>h.i&&q.i<r.i);if(!t1||!t2)continue;
+   ln.push({a:l.i,b:h.i,p0:l.p,p1:h.p,c:RED,w:1},{a:h.i,b:r.i,p0:h.p,p1:r.p,c:RED,w:1},{a:t1.i,b:Math.min(n+10,r.i+20),p0:t1.p,p1:t1.p+(t2.p-t1.p)/(t2.i-t1.i)*(Math.min(n+10,r.i+20)-t1.i),c:RED,w:2,d:1,t:'Boyun',tp:'end',up:0});lab(h.i,h.p,'OBO',RED,0)}
+  for(let k=2;k<Lw.length;k++){const l=Lw[k-2],h=Lw[k-1],r=Lw[k];if(!(h.p<l.p&&h.p<r.p)||Math.abs(l.p-r.p)>tol(r.i)*1.5||Math.min(l.p,r.p)-h.p<(atr[h.i]||0))continue;const t1=H.find(q=>q.i>l.i&&q.i<h.i),t2=H.find(q=>q.i>h.i&&q.i<r.i);if(!t1||!t2)continue;
+   ln.push({a:l.i,b:h.i,p0:l.p,p1:h.p,c:GRN,w:1},{a:h.i,b:r.i,p0:h.p,p1:r.p,c:GRN,w:1},{a:t1.i,b:Math.min(n+10,r.i+20),p0:t1.p,p1:t1.p+(t2.p-t1.p)/(t2.i-t1.i)*(Math.min(n+10,r.i+20)-t1.i),c:GRN,w:2,d:1,t:'Boyun',tp:'end',up:1});lab(h.i,h.p,'TOBO',GRN,1)}}
+ if(p.tri&&H.length>=2&&Lw.length>=2){const h1=H[H.length-2],h2=H[H.length-1],l1=Lw[Lw.length-2],l2=Lw[Lw.length-1],sh=(h2.p-h1.p)/(h2.i-h1.i),sl=(l2.p-l1.p)/(l2.i-l1.i),a0=atr[n-1]||1,flat=v=>Math.abs(v)*20<a0*.6,st=Math.min(h1.i,l1.i),e=n+15;
+  const fh=i=>h1.p+sh*(i-h1.i),fl=i=>l1.p+sl*(i-l1.i);if(fh(n-1)>fl(n-1)){let nm=null;
+   if(flat(sh)&&sl>0)nm='Yükselen üçgen';else if(sh<0&&flat(sl))nm='Alçalan üçgen';else if(sh<0&&sl>0)nm='Simetrik üçgen';else if(sh>0&&sl>0)nm=sl>sh?'Yükselen kama':'Yükselen kanal';else if(sh<0&&sl<0)nm=sh<sl?'Alçalan kama':'Alçalan kanal';else nm='Yatay kanal';
+   const c=/Yükselen kama|Alçalan üçgen|Alçalan kanal/.test(nm)?RED:/Yükselen üçgen|Alçalan kama|Yükselen kanal/.test(nm)?GRN:'#ff9800';ln.push({a:st,b:e,p0:fh(st),p1:fh(e),c,w:2},{a:st,b:e,p0:fl(st),p1:fl(e),c,w:2,t:nm,tp:'end',up:0})}}
+ return{ln,mk}}
+const DEFS5=[
+ {id:'ema4',n:'EMA 20 / 50 / 100 / 200',s:'EMA 4lü',cat:'trend',pane:0,p:{a:20,b:50,c:100,d:200},pl:[{k:'a',c:'#f7a600',n:'20'},{k:'b',c:'#2962ff',n:'50'},{k:'c',c:'#9c27b0',n:'100'},{k:'d',c:'#f23645',w:2,n:'200'}],f:(x,p)=>({a:ema(x.c,p.a),b:ema(x.c,p.b),c:ema(x.c,p.c),d:ema(x.c,p.d)}),inp:[{k:'a',t:'int',l:'1. EMA'},{k:'b',t:'int',l:'2. EMA'},{k:'c',t:'int',l:'3. EMA'},{k:'d',t:'int',l:'4. EMA'}]},
+ {id:'bos',n:'BOS ve CHoCH (piyasa yapısı)',s:'BOS/CHoCH',cat:'trend',pane:0,special:'prim',full:1,p:{len:50,internal:true,ilen:5,hist:300},pl:[],f:(x,p)=>smcF(x,{swing:true,slen:p.len,internal:p.internal,ilen:p.ilen,ob:false,obn:0,fvg:false,fvgn:0,eq:false,pd:false,hist:p.hist}),inp:[{k:'len',t:'int',l:'Swing uzunluğu'},{k:'internal',t:'bool',l:'İç yapı (internal) BOS/CHoCH'},{k:'ilen',t:'int',l:'İç yapı uzunluğu'},{k:'hist',t:'int',l:'Geriye dönük mum'}]},
+ {id:'ces',n:'Chandelier Exit [everget] (al/sat)',s:'CE',cat:'trend',pane:0,special:'prim',p:{len:22,mult:3,close:true,long:false,sig:true,hist:400},pl:[{k:'l',c:GRN,gap:1,w:2,n:'Uzun stop'},{k:'s',c:RED,gap:1,w:2,n:'Kısa stop'}],f:ceSF,lbl:btLbl,inp:[{k:'len',t:'int',l:'ATR periyodu'},{k:'mult',t:'float',l:'ATR çarpanı'},{k:'close',t:'bool',l:'En yüksek/düşük için kapanışı kullan'},...STRI]},
+ {id:'fayt',n:'Faytterro Bands (benzer mantık)',s:'Faytterro',cat:'vola',pane:0,special:'prim',p:{len:50,mult:2.2,sig:true},pl:[{k:'u',c:RED,n:'Üst'},{k:'m',c:'#ff9800',n:'Orta'},{k:'l',c:GRN,n:'Alt'}],f:faytF,inp:[{k:'len',t:'int',l:'Uzunluk'},{k:'mult',t:'float',l:'Bant çarpanı'},{k:'sig',t:'bool',l:'Banda geri dönüş sinyalleri'}]},
+ {id:'fgt',n:'Future Grand Trend (benzer mantık · regresyon tahmini)',s:'Gelecek Trend',cat:'trend',pane:0,special:'prim',full:1,p:{len:100,fut:30,mult:2},pl:[],f:fgtF,inp:[{k:'len',t:'int',l:'Geriye bakış'},{k:'fut',t:'int',l:'İleri projeksiyon (mum)'},{k:'mult',t:'float',l:'Kanal genişliği (std. sapma)'}]},
+ {id:'salma',n:'RedK Smooth And Lazy Moving Average (SALMA)',s:'SALMA',cat:'trend',pane:0,p:{len:10,sm:3,ch:false,chm:1},pl:[{k:'u',c:'#00bcd4',w:3,gap:1,n:'Yükselen'},{k:'d',c:'#ff5252',w:3,gap:1,n:'Düşen'},{k:'cu',c:'#787b86',n:'Kanal üst'},{k:'cl',c:'#787b86',n:'Kanal alt'}],f:salmaF,inp:[{k:'len',t:'int',l:'Uzunluk'},{k:'sm',t:'int',l:'Ekstra yumuşatma'},{k:'ch',t:'bool',l:'Kanalı göster'},{k:'chm',t:'float',l:'Kanal çarpanı'}]},
+ {id:'rsib',n:'RSI Bantları (LazyBear)',s:'RSI Bant',cat:'osc',pane:0,p:{len:14,ob:70,os:30},pl:[{k:'ub',c:RED,n:'Aşırı alım seviyesi'},{k:'mid',c:'#787b86',n:'Orta'},{k:'lb',c:GRN,n:'Aşırı satım seviyesi'}],f:rsiBands,inp:[{k:'len',t:'int',l:'RSI uzunluğu'},{k:'ob',t:'int',l:'Aşırı alım'},{k:'os',t:'int',l:'Aşırı satım'}]},
+ {id:'rsipb',n:'RSI %B (LazyBear)',s:'RSI %B',cat:'osc',pane:1,p:{len:14,ob:70,os:30},lv:[1,.5,0],pl:[{k:'pb',c:'#2962ff',w:2,n:'%B'}],f:rsiPBF,inp:[{k:'len',t:'int',l:'RSI uzunluğu'},{k:'ob',t:'int',l:'Aşırı alım'},{k:'os',t:'int',l:'Aşırı satım'}]},
+ {id:'rsibw',n:'RSI Bant Genişliği (LazyBear)',s:'RSI BW',cat:'osc',pane:1,p:{len:14,ob:70,os:30},pl:[{k:'bw',c:'#ff9800',w:2,n:'Bant genişliği %'}],f:rsiPBF,inp:[{k:'len',t:'int',l:'RSI uzunluğu'},{k:'ob',t:'int',l:'Aşırı alım'},{k:'os',t:'int',l:'Aşırı satım'}]},
+ {id:'rsic',n:'RSI Mumları',s:'RSI Mum',cat:'osc',pane:1,p:{len:14},lv:[70,50,30],pl:[{k:'o',t:'ohlc',c:GRN,n:'RSI mum'}],f:rsicF,inp:[{k:'len',t:'int',l:'RSI uzunluğu'}]},
+ {id:'stk',n:'SuperTrend [Kıvanç Özbilgiç] (al/sat)',s:'SuperTrend',cat:'trend',pane:0,special:'prim',p:{atr:10,fac:3,long:false,sig:true,hist:400},pl:[{k:'up',c:GRN,gap:1,w:2,n:'Yükseliş'},{k:'dn',c:RED,gap:1,w:2,n:'Düşüş'}],f:stkF,lbl:btLbl,inp:[{k:'atr',t:'int',l:'ATR periyodu'},{k:'fac',t:'float',l:'ATR çarpanı'},...STRI]},
+ {id:'swsr',n:'Swing Yüksek / Düşük Destek ve Direnç',s:'Swing S/R',cat:'trend',pane:0,special:'prim',full:1,p:{left:10,right:10,cnt:6,broken:false},pl:[],f:swsrF,inp:[{k:'left',t:'int',l:'Sol mum'},{k:'right',t:'int',l:'Sağ mum'},{k:'cnt',t:'int',l:'Gösterilecek seviye sayısı'},{k:'broken',t:'bool',l:'Kırılmış seviyeleri de göster'}]},
+ {id:'tlbt',n:'Trend Çizgisi Kırılımı + Hedefler',s:'TL Hedef',cat:'trend',pane:0,special:'prim',full:1,p:{len:14,mult:1,show:3,tm:2,sm:1},pl:[],f:tlbtF,inp:[{k:'len',t:'int',l:'Salınım uzunluğu'},{k:'mult',t:'float',l:'Eğim çarpanı'},{k:'show',t:'int',l:'Çizgi sayısı'},{k:'tm',t:'float',l:'Hedef (ATR ×)'},{k:'sm',t:'float',l:'Stop (ATR ×)'}]},
+ {id:'twin',n:'Twin Range Filter',s:'Twin Range',cat:'trend',pane:0,special:'prim',p:{p1:27,m1:1.6,p2:55,m2:2,long:false,sig:true,hist:400},pl:[{k:'f',c:'#ff9800',w:2,n:'Filtre'}],f:twinF,lbl:btLbl,inp:[{k:'p1',t:'int',l:'Hızlı periyot'},{k:'m1',t:'float',l:'Hızlı aralık çarpanı'},{k:'p2',t:'int',l:'Yavaş periyot'},{k:'m2',t:'float',l:'Yavaş aralık çarpanı'},...STRI]},
+ {id:'wtc',n:'WaveTrend Kesişimleri [LazyBear]',s:'WT Kesişim',cat:'osc',pane:1,p:{ch:10,avg:21},lv:[60,53,0,-53,-60],pl:[{k:'h',t:'hist',c:'#2962ff',n:'Fark'},{k:'a',c:GRN,n:'WT1'},{k:'b',c:RED,n:'WT2'},{k:'xu',t:'dots',c:GRN,w:3,n:'Yukarı kesişim'},{k:'xd',t:'dots',c:RED,w:3,n:'Aşağı kesişim'}],f:wtcF},
+ {id:'chartp',n:'Tüm Grafik Formasyonları (ikili tepe/dip, OBO/TOBO, üçgen, kama, kanal)',s:'Formasyonlar',cat:'trend',pane:0,special:'prim',full:1,p:{len:5,hist:300,tol:.6,dbl:true,hs:true,tri:true},pl:[],f:chartpF,inp:[{k:'len',t:'int',l:'Pivot uzunluğu'},{k:'hist',t:'int',l:'Taranacak mum'},{k:'tol',t:'float',l:'Tolerans (ATR ×)'},{k:'dbl',t:'bool',l:'İkili tepe / dip'},{k:'hs',t:'bool',l:'Omuz baş omuz (OBO / TOBO)'},{k:'tri',t:'bool',l:'Üçgen, kama, kanal'}]},
+ {id:'bbs',n:'Bollinger Bantları Stratejisi',s:'BB Strateji',cat:'strat',pane:0,special:'prim',p:{len:20,mult:2,long:false,sig:true,hist:400},pl:[{k:'u',c:'#2962ff',n:'Üst'},{k:'m',c:'#ff6d00',n:'Orta'},{k:'l',c:'#2962ff',n:'Alt'}],f:bbSF,lbl:btLbl,inp:[{k:'len',t:'int',l:'Uzunluk'},{k:'mult',t:'float',l:'Std. sapma'},...STRI]},
+ {id:'bbvp',n:'BullBear + Hacim Yüzdelik TP Stratejisi (benzer mantık)',s:'BullBear TP',cat:'strat',pane:1,special:'prim',p:{len:13,sm:5,vlb:50,pct:60,tpm:2.5,long:false,sig:true,hist:400},lv:[0],pl:[{k:'v',t:'hist',c:GRN,n:'Boğa+Ayı gücü'}],f:bbvpF,lbl:btLbl,inp:[{k:'len',t:'int',l:'EMA uzunluğu'},{k:'sm',t:'int',l:'Yumuşatma'},{k:'vlb',t:'int',l:'Hacim geriye bakış'},{k:'pct',t:'int',l:'Hacim yüzdelik eşiği'},{k:'tpm',t:'float',l:'Kâr al (ATR ×)'},...STRI]},
+ {id:'vegas',n:'Vegas SuperTrend Enhanced Stratejisi (benzer mantık)',s:'Vegas ST',cat:'strat',pane:0,special:'prim',p:{vlen:100,atr:10,mult:3,adj:.5,long:false,sig:true,hist:400},pl:[{k:'vm',c:'#787b86',n:'Vegas kanal ortası'},{k:'up',c:GRN,gap:1,w:2,n:'Yükseliş'},{k:'dn',c:RED,gap:1,w:2,n:'Düşüş'}],f:vegasF,lbl:btLbl,inp:[{k:'vlen',t:'int',l:'Vegas kanal uzunluğu'},{k:'atr',t:'int',l:'ATR periyodu'},{k:'mult',t:'float',l:'Temel çarpan'},{k:'adj',t:'float',l:'Volatilite uyarlaması'},...STRI]},
+ {id:'rsis',n:'RSI Stratejisi',s:'RSI Strateji',cat:'strat',pane:1,special:'prim',p:{len:14,ob:70,os:30,long:false,sig:true,hist:400},lv:[70,30],pl:[{k:'v',c:'#7e57c2',n:'RSI'}],f:rsiSF,lbl:btLbl,inp:[{k:'len',t:'int',l:'RSI uzunluğu'},{k:'ob',t:'int',l:'Aşırı alım (sat)'},{k:'os',t:'int',l:'Aşırı satım (al)'},...STRI]},
+ {id:'macds',n:'MACD Stratejisi',s:'MACD Strateji',cat:'strat',pane:1,special:'prim',p:{fast:12,slow:26,sig2:9,long:false,sig:true,hist:400},lv:[0],pl:[{k:'h',t:'hist',c:GRN,n:'Histogram'},{k:'m',c:'#2962ff',n:'MACD'},{k:'s',c:'#ff6d00',n:'Sinyal'}],f:macdSF,lbl:btLbl,inp:[{k:'fast',t:'int',l:'Hızlı'},{k:'slow',t:'int',l:'Yavaş'},{k:'sig2',t:'int',l:'Sinyal'},...STRI]},
+ {id:'maxs',n:'Hareketli Ortalama Kesişim Stratejisi',s:'MA Kesişim',cat:'strat',pane:0,special:'prim',p:{type:'EMA',fast:9,slow:21,long:false,sig:true,hist:400},pl:[{k:'a',c:'#f7a600',w:2,n:'Hızlı'},{k:'b',c:'#2962ff',w:2,n:'Yavaş'}],f:maxSF,lbl:btLbl,inp:[{k:'type',t:'sel',l:'Ortalama türü',o:MAT},{k:'fast',t:'int',l:'Hızlı'},{k:'slow',t:'int',l:'Yavaş'},...STRI]},
+];
+
+DEFS.push(...DEFS2,...DEFS3,...DEFS4,...DEFS5);
 const DEF=Object.fromEntries(DEFS.map(d=>[d.id,d]));
 Object.assign(DEF.cand,{n:'Mum Formasyonları (yutan, çekiç, yıldız, harami, 3 asker, doji… 20+)',p:{...DEF.cand.p,har:true,pierce:true,sold:true,tw:false,maru:false,more:false}});
 DEF.cand.inp=[{k:'bars',t:'int',l:'Taranacak mum sayısı'},{g:'Formasyonlar'},{k:'eng',t:'bool',l:'Yutan (engulfing)'},{k:'ham',t:'bool',l:'Çekiç / Kayan yıldız'},{k:'more',t:'bool',l:'Asılı adam / Ters çekiç'},{k:'star',t:'bool',l:'Sabah / Akşam yıldızı'},{k:'har',t:'bool',l:'Harami'},{k:'pierce',t:'bool',l:'Delen / Kara bulut'},{k:'sold',t:'bool',l:'Üç beyaz asker / Üç kara karga'},{k:'tw',t:'bool',l:'Cımbız dip / tepe'},{k:'maru',t:'bool',l:'Marubozu'},{k:'doji',t:'bool',l:'Doji (yusufçuk, mezar taşı)'}];
@@ -1411,7 +1516,7 @@ DEFS.push({id:'liqmap',n:'Likidasyon Isı Haritası + Canlı Likidasyonlar'+FUTN
 DEF.liqmap=DEFS.at(-1);
 const FLOATP=new Set(['mult','fac','start','inc','max','off','sigma','pct','dev','kcm']);
 const PL={off:'Ofset',sigma:'Sigma',pct:'Yüzde',jaw:'Çene uzunluğu',teeth:'Diş uzunluğu',lips:'Dudak uzunluğu',per:'Periyot',dev:'Sapma',k1:'Kısa periyot',k2:'Orta periyot',k3:'Uzun periyot',streak:'Seri RSI uzunluğu',rank:'Yüzde sıra uzunluğu',wma:'WMA uzunluğu',long:'Uzun uzunluk',short:'Kısa uzunluk',ch:'Kanal uzunluğu',avg:'Ortalama uzunluğu',kcm:'Keltner çarpanı',len:'Uzunluk',mult:'Std. sapma / çarpan',atr:'ATR uzunluğu',fast:'Hızlı uzunluk',slow:'Yavaş uzunluk',sig:'Sinyal uzunluğu',k:'%K uzunluğu',d:'%D yumuşatma',smooth:'Yumuşatma',rsi:'RSI uzunluğu',stoch:'Stokastik uzunluk',conv:'Dönüşüm hattı',base:'Taban hattı',span:'Öncü B uzunluğu',disp:'Kaydırma',start:'Başlangıç',inc:'Artış',max:'Maksimum',fac:'Faktör',ma:'Hacim ortalaması'};
-const CATS={fav:'★ Favoriler',tpl:'Şablonlarım',all:'Tümü',trend:'Trend',osc:'Osilatörler',vol:'Hacim',vola:'Volatilite',fut:'Vadeli verileri'};
+const CATS={fav:'★ Favoriler',tpl:'Şablonlarım',all:'Tümü',trend:'Trend',osc:'Osilatörler',vol:'Hacim',vola:'Volatilite',fut:'Vadeli verileri',strat:'Stratejiler'};
 const STYK=['c','w','ls','pt','pv','lv','sl','sv','si','dp','vis'];
 const newInst=(id,extra={})=>{const df=S.indDef[id]||{};const o={u:uid(),id,p:{...DEF[id].p,...(df.p||{})},c:{},hide:false};STYK.forEach(k=>{if(df[k]!=null)o[k]=clone(df[k])});o.c=o.c||{};return{...o,...extra,p:{...o.p,...(extra.p||{})},c:{...o.c,...(extra.c||{})}}};
 const tfGroup=()=>{const s=TFSEC[S.tf]||60;return s<3600?'m':s<86400?'h':s<604800?'d':s<2592000?'w':'M'};
@@ -1433,6 +1538,7 @@ function addPlot(chart,pl,inst,def){
  if(def.big)b.priceFormat={type:'volume'};
  else if(!pl.scale){const dp=indDp(inst,def);b.priceFormat={type:'price',precision:dp,minMove:1/10**dp}}
  if(pl.t==='hist')return chart.addHistogramSeries({...b,color:col});
+ if(pl.t==='ohlc')return chart.addCandlestickSeries({...b,upColor:S.set.up||GRN,downColor:S.set.down||RED,borderVisible:false,wickUpColor:S.set.up||GRN,wickDownColor:S.set.down||RED});
  const lw=+(inst.w?.[pl.k]||pl.w||1),lsty=+(inst.ls?.[pl.k]||0);
  if(pt==='dots')return chart.addLineSeries({...b,color:col,lineVisible:false,pointMarkersVisible:true,pointMarkersRadius:Math.max(2,lw+1)});
  return chart.addLineSeries({...b,color:col,lineWidth:lw,lineStyle:lsty,lineType:pt==='step'?1:0});
@@ -1474,13 +1580,13 @@ function rebuildInds(){
 function fitPanes(){const n=subs.length;if(!n)return;const avail=($('#center').clientHeight-30)*.6;subs.forEach(p=>{const inst=S.inds.find(i=>i.u===p.u);const want=inst?.h||(innerWidth<700?100:130);p.el.style.height=Math.max(48,Math.min(want,avail/n))+'px'})}
 addEventListener('resize',()=>fitPanes());
 function srcOf(d){return{t:d.map(c=>c.time),o:d.map(c=>c.open),h:d.map(c=>c.high),l:d.map(c=>c.low),c:d.map(c=>c.close),v:d.map(c=>c.volume),tb:d.map(c=>c.tb)}}
-function toPts(arr,off,cols,pl){const o=[];let started=false;for(let i=0;i<arr.length;i++){const j=i+off;if(j<0)continue;const v=arr[i];
+function toPts(arr,off,cols,pl){if(pl.t==='ohlc'){const o=[];arr.forEach((v,i)=>{if(v&&i+off>=0)o.push({time:timeAt(i+off),open:v[0],high:v[1],low:v[2],close:v[3]})});return o}const o=[];let started=false;for(let i=0;i<arr.length;i++){const j=i+off;if(j<0)continue;const v=arr[i];
  if(v==null||!isFinite(v)){if(pl.gap&&started)o.push({time:timeAt(j)});continue}started=true;const p={time:timeAt(j),value:v};if(cols&&cols[i])p.color=cols[i];o.push(p)}return o}
 function computeAll(full){
  const d=S.data;if(!d.length)return;const x=srcOf(d),n=d.length;
  for(const u in R){const r=R[u];let out;try{out=r.def.f(x,r.inst.p)}catch(e){console.error(e);continue}r.out=out;
   r.def.pl.forEach(pl=>{const s=r.series[pl.k],arr=out[pl.k];if(!s||!arr)return;const off=pl.off?pl.off(r.inst.p):0,cols=pl.t==='hist'&&r.inst.c?.[pl.k]?null:out[pl.k+'C'];
-   if(full||r.def.full){s.setData(toPts(arr,off,cols,pl));return}
+   if(full||r.def.full||pl.t==='ohlc'){s.setData(toPts(arr,off,cols,pl));return}
    const i=n-1,j=i+off;if(j<0)return;const v=arr[i];
    try{if(v==null||!isFinite(v)){if(pl.gap)s.update({time:timeAt(j)})}else{const p={time:timeAt(j),value:v};if(cols&&cols[i])p.color=cols[i];s.update(p)}}
    catch(e){s.setData(toPts(arr,off,cols,pl))}})}
@@ -1492,7 +1598,7 @@ let ctTimer=null;
 function computeSoon(){if(ctTimer)return;ctTimer=setTimeout(()=>{ctTimer=null;computeAll(false);if(S.hover==null)legend()},200)}
 
 // ---------------- lejant ----------------
-function valAt(r,pl,i){const off=pl.off?pl.off(r.inst.p):0,arr=r.out?.[pl.k];if(!arr)return null;const v=arr[i-off];return v==null||!isFinite(v)?null:v}
+function valAt(r,pl,i){const off=pl.off?pl.off(r.inst.p):0,arr=r.out?.[pl.k];if(!arr)return null;const v=arr[i-off];if(Array.isArray(v))return v[3];return v==null||!isFinite(v)?null:v}
 function indRow(r,i){const def=r.def,inst=r.inst,ps=def.inp||inst.si===false?'':Object.values(inst.p).join(' ');
  const dp=indDp(inst,def);
  const vals=inst.sv===false?'':def.pl.map(pl=>{const v=valAt(r,pl,i);const col=(pl.t==='hist'&&r.out?.[pl.k+'C']?.[i-(pl.off?pl.off(inst.p):0)])||inst.c?.[pl.k]||pl.c;return v==null?'':`<span class="vv" style="color:${esc(col)}">${def.big?fmtBig(v):fmt(v,dp)}</span>`}).join(' ');
@@ -1908,9 +2014,10 @@ function gOf(d,sel,pv){
   case'up':case'down':{const s=16+w*2,k=d.type==='up'?1:-1,x=p0.x,y=p0.y;b=`<polygon class="f" fill="${col}" points="${x},${y} ${x-s/2},${y+k*s*.6} ${x-s/5},${y+k*s*.6} ${x-s/5},${y+k*s*1.3} ${x+s/5},${y+k*s*1.3} ${x+s/5},${y+k*s*.6} ${x+s/2},${y+k*s*.6}"/>`+lab(x,y+k*s*1.3,'middle',k>0?fs+2:-4);hd=[];break}
   case'long':case'short':{if(P.length<3)break;const x1=Math.min(p0.x,p1.x),x2=Math.max(p0.x,p1.x),E=d.pts[0].p,Tg=d.pts[1].p,Sp=d.pts[2].p;
    const tp=(Tg-E)/E*100,sp=(Sp-E)/E*100,rr=Math.abs(E-Sp)?Math.abs(Tg-E)/Math.abs(E-Sp):0,cx=(x1+x2)/2,up=p1.y<p0.y;
-   b=Rc(x1,p0.y,x2,p1.y,'#089981',.22)+Rc(x1,p0.y,x2,p2.y,'#f23645',.22)+L(x1,p0.y,x2,p0.y,'#787b86',1,'');
-   b+=priceBox(cx,p1.y+(up?-12:12),`Hedef: ${fmt(Tg)} (${pct(tp)})`,'#089981','mid')+priceBox(cx,p2.y+(up?12:-12),`Stop: ${fmt(Sp)} (${pct(sp)})`,'#f23645','mid')
-    +priceBox(cx,p0.y+(up?-12:12)*(Math.abs(p1.y-p0.y)>34?1:-1),`${Tg>=E?'Uzun':'Kısa'} · Risk/Ödül ${fmt(rr,2)}`,'#5d6573','mid');
+   const pc=st.pc||'#089981',lc=st.lc||'#f23645',po=st.po??.22,bd=st.bd?1:0,lo=st.lo??1,ec=st.ec||'#787b86';
+   b=Rc(x1,p0.y,x2,p1.y,pc,po,bd?pc:'none',bd?1:0)+Rc(x1,p0.y,x2,p2.y,lc,po,bd?lc:'none',bd?1:0)+L(x1,p0.y,x2,p0.y,ec,st.ew||1,'');
+   if(st.lb!==false&&lo>0)b+=`<g opacity="${lo}">`+(st.lt!==false?priceBox(cx,p1.y+(up?-12:12),`Hedef: ${fmt(Tg)} (${pct(tp)})`,pc,'mid'):'')+(st.ls!==false?priceBox(cx,p2.y+(up?12:-12),`Stop: ${fmt(Sp)} (${pct(sp)})`,lc,'mid'):'')
+    +(st.lr!==false?priceBox(cx,p0.y+(up?-12:12)*(Math.abs(p1.y-p0.y)>34?1:-1),`${Tg>=E?'Uzun':'Kısa'} · Risk/Ödül ${fmt(rr,2)}`,st.rc||'#5d6573','mid'):'')+'</g>';
    hd=[[p0.x,p0.y,0],[p1.x,p1.y,1],[p0.x,p2.y,2]];break}
   case'measure':{if(!p1)break;const a=d.pts[0],z=d.pts[1],dp=z.p-a.p,pc=dp/a.p*100,bars=Math.round(t2l(z.t)-t2l(a.t)),c2=dp>=0?'#2962ff':'#f23645',mx=(p0.x+p1.x)/2,my=(p0.y+p1.y)/2;
    b=Rc(p0.x,p0.y,p1.x,p1.y,c2,fo)+L(mx,p0.y,mx,p1.y,c2,1,'')+L(p0.x,my,p1.x,my,c2,1,'');
@@ -2166,11 +2273,26 @@ function toolsDlg(){dialog('Tüm çizim araçları',`<input id="tsq" class="tsq"
 function drawSettings(d){const st={...defSt(d.type),...(d.st||{})},isT=TXT.includes(d.type),bak=clone(d);
  const body=`<div class="dtabs"><button data-dt="s" class="on">Stil</button><button data-dt="t">Metin</button>${d.pts.length?'<button data-dt="k">Koordinatlar</button>':''}</div>
  <div class="dsec on" data-sec="s">
+  <div${POST.includes(d.type)?' hidden':''}>
   <div class="fld"><label for="dsC">Çizgi rengi</label><input id="dsC" type="color" value="${esc(st.c)}"></div>
   <div class="fld"><label for="dsW">Kalınlık</label><select id="dsW">${[1,2,3,4].map(w=>`<option${st.w===w?' selected':''}>${w}</option>`).join('')}</select></div>
-  <div class="fld"><label for="dsS">Çizgi stili</label><select id="dsS">${['Düz','Kesikli','Noktalı'].map((n,i)=>`<option value="${i}"${(st.s||0)===i?' selected':''}>${n}</option>`).join('')}</select></div>
+  <div class="fld"><label for="dsS">Çizgi stili</label><select id="dsS">${['Düz','Kesikli','Noktalı'].map((n,i)=>`<option value="${i}"${(st.s||0)===i?' selected':''}>${n}</option>`).join('')}</select></div></div>
   ${FILLT.includes(d.type)?`<div class="fld"><label for="dsF">Dolgu rengi</label><input id="dsF" type="color" value="${esc(st.f||st.c)}"></div><div class="fld"><label for="dsO">Dolgu opaklığı</label><input id="dsO" type="range" min="0" max="100" value="${Math.round((st.o??DEFO[d.type]??.15)*100)}"></div>`:''}
   ${(EXTT[d.type]||[]).map(k=>`<label class="ck"><input type="checkbox" id="ds_${k}"${st[k]?' checked':''}>${k==='xl'?'Sola uzat':'Sağa uzat'}</label>`).join('')}
+  ${POST.includes(d.type)?`<div class="psh">Pozisyon görünümü</div>
+  <div class="fld"><label for="psPC">Kâr bölgesi rengi</label><input id="psPC" type="color" value="${esc(st.pc||'#089981')}"></div>
+  <div class="fld"><label for="psLC">Zarar bölgesi rengi</label><input id="psLC" type="color" value="${esc(st.lc||'#f23645')}"></div>
+  <div class="fld"><label for="psPO">Bölge saydamlığı</label><input id="psPO" type="range" min="0" max="100" value="${Math.round((st.po??.22)*100)}"></div>
+  <label class="ck"><input type="checkbox" id="psBD"${st.bd?' checked':''}>Bölgelere kenarlık çiz</label>
+  <div class="fld"><label for="psEC">Giriş çizgisi rengi</label><input id="psEC" type="color" value="${esc(st.ec||'#787b86')}"></div>
+  <div class="fld"><label for="psEW">Giriş çizgisi kalınlığı</label><select id="psEW">${[1,2,3,4].map(w=>`<option${(st.ew||1)===w?' selected':''}>${w}</option>`).join('')}</select></div>
+  <div class="psh">Etiketler</div>
+  <div class="fld"><label for="psLO">Etiket saydamlığı</label><input id="psLO" type="range" min="0" max="100" value="${Math.round((st.lo??1)*100)}"></div>
+  <div class="fld"><label for="psRC">Risk/Ödül etiketi rengi</label><input id="psRC" type="color" value="${esc(st.rc||'#5d6573')}"></div>
+  <label class="ck"><input type="checkbox" id="psLT"${st.lt!==false?' checked':''}>Hedef etiketini göster</label>
+  <label class="ck"><input type="checkbox" id="psLS"${st.ls!==false?' checked':''}>Stop etiketini göster</label>
+  <label class="ck"><input type="checkbox" id="psLR"${st.lr!==false?' checked':''}>Risk/Ödül etiketini göster</label>
+  <div class="pspr">${[['Klasik','#089981','#f23645',22],['Neon','#00e5ff','#ff2d95',30],['Altın','#f7a600','#9c27b0',25],['Pastel','#7ed6b5','#f4a7b0',35],['Mono','#9aa0aa','#5d6573',18],['Hayalet','#089981','#f23645',6]].map(([n,a,b2,o])=>`<button type="button" class="btn g" data-pspr="${a},${b2},${o}"><i style="background:${a}"></i><i style="background:${b2}"></i>${n}</button>`).join('')}</div>`:''}
  </div>
  <div class="dsec" data-sec="t">
   <div class="fld" style="grid-template-columns:1fr"><textarea id="dsT" rows="3" placeholder="${isT?'Metin':'Çizim üzerinde gösterilecek yazı (ör. FVG, Destek)'}">${esc(isT?d.text:d.label||'')}</textarea></div>
@@ -2179,12 +2301,15 @@ function drawSettings(d){const st={...defSt(d.type),...(d.st||{})},isT=TXT.inclu
  </div>
  <div class="dsec" data-sec="k">${d.pts.map((q,i)=>`<div class="fld"><label for="dk_${i}">${i+1}. nokta fiyatı</label><input id="dk_${i}" type="number" step="any" value="${(+q.p).toFixed(S.prec)}"></div>`).join('')}<p style="color:var(--mu);font-size:12px">Zaman: ${d.pts.map(q=>esc(fmtTime(q.t))).join(' → ')}</p></div>`;
  const apply=()=>{d.st={...st,c:$('#dsC').value,w:+$('#dsW').value,s:+$('#dsS').value};if($('#dsF')){d.st.f=$('#dsF').value;d.st.o=+$('#dsO').value/100}
+  if($('#psPC')){Object.assign(d.st,{pc:$('#psPC').value,lc:$('#psLC').value,po:+$('#psPO').value/100,bd:$('#psBD').checked,ec:$('#psEC').value,ew:+$('#psEW').value,lo:+$('#psLO').value/100,rc:$('#psRC').value,lt:$('#psLT').checked,ls:$('#psLS').checked,lr:$('#psLR').checked})}
   (EXTT[d.type]||[]).forEach(k=>d.st[k]=$('#ds_'+k).checked);d.st.tc=$('#dsTC').value;d.st.fs=+$('#dsFS').value;
   const t=$('#dsT').value.trim();if(isT){if(t)d.text=t}else d.label=t;d.pts.forEach((q,i)=>{const v=parseFloat($('#dk_'+i)?.value);if(isFinite(v))q.p=v});dirty()};
  const restore=()=>{Object.assign(d,clone(bak));dirty()};
  dialog((TOOLS[d.type]||'Çizim')+' ayarları',body,[{t:'Varsayılan yap',cls:'g',left:1,keep:1,f:()=>{apply();const o={...d.st};S.dstyle[d.type]=o;ls.set('dstyle',S.dstyle);toast('Varsayılan kaydedildi','Yeni '+(TOOLS[d.type]||'çizim')+' çizimleri bu stille gelecek.','',3000);return false}},
   {t:'İptal',cls:'g',f:restore},{t:'Tamam',f:()=>{const now=clone(d);Object.assign(d,clone(bak));snap();Object.assign(d,now);saveDraws();dirty()}}],'md',restore);
- $('#dlgB').addEventListener('input',apply);$('#dlgB').addEventListener('change',apply)}
+ $('#dlgB').addEventListener('input',apply);$('#dlgB').addEventListener('change',apply);
+ $('#dlgB').addEventListener('click',e=>{const q=e.target.closest('[data-pspr]');if(!q)return;const[a,b2,o]=q.dataset.pspr.split(',');$('#psPC').value=a;$('#psLC').value=b2;$('#psPO').value=o;['#psPC','#psLC'].forEach(k=>$(k).dispatchEvent(new Event('input',{bubbles:true})));apply()})}
+const POST=['long','short'];
 function finish(){const d=S.pending;S.pending=null;if(!d)return;
  if(d.type==='long'||d.type==='short'){const e=d.pts[0],k=d.type==='long'?1:-1,tEnd=l2t(t2l(e.t)+25);d.pts=[e,{t:tEnd,p:e.p*(1+k*.02)},{t:e.t,p:e.p*(1-k*.01)}]}
  if((d.type==='channel'||d.type==='fibch')&&d.pts.length===3){const[a,b,c]=d.pts,la=t2l(a.t),lb=t2l(b.t),lc=t2l(c.t),onLine=lb===la?a.p:a.p+(b.p-a.p)*(lc-la)/(lb-la);d.pts[2]={t:a.t,p:a.p+(c.p-onLine)}}
@@ -2814,10 +2939,10 @@ addEventListener('resize',()=>{if($('#tourc').classList.contains('show')){tourI-
 
 // ================= v7: zengin gösterge / sembol / ayar arayüzleri =================
 const CATC={trend:'#2962ff',osc:'#ab47bc',vol:'#089981',vola:'#ff9800',fut:'#f7a600'};
-const ICATS=[['fav','Favoriler','star'],['rec','Son kullanılanlar','clock'],['pop','Popüler','hot'],['all','Tümü','list'],['trend','Trend','trend'],['osc','Osilatörler','sine'],['vol','Hacim','frvp'],['vola','Volatilite','channel'],['fut','Vadeli verileri','liq'],['tpl','Şablonlarım','note']];
-const POPI=['rsi','macd','ema','sma','bb','vwap','st','ichi','stoch','srsi','smc','vrvp','kzp','liqmap','atr','adx','obv','wt','sqz','utbot','techr','cvd','fvg','psar'];
-const NEWI=new Set([...DEFS4.map(d=>d.id),'liqmap']);
-const DESC={sma:'Belirli sayıda mumun basit ortalaması. Trend yönünü ve dinamik destek/direnci gösterir.',ema:'Son fiyatlara daha fazla ağırlık veren hareketli ortalama. Trendi SMA\'dan daha hızlı yakalar.',
+const ICATS=[['fav','Favoriler','star'],['rec','Son kullanılanlar','clock'],['pop','Popüler','hot'],['all','Tümü','list'],['trend','Trend','trend'],['osc','Osilatörler','sine'],['vol','Hacim','frvp'],['vola','Volatilite','channel'],['fut','Vadeli verileri','liq'],['strat','Stratejiler','play'],['tpl','Şablonlarım','note']];
+const POPI=['rsi','macd','ema','ema4','sma','bb','stk','ces','chartp','bos','twin','vwap','st','ichi','stoch','srsi','smc','vrvp','kzp','liqmap','atr','adx','obv','wt','sqz','utbot','techr','cvd','fvg','psar'];
+const NEWI=new Set([...DEFS5.map(d=>d.id),'liqmap']);
+const DESC={ema4:'20, 50, 100 ve 200 periyotluk dört EMA tek göstergede. Trend hiyerarşisini ve dinamik destek/dirençleri bir bakışta gösterir.',bos:"Yalnızca piyasa yapısı: BOS (yapı kırılımı) ve CHoCH (karakter değişimi) etiketleri. SMC'nin sade hâli.",ces:'ATR tabanlı iz süren stop. Fiyat stopu kırınca yön değişir, AL/SAT etiketi çıkar; geriye dönük test sonucu lejantta.',fayt:'Ağırlıklı ortalama etrafında sapma bantları; banttan içeri dönüşlerde sinyal verir (orijinal koda benzer mantıkla yeniden yazıldı).',fgt:'Son mumlara oturtulan regresyon trendini geleceğe uzatır ve sapma kanalı çizer (benzer mantıkla yeniden yazıldı).',salma:'RedK SALMA: çift yumuşatılmış ağırlıklı ortalama. Gürültüyü atar, yön değişince renk değiştirir.',rsib:"RSI'ın 70/30 seviyesine ulaşması için fiyatın gitmesi gereken seviyeleri grafik üstünde bant olarak çizer.",rsipb:'Fiyatın RSI bantları içindeki konumu (0 = alt bant, 1 = üst bant).',rsibw:'RSI bantları arasındaki genişlik (%). Daralma, sert hareket öncesi sıkışmaya işaret eder.',rsic:'RSI değerini mum olarak çizer: açılış önceki RSI, kapanış güncel RSI.',stk:"Kıvanç Özbilgiç'in SuperTrend'i: ATR tabanlı trend çizgisi, yön değişiminde AL/SAT etiketi ve geriye dönük test sonucu.",swsr:'Swing tepe ve diplerinden yatay destek/direnç seviyeleri çizer; kırılınca isteğe göre gizler.',tlbt:"Kırılımlı trend çizgileri; her kırılımda ATR'ye göre hedef ve stop seviyesi çizer.",twin:'İki farklı hızdaki aralık filtresinin ortalaması. Gürültüsüz trend çizgisi ve AL/SAT sinyalleri.',wtc:'WaveTrend osilatörü; WT1/WT2 kesişimlerini noktalarla işaretler.',chartp:'İkili tepe/dip, OBO/TOBO, üçgen, kama ve kanal formasyonlarını pivotlardan otomatik bulur ve çizer.',bbs:'Fiyat alt banttan yukarı kesince AL, üst banttan aşağı kesince SAT. İşlem sayısı, kazanma oranı, net kâr ve maks. düşüş lejantta.',bbvp:'Boğa/ayı gücü sıfırı keserken hacim yüksekse işlem açar, ATR tabanlı kâr al uygular (benzer mantıkla yeniden yazıldı).',vegas:'Volatiliteye göre çarpanı uyarlanan SuperTrend stratejisi (benzer mantıkla yeniden yazıldı).',rsis:'RSI aşırı satımdan yukarı çıkınca AL, aşırı alımdan aşağı inince SAT; geriye dönük test sonucuyla.',macds:'MACD histogramı sıfırı yukarı kesince AL, aşağı kesince SAT; geriye dönük test sonucuyla.',maxs:'Hızlı ortalama yavaşı yukarı kesince AL, aşağı kesince SAT; ortalama türü seçilebilir.',sma:'Belirli sayıda mumun basit ortalaması. Trend yönünü ve dinamik destek/direnci gösterir.',ema:'Son fiyatlara daha fazla ağırlık veren hareketli ortalama. Trendi SMA\'dan daha hızlı yakalar.',
  wma:'Doğrusal ağırlıklı ortalama; yeni mumlar daha etkili.',hma:'Gecikmesi çok düşük, yumuşak Hull ortalaması.',vwma:'Hacimle ağırlıklandırılmış ortalama.',bb:'Ortalama ± standart sapma bantları. Volatilite daralması ve aşırı uzamaları gösterir.',
  kc:'ATR tabanlı kanal; trend ve kırılım takibi için.',dc:'Belirli dönemin en yüksek ve en düşük seviyeleri.',ichi:'Trend, momentum ve destek/direnci tek bakışta veren Ichimoku bulutu.',psar:'Trend yönünde ilerleyen iz süren stop noktaları.',
  st:'ATR tabanlı trend takip çizgisi; renk değişimi yön değişimini gösterir.',vwap:'Günlük hacim ağırlıklı ortalama fiyat; kurumsal referans seviyesi.',piv:'Önceki günün yüksek/düşük/kapanışına göre destek ve direnç seviyeleri.',vol:'Her mumun işlem hacmi.',
