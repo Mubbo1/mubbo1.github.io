@@ -1447,7 +1447,7 @@ function fillNames(){const nm={};S.syms.forEach(x=>{if(x.nm&&!/[\/]/.test(x.nm)&
 const EXL={
  BY:async()=>{const g=c=>getJSON(`https://api.bybit.com/v5/market/instruments-info?category=${c}&limit=1000`);const[li,sp,tl,ts]=await Promise.all([g('linear'),g('spot'),getJSON('https://api.bybit.com/v5/market/tickers?category=linear'),getJSON('https://api.bybit.com/v5/market/tickers?category=spot')]);
   const L=[];(li.result?.list||[]).filter(s=>s.status==='Trading'&&s.contractType==='LinearPerpetual'&&/USDT|USDC/.test(s.quoteCoin)).forEach(s=>{const st=(s.symbolType||'').toLowerCase(),trad=['stock','etf','forex','commodity'].includes(st),base=(s.underlyingTicker||s.baseCoin||'').replace(/USDT$/,''),cat=trad?(st==='forex'?'forex':st==='commodity'?'commodity':tradCat(base,st==='etf'?'ETF':'')):'perp';
-   L.push({k:'BY:'+s.symbol,s:s.symbol,id:s.symbol,b:trad?base:s.baseCoin,q:s.quoteCoin,m:'BY',prec:precOfTick(s.priceFilter?.tickSize),cat,nm:trad?(s.fullName&&s.fullName!==s.symbol?s.fullName:tradName(base,cat)):''})});
+   L.push({k:'BY:'+s.symbol,s:s.symbol,id:s.symbol,b:trad?base:s.baseCoin,q:s.quoteCoin,m:'BY',prec:precOfTick(s.priceFilter?.tickSize),cat,nm:trad?(cat==='forex'||cat==='commodity'?tradName(base,cat)||s.fullName:(s.fullName&&s.fullName!==s.symbol?s.fullName:'')):''})});
   (sp.result?.list||[]).filter(s=>s.status==='Trading'&&/^(USDT|USDC|BTC|ETH|EUR)$/.test(s.quoteCoin)).forEach(s=>L.push({k:'BYS:'+s.symbol,s:s.symbol,id:s.symbol,b:s.baseCoin,q:s.quoteCoin,m:'BYS',prec:precOfTick(s.priceFilter?.tickSize),cat:'crypto'}));
   addSyms(L);EXT.BY(tl);EXT.BYS(ts)},
  OK:async()=>{const g=t=>getJSON(`https://www.okx.com/api/v5/public/instruments?instType=${t}`);const[sw,sp]=await Promise.all([g('SWAP'),g('SPOT')]);const L=[];
@@ -1473,7 +1473,7 @@ async function pollEx(){if(!exLoaded||document.hidden)return;const used=new Set(
 setInterval(pollEx,15000);
 // ---- WebSocket yardımcı (otomatik yeniden bağlanma + ping) ----
 function wsOpen(url,sub,onMsg,ping,pingMs){const h={dead:false,ws:null,onclose:null,close(){this.dead=true;clearInterval(this.pi);try{this.ws&&this.ws.close()}catch(e){}}};
- const go=()=>{if(h.dead)return;const w=new WebSocket(url);h.ws=w;w.onopen=()=>{w.send(JSON.stringify(sub));clearInterval(h.pi);h.pi=setInterval(()=>{try{w.send(ping)}catch(e){}},pingMs)};
+ const go=()=>{if(h.dead)return;const w=new WebSocket(url);h.ws=w;w.onopen=()=>{w.send(JSON.stringify(sub));h.onlive&&h.onlive();clearInterval(h.pi);h.pi=setInterval(()=>{try{w.send(ping)}catch(e){}},pingMs)};
   w.onmessage=e=>{if(typeof e.data!=='string'||e.data==='pong')return;let j;try{j=JSON.parse(e.data)}catch(_){return}onMsg(j)};w.onclose=()=>{clearInterval(h.pi);if(!h.dead)setTimeout(go,2500)}};go();return h}
 // ---- mum verisi adaptörleri ----
 const bySub=cat=>({tf:{'1m':'1','3m':'3','5m':'5','15m':'15','30m':'30','1h':'60','2h':'120','4h':'240','6h':'360','12h':'720','1d':'D','1w':'W','1M':'M'},per:1000,
@@ -1491,7 +1491,7 @@ const BGA={tf:{'1m':'1m','3m':'3m','5m':'5m','15m':'15m','30m':'30m','1h':'1H','
  ws(id,tf,cb){return wsOpen('wss://ws.bitget.com/v2/ws/public',{op:'subscribe',args:[{instType:'USDT-FUTURES',channel:'candle'+this.tf[tf],instId:id}]},m=>{if(!m.arg||!Array.isArray(m.data))return;m.data.forEach(r=>cb(this.row(r)))},'ping',25000)}};
 const BNA=m=>({tf:Object.fromEntries(['1m','3m','5m','15m','30m','1h','2h','4h','6h','8h','12h','1d','3d','1w','1M'].map(t=>[t,t])),per:m==='F'?1500:1000,
  async k(id,tf,lim,end){const j=await getJSON(`${REST[m]}/klines?symbol=${id}&interval=${tf}&limit=${Math.min(lim,this.per)}${end?'&endTime='+(end*1000-1):''}`);if(!Array.isArray(j))throw 0;return j.map(k2c)},
- ws(id,tf,cb){const h={dead:false,ws:null,onclose:null,close(){this.dead=true;try{this.ws.close()}catch(e){}}};const go=()=>{if(h.dead)return;const w=new WebSocket(`${WSB[m]}${id.toLowerCase()}@kline_${tf}`);h.ws=w;
+ ws(id,tf,cb){const h={dead:false,ws:null,onclose:null,close(){this.dead=true;try{this.ws.close()}catch(e){}}};const go=()=>{if(h.dead)return;const w=new WebSocket(`${WSB[m]}${id.toLowerCase()}@kline_${tf}`);h.ws=w;w.onopen=()=>h.onlive&&h.onlive();
   w.onmessage=e=>{let k;try{k=JSON.parse(e.data).k}catch(_){return}if(k)cb({time:k.t/1000,open:+k.o,high:+k.h,low:+k.l,close:+k.c,volume:+k.v,tb:+k.V})};w.onclose=()=>{if(!h.dead)setTimeout(go,3000)}};go();return h}});
 const AD={F:BNA('F'),S:BNA('S'),BY:bySub('linear'),BYS:bySub('spot'),OK:okSub(true),OKS:okSub(false),BG:BGA};
 const idOf=k=>symOf(k)?.id||mk(k).s;
@@ -1549,7 +1549,7 @@ async function loadMore(){
 }
 function openKline(){
  if(S.kws){S.kws.onclose=null;try{S.kws.close()}catch(e){}}
- if(!isBin(S.key)||!AD[mk(S.key).m].tf[S.tf]){const key=S.key,tf=S.tf;let got=false;setStatus(1,'bağlanıyor');S.kws=subK(key,tf,c=>{if(key!==S.key||tf!==S.tf)return;if(!got){got=true;setStatus(1,'canlı')}onKc(key,c)});return}
+ if(!isBin(S.key)||!AD[mk(S.key).m].tf[S.tf]){const key=S.key,tf=S.tf;let got=false;setStatus(1,'bağlanıyor');const hh=subK(key,tf,c=>{if(key!==S.key||tf!==S.tf)return;if(!got){got=true;setStatus(1,'canlı')}onKc(key,c)});hh.onlive=()=>{if(S.kws===hh)setStatus(1,'canlı')};S.kws=hh;return}
  const key=S.key,tf=S.tf,{m,s}=mk(key),ws=new WebSocket(`${WSB[m]}${s.toLowerCase()}@kline_${tf}`);S.kws=ws;
  ws.onopen=()=>setStatus(1,'bağlandı');let gotMsg=false;const wd=setTimeout(()=>{if(!gotMsg&&S.kws===ws){if(m==='F')wsFi=(wsFi+1)%WSF.length;try{ws.close()}catch(e){}}},15000);
  ws.onmessage=e=>{if(!gotMsg){gotMsg=true;clearTimeout(wd);setStatus(1,'canlı')}let k;try{k=JSON.parse(e.data).k}catch(_){return}if(!k||key!==S.key||tf!==S.tf)return;
@@ -1635,7 +1635,7 @@ let qMode='pick',qSel=0,qM='',qE='';
 function openSym(mode,initial=''){qMode=mode;$('#mSymT').textContent=mode==='add'?'İzleme listesine ekle':mode==='cmp'?'Sembol karşılaştır':mode.startsWith('mc')?'Grafik '+(+mode.slice(2)+2)+' için sembol':'Sembol ara';openModal('mSym');$('#q').value=initial;qSel=0;renderQ();setTimeout(()=>$('#q').focus(),20)}
 function qItems(){const raw=trN($('#q').value.trim()),q=$('#q').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');
  let a=S.syms.filter(s=>(!qM||s.cat===qM)&&(!qE||EXN[s.m]===qE)&&(!q||s.s.includes(q)||(raw.length>2&&s.nm&&trN(s.nm).includes(raw))));
- const vol=s=>(S.tick[s.k]?.q||0)*(/USD/.test(s.q)?1:.3)*(s.m==='F'||s.m==='S'?1.3:1);
+ const STB=/^(USDC|USDT|FDUSD|TUSD|USDP|DAI|BUSD|USD1|USDE|RLUSD|PYUSD|EUR|EURI|AEUR|XUSD|BFUSD)$/,vol=s=>(S.tick[s.k]?.q||0)*(/USD/.test(s.q)?1:.3)*(s.m==='F'||s.m==='S'?1.3:1)*(STB.test(s.b)?.02:1);
  a.sort((x,y)=>{if(q){const ex=(x.b===q?2:x.s.startsWith(q)?1:0),ey=(y.b===q?2:y.s.startsWith(q)?1:0);if(ex!==ey)return ey-ex}return vol(y)-vol(x)});return a.slice(0,100)}
 function renderQ(){const it=qItems();$('#qlist').innerHTML=it.map((s,i)=>{const t=S.tick[s.k],ex=EXN[s.m];return`<div class="li${i===qSel?' sel':''}" data-k="${esc(s.k)}"><span class="qn">${avatar(s.k,22)}<span><b>${esc(s.s)}${isPerp(s.k)?'.P':''}</b> <span class="tag">${esc(CATN[s.cat]||'')}</span><br><small>${esc(s.nm||s.b+' / '+s.q)}</small></span></span><span class="qr"><span class="exb" style="--exc:${EXC[ex]}">${esc(ex)}</span><span class="qp">${t?fmt(t.c,precOf(s.k)):''} <small class="${t&&t.p>=0?'up':'dn'}">${t?pct(t.p):''}</small></span></span></div>`}).join('')||`<div class="empty">${S.syms.length?'Sonuç bulunamadı':'Sembol listesi yükleniyor…'}</div>`;
  if(!exLoaded)$('#qlist').insertAdjacentHTML('beforeend','<div class="empty" style="padding:8px">Bybit, OKX ve Bitget sembolleri yükleniyor…</div>')}
