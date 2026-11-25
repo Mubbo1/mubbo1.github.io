@@ -588,6 +588,44 @@ mark{background:color-mix(in srgb,var(--ac) 35%,transparent);color:inherit;borde
 #area:not(.L1) #center,#area:not(.L1) .mc{border:1px solid var(--ln);border-radius:4px;overflow:hidden}
 #area:not(.L1){gap:3px;background:var(--bg)}
 #layBtn .lbl{margin-left:4px}
+
+#welc h2 .wbig{display:block;font-size:46px;line-height:1;font-weight:900;letter-spacing:-.035em;color:#fff}
+#welc h2 .wbig2{display:block;margin-top:10px;font-size:19px;font-weight:800;letter-spacing:.02em;color:#5b8cff}
+#welc h2 .wbig2 u{text-decoration:none;color:#fff;background:#2962ff;padding:1px 8px;border-radius:6px;margin-left:2px}
+@media(max-width:760px){#welc h2 .wbig{font-size:34px}#welc h2 .wbig2{font-size:15px}}
+
+.nbox{display:flex;align-items:center;gap:11px;padding:11px 12px;border-radius:10px;border:1px solid var(--ln);margin:10px 0 6px;background:var(--hv)}
+.nbox .nbi{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;flex:none}
+.nbox .nbt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;font-size:12.5px;color:var(--mu);line-height:1.4}.nbox .nbt b{color:var(--ink);font-size:13px}
+.nbox.ok .nbi{background:rgba(8,153,129,.18);color:#22b07d}.nbox.ask{border-color:color-mix(in srgb,var(--ac) 50%,var(--ln));background:color-mix(in srgb,var(--ac) 8%,var(--hv))}.nbox.ask .nbi{background:color-mix(in srgb,var(--ac) 22%,transparent);color:var(--ac)}.nbox.no .nbi{background:rgba(242,54,69,.15);color:#f23645}
+.nbox .btn.sm{height:30px;padding:0 12px;font-size:12.5px;flex:none}
+.nask{text-align:center;padding:6px 4px}.nask .nbig{width:64px;height:64px;margin:4px auto 12px;border-radius:18px;display:grid;place-items:center;background:color-mix(in srgb,var(--ac) 18%,transparent);color:var(--ac)}
+.nask h3{margin:0 0 8px;font-size:18px}.nask p{color:var(--mu);font-size:13.5px;line-height:1.55;margin:0 0 12px}.nask ul{text-align:left;margin:0 auto;padding:0;list-style:none;display:grid;gap:7px;font-size:13px;max-width:360px}.nask li::before{content:'✓';color:#22b07d;font-weight:800;margin-right:8px}
+
+.hb.bkb.on{color:#22b07d}
+.bkhead p{margin:0 0 14px;color:var(--mu);font-size:14px;line-height:1.55}.bkhead b{color:var(--ink)}
+.bkgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.bkc{display:flex;align-items:center;gap:12px;padding:14px;border-radius:12px;border:1px solid var(--ln);background:var(--hv);text-align:left;cursor:pointer;transition:border-color .15s,transform .15s;font:inherit;color:var(--ink)}
+.bkc:hover{border-color:var(--ac);transform:translateY(-1px)}.bkc.off{opacity:.5;cursor:default}.bkc.off:hover{transform:none;border-color:var(--ln)}
+.bklg{display:grid;place-items:center;width:40px;height:40px;border-radius:11px;font-weight:900;font-size:18px;border:1px solid var(--ln);flex:none;background:var(--pn)}
+.bkn{flex:1;min-width:0;display:flex;flex-direction:column}.bkn b{font-size:14.5px}.bkn small{color:var(--mu);font-size:12px}
+.bkgo{font-size:12px;color:var(--ac);font-weight:600}
+.bksec{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}.bksec div{padding:12px;border-radius:10px;border:1px solid var(--ln);display:flex;flex-direction:column;gap:5px;font-size:12.5px;color:var(--mu);line-height:1.5}.bksec b{color:var(--ink);font-size:13px}
+.bkfoot{margin:14px 0 0;font-size:13px;color:var(--mu)}.bkfoot a{color:var(--ac)}
+.bkhd{display:flex;align-items:center;gap:12px;margin-bottom:12px}.bkhd b{display:block;font-size:15px}.bkhd small{color:var(--mu);font-size:12px}
+.bksteps{margin:0 0 14px;padding-left:20px;font-size:13px;color:var(--mu);line-height:1.6}.bksteps a{color:var(--ac)}.bksteps b{color:var(--ink)}
+.bkerr{color:#f23645;font-size:12.5px;margin:8px 0 0;min-height:1em}
+.bkwarn{padding:10px 12px;border-radius:10px;background:rgba(247,166,0,.1);border:1px solid rgba(247,166,0,.35);font-size:12.5px;margin-bottom:12px}
+.bkacc{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}.bkacc div{padding:10px;border-radius:10px;border:1px solid var(--ln);display:flex;flex-direction:column;gap:3px}.bkacc small{color:var(--mu);font-size:11.5px}.bkacc b{font-size:15px}
+.bkph{font-size:12px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.05em;margin:4px 0 8px}.bkph b{color:var(--ink);text-transform:none}.bkph small{text-transform:none;font-weight:500}
+.bkpr{display:grid;grid-template-columns:auto auto 1fr auto auto;gap:8px;align-items:center;padding:8px 0;border-top:1px solid var(--ln);font-size:12.5px}
+.bkps{font-size:10.5px;font-weight:800;padding:2px 6px;border-radius:5px}.bkps.l{background:rgba(8,153,129,.18);color:#22b07d}.bkps.s{background:rgba(242,54,69,.15);color:#f23645}
+.bkof{margin-top:14px;padding-top:12px;border-top:1px solid var(--ln)}
+.bkside{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}.bkside button{height:40px;border-radius:9px;font:inherit;font-weight:800;border:1px solid var(--ln);background:var(--hv);color:var(--mu);cursor:pointer}
+.bkside .l.on{background:#089981;border-color:#089981;color:#fff}.bkside .s.on{background:#f23645;border-color:#f23645;color:#fff}
+.bkcalc{font-size:12.5px;color:var(--mu);margin:6px 0 0}
+@media(max-width:700px){.bksec,.bkacc{grid-template-columns:1fr}.bkpr{grid-template-columns:auto 1fr auto;}.bkpr span:nth-child(3){display:none}}
+.lwc{font-size:10.5px;color:var(--mu);opacity:.6;white-space:nowrap;padding:0 6px;text-decoration:none}.lwc:hover{opacity:1;color:var(--ink)}@media(max-width:700px){.lwc{font-size:9.5px;padding:0 3px}}
 </style>
 </head>
 <body>
@@ -611,6 +649,7 @@ mark{background:color-mix(in srgb,var(--ac) 35%,transparent);color:inherit;borde
  <button class="hb" id="redoBtn" title="Yinele (Ctrl+Y)"><i data-ic="redo"></i></button>
  <div class="grow"></div>
  <button class="hb cmdb" id="cmdBtn" title="Her şeyi ara: sembol, gösterge, çizim aracı, işlem (Ctrl+K)"><i data-ic="search"></i><span class="lbl">Ara</span><kbd>Ctrl K</kbd></button>
+ <button class="hb bkb" id="bkBtn" title="Borsa hesabını bağla (canlı işlem)"><svg class="i" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 7V3M15 7V3M7 7h10v4a5 5 0 01-10 0zM12 16v5"/></svg><span class="lbl">Borsa bağla</span></button>
  <button class="hb" id="demoBtn" title="Demo hesap (sanal al-sat)"><i data-ic="wallet"></i><span class="lbl" id="demoEq">Demo</span></button>
  <button class="hb" id="favBtn" title="Favori araçlar çubuğunu göster/gizle"><i data-ic="star"></i></button>
  <button class="hb" id="cfgBtn" title="Grafik ayarları ve temalar"><i data-ic="gear"></i></button>
@@ -913,7 +952,7 @@ const pf=()=>({type:'price',precision:S.prec,minMove:1/10**S.prec});
 // ---------------- grafikler ----------------
 function wmText(){return `${lbl(S.key)} · ${TFS.find(t=>t[0]===S.tf)?.[1]||''}`}
 function chartOpts(sub,fmtDp){const s=S.set,dark=lum(s.bg)<.5,border=dark?'#262c38':'#d1d4dc',lb=dark?'#363c4e':'#131722',T='rgba(0,0,0,0)';
- return{layout:{background:s.wall&&(!sub||s.wSubs!==false)?{type:'solid',color:'rgba(0,0,0,0)'}:s.bg2?{type:'gradient',topColor:s.bg,bottomColor:s.bg2}:{type:'solid',color:s.bg},attributionLogo:!sub,textColor:s.text,fontFamily:`${S.ui?.font||'Inter'},system-ui,sans-serif`,fontSize:s.fs||11},
+ return{layout:{background:s.wall&&(!sub||s.wSubs!==false)?{type:'solid',color:'rgba(0,0,0,0)'}:s.bg2?{type:'gradient',topColor:s.bg,bottomColor:s.bg2}:{type:'solid',color:s.bg},attributionLogo:false,textColor:s.text,fontFamily:`${S.ui?.font||'Inter'},system-ui,sans-serif`,fontSize:s.fs||11},
   grid:{vertLines:{color:s.gv?s.gridV:T},horzLines:{color:s.gh?s.gridH:T}},
   crosshair:{mode:S.magnet===2||S.magnet===true?1:0,vertLine:{color:s.cross,labelBackgroundColor:lb,visible:S.cursor==='cross'},horzLine:{color:s.cross,labelBackgroundColor:lb,visible:S.cursor==='cross'}},
   rightPriceScale:{borderColor:border,minimumWidth:78,scaleMargins:sub?{top:.12,bottom:.08}:{top:.08,bottom:.12},...(sub?{}:{mode:s.smode||0,invertScale:!!s.sinv})},
@@ -2070,6 +2109,7 @@ function fromScreen(x,y,useMag=S.magnet){let l=lOfX(x),p=pOfY(y);if(p==null)retu
   const best=cd.reduce((a,b)=>Math.abs(b-p)<Math.abs(a-p)?b:a),yb=yOfP(best);if(useMag!==1||(yb!=null&&Math.abs(yb-y)<=14&&Math.abs(xOfL(i)-x)<=Math.max(10,Math.abs(XF?.bs||0)))){l=i;p=best}}
  return{t:l2t(l),p}}
 function extend(f,t){const dx=t.x-f.x,dy=t.y-f.y,W=S.W,H=S.H;if(Math.abs(dx)<1e-6)return{x:t.x,y:dy>0?H+50:-50};const tx=dx>0?W+50:-50,k=(tx-f.x)/dx;let y=f.y+dy*k;y=Math.max(-1e5,Math.min(1e5,y));return{x:tx,y}}
+const pill3d=(x,y,txt,col)=>{const w=txt.length*6.7+18,bx=x-w/2,c=esc(col);return`<g class="t"><rect x="${bx}" y="${y-8}" width="${w}" height="20" rx="7" fill="#000" fill-opacity=".38"/><rect x="${bx}" y="${y-10}" width="${w}" height="20" rx="7" fill="${c}" style="filter:brightness(.62)"/><rect x="${bx}" y="${y-12}" width="${w}" height="19" rx="7" fill="${c}"/><rect x="${bx+2}" y="${y-11}" width="${w-4}" height="8" rx="5" fill="#fff" fill-opacity=".26"/><rect x="${bx}" y="${y-12}" width="${w}" height="19" rx="7" fill="none" stroke="#fff" stroke-opacity=".22"/><text x="${x}" y="${y+1.5}" fill="#fff" font-size="11" font-weight="800" text-anchor="middle" style="paint-order:stroke;stroke:rgba(0,0,0,.28);stroke-width:1.4px">${esc(txt)}</text></g>`};
 const priceBox=(x,y,txt,col,anchor='end')=>{const w=txt.length*6.6+10;const bx=anchor==='end'?x-w:anchor==='mid'?x-w/2:x;return`<rect x="${bx}" y="${y-9}" width="${w}" height="18" rx="3" fill="${col}"/><text x="${bx+w/2}" y="${y+4}" fill="#fff" font-size="11" font-weight="600" text-anchor="middle" class="t">${esc(txt)}</text>`};
 function gOf(d,sel,pv){
  if(!d.pts.length||d.hide)return'';
@@ -2103,9 +2143,9 @@ function gOf(d,sel,pv){
   case'long':case'short':{if(P.length<3)break;const x1=Math.min(p0.x,p1.x),x2=Math.max(p0.x,p1.x),E=d.pts[0].p,Tg=d.pts[1].p,Sp=d.pts[2].p;
    const tp=(Tg-E)/E*100,sp=(Sp-E)/E*100,rr=Math.abs(E-Sp)?Math.abs(Tg-E)/Math.abs(E-Sp):0,cx=(x1+x2)/2,up=p1.y<p0.y;
    const pc=st.pc||'#089981',lc=st.lc||'#f23645',po=st.po??.22,bd=st.bd?1:0,lo=st.lo??1,ec=st.ec||'#787b86';
-   b=Rc(x1,p0.y,x2,p1.y,pc,po,bd?pc:'none',bd?1:0)+Rc(x1,p0.y,x2,p2.y,lc,po,bd?lc:'none',bd?1:0)+L(x1,p0.y,x2,p0.y,ec,st.ew||1,'');
-   if(st.lb!==false&&lo>0)b+=`<g opacity="${lo}">`+(st.lt!==false?priceBox(cx,p1.y+(up?-12:12),`Hedef: ${fmt(Tg)} (${pct(tp)})`,pc,'mid'):'')+(st.ls!==false?priceBox(cx,p2.y+(up?12:-12),`Stop: ${fmt(Sp)} (${pct(sp)})`,lc,'mid'):'')
-    +(st.lr!==false?priceBox(cx,p0.y+(up?-12:12)*(Math.abs(p1.y-p0.y)>34?1:-1),`${Tg>=E?'Uzun':'Kısa'} · Risk/Ödül ${fmt(rr,2)}`,st.rc||'#5d6573','mid'):'')+'</g>';
+   b=Rc(x1,p0.y,x2,p1.y,pc,po,bd?pc:'none',bd?1:0)+Rc(x1,p0.y,x2,p2.y,lc,po,bd?lc:'none',bd?1:0)+L(x1,p0.y,x2,p0.y,ec,st.ew||1,'');b+=`<rect x="${x1}" y="${Math.min(p0.y,p1.y)}" width="${Math.max(1,x2-x1)}" height="${Math.max(1,Math.abs(p1.y-p0.y))}" fill="none" stroke="${pc}" stroke-opacity=".55" pointer-events="none"/><rect x="${x1}" y="${Math.min(p0.y,p2.y)}" width="${Math.max(1,x2-x1)}" height="${Math.max(1,Math.abs(p2.y-p0.y))}" fill="none" stroke="${lc}" stroke-opacity=".55" pointer-events="none"/>`;
+   if(st.lb!==false&&lo>0)b+=`<g opacity="${lo}">`+(st.lt!==false?pill3d(cx,p1.y+(up?-14:14),`Hedef: ${fmt(Tg)} (${pct(tp)})`,pc):'')+(st.ls!==false?pill3d(cx,p2.y+(up?14:-14),`Stop: ${fmt(Sp)} (${pct(sp)})`,lc):'')
+    +(st.lr!==false?pill3d(cx,p0.y+(up?-14:14)*(Math.abs(p1.y-p0.y)>38?1:-1),`${Tg>=E?'▲ LONG':'▼ SHORT'} · Risk/Ödül ${fmt(rr,2)}`,st.rc||(Tg>=E?'#1b6fd8':'#b4325a')):'')+'</g>';
    hd=[[p0.x,p0.y,0],[p1.x,p1.y,1],[p0.x,p2.y,2]];break}
   case'measure':{if(!p1)break;const a=d.pts[0],z=d.pts[1],dp=z.p-a.p,pc=dp/a.p*100,bars=Math.round(t2l(z.t)-t2l(a.t)),c2=dp>=0?'#2962ff':'#f23645',mx=(p0.x+p1.x)/2,my=(p0.y+p1.y)/2;
    b=Rc(p0.x,p0.y,p1.x,p1.y,c2,fo)+L(mx,p0.y,mx,p1.y,c2,1,'')+L(p0.x,my,p1.x,my,c2,1,'');
@@ -2507,21 +2547,34 @@ function alarmDlg(price,edit){const k=edit?edit.k:S.key,t=S.tick[k],p=price??edi
  <div class="fld"><label for="aC">Koşul</label><select id="aC">${Object.entries(CONDS).map(([v,n])=>`<option value="${v}"${(edit?.c||'cross')===v?' selected':''}>${n}</option>`).join('')}</select></div>
  <div class="fld"><label for="aP">Fiyat</label><input id="aP" type="number" step="any" value="${(+p).toFixed(dp)}"></div>
  <div class="fld"><label for="aM">Mesaj</label><input id="aM" type="text" maxlength="80" value="${esc(edit?.msg||'')}" placeholder="İsteğe bağlı"></div>
- <p style="color:var(--mu);font-size:12px;margin:4px 0 0">Alarm, bu sayfa açıkken çalışır: ekranda bildirim + sesli uyarı verir.</p>`,
+ <div id="aNot">${notBox()}</div>
+ <label class="ck"><input type="checkbox" id="aSnd"${S.set.alSnd!==false?' checked':''}>Sesli uyarı</label>
+ <p style="color:var(--mu);font-size:12px;margin:6px 0 0">Alarm, bu sayfa (veya sekme) açıkken çalışır.</p>`,
  [{t:'Vazgeç',cls:'g'},{t:edit?'Kaydet':'Oluştur',f:()=>{const pv=parseFloat($('#aP').value);if(!isFinite(pv)||pv<=0){toast('Geçersiz fiyat','Lütfen geçerli bir fiyat girin.');return false}
   if(edit){Object.assign(edit,{c:$('#aC').value,p:pv,msg:$('#aM').value.trim(),on:true})}else S.alarms.push({id:uid(),k,c:$('#aC').value,p:pv,msg:$('#aM').value.trim(),on:true,at:Date.now()});
-  ls.set('alarms',S.alarms);refreshAlarmLines();renderAlarms();try{if('Notification'in window&&Notification.permission==='default')Notification.requestPermission()}catch(e){}
+  S.set.alSnd=$('#aSnd').checked;ls.set('set',S.set);ls.set('alarms',S.alarms);refreshAlarmLines();renderAlarms();if(notPerm()==='default'&&!ls.get('notAsked',false)&&!navigator.webdriver)setTimeout(notAsk,350);
   toast('Alarm kuruldu',`${lbl(k)} · ${CONDS[$('#aC').value]} ${fmt(pv,dp)}`,'al',3000)}}])}
 function checkAlarm(k,px){demoTick(k,px);const prev=S.lastPx[k];S.lastPx[k]=px;if(prev==null)return;
  S.alarms.forEach(a=>{if(!a.on||a.k!==k)return;const upX=prev<a.p&&px>=a.p,dnX=prev>a.p&&px<=a.p;
   if((a.c==='up'&&upX)||(a.c==='down'&&dnX)||(a.c==='cross'&&(upX||dnX))){a.on=false;a.hit=Date.now();ls.set('alarms',S.alarms);fireAlarm(a,px)}})}
 function fireAlarm(a,px){const dp=precOf(a.k),msg=`${lbl(a.k)} ${fmt(a.p,dp)} seviyesini ${px>=a.p?'yukarı':'aşağı'} kesti (şu an ${fmt(px,dp)})${a.msg?' · '+a.msg:''}`;
- toast('Alarm tetiklendi',msg,'al',20000);beep();try{if('Notification'in window&&Notification.permission==='granted')new Notification(APP_NAME+' alarmı',{body:msg})}catch(e){}
+ toast('Alarm tetiklendi',msg,'al',20000);if(S.set.alSnd!==false)beep();showNot(APP_NAME+' alarmı',msg);
  renderAlarms();if(a.k===S.key)refreshAlarmLines()}
+const notPerm=()=>!('Notification'in window)?'none':Notification.permission;
+let swReg=null;try{if('serviceWorker'in navigator&&location.protocol==='https:')navigator.serviceWorker.register('sw.js').then(r=>swReg=r).catch(()=>{})}catch(e){}
+function showNot(title,body){if(notPerm()!=='granted')return;const o={body,icon:undefined,tag:'alarm'+Date.now(),requireInteraction:true,vibrate:[200,100,200]};try{if(swReg&&swReg.showNotification){swReg.showNotification(title,o);return}new Notification(title,o)}catch(e){try{swReg&&swReg.showNotification(title,o)}catch(_){}}}
+function notBox(){const p=notPerm(),B=(cls,ic_,t,d,btn)=>`<div class="nbox ${cls}"><div class="nbi">${ic_}</div><div class="nbt"><b>${t}</b><span>${d}</span></div>${btn||''}</div>`,bell='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4zM10 21h4"/></svg>';
+ if(p==='granted')return B('ok',bell,'Bildirimler açık','Alarm tetiklenince bilgisayarınıza / telefonunuza bildirim gelir.','<button type="button" class="btn g sm" data-nt="test">Test et</button>');
+ if(p==='denied')return B('no',bell,'Bildirimler engellendi','Adres çubuğundaki kilit (veya ayar) simgesi → Bildirimler → İzin ver yapıp sayfayı yenileyin.');
+ if(p==='none')return B('no',bell,'Bu tarayıcı bildirim desteklemiyor','Alarmlar ekranda ve sesli uyarı olarak gösterilir. iPhone’da siteyi “Ana Ekrana Ekle” ile açınca bildirim alabilirsiniz.');
+ return B('ask',bell,'Bildirimlere izin verin','Sekme arka plandayken bile alarmı kaçırmamak için bildirim izni gerekir.','<button type="button" class="btn sm" data-nt="ask">İzin ver</button>')}
+async function notReq(){ls.set('notAsked',true);if(notPerm()!=='default')return notPerm();try{const r=await Notification.requestPermission();if(r==='granted'){showNot(APP_NAME,'Bildirimler açıldı. Alarmlarınız tetiklenince burada göreceksiniz.');toast('Bildirimler açık','Alarm bildirimleri artık gelecek.','',2500)}else if(r==='denied')toast('Bildirim izni verilmedi','İstediğiniz zaman tarayıcı ayarlarından açabilirsiniz.','',4000);return r}catch(e){return notPerm()}}
+function notAsk(){if(notPerm()!=='default')return;dialog('Alarm bildirimleri',`<div class="nask"><div class="nbig"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4zM10 21h4"/></svg></div><h3>Alarmları kaçırmayın</h3><p>Fiyat alarmınız tetiklendiğinde, sekme arka planda olsa bile size <b>bildirim</b> gönderebilmemiz için izin vermeniz gerekiyor.</p><ul><li>Yalnızca kendi kurduğunuz alarmlar için bildirim gelir</li><li>Reklam veya pazarlama bildirimi gönderilmez</li><li>İzni istediğiniz zaman tarayıcı ayarlarından kapatabilirsiniz</li></ul></div>`,[{t:'Şimdi değil',cls:'g',f:()=>ls.set('notAsked',true)},{t:'Bildirimlere izin ver',f:()=>{notReq()}}],'md')}
+document.addEventListener('click',async e=>{const b=e.target.closest('[data-nt]');if(!b)return;e.preventDefault();if(b.dataset.nt==='ask'){await notReq();const n=$('#aNot');if(n)n.innerHTML=notBox();renderAlarms()}else{showNot(APP_NAME+' · test bildirimi','Bildirimler çalışıyor. Alarmınız tetiklenince böyle görünecek.');if(S.set.alSnd!==false)beep(2)}});
 function beep(n){try{const A=window.AudioContext||window.webkitAudioContext,a=new A();[0,.2,.4].slice(0,n||3).forEach(t=>{const o=a.createOscillator(),g=a.createGain();o.frequency.value=880;o.connect(g);g.connect(a.destination);g.gain.setValueAtTime(.18,a.currentTime+t);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+t+.16);o.start(a.currentTime+t);o.stop(a.currentTime+t+.18)})}catch(e){}}
-function renderAlarms(){$('#al').innerHTML=S.alarms.length?S.alarms.slice().reverse().map(a=>`<div class="ali${a.on?'':' done'}" data-id="${esc(a.id)}"><span class="a1">${esc(lbl(a.k))} · ${fmt(a.p,precOf(a.k))}</span>
+function renderAlarms(){$('#al').innerHTML=(S.alarms.some(x=>x.on)&&notPerm()!=='granted'?notBox():'')+(S.alarms.length?S.alarms.slice().reverse().map(a=>`<div class="ali${a.on?'':' done'}" data-id="${esc(a.id)}"><span class="a1">${esc(lbl(a.k))} · ${fmt(a.p,precOf(a.k))}</span>
  <span class="ab"><button data-aa="edit" title="Düzenle / yeniden kur">${ic('edit')}</button><button data-aa="del" title="Sil">${ic('trash')}</button></span>
- <span class="a2">${esc(CONDS[a.c])}${a.on?'':' · tetiklendi'}${a.msg?' · '+esc(a.msg):''}</span></div>`).join(''):'<div class="empty">Henüz alarm yok. Grafikte sağ tıklayarak veya “Alarm” butonuyla oluşturun.</div>';
+ <span class="a2">${esc(CONDS[a.c])}${a.on?'':' · tetiklendi'}${a.msg?' · '+esc(a.msg):''}</span></div>`).join(''):'<div class="empty">Henüz alarm yok. Grafikte sağ tıklayarak veya “Alarm” butonuyla oluşturun.</div>');
  const n=S.alarms.filter(a=>a.on).length,bd=$('#alBd');if(bd){bd.textContent=n;bd.style.display=n?'grid':'none'}}
 $('#al').addEventListener('click',e=>{const b=e.target.closest('[data-aa]');if(!b)return;const a=S.alarms.find(x=>x.id===b.closest('[data-id]').dataset.id);if(!a)return;
  if(b.dataset.aa==='del'){S.alarms=S.alarms.filter(x=>x!==a);ls.set('alarms',S.alarms);renderAlarms();refreshAlarmLines()}else alarmDlg(null,a)});
@@ -2550,7 +2603,7 @@ rbar.addEventListener('click',e=>{const b=e.target.closest('[data-r]');if(!b||!S
 
 // ---------------- alt çubuk ----------------
 const RANGES=[['1G','5m',1],['5G','15m',5],['1A','1h',30],['3A','4h',90],['6A','12h',182],['YB','1d','ytd'],['1Y','1d',365],['5Y','1w',1826],['Tümü','1M','all']];
-function renderBot(){$('#bot').innerHTML=RANGES.map(r=>`<button data-rg="${r[0]}" title="Son ${r[0]}">${r[0]}</button>`).join('')+`<i class="sp"></i><button data-gd="1" title="Tarihe git (Alt+G)">${ic('cal')}</button>`+'<div class="grow"></div><span id="clock"></span><i class="sp"></i>'+
+function renderBot(){$('#bot').innerHTML=RANGES.map(r=>`<button data-rg="${r[0]}" title="Son ${r[0]}">${r[0]}</button>`).join('')+`<i class="sp"></i><a class="lwc" href="https://www.tradingview.com/lightweight-charts/" target="_blank" rel="noopener" title="Grafik motoru: TradingView Lightweight Charts™ (Apache 2.0 lisansı). Fiyat verileri doğrudan borsalardan gelir.">Lightweight Charts™</a><i class="sp"></i><button data-gd="1" title="Tarihe git (Alt+G)">${ic('cal')}</button>`+'<div class="grow"></div><span id="clock"></span><i class="sp"></i>'+
  `<button data-sc="pct" title="Yüzde ölçeği">%</button><button data-sc="log" title="Logaritmik ölçek">log</button><button data-sc="auto" class="on" title="Otomatik ölçek">oto</button><i class="sp"></i><button data-help="1" title="Klavye kısayolları (?)">${ic('help')}</button>`;updBotSc()}
 function applyRange(r){const n=S.data;if(!n.length)return;const to=n.at(-1).time;let from;
  if(r[2]==='all'){main.timeScale().fitContent();return}if(r[2]==='ytd'){from=new Date(new Date().getFullYear(),0,1).getTime()/1000}else from=to-r[2]*86400;
@@ -2989,7 +3042,7 @@ function cmdItems(){const A=[];
  act('Emir defteri ve son işlemler','book',()=>{setSide('book');setMob('side')},'order book derinlik depth');act('Piyasa özeti (yükselenler / düşenler)','hot',()=>{setSide('hot');setMob('side')},'top gainers');
  act('İzleme listesi','list',()=>{setSide('wl');setMob('side')},'watchlist');act('Tarihe git','cal',()=>goDateDlg(),'tarih zaman','Alt+G');
  act('Ekran görüntüsü al','camera',()=>$('#shotBtn').click(),'screenshot resim');act('Tam ekran','full',()=>$('#fsBtn').click(),'fullscreen');
- act('Tüm çizim araçları','alltools',()=>toolsDlg(),'arac cizim');LAYS.forEach(([k,t])=>act('Düzen: '+t,'lay'+k,()=>{S.lay=k;ls.set('lay',k);applyLayout()},'duzen coklu grafik pencere layout '+k));act('Yeni pencerede grafik aç','plus',()=>open(location.pathname+'?k='+encodeURIComponent(S.key)+'&tf='+encodeURIComponent(S.tf),'_blank','noopener'),'pencere yeni sekme');act('Tanıtım ekranını göster','star',()=>welcome(true),'tanitim hos geldin ozellikler');act('Tanıtım sayfası (web)','star',()=>open('tanitim/','_blank'),'tanitim sayfa web ana sayfa');act('Tüm çizimleri kaldır','trash',()=>$('#tools [data-t=clear]').click(),'sil temizle');
+ act('Tüm çizim araçları','alltools',()=>toolsDlg(),'arac cizim');act('Borsa bağla (canlı işlem)','wallet',()=>brokerDlg(),'borsa binance bybit okx api baglan canli islem');LAYS.forEach(([k,t])=>act('Düzen: '+t,'lay'+k,()=>{S.lay=k;ls.set('lay',k);applyLayout()},'duzen coklu grafik pencere layout '+k));act('Yeni pencerede grafik aç','plus',()=>open(location.pathname+'?k='+encodeURIComponent(S.key)+'&tf='+encodeURIComponent(S.tf),'_blank','noopener'),'pencere yeni sekme');act('Tanıtım ekranını göster','star',()=>welcome(true),'tanitim hos geldin ozellikler');act('Tanıtım sayfası (web)','star',()=>open('tanitim/','_blank'),'tanitim sayfa web ana sayfa');act('Tüm çizimleri kaldır','trash',()=>$('#tools [data-t=clear]').click(),'sil temizle');
  act('Klavye kısayolları','kbd',()=>helpDlg(),'kisayol tus');act('Kısa rehberi tekrar göster','help',()=>tour(true),'yardim tur egitim');
  act('Göstergeler','fx',()=>$('#indBtn').click(),'indikator indicator');
  TFS.forEach(([tf,sh,lo])=>A.push({g:'Zaman dilimi',t:lo,ic:'clock',f:()=>setTf(tf),kw:sh+' '+tf}));
@@ -3051,6 +3104,8 @@ function welcome(force){if(!force&&(ls.get('welcomed',false)||navigator.webdrive
    ['<b>Abonelik yok</b> — ücretli paket veya kilitli özellik bulunmaz','<b>Reklam yok</b> — grafik alanı tamamen sizindir','<b>Üyelik gerekmez</b> — tarayıcıda açılır, hemen kullanılır']],
   ['Limitsiz analiz','Gösterge ve çizimlerde sınır yok.','Ücretsiz paketlerde grafik başına 2 gösterge ve 3 alarm gibi sınırlar yaygındır. Burada bu sınırlar yoktur.',
    [`<b>${nI}+ gösterge ve strateji</b>, grafik başına sınırsız`,`<b>${nT}+ çizim aracı</b>, sınırsız çizim`,'<b>Strateji testi</b> — işlem sayısı, kazanma oranı, net getiri, maksimum düşüş']],
+  ['Tekrar oynat','<span class="wbig">TEKRAR OYNAT</span><span class="wbig2">TÜM ZAMAN DİLİMLERİNDE <u>ÜCRETSİZ</u></span>','Geçmişe dönün, grafiği mum mum oynatın, kararlarınızı geçmiş piyasa verisinde test edin. Dakikalık grafikler dahil — hiçbir kısıtlama yok.',
+   ['<b>1 dakikadan aylığa</b> kadar her zaman diliminde','<b>Oynat, duraklat, ileri sar</b> — hızı siz belirleyin','<b>Mum mum ilerleyin</b> — geri alın, tekrar deneyin, stratejinizi sınayın']],
   ['Kişiselleştirme','Motivasyon kaynağınızı arka plana koyun, öyle trade yapın.','Hedefiniz, aileniz, hayalinizdeki ev ya da araba… Sizi motive eden fotoğrafı grafiğin arkasına yükleyin; tema, mum ve renkleri de dilediğiniz gibi ayarlayın.',
    ['<b>Kendi fotoğrafınız</b> — yükleyin, karartmasını ve bulanıklığını ayarlayın','<b>15+ hazır tema</b> ve kendi temanızı kaydetme','<b>Mum renkleri ve stilleri</b>; gövde, fitil ve kenarlık ayrı ayrı']],
   ['Likidasyon haritası','Likidasyon haritası, grafiğin üstünde.','Kaldıraçlı pozisyonların yoğunlaştığı olası likidasyon bölgelerini ısı haritası olarak görün; gerçekleşen likidasyonları canlı takip edin.',
@@ -3074,6 +3129,7 @@ function welcome(force){if(!force&&(ls.get('welcomed',false)||navigator.webdrive
  const V=[
   `<rect width="${VW}" height="${VH}" fill="#0a0d13"/>${grid('#141a25')}${head('#e8eaef','#6b7385')}${cand('#089981','#f23645')}${lbl('#2962ff')}<g transform="translate(${VW-178},${VH-92})"><rect width="154" height="62" rx="10" fill="#121826" stroke="#232b3b"/><text x="16" y="26" fill="#9aa3b2" font-size="11">Aylık ücret</text><text x="16" y="48" fill="#fff" font-size="20" font-weight="700">0 ₺</text><text x="138" y="48" fill="#22b07d" font-size="11" font-weight="600" text-anchor="end">Tüm özellikler</text></g>`,
   `<rect width="${VW}" height="${VH}" fill="#0a0d13"/>${grid('#141a25')}${head('#e8eaef','#6b7385')}${cand('#2a7f6f','#9a3442')}${emaL(9,'#f7a600')}${emaL(21,'#2962ff')}${emaL(50,'#e91e63')}${rsi()}`,
+  `<rect width="${VW}" height="${VH}" fill="#0a0d13"/>${grid('#141a25')}${head('#e8eaef','#6b7385')}${cand('#089981','#f23645')}<rect x="${X(Math.floor(n*.62))+cw/2}" y="0" width="${VW}" height="${VH}" fill="#0c1428" fill-opacity=".96"/><rect x="${X(Math.floor(n*.62))}" y="0" width="${VW}" height="${VH}" fill="#2962ff" fill-opacity=".08"/><text x="${(X(Math.floor(n*.62))+VW)/2}" y="${(T+B)/2}" fill="#5b8cff" fill-opacity=".7" font-size="12" font-weight="700" text-anchor="middle">Gelecek mumlar gizli</text><line x1="${X(Math.floor(n*.62))}" x2="${X(Math.floor(n*.62))}" y1="0" y2="${VH}" stroke="#2962ff" stroke-width="2"/><g transform="translate(${VW/2-120},${VH-118})"><rect width="240" height="44" rx="12" fill="#121826" stroke="#2962ff" stroke-opacity=".5"/><path d="M28 14v16l-10-8z" fill="#9aa3b2"/><circle cx="62" cy="22" r="15" fill="#2962ff"/><path d="M57 14v16l13-8z" fill="#fff"/><path d="M96 14l10 8-10 8zM106 14l10 8-10 8z" fill="#9aa3b2"/><text x="140" y="27" fill="#fff" font-size="13" font-weight="700">1x · 2x · 5x</text></g><g transform="translate(24,${VH-56})">${['1d','5d','15d','1s','4s','G','H','A'].map((t,k)=>`<rect x="${k*58}" width="52" height="26" rx="7" fill="#2962ff" fill-opacity="${k<3?.9:.22}"/><text x="${k*58+26}" y="17" fill="#fff" font-size="11.5" font-weight="700" text-anchor="middle">${t}</text>`).join('')}</g><text x="${VW-24}" y="62" fill="#5b8cff" font-size="12" font-weight="800" text-anchor="end">REPLAY · ÜCRETSİZ</text>`,
   `<defs><linearGradient id="wsky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b2a4a"/><stop offset=".55" stop-color="#3b3f6b"/><stop offset="1" stop-color="#c46a4a"/></linearGradient></defs><rect width="${VW}" height="${VH}" fill="url(#wsky)"/><circle cx="${VW*.72}" cy="${VH*.58}" r="46" fill="#ffcf8a" fill-opacity=".55"/><path d="M0 ${VH*.72} L${VW*.18} ${VH*.52} L${VW*.34} ${VH*.66} L${VW*.55} ${VH*.45} L${VW*.78} ${VH*.68} L${VW} ${VH*.55} V${VH} H0Z" fill="#141a2b" fill-opacity=".85"/><rect width="${VW}" height="${VH}" fill="#06080d" fill-opacity=".35"/>${head('#fff','#c9cfdb')}${cand('#2fd3a8','#ff5a67')}${lbl('#2962ff')}<g transform="translate(24,${VH-68})"><rect width="236" height="40" rx="9" fill="#0f131b" fill-opacity=".85" stroke="#ffffff" stroke-opacity=".15"/><path d="M16 26l6-7 4 4 3-3 6 6z" fill="none" stroke="#8fb0ff" stroke-width="1.5" stroke-linejoin="round"/><rect x="13" y="13" width="25" height="17" rx="3" fill="none" stroke="#8fb0ff" stroke-width="1.5"/><text x="48" y="25" fill="#fff" font-size="12" font-weight="600">Fotoğraf yükle</text><text x="222" y="25" fill="#9aa3b2" font-size="11" text-anchor="end">Arka plan</text></g>`,
   `<rect width="${VW}" height="${VH}" fill="#0a0d13"/>${heatL()}${grid('#141a25')}${head('#e8eaef','#6b7385')}${cand('#cfd4dd','#5d6573')}${liqB()}${lbl('#2962ff')}<g transform="translate(24,${VH-70})"><rect width="${VW-48}" height="44" rx="10" fill="#121826" stroke="#232b3b"/><rect x="16" y="18" width="${VW-250}" height="8" rx="4" fill="url(#whg)"/><text x="${VW-64}" y="27" fill="#9aa3b2" font-size="11" text-anchor="end">Düşük → Yüksek yoğunluk</text></g>`,
   `<rect width="${VW}" height="${VH}" fill="#0a0d13"/>${grid('#141a25')}${head('#e8eaef','#6b7385')}${cand('#089981','#f23645')}${pill(kM,cs[kM].l,'AL','#089981',1)}${pill(kX,cs[kX].h,'SAT','#f23645',0)}${lbl('#2962ff')}<g transform="translate(24,${VH-76})"><rect width="${VW-48}" height="50" rx="10" fill="#121826" stroke="#232b3b"/><text x="16" y="21" fill="#9aa3b2" font-size="10.5">Demo hesap</text><text x="16" y="39" fill="#fff" font-size="14" font-weight="700">10.000 $</text><text x="${VW-64}" y="21" fill="#9aa3b2" font-size="10.5" text-anchor="end">Açık pozisyon</text><text x="${VW-64}" y="39" fill="#22b07d" font-size="14" font-weight="700" text-anchor="end">LONG 10x</text></g>`];
@@ -3083,7 +3139,7 @@ function welcome(force){if(!force&&(ls.get('welcomed',false)||navigator.webdrive
   <div class="wf"><div class="wpg">${SL.map((_,k)=>`<i data-wi="${k}"></i>`).join('')}</div><button class="wk" data-w="back" type="button">Geri</button><button class="wn" data-w="next" type="button">Devam</button></div></div>
   <div class="wvis"><button class="wx" data-w="skip" type="button" style="z-index:2">Atla</button><svg viewBox="0 0 ${VW} ${VH}" preserveAspectRatio="xMidYMid meet" font-family="Inter,system-ui,sans-serif">${V.map((v,k)=>`<g class="wv${k?'':' on'}">${v}</g>`).join('')}</svg></div></div>`;
  const show=k=>{i=Math.max(0,Math.min(SL.length-1,k));w.querySelectorAll('.ws').forEach((e,j)=>e.classList.toggle('on',j===i));w.querySelectorAll('.wv').forEach((e,j)=>{e.classList.toggle('on',j===i);if(j===i)e.querySelectorAll('.wdraw').forEach(p=>{p.style.animation='none';p.getBoundingClientRect();p.style.animation=''})});
-  w.querySelector('.wvis').style.background=['#0a0d13','#0a0d13','#232b4f','#120e26','#0a0d13'][i];w.querySelectorAll('.wpg i').forEach((e,j)=>{e.classList.toggle('on',j===i);e.classList.toggle('dn',j<i)});w.querySelector('.wct').textContent=`${i+1} / ${SL.length}`;
+  w.querySelector('.wvis').style.background=['#0a0d13','#0a0d13','#0a0d13','#232b4f','#120e26','#0a0d13'][i];w.querySelectorAll('.wpg i').forEach((e,j)=>{e.classList.toggle('on',j===i);e.classList.toggle('dn',j<i)});w.querySelector('.wct').textContent=`${i+1} / ${SL.length}`;
   const bk=w.querySelector('[data-w=back]');bk.style.visibility=i?'visible':'hidden';w.querySelector('[data-w=next]').textContent=i===SL.length-1?'Başlayın':'Devam'};
  const close=()=>{w.classList.remove('show');ls.set('welcomed',true);removeEventListener('keydown',kd,true);if(!force)setTimeout(()=>tour(),400)};
  const kd=e=>{if(e.key==='ArrowRight'||e.key==='Enter'){e.preventDefault();e.stopPropagation();i===SL.length-1?close():show(i+1)}else if(e.key==='ArrowLeft'){e.stopPropagation();show(i-1)}else if(e.key==='Escape'){e.stopPropagation();close()}};
@@ -3199,6 +3255,111 @@ function enhanceUI(root){if(!root)return;root.querySelectorAll('input[type=color
  root.querySelectorAll('.fld input[type=number]:not(.nin),.srow input[type=number]:not(.nin)').forEach(inp=>{inp.classList.add('nin');const w=document.createElement('div');w.className='nstep';inp.before(w);w.append(Object.assign(document.createElement('button'),{type:'button',textContent:'−',className:'nsb',tabIndex:-1}),inp,Object.assign(document.createElement('button'),{type:'button',textContent:'+',className:'nsb',tabIndex:-1}));
   w.addEventListener('click',e=>{const b=e.target.closest('.nsb');if(!b)return;e.preventDefault();const v=parseFloat(inp.value)||0,fl=inp.step==='any'&&(String(inp.value).includes('.')||Math.abs(v)<10),st=fl?(Math.abs(v)<1?.01:Math.abs(v)<10?.1:1):1,d=b.textContent==='+'?1:-1,nv=+(v+d*st).toFixed(fl?2:0);if(inp.min!==''&&nv<+inp.min)return;inp.value=nv;inp.dispatchEvent(new Event('input',{bubbles:true}));inp.dispatchEvent(new Event('change',{bubbles:true}))})})}
 
+// ================= borsa bağlantısı (canlı işlem) =================
+// API anahtarları yalnızca bu tarayıcıda, kullanıcının PIN'iyle AES-GCM ile şifreli saklanır; istekler doğrudan borsaya gider.
+const BRK={
+ binance:{n:'Binance Vadeli',sub:'USDⓈ-M sürekli vadeli',c:'#f0b90b',url:'https://www.binance.com/tr/my/settings/api-management',perm:'“Vadeli işlemleri etkinleştir” (Enable Futures) açık, “Para çekme” kapalı',pass:false},
+ bybit:{n:'Bybit',sub:'Unified hesap · USDT sürekli',c:'#f7a600',url:'https://www.bybit.com/app/user/api-management',perm:'“Contract – Orders & Positions” okuma/yazma, “Withdraw” kapalı',pass:false},
+ okx:{n:'OKX',sub:'USDT sürekli (SWAP)',c:'#e8eaef',url:'https://www.okx.com/account/my-api',perm:'“Read” ve “Trade” izinleri, “Withdraw” kapalı',pass:true},
+};
+const BRK_SOON=[['Bitget','Tarayıcı güvenlik kuralları (CORS) doğrudan bağlantıya izin vermiyor'],['Binance Spot','Tarayıcı güvenlik kuralları (CORS) doğrudan bağlantıya izin vermiyor']];
+let BK_S=null,BK_OFF=0;const bkInfo={};
+const te=new TextEncoder(),b64=u=>btoa(String.fromCharCode(...new Uint8Array(u))),ub64=s=>Uint8Array.from(atob(s),c=>c.charCodeAt(0)),hex=u=>[...new Uint8Array(u)].map(b=>b.toString(16).padStart(2,'0')).join('');
+async function hmac(sec,msg,enc){const k=await crypto.subtle.importKey('raw',te.encode(sec),{name:'HMAC',hash:'SHA-256'},false,['sign']);const s=await crypto.subtle.sign('HMAC',k,te.encode(msg));return enc==='b64'?b64(s):hex(s)}
+async function pinKey(pin,salt){const base=await crypto.subtle.importKey('raw',te.encode(pin),'PBKDF2',false,['deriveKey']);return crypto.subtle.deriveKey({name:'PBKDF2',salt,iterations:200000,hash:'SHA-256'},base,{name:'AES-GCM',length:256},false,['encrypt','decrypt'])}
+async function bkSave(cred,pin){const salt=crypto.getRandomValues(new Uint8Array(16)),iv=crypto.getRandomValues(new Uint8Array(12)),k=await pinKey(pin,salt),ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},k,te.encode(JSON.stringify(cred)));
+ ls.set('brk',{b:cred.b,mask:cred.key.slice(0,4)+'••••'+cred.key.slice(-4),salt:b64(salt),iv:b64(iv),ct:b64(ct),at:Date.now()})}
+async function bkUnlock(pin){const st=ls.get('brk',null);if(!st)throw new Error('Kayıtlı bağlantı yok');const k=await pinKey(pin,ub64(st.salt));try{const pt=await crypto.subtle.decrypt({name:'AES-GCM',iv:ub64(st.iv)},k,ub64(st.ct));return JSON.parse(new TextDecoder().decode(pt))}catch(e){throw new Error('PIN hatalı')}}
+const bkBase=b=>({binance:'https://fapi.binance.com',bybit:'https://api.bybit.com',okx:'https://www.okx.com'}[b]);
+async function bkTime(b){try{const t0=Date.now();let st;if(b==='binance')st=(await(await fetch(bkBase(b)+'/fapi/v1/time')).json()).serverTime;else if(b==='bybit')st=+(await(await fetch(bkBase(b)+'/v5/market/time')).json()).time;else st=+(await(await fetch(bkBase(b)+'/api/v5/public/time')).json()).data[0].ts;BK_OFF=st-(t0+Date.now())/2}catch(e){BK_OFF=0}}
+async function bkReq(c,method,path,params={}){const b=c.b,base=bkBase(b),ts=Date.now()+BK_OFF;let url,h={},body;
+ if(b==='binance'){const q=new URLSearchParams({...params,recvWindow:'6000',timestamp:String(ts)}).toString();url=`${base}${path}?${q}&signature=${await hmac(c.secret,q)}`;h['X-MBX-APIKEY']=c.key}
+ else if(b==='bybit'){const rw='6000';let pay;if(method==='GET'){pay=new URLSearchParams(params).toString();url=base+path+(pay?'?'+pay:'')}else{pay=JSON.stringify(params);body=pay;url=base+path;h['Content-Type']='application/json'}
+  Object.assign(h,{'X-BAPI-API-KEY':c.key,'X-BAPI-TIMESTAMP':String(ts),'X-BAPI-RECV-WINDOW':rw,'X-BAPI-SIGN':await hmac(c.secret,ts+c.key+rw+pay)})}
+ else{let rp=path;if(method==='GET'){const q=new URLSearchParams(params).toString();if(q)rp+='?'+q;body=''}else{body=JSON.stringify(params);h['Content-Type']='application/json'}url=base+rp;const iso=new Date(ts).toISOString();
+  Object.assign(h,{'OK-ACCESS-KEY':c.key,'OK-ACCESS-PASSPHRASE':c.pass,'OK-ACCESS-TIMESTAMP':iso,'OK-ACCESS-SIGN':await hmac(c.secret,iso+method+rp+(body||''),'b64')})}
+ let r,j;try{r=await fetch(url,{method,headers:h,body:method==='GET'?undefined:body})}catch(e){throw new Error('Borsaya ulaşılamadı (ağ/CORS).')}
+ try{j=await r.json()}catch(e){j={}}
+ if(b==='binance'&&(!r.ok||j.code<0))throw new Error(j.msg||('HTTP '+r.status));
+ if(b==='bybit'&&(!r.ok||j.retCode)){if(j.retCode===110043)return j;throw new Error(j.retMsg||('HTTP '+r.status))}
+ if(b==='okx'&&(!r.ok||(j.code&&j.code!=='0'))){const d=j.data?.[0];throw new Error((d&&d.sMsg)||j.msg||('HTTP '+r.status))}
+ return b==='bybit'?j.result:b==='okx'?j.data:j}
+const bkSym=(b,k)=>{let s=(k||S.key).split(':').pop().toUpperCase().replace(/[-_/]|\.P$|SWAP$/g,'');const base=s.replace(/USDT$|USDC$|USD$/,'');return b==='okx'?`${base}-USDT-SWAP`:`${base}USDT`};
+async function bkAccount(c){if(c.b==='binance'){const a=await bkReq(c,'GET','/fapi/v2/account');return{eq:+a.totalMarginBalance,av:+a.availableBalance,upl:+a.totalUnrealizedProfit}}
+ if(c.b==='bybit'){const r=await bkReq(c,'GET','/v5/account/wallet-balance',{accountType:'UNIFIED'}),a=r.list?.[0]||{};return{eq:+a.totalEquity||0,av:+a.totalAvailableBalance||0,upl:+a.totalPerpUPL||0}}
+ const d=(await bkReq(c,'GET','/api/v5/account/balance'))[0]||{};const u=(d.details||[]).find(x=>x.ccy==='USDT')||{};return{eq:+d.totalEq||0,av:+(u.availEq||u.availBal||0),upl:+(u.upl||0)}}
+async function bkPositions(c){if(c.b==='binance')return(await bkReq(c,'GET','/fapi/v2/positionRisk')).filter(p=>+p.positionAmt).map(p=>({sym:p.symbol,side:+p.positionAmt>0?1:-1,qty:Math.abs(+p.positionAmt),entry:+p.entryPrice,mark:+p.markPrice,upl:+p.unRealizedProfit,lev:+p.leverage,liq:+p.liquidationPrice}));
+ if(c.b==='bybit')return(await bkReq(c,'GET','/v5/position/list',{category:'linear',settleCoin:'USDT'})).list.filter(p=>+p.size).map(p=>({sym:p.symbol,side:p.side==='Buy'?1:-1,qty:+p.size,entry:+p.avgPrice,mark:+p.markPrice,upl:+p.unrealisedPnl,lev:+p.leverage,liq:+p.liqPrice}));
+ return(await bkReq(c,'GET','/api/v5/account/positions',{instType:'SWAP'})).filter(p=>+p.pos).map(p=>({sym:p.instId,side:(p.posSide==='short'||(p.posSide==='net'&&+p.pos<0))?-1:1,qty:Math.abs(+p.pos),entry:+p.avgPx,mark:+p.markPx,upl:+p.upl,lev:+p.lever,liq:+p.liqPx,ct:1}))}
+async function bkInst(c,sym){const id=c.b+':'+sym;if(bkInfo[id])return bkInfo[id];let o;
+ if(c.b==='binance'){const j=await(await fetch(bkBase('binance')+'/fapi/v1/exchangeInfo')).json();j.symbols.forEach(s=>{const lot=s.filters.find(f=>f.filterType==='MARKET_LOT_SIZE')||s.filters.find(f=>f.filterType==='LOT_SIZE'),pf=s.filters.find(f=>f.filterType==='PRICE_FILTER'),mn=s.filters.find(f=>f.filterType==='MIN_NOTIONAL');bkInfo['binance:'+s.symbol]={step:+lot.stepSize,min:+lot.minQty,tick:+pf.tickSize,minN:+(mn?.notional||5),ct:1}});o=bkInfo[id]}
+ else if(c.b==='bybit'){const r=(await(await fetch(bkBase('bybit')+'/v5/market/instruments-info?category=linear&symbol='+sym)).json()).result.list[0];if(r)o={step:+r.lotSizeFilter.qtyStep,min:+r.lotSizeFilter.minOrderQty,tick:+r.priceFilter.tickSize,minN:+(r.lotSizeFilter.minNotionalValue||5),ct:1}}
+ else{const r=(await(await fetch(bkBase('okx')+'/api/v5/public/instruments?instType=SWAP&instId='+sym)).json()).data[0];if(r)o={step:+r.lotSz,min:+r.minSz,tick:+r.tickSz,minN:0,ct:+r.ctVal}}
+ if(!o)throw new Error(sym+' bu borsada bulunamadı');return bkInfo[id]=o}
+const bkDec=x=>{const s=String(x);if(s.includes('e-'))return +s.split('e-')[1];const i=s.indexOf('.');return i<0?0:s.length-i-1};
+const bkStep=(v,st)=>{const d=bkDec(st);return(Math.floor(v/st+1e-9)*st).toFixed(d)};
+async function bkOrder(c,o){const sym=o.sym,inf=await bkInst(c,sym),units=o.qty/inf.ct,q=bkStep(units,inf.step);if(+q<inf.min)throw new Error(`Miktar çok küçük (en az ${inf.min*inf.ct} ${sym.replace(/-?USDT.*$/,'')})`);
+ const px=o.type==='limit'?(Math.round(o.price/inf.tick)*inf.tick).toFixed(bkDec(inf.tick)):null;
+ if(o.lev){try{if(c.b==='binance')await bkReq(c,'POST','/fapi/v1/leverage',{symbol:sym,leverage:String(o.lev)});else if(c.b==='bybit')await bkReq(c,'POST','/v5/position/set-leverage',{category:'linear',symbol:sym,buyLeverage:String(o.lev),sellLeverage:String(o.lev)});else await bkReq(c,'POST','/api/v5/account/set-leverage',{instId:sym,lever:String(o.lev),mgnMode:'cross'})}catch(e){if(!/not modified|same|110043/i.test(e.message))throw new Error('Kaldıraç ayarlanamadı: '+e.message)}}
+ if(c.b==='binance'){const p={symbol:sym,side:o.side>0?'BUY':'SELL',type:o.type==='limit'?'LIMIT':'MARKET',quantity:q};if(px){p.price=px;p.timeInForce='GTC'}if(o.reduce)p.reduceOnly='true';return bkReq(c,'POST','/fapi/v1/order',p)}
+ if(c.b==='bybit'){const p={category:'linear',symbol:sym,side:o.side>0?'Buy':'Sell',orderType:o.type==='limit'?'Limit':'Market',qty:q};if(px)p.price=px;if(o.reduce)p.reduceOnly=true;return bkReq(c,'POST','/v5/order/create',p)}
+ const p={instId:sym,tdMode:'cross',side:o.side>0?'buy':'sell',ordType:o.type==='limit'?'limit':'market',sz:q};if(px)p.px=px;if(o.reduce)p.reduceOnly=true;return bkReq(c,'POST','/api/v5/trade/order',p)}
+// ---------- arayüz ----------
+const bkLogo=(b,sz=40)=>{const B=BRK[b];return`<span class="bklg" style="width:${sz}px;height:${sz}px;background:${B.c}1f;color:${B.c};border-color:${B.c}55">${esc(B.n[0])}</span>`};
+function brokerDlg(){const st=ls.get('brk',null);if(BK_S)return bkPanel();if(st)return bkLock(st);
+ dialog('Borsa bağla',`<div class="bkhead"><p>Borsa hesabınızı bağlayın, grafikten <b>gerçek emir</b> verin, bakiye ve pozisyonlarınızı burada görün.</p></div>
+ <div class="bkgrid">${Object.entries(BRK).map(([k,B])=>`<button type="button" class="bkc" data-bk="${k}">${bkLogo(k)}<span class="bkn"><b>${esc(B.n)}</b><small>${esc(B.sub)}</small></span><span class="bkgo">Bağlan →</span></button>`).join('')}
+ ${BRK_SOON.map(([n,why])=>`<div class="bkc off" title="${esc(why)}"><span class="bklg">${esc(n[0])}</span><span class="bkn"><b>${esc(n)}</b><small>Yakında</small></span></div>`).join('')}</div>
+ <div class="bksec"><div><b>🔒 Anahtarlarınız sizde kalır</b><span>API anahtarı yalnızca bu tarayıcıda, belirlediğiniz PIN ile şifrelenerek saklanır. Sunucumuz yoktur; istekler doğrudan borsaya gider.</span></div>
+ <div><b>🚫 Para çekme izni vermeyin</b><span>API anahtarı oluştururken yalnızca işlem iznini açın. Para çekme (withdraw) iznini asla açmayın.</span></div>
+ <div><b>✅ Her emirde onay</b><span>Hiçbir emir onayınız olmadan gönderilmez; her emirden önce özet gösterilir.</span></div></div>
+ <p class="bkfoot">Önce denemek mi istiyorsunuz? <a href="#" data-bkdemo="1">Demo hesapla risksiz başlayın</a>.</p>`,[{t:'Kapat',cls:'g'}],'bxl');
+ $('#dlgB').addEventListener('click',e=>{const b=e.target.closest('[data-bk]');if(b)return bkConnect(b.dataset.bk);if(e.target.closest('[data-bkdemo]')){e.preventDefault();closeModal('mDlg');$('#demoBtn')?.click()}})}
+function bkConnect(b){const B=BRK[b];dialog(B.n+' bağla',`<div class="bkst"><div class="bkhd">${bkLogo(b,44)}<div><b>${esc(B.n)}</b><small>${esc(B.sub)}</small></div></div>
+ <ol class="bksteps"><li><a href="${B.url}" target="_blank" rel="noopener">${esc(B.n)} API yönetimi</a> sayfasında yeni bir API anahtarı oluşturun.</li><li>İzinler: <b>${esc(B.perm)}</b>.</li><li>Anahtarı ve gizli anahtarı aşağıya yapıştırın, kendinize bir PIN belirleyin.</li></ol>
+ <div class="fld"><label for="bkK">API anahtarı</label><input id="bkK" type="text" autocomplete="off" spellcheck="false" placeholder="API Key"></div>
+ <div class="fld"><label for="bkS">Gizli anahtar</label><input id="bkS" type="password" autocomplete="new-password" spellcheck="false" placeholder="Secret Key"></div>
+ ${B.pass?`<div class="fld"><label for="bkP">Passphrase</label><input id="bkP" type="password" autocomplete="new-password" placeholder="API oluştururken belirlediğiniz parola"></div>`:''}
+ <div class="fld"><label for="bkPin">PIN (en az 4 hane)</label><input id="bkPin" type="password" inputmode="numeric" autocomplete="new-password" placeholder="Anahtarları şifrelemek için"></div>
+ <label class="ck"><input type="checkbox" id="bkOk">Para çekme iznini kapalı bıraktığımı ve gerçek parayla işlem yapılacağını anlıyorum.</label>
+ <p class="bkerr" id="bkErr"></p></div>`,[{t:'Geri',cls:'g',left:1,f:()=>{setTimeout(brokerDlg,30)}},{t:'Bağlan',keep:1,f:ev=>{bkDoConnect(b,ev.target);return false}}],'md')}
+async function bkDoConnect(b,btn){const err=$('#bkErr'),c={b,key:$('#bkK').value.trim(),secret:$('#bkS').value.trim(),pass:$('#bkP')?.value.trim()||''},pin=$('#bkPin').value;err.textContent='';
+ if(!c.key||!c.secret||(BRK[b].pass&&!c.pass)){err.textContent='Lütfen tüm anahtar alanlarını doldurun.';return}if(pin.length<4){err.textContent='PIN en az 4 haneli olmalı.';return}if(!$('#bkOk').checked){err.textContent='Devam etmek için onay kutusunu işaretleyin.';return}
+ btn.disabled=true;btn.textContent='Doğrulanıyor…';try{await bkTime(b);const a=await bkAccount(c);await bkSave(c,pin);BK_S=c;closeModal('mDlg');toast(BRK[b].n+' bağlandı',`Toplam varlık: ${fmt(a.eq,2)} USDT`,'',4000);renderBkBtn();setTimeout(bkPanel,60)}
+ catch(e){err.textContent='Bağlanamadı: '+e.message+' — Anahtarı, izinleri ve (varsa) IP kısıtlamasını kontrol edin.';btn.disabled=false;btn.textContent='Bağlan'}}
+function bkLock(st){dialog('Borsa bağlantısı',`<div class="bkst"><div class="bkhd">${bkLogo(st.b,44)}<div><b>${esc(BRK[st.b].n)}</b><small>Anahtar: ${esc(st.mask)} · şifreli</small></div></div>
+ <div class="fld"><label for="bkPin2">PIN</label><input id="bkPin2" type="password" inputmode="numeric" autocomplete="current-password" placeholder="Kilidi açmak için PIN"></div><p class="bkerr" id="bkErr"></p></div>`,
+ [{t:'Bağlantıyı sil',cls:'g',left:1,keep:1,f:()=>{if(confirm('Kayıtlı borsa bağlantısı bu tarayıcıdan silinsin mi?')){ls.set('brk',null);BK_S=null;renderBkBtn();closeModal('mDlg');setTimeout(brokerDlg,30)}return false}},{t:'Kilidi aç',keep:1,f:ev=>{(async()=>{const b=ev.target;b.disabled=true;try{BK_S=await bkUnlock($('#bkPin2').value);await bkTime(BK_S.b);closeModal('mDlg');renderBkBtn();setTimeout(bkPanel,60)}catch(e){$('#bkErr').textContent=e.message;b.disabled=false}})();return false}}],'sm')}
+let bkPos=[],bkAcc=null,bkTm=null;
+async function bkRefresh(){if(!BK_S)return;try{[bkAcc,bkPos]=await Promise.all([bkAccount(BK_S),bkPositions(BK_S)]);const box=$('#bkLive');if(box)box.innerHTML=bkLiveHtml()}catch(e){const box=$('#bkLive');if(box)box.innerHTML=`<p class="bkerr">Hesap okunamadı: ${esc(e.message)}</p>`}}
+function bkLiveHtml(){const a=bkAcc||{eq:0,av:0,upl:0};return`<div class="bkacc"><div><small>Toplam varlık</small><b>${fmt(a.eq,2)} $</b></div><div><small>Kullanılabilir</small><b>${fmt(a.av,2)} $</b></div><div><small>Gerçekleşmemiş K/Z</small><b class="${a.upl>=0?'up':'dn'}">${a.upl>=0?'+':''}${fmt(a.upl,2)} $</b></div></div>
+ <div class="bkpt"><div class="bkph">Açık pozisyonlar (${bkPos.length})</div>${bkPos.length?bkPos.map((p,i)=>`<div class="bkpr"><span class="bkps ${p.side>0?'l':'s'}">${p.side>0?'LONG':'SHORT'} ${p.lev||''}x</span><b>${esc(p.sym)}</b><span>${fmt(p.qty,4)}${p.ct?' kontrat':''} @ ${fmt(p.entry,precOf(S.key))}</span><span class="${p.upl>=0?'up':'dn'}">${p.upl>=0?'+':''}${fmt(p.upl,2)} $</span><button type="button" class="btn g sm" data-bkcl="${i}">Kapat</button></div>`).join(''):'<div class="empty">Açık pozisyon yok</div>'}</div>`}
+function bkPanel(){const c=BK_S,B=BRK[c.b],sym=bkSym(c.b),last=S.tick[S.key]?.c??S.full.at(-1)?.close??0;
+ dialog('Canlı işlem · '+B.n,`<div class="bkwarn">⚠️ <b>Gerçek hesap.</b> Buradan verilen emirler ${esc(B.n)} hesabınızda gerçek parayla işlem açar.</div>
+ <div id="bkLive"><div class="empty">Hesap yükleniyor…</div></div>
+ <div class="bkof"><div class="bkph">Yeni emir · <b>${esc(sym)}</b> <small>(grafikteki sembol)</small></div>
+  <div class="bkside"><button type="button" class="on l" data-bks="1">AL / LONG</button><button type="button" class="s" data-bks="-1">SAT / SHORT</button></div>
+  <div class="otype bkty"><button type="button" class="on" data-bkt="market">Piyasa</button><button type="button" data-bkt="limit">Limit</button></div>
+  <div class="fld" id="bkPxF" style="display:none"><label for="bkPx">Limit fiyat</label><input id="bkPx" type="number" step="any" value="${last}"></div>
+  <div class="fld"><label for="bkAmt">Tutar (USDT, teminat)</label><input id="bkAmt" type="number" step="any" min="0" value="20"></div>
+  <div class="fld"><label for="bkLev">Kaldıraç</label><select id="bkLev">${[1,2,3,5,10,20,25,50].map(v=>`<option${v===5?' selected':''}>${v}</option>`).join('')}</select></div>
+  <p class="bkcalc" id="bkCalc"></p><p class="bkerr" id="bkErr"></p></div>`,
+ [{t:'Bağlantıyı kilitle',cls:'g',left:1,f:()=>{BK_S=null;renderBkBtn();clearInterval(bkTm)}},{t:'Kapat',cls:'g',f:()=>clearInterval(bkTm)},{t:'Emri gözden geçir',keep:1,f:()=>{bkReview();return false}}],'md',()=>clearInterval(bkTm));
+ const D=$('#dlgB');D.dataset.side='1';D.dataset.type='market';
+ const calc=()=>{const amt=+$('#bkAmt').value||0,lev=+$('#bkLev').value,px=D.dataset.type==='limit'?+$('#bkPx').value:(S.tick[S.key]?.c??last);$('#bkCalc').textContent=px?`Pozisyon büyüklüğü ≈ ${fmt(amt*lev,2)} USDT ≈ ${fmt(amt*lev/px,5)} ${sym.replace(/-?USDT.*$/,'')}`:''};
+ D.addEventListener('click',e=>{const s=e.target.closest('[data-bks]'),t=e.target.closest('[data-bkt]'),cl=e.target.closest('[data-bkcl]');
+  if(s){D.dataset.side=s.dataset.bks;D.querySelectorAll('[data-bks]').forEach(x=>x.classList.toggle('on',x===s))}
+  if(t){D.dataset.type=t.dataset.bkt;D.querySelectorAll('[data-bkt]').forEach(x=>x.classList.toggle('on',x===t));$('#bkPxF').style.display=t.dataset.bkt==='limit'?'':'none'}
+  if(cl){const p=bkPos[+cl.dataset.bkcl];if(p&&confirm(`${p.sym} ${p.side>0?'LONG':'SHORT'} pozisyonu piyasa fiyatından kapatılsın mı?`)){cl.disabled=true;bkInst(BK_S,p.sym).then(inf=>bkOrder(BK_S,{sym:p.sym,side:-p.side,type:'market',qty:p.qty*(p.ct?inf.ct:1),reduce:true})).then(()=>{toast('Pozisyon kapatıldı',p.sym,'',3000);bkRefresh()}).catch(er=>{toast('Kapatılamadı',er.message,'',6000);cl.disabled=false})}}
+  calc()});D.addEventListener('input',calc);calc();bkRefresh();clearInterval(bkTm);bkTm=setInterval(()=>{if(!$('#bkLive'))return clearInterval(bkTm);bkRefresh()},5000)}
+async function bkReview(){const D=$('#dlgB'),c=BK_S,sym=bkSym(c.b),side=+D.dataset.side,type=D.dataset.type,amt=+$('#bkAmt').value,lev=+$('#bkLev').value,px=type==='limit'?+$('#bkPx').value:(S.tick[S.key]?.c??S.full.at(-1)?.close),err=$('#bkErr');err.textContent='';
+ if(!(amt>0)||!(px>0)){err.textContent='Geçerli bir tutar ve fiyat girin.';return}const qty=amt*lev/px;
+ let inf;try{inf=await bkInst(c,sym)}catch(e){err.textContent=e.message;return}const units=+bkStep(qty/inf.ct,inf.step);if(units<inf.min){err.textContent=`Tutar çok düşük. En az ≈ ${fmt(inf.min*inf.ct*px/lev,2)} USDT teminat gerekir.`;return}
+ const msg=`${BRK[c.b].n}\n\n${side>0?'AL / LONG':'SAT / SHORT'} · ${sym}\nEmir: ${type==='limit'?'Limit @ '+fmt(px):'Piyasa'}\nMiktar: ${units}${inf.ct!==1?' kontrat (≈ '+fmt(units*inf.ct,5)+')':''}\nKaldıraç: ${lev}x · Teminat ≈ ${fmt(amt,2)} USDT\nPozisyon ≈ ${fmt(units*inf.ct*px,2)} USDT\n\nBu GERÇEK bir emirdir. Gönderilsin mi?`;
+ if(!confirm(msg))return;try{await bkOrder(c,{sym,side,type,qty:units*inf.ct,price:px,lev});toast('Emir gönderildi',`${side>0?'LONG':'SHORT'} ${sym} · ${type==='limit'?'Limit':'Piyasa'}`,'',4000);bkRefresh()}catch(e){err.textContent='Emir reddedildi: '+e.message}}
+function renderBkBtn(){const b=$('#bkBtn');if(!b)return;const st=ls.get('brk',null);b.classList.toggle('on',!!BK_S);b.querySelector('.lbl').textContent=BK_S?BRK[BK_S.b].n:st?'Borsa (kilitli)':'Borsa bağla'}
+
+$('#bkBtn').onclick=()=>brokerDlg();renderBkBtn();
 }
 </script>
 </body>
