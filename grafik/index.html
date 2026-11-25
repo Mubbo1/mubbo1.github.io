@@ -1741,7 +1741,7 @@ $('#mtabs').addEventListener('click',e=>{const b=e.target.closest('[data-m]');if
 
 // ================= v4: fiyat ölçeği araçları =================
 const pplus=$('#pplus'),cdown=$('#cdown'),toRT=$('#toRT'),ctl=$('#ctl');let plusP=null,plusT=null;
-function showPlus(pt){if(!S.set.plus||!pt||pt.y==null||pt.y<0||pt.y>S.H){return}pplus.style.left=(S.W+3)+'px';pplus.style.top=(pt.y-10)+'px';pplus.style.display='grid';plusP=pOfY(pt.y);plusT=l2t(lOfX(pt.x))}
+function showPlus(pt){if(!S.set.plus||!pt||pt.y==null||pt.y<0||pt.y>S.H){return}pplus.style.left=(S.W-24)+'px';pplus.style.top=(pt.y-10)+'px';pplus.style.display='grid';plusP=pOfY(pt.y);plusT=l2t(lOfX(pt.x))}
 mainEl.addEventListener('mouseleave',()=>{if(!pop.classList.contains('show'))pplus.style.display='none'});
 function addHL(pr,type){snap();S.draws.push({id:uid(),type,pts:[{t:plusT??S.data.at(-1)?.time??0,p:pr}],st:defSt(type)});saveDraws();dirty()}
 pplus.dataset.pop=1;
