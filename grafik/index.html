@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f1218">
+<title>ProGrafik</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lightweight-charts@4.2.0/dist/lightweight-charts.standalone.production.js"></script>
+<style>
+:root{--bg:#0f1218;--pn:#151922;--ln:#262c38;--ink:#d1d4dc;--mu:#8b95a5;--hv:#1e2430;--ac:#2962ff;--up:#089981;--dn:#f23645;--warn:#ff9800}
+[data-theme=light]{--bg:#ffffff;--pn:#ffffff;--ln:#e0e3eb;--ink:#131722;--mu:#6a6d78;--hv:#f0f3fa}
+*{box-sizing:border-box;min-width:0}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font:13px/1.4 Inter,system-ui,sans-serif;overflow:hidden;-webkit-user-select:none;user-select:none}
+input,select,textarea{-webkit-user-select:text;user-select:text}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;border-radius:4px;padding:0}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--ac);outline-offset:1px}
+svg.i{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex:none}
+#app{display:grid;grid-template-columns:48px minmax(0,1fr) 300px;grid-template-rows:44px minmax(0,1fr);height:100vh;height:100dvh}
+#top{grid-column:1/-1;display:flex;align-items:center;gap:2px;padding:0 6px;border-bottom:1px solid var(--ln);background:var(--pn);overflow-x:auto;scrollbar-width:none}
+#top::-webkit-scrollbar{display:none}
+.brand{flex:none;font-weight:700;color:var(--ac);padding:0 8px 0 4px;white-space:nowrap;font-size:14px}
+.brand b{color:var(--ink)}
+.hb{height:34px;padding:0 8px;display:flex;align-items:center;gap:6px;white-space:nowrap;color:var(--ink);flex:none}
+.hb:hover,.tb:hover{background:var(--hv)}
+.hb.on{color:var(--ac)}
+.hb:disabled{opacity:.35;cursor:default;background:none}
+.sym{font-weight:600}
+.sp{width:1px;height:22px;background:var(--ln);margin:0 4px;flex:none}
+.grow{flex:1}
+.tfb{height:30px;padding:0 7px;color:var(--ink);font-weight:500;white-space:nowrap}
+.tfb.on{color:var(--ac);background:var(--hv)}
+.tfb:hover{background:var(--hv)}
+#tools{background:var(--pn);border-right:1px solid var(--ln);display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;overflow-y:auto;scrollbar-width:none}
+#tools::-webkit-scrollbar{display:none}
+.tb{width:38px;height:38px;display:grid;place-items:center;color:var(--ink);position:relative;flex:none}
+.tb.on{color:var(--ac);background:var(--hv)}
+.tb.grp::after{content:"";position:absolute;right:3px;bottom:3px;border:3px solid transparent;border-right-color:var(--mu);border-bottom-color:var(--mu)}
+.tsep{width:26px;height:1px;background:var(--ln);margin:4px 0;flex:none}
+#center{display:flex;flex-direction:column;min-height:0;position:relative}
+#main{flex:1;position:relative;min-height:120px}
+#subs{display:flex;flex-direction:column;max-height:62%;overflow-y:auto;flex:none}
+.pane{position:relative;border-top:1px solid var(--ln);flex:none}
+.rz{position:absolute;left:0;right:0;top:-4px;height:8px;cursor:ns-resize;z-index:6;touch-action:none}
+#draw{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none;overflow:hidden}
+#draw.active{pointer-events:all;cursor:crosshair;touch-action:none}
+#draw .h{stroke:transparent;stroke-width:14;pointer-events:stroke;cursor:move}
+#draw .f,#draw .tt{pointer-events:visiblePainted;cursor:move}
+#draw .t{pointer-events:none}
+#draw .hd{fill:var(--bg);stroke:var(--ac);stroke-width:2;pointer-events:all;cursor:grab}
+#draw .pv{pointer-events:none;opacity:.85}
+#draw.active .h,#draw.active .f,#draw.active .tt,#draw.active .hd{pointer-events:none}
+.lg{position:absolute;left:8px;top:6px;z-index:5;pointer-events:none;font-size:12px;max-width:calc(100% - 100px);max-height:calc(100% - 40px);overflow:hidden}
+.plg{max-height:calc(100% - 8px)}
+.lg .r1{display:flex;flex-wrap:wrap;gap:2px 8px;align-items:baseline}
+.lg .nm{font-size:13px;font-weight:600}
+.lg .k{color:var(--mu)}
+.ir{display:flex;gap:6px;align-items:center;margin-top:2px;white-space:nowrap}
+.ir .in{color:var(--ink)}
+.ir.off .in,.ir.off .vv{opacity:.4}
+.ib{display:inline-flex;gap:1px;pointer-events:auto;opacity:.55}
+.ir:hover .ib,.ib:hover{opacity:1}
+.ib button{width:22px;height:22px;display:grid;place-items:center;background:var(--pn);border:1px solid var(--ln)}
+.ib svg.i{width:14px;height:14px}
+.lgc{pointer-events:auto;margin-top:3px;height:20px;padding:0 6px;border:1px solid var(--ln);background:var(--pn);color:var(--mu);font-size:11px}
+.up{color:var(--up)}.dn{color:var(--dn)}
+#status{position:absolute;right:86px;top:8px;z-index:5;font-size:11px;color:var(--mu);pointer-events:none;white-space:nowrap}
+#status i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--dn);margin-right:5px}
+#status.live i{background:var(--up)}
+#bot{height:30px;border-top:1px solid var(--ln);display:flex;align-items:center;gap:2px;padding:0 6px;background:var(--pn);flex:none;overflow-x:auto;scrollbar-width:none}
+#bot::-webkit-scrollbar{display:none}
+#bot button{flex:none;height:24px;padding:0 7px;color:var(--ink);font-size:12px;white-space:nowrap}
+#bot button:hover{background:var(--hv)}
+#bot button.on{color:var(--ac)}
+#clock{flex:none;color:var(--mu);font-size:12px;white-space:nowrap;padding:0 8px;font-variant-numeric:tabular-nums}
+#dtb{position:absolute;bottom:44px;left:50%;transform:translateX(-50%);z-index:7;display:none;background:var(--pn);border:1px solid var(--ln);border-radius:6px;box-shadow:0 4px 18px #0006;padding:3px;gap:2px;align-items:center}
+#dtb.show{display:flex}
+#dtb button{height:30px;min-width:30px;display:grid;place-items:center;padding:0 4px}
+#dtb button:hover{background:var(--hv)}
+#dtb button.on{background:var(--hv);color:var(--ac)}
+.sw{width:16px;height:16px;border-radius:3px;border:1px solid #fff4}
+#rbar{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);z-index:8;display:none;background:var(--pn);border:1px solid var(--ln);border-radius:8px;box-shadow:0 4px 18px #0007;padding:4px;gap:2px;align-items:center}
+#rbar.show{display:flex}
+#rbar button{height:32px;min-width:34px;padding:0 8px;display:grid;place-items:center}
+#rbar button:hover{background:var(--hv)}
+#rbar .rt{color:var(--mu);font-size:12px;padding:0 8px;white-space:nowrap}
+#rhint{position:absolute;top:44px;left:50%;transform:translateX(-50%);z-index:8;background:var(--ac);color:#fff;padding:6px 12px;border-radius:6px;display:none;font-size:12px;pointer-events:none;white-space:nowrap}
+aside{border-left:1px solid var(--ln);background:var(--pn);display:flex;flex-direction:column;min-height:0}
+.stabs{display:flex;border-bottom:1px solid var(--ln);flex:none}
+.stabs button{flex:1;height:38px;color:var(--mu);font-weight:500;border-radius:0}
+.stabs button.on{color:var(--ink);box-shadow:inset 0 -2px var(--ac)}
+.spane{display:none;flex-direction:column;flex:1;min-height:0}
+.spane.on{display:flex}
+.wlh{display:grid;grid-template-columns:minmax(0,1fr) 84px 64px 26px;gap:6px;padding:6px 10px;color:var(--mu);font-size:11px;flex:none;align-items:center}
+.wlh button{width:26px;height:26px;display:grid;place-items:center;color:var(--ink)}
+#wl{overflow-y:auto;flex:1 1 50%;min-height:120px}
+.wi{display:grid;grid-template-columns:minmax(0,1fr) 84px 64px 26px;gap:6px;align-items:center;padding:0 10px;height:30px;cursor:pointer;font-variant-numeric:tabular-nums;font-size:12px}
+.wi:hover,.wi.on{background:var(--hv)}
+.wi .n{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wi .n small{color:var(--mu);font-weight:400;margin-left:3px}
+.wi .p,.wi .c{text-align:right;white-space:nowrap}
+.wi .x{opacity:0;color:var(--mu);width:22px;height:22px;display:grid;place-items:center}
+.wi:hover .x{opacity:1}
+#det{border-top:1px solid var(--ln);padding:12px;overflow-y:auto;flex:0 1 auto;max-height:50%}
+#det .dn1{color:var(--mu);font-size:12px}
+#det .pr{font-size:26px;font-weight:700;font-variant-numeric:tabular-nums;line-height:1.2;margin-top:4px}
+#det .ch{font-weight:600;font-variant-numeric:tabular-nums}
+#det dl{display:grid;grid-template-columns:auto auto;gap:6px 10px;margin:12px 0 0;font-size:12px}
+#det dt{color:var(--mu)}#det dd{margin:0;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.rng{height:4px;background:var(--ln);border-radius:2px;position:relative;margin:14px 0 4px}
+.rng i{position:absolute;top:-3px;width:2px;height:10px;background:var(--ink)}
+.rngl{display:flex;justify-content:space-between;color:var(--mu);font-size:11px}
+#al{overflow-y:auto;flex:1;padding:6px 0}
+.ali{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 8px;padding:8px 12px;border-bottom:1px solid var(--ln);font-size:12px}
+.ali .a1{font-weight:600}.ali .a2{color:var(--mu)}
+.ali.done{opacity:.5}
+.ali .ab{grid-row:1/3;grid-column:2;display:flex;gap:2px;align-items:center}
+.ali .ab button{width:28px;height:28px;display:grid;place-items:center}
+.empty{color:var(--mu);padding:24px 16px;text-align:center;font-size:12px}
+.btn{height:34px;padding:0 14px;border-radius:6px;background:var(--ac);color:#fff;font-weight:600}
+.btn.g{background:var(--hv);color:var(--ink)}
+.btn.r{background:var(--dn)}
+.modal{position:fixed;inset:0;background:#0009;display:none;z-index:30;align-items:flex-start;justify-content:center;padding:56px 12px 12px}
+.modal.show{display:flex}
+.box{background:var(--pn);border:1px solid var(--ln);border-radius:10px;width:min(560px,100%);max-height:calc(100dvh - 80px);display:flex;flex-direction:column;box-shadow:0 10px 40px #0008}
+.box.sm{width:min(380px,100%)}
+.mh{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid var(--ln);font-size:15px;font-weight:600;flex:none}
+.mh button{width:32px;height:32px;display:grid;place-items:center}
+.mb{padding:14px;overflow-y:auto}
+.mf{display:flex;justify-content:flex-end;gap:8px;padding:12px 14px;border-top:1px solid var(--ln);flex:none}
+.fld{display:grid;grid-template-columns:140px minmax(0,1fr);gap:8px;align-items:center;margin-bottom:10px}
+.fld label{color:var(--mu)}
+.fld input,.fld select,.fld textarea,.srch{background:var(--bg);border:1px solid var(--ln);color:var(--ink);font:inherit;font-size:16px;padding:7px 9px;border-radius:6px;width:100%}
+.fld input[type=color]{height:34px;padding:2px;width:60px}
+.fld input[type=checkbox]{width:18px;height:18px;accent-color:var(--ac)}
+.srch{margin:0 0 10px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.chips button{height:28px;padding:0 10px;border:1px solid var(--ln);border-radius:14px;color:var(--mu)}
+.chips button.on{border-color:var(--ac);color:var(--ink);background:var(--hv)}
+.li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:9px 10px;border-radius:6px;cursor:pointer}
+.li:hover,.li.sel{background:var(--hv)}
+.li small{color:var(--mu)}
+.li .tag{font-size:10px;border:1px solid var(--ln);border-radius:3px;padding:1px 4px;color:var(--mu)}
+.pop{position:fixed;z-index:25;background:var(--pn);border:1px solid var(--ln);border-radius:8px;box-shadow:0 8px 28px #0008;padding:4px;display:none;min-width:200px;max-height:70vh;overflow-y:auto}
+.pop.show{display:block}
+.pop button{display:flex;align-items:center;gap:10px;width:100%;padding:7px 10px;text-align:left;white-space:nowrap}
+.pop button:hover{background:var(--hv)}
+.pop button.on{color:var(--ac)}
+.pop button kbd{margin-left:auto;color:var(--mu);font:11px Inter,sans-serif;padding-left:16px}
+.pop .ph{padding:6px 10px 2px;color:var(--mu);font-size:11px}
+#toasts{position:fixed;right:12px;bottom:12px;z-index:40;display:flex;flex-direction:column;gap:8px;max-width:340px}
+.toast{background:var(--pn);border:1px solid var(--ln);border-left:3px solid var(--ac);border-radius:6px;padding:10px 12px;box-shadow:0 6px 22px #0008;font-size:12px;cursor:pointer}
+.toast b{display:block;font-size:13px;margin-bottom:2px}
+.toast.al{border-left-color:var(--warn)}
+#mtabs{display:none}
+@media(max-width:860px){
+ #app{grid-template-columns:minmax(0,1fr);grid-template-rows:44px minmax(0,1fr) 44px 48px}
+ #center{grid-row:2}
+ #tools{grid-row:3;flex-direction:row;border:0;border-top:1px solid var(--ln);padding:0 4px;overflow-x:auto;overflow-y:hidden}
+ .tsep{width:1px;height:24px;margin:0 4px}
+ aside{position:fixed;left:0;right:0;top:44px;bottom:48px;z-index:20;display:none;border:0}
+ aside.show{display:flex}
+ #mtabs{display:flex;grid-row:4;border-top:1px solid var(--ln);background:var(--pn)}
+ #mtabs button{flex:1;color:var(--mu);font-weight:500;border-radius:0}
+ #mtabs button.on{color:var(--ac)}
+ .hb .lbl{display:none}
+ .brand{display:none}
+ #status{right:80px;font-size:0}
+ .lg{max-width:calc(100% - 90px)}
+ .fld{grid-template-columns:110px minmax(0,1fr)}
+ #toasts{left:12px;right:12px;bottom:100px;max-width:none}
+}
+@media(prefers-reduced-motion:no-preference){.toast{animation:tin .2s ease-out}@keyframes tin{from{transform:translateY(8px);opacity:0}}}
+</style>
+</head>
+<body>
+<div id="app">
+<header id="top">
+ <span class="brand" id="brand"></span>
+ <button class="hb sym" id="symBtn" title="Sembol ara"><i data-ic="search"></i><span id="symTxt">BTCUSDT.P</span></button>
+ <i class="sp"></i>
+ <div id="tfFav" style="display:flex;gap:1px;flex:none"></div>
+ <button class="hb" id="tfMore" title="Tüm zaman dilimleri"><i data-ic="chev"></i></button>
+ <i class="sp"></i>
+ <button class="hb" id="typeBtn" title="Grafik tipi"><i data-ic="candle"></i></button>
+ <i class="sp"></i>
+ <button class="hb" id="indBtn" title="Göstergeler"><i data-ic="fx"></i><span class="lbl">Göstergeler</span></button>
+ <button class="hb" id="alarmBtn" title="Alarm oluştur"><i data-ic="alarm"></i><span class="lbl">Alarm</span></button>
+ <button class="hb" id="replayBtn" title="Tekrar oynat"><i data-ic="replay"></i><span class="lbl">Tekrar oynat</span></button>
+ <i class="sp"></i>
+ <button class="hb" id="undoBtn" title="Geri al (Ctrl+Z)"><i data-ic="undo"></i></button>
+ <button class="hb" id="redoBtn" title="Yinele (Ctrl+Y)"><i data-ic="redo"></i></button>
+ <div class="grow"></div>
+ <button class="hb" id="cfgBtn" title="Ayarlar"><i data-ic="gear"></i></button>
+ <button class="hb" id="shotBtn" title="Ekran görüntüsü al"><i data-ic="camera"></i></button>
+ <button class="hb" id="fsBtn" title="Tam ekran"><i data-ic="full"></i></button>
+</header>
+<nav id="tools"></nav>
+<section id="center">
+ <div id="main">
+  <div class="lg" id="lg"></div>
+  <div id="status"><i></i>bağlanıyor</div>
+  <svg id="draw"></svg>
+  <div id="dtb"></div>
+  <div id="rhint">Tekrar oynatmanın başlayacağı mumu seçin</div>
+  <div id="rbar"></div>
+ </div>
+ <div id="subs"></div>
+ <footer id="bot"></footer>
+</section>
+<aside id="side">
+ <div class="stabs"><button class="on" data-st="wl">İzleme listesi</button><button data-st="al">Alarmlar</button></div>
+ <div class="spane on" id="sp-wl">
+  <div class="wlh"><span>Sembol</span><span style="text-align:right">Son</span><span style="text-align:right">Değ%</span><button id="addWl" title="Sembol ekle"><i data-ic="plus"></i></button></div>
+  <div id="wl"></div>
+  <div id="det"></div>
+ </div>
+ <div class="spane" id="sp-al">
+  <div style="padding:10px 12px;flex:none"><button class="btn" id="newAlarm">+ Alarm oluştur</button></div>
+  <div id="al"></div>
+ </div>
+</aside>
+<div id="mtabs"><button class="on" data-m="chart">Grafik</button><button data-m="side">Liste</button></div>
+</div>
+
+<div class="modal" id="mSym"><div class="box"><div class="mh"><span id="mSymT">Sembol ara</span><button data-close><i data-ic="x"></i></button></div>
+ <div class="mb"><input class="srch" id="q" placeholder="Sembol ara, ör. BTC, ETH, SOL" autocomplete="off" spellcheck="false">
+ <div class="chips" id="qtab"><button class="on" data-m="">Tümü</button><button data-m="F">Vadeli (Perp)</button><button data-m="S">Spot</button></div>
+ <div id="qlist"></div></div></div></div>
+
+<div class="modal" id="mInd"><div class="box"><div class="mh"><span>Göstergeler</span><button data-close><i data-ic="x"></i></button></div>
+ <div class="mb"><input class="srch" id="iq" placeholder="Gösterge ara" autocomplete="off" spellcheck="false">
+ <div class="chips" id="icat"></div><div id="ilist"></div></div></div></div>
+
+<div class="modal" id="mDlg"><div class="box sm"><div class="mh"><span id="dlgT"></span><button data-close><i data-ic="x"></i></button></div>
+ <div class="mb" id="dlgB"></div><div class="mf" id="dlgF"></div></div></div>
+
+<div class="pop" id="pop"></div>
+<div id="toasts"></div>
+
+<script>
+{
+const APP_NAME='ProGrafik'; // uygulama adı: yalnızca burayı değiştirin
+const LC=window.LightweightCharts;
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const ls={get(k,d){try{const v=localStorage.getItem('otc_'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('otc_'+k,JSON.stringify(v))}catch(e){}}};
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const uid=()=>Math.random().toString(36).slice(2,10);
+const clone=o=>JSON.parse(JSON.stringify(o));
+
+// ---------------- ikonlar ----------------
+const IC={search:'<circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/>',chev:'<path d="M7 10l5 5 5-5"/>',
+candle:'<path d="M7 3v4M7 17v4M17 3v3M17 16v5"/><rect x="5" y="7" width="4" height="10"/><rect x="15" y="6" width="4" height="10"/>',
+bar:'<path d="M7 4v16M4 8h3M7 15h3M17 4v16M14 7h3M17 13h3"/>',line:'<path d="M3 17l5-6 4 3 8-9"/>',area:'<path d="M3 17l5-6 4 3 8-9v15H3z"/>',
+base:'<path d="M3 12h18" stroke-dasharray="2 2"/><path d="M3 15l4-6 4 4 4-7 6 5"/>',ha:'<rect x="5" y="8" width="4" height="9"/><rect x="15" y="5" width="4" height="9"/><path d="M7 5v3M17 3v2M17 14v4"/>',
+hollow:'<rect x="5" y="7" width="4" height="10"/><rect x="15" y="6" width="4" height="10" fill="currentColor"/><path d="M7 3v4M7 17v4M17 3v3M17 16v5"/>',
+fx:'<path d="M5 20c3 0 2-16 6-16M6 10h6M13 11l6 7M19 11l-6 7"/>',alarm:'<circle cx="12" cy="13" r="7"/><path d="M12 9v4l2.5 2M4 4l3-2M20 4l-3-2"/>',
+replay:'<path d="M11 6l-7 6 7 6zM20 6l-7 6 7 6z"/>',undo:'<path d="M9 14L4 9l5-5M4 9h11a5 5 0 0 1 0 10h-4"/>',redo:'<path d="M15 14l5-5-5-5M20 9H9a5 5 0 0 0 0 10h4"/>',
+gear:'<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1L7 17M17 7l2.1-2.1"/>',
+camera:'<path d="M3 8h4l2-3h6l2 3h4v12H3z"/><circle cx="12" cy="13" r="4"/>',full:'<path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/>',
+plus:'<path d="M12 5v14M5 12h14"/>',x:'<path d="M6 6l12 12M18 6L6 18"/>',eye:'<path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+eyeoff:'<path d="M3 3l18 18M10.6 6.1A9.8 9.8 0 0 1 12 6c6 0 10 6 10 6a17 17 0 0 1-3 3.5M6.6 6.6C3.8 8.4 2 12 2 12s4 7 10 7a9.6 9.6 0 0 0 4.4-1"/>',
+cfg:'<path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/>',
+trash:'<path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/>',
+cross:'<path d="M12 3v18M3 12h18"/>',dot:'<circle cx="12" cy="12" r="2.5" fill="currentColor"/>',arrowc:'<path d="M6 3l12 9-5.5 1.2L10 19z"/>',
+trend:'<path d="M5 19L19 5"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="5" r="2"/>',ray:'<path d="M5 19L22 2"/><circle cx="5" cy="19" r="2"/><circle cx="13" cy="11" r="2"/>',
+ext:'<path d="M2 22L22 2"/><circle cx="8" cy="16" r="2"/><circle cx="16" cy="8" r="2"/>',hline:'<path d="M2 12h20"/><circle cx="12" cy="12" r="2"/>',
+hray:'<path d="M8 12h14"/><circle cx="6" cy="12" r="2"/>',vline:'<path d="M12 2v20"/><circle cx="12" cy="12" r="2"/>',
+channel:'<path d="M3 14L14 3M10 21L21 10"/><path d="M6.5 17.5L17.5 6.5" stroke-dasharray="2 2"/>',
+fib:'<path d="M3 4h18M3 9h18M3 14h18M3 20h18"/><path d="M5 20L19 4" stroke-dasharray="2 2"/>',
+fibext:'<path d="M3 20l5-9 4 5"/><path d="M12 4h9M12 8h9M12 12h9"/>',rect:'<rect x="4" y="6" width="16" height="12"/>',
+circle:'<circle cx="12" cy="12" r="8"/>',arrow:'<path d="M5 19L19 5M11 5h8v8"/>',brush:'<path d="M3 17c3-7 5 1 8-4s4-6 10-8"/>',
+text:'<path d="M5 6V4h14v2M12 4v16M9 20h6"/>',up:'<path d="M12 3l7 8h-4v9H9v-9H5z"/>',down:'<path d="M12 21l7-8h-4V4H9v9H5z"/>',
+long:'<rect x="4" y="4" width="16" height="8"/><rect x="4" y="12" width="16" height="8" stroke-dasharray="2 2"/>',
+short:'<rect x="4" y="4" width="16" height="8" stroke-dasharray="2 2"/><rect x="4" y="12" width="16" height="8"/>',
+measure:'<path d="M4 20V4M4 20h16M8 16l8-8M13 8h3v3"/>',ruler:'<path d="M3 17L17 3l4 4L7 21z"/><path d="M7 13l2 2M10 10l2 2M13 7l2 2"/>',
+zoom:'<circle cx="10" cy="10" r="6"/><path d="M20 20l-5.5-5.5M10 7v6M7 10h6"/>',magnet:'<path d="M5 3h4v8a3 3 0 0 0 6 0V3h4v8a7 7 0 0 1-14 0z"/><path d="M5 7h4M15 7h4"/>',
+lock:'<rect x="5" y="11" width="14" height="10" rx="1"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',unlock:'<rect x="5" y="11" width="14" height="10" rx="1"/><path d="M8 11V7a4 4 0 0 1 7.5-2"/>',
+copy:'<rect x="8" y="8" width="12" height="12" rx="1"/><path d="M16 8V4H4v12h4"/>',edit:'<path d="M4 20h4L19 9l-4-4L4 16z"/>',
+play:'<path d="M7 4l13 8-13 8z" fill="currentColor"/>',pause:'<path d="M7 4h3v16H7zM14 4h3v16h-3z" fill="currentColor"/>',next:'<path d="M5 4l10 8-10 8zM18 4v16"/>',
+bell:'<path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4zM10 21h4"/>'};
+const ic=(n,cls='')=>`<svg class="i ${cls}" viewBox="0 0 24 24">${IC[n]||''}</svg>`;
+function paintIcons(root=document){root.querySelectorAll('i[data-ic]').forEach(e=>{e.outerHTML=ic(e.dataset.ic)})}
+
+// ---------------- biçimlendirme ----------------
+const NF={};const nf=dp=>NF[dp]||(NF[dp]=new Intl.NumberFormat('tr-TR',{minimumFractionDigits:dp,maximumFractionDigits:dp}));
+const fmt=(v,dp=S.prec)=>v==null||!isFinite(v)?'–':nf(Math.max(0,Math.min(10,dp))).format(v);
+const fmtBig=v=>{if(v==null||!isFinite(v))return'–';const a=Math.abs(v);return a>=1e9?fmt(v/1e9,2)+' B':a>=1e6?fmt(v/1e6,2)+' M':a>=1e3?fmt(v/1e3,2)+' K':fmt(v,a<10?2:0)};
+const pct=v=>v==null||!isFinite(v)?'–':(v>=0?'+':'')+fmt(v,2)+'%';
+const pad=n=>String(n).padStart(2,'0');
+const AY=['Oca','Şub','Mar','Nis','May','Haz','Tem','Ağu','Eyl','Eki','Kas','Ara'],GUN=['Paz','Pzt','Sal','Çar','Per','Cum','Cmt'];
+const isIntra=()=>!['1d','3d','1w','1M'].includes(S.tf);
+function fmtTime(t){const d=new Date(t*1000);return`${GUN[d.getDay()]} ${d.getDate()} ${AY[d.getMonth()]} '${String(d.getFullYear()).slice(2)}`+(isIntra()?`  ${pad(d.getHours())}:${pad(d.getMinutes())}`:'')}
+function tickFmt(t,type){const d=new Date(t*1000);return type===0?String(d.getFullYear()):type===1?AY[d.getMonth()]:type===2?String(d.getDate()):type===4?`${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())}`:`${pad(d.getHours())}:${pad(d.getMinutes())}`}
+function fmtDur(s){s=Math.abs(s);const d=Math.floor(s/86400),h=Math.floor(s%86400/3600),m=Math.floor(s%3600/60);return[d?d+'g':'',h?h+'s':'',m?m+'d':''].filter(Boolean).join(' ')||'0d'}
+
+// ---------------- durum ----------------
+const TFS=[['1m','1d','1 dakika'],['3m','3d','3 dakika'],['5m','5d','5 dakika'],['15m','15d','15 dakika'],['30m','30d','30 dakika'],['1h','1s','1 saat'],['2h','2s','2 saat'],['4h','4s','4 saat'],['6h','6s','6 saat'],['12h','12s','12 saat'],['1d','G','1 gün'],['3d','3G','3 gün'],['1w','H','1 hafta'],['1M','A','1 ay']];
+const TFSEC={'1m':60,'3m':180,'5m':300,'15m':900,'30m':1800,'1h':3600,'2h':7200,'4h':14400,'6h':21600,'12h':43200,'1d':86400,'3d':259200,'1w':604800,'1M':2592000};
+const CTYPES=[['candle','Mumlar'],['hollow','İçi boş mumlar'],['ha','Heikin Ashi'],['bar','Barlar'],['line','Çizgi'],['area','Alan'],['base','Baz çizgisi']];
+const REST={F:'https://fapi.binance.com/fapi/v1',S:'https://api.binance.com/api/v3'};
+const WSB={F:'wss://fstream.binance.com/ws/',S:'wss://stream.binance.com:9443/ws/'};
+const DEFSET={theme:'dark',up:'#089981',down:'#f23645',grid:true,volOnMain:true};
+const S={
+ key:ls.get('key','F:BTCUSDT'),tf:ls.get('tf','15m'),ctype:ls.get('ctype','candle'),
+ fav:ls.get('fav',['1m','5m','15m','1h','4h','1d','1w']),
+ set:{...DEFSET,...ls.get('set',{})},
+ inds:ls.get('inds',null),
+ wl:ls.get('wl',['F:BTCUSDT','F:ETHUSDT','F:SOLUSDT','F:XRPUSDT','F:BNBUSDT','F:DOGEUSDT','F:AVAXUSDT','F:LINKUSDT','F:SUIUSDT','F:PAXGUSDT','S:BTCUSDT','S:ETHUSDT']),
+ alarms:ls.get('alarms',[]),magnet:ls.get('magnet',false),
+ full:[],data:[],tick:{},syms:[],prec:2,refP:1,tool:'cross',cursor:ls.get('cursor','cross'),pending:null,sel:null,drag:null,
+ draws:[],hist:{u:[],r:[]},locked:false,hidden:false,hover:null,replay:null,kws:null,noMore:false,loadingMore:false,lgOpen:true,dv:0,lastPx:{},W:0,H:0,det:{}
+};
+const mk=k=>{const i=k.indexOf(':');return{m:k.slice(0,i),s:k.slice(i+1)}};
+const lbl=k=>{const{m,s}=mk(k);return s+(m==='F'?'.P':'')};
+function precOf(k){const s=S.syms.find(x=>x.k===k);if(s&&s.prec!=null)return s.prec;const p=S.tick[k]?.c||S.full.at(-1)?.close;if(!p)return 2;return p>=1000?2:p>=100?2:p>=1?4:p>=.01?5:p>=.0001?7:8}
+const pf=()=>({type:'price',precision:S.prec,minMove:1/10**S.prec});
+
+// ---------------- grafikler ----------------
+function chartOpts(sub,fmtDp){const dark=S.set.theme==='dark',bg=dark?'#0f1218':'#ffffff',grid=dark?'#1b2029':'#f0f3fa',text=dark?'#8b95a5':'#5d6573',border=dark?'#262c38':'#e0e3eb';
+ return{layout:{background:{type:'solid',color:bg},textColor:text,fontFamily:'Inter,system-ui,sans-serif',fontSize:11},
+  grid:{vertLines:{color:S.set.grid?grid:'rgba(0,0,0,0)'},horzLines:{color:S.set.grid?grid:'rgba(0,0,0,0)'}},
+  crosshair:{mode:S.magnet?1:0,vertLine:{color:dark?'#6a7385':'#9598a1',labelBackgroundColor:dark?'#363c4e':'#131722',visible:S.cursor==='cross'},horzLine:{color:dark?'#6a7385':'#9598a1',labelBackgroundColor:dark?'#363c4e':'#131722',visible:S.cursor==='cross'}},
+  rightPriceScale:{borderColor:border,minimumWidth:78,scaleMargins:sub?{top:.12,bottom:.08}:{top:.08,bottom:.12}},
+  timeScale:{borderColor:border,timeVisible:true,secondsVisible:false,rightOffset:12,tickMarkFormatter:tickFmt,visible:!sub},
+  localization:{locale:'tr-TR',timeFormatter:fmtTime,priceFormatter:p=>fmt(p,fmtDp==null?S.prec:fmtDp)},autoSize:true}}
+const main=LC.createChart($('#main'),chartOpts(false));
+let mainS=null;
+const subs=[]; // {u,el,chart,ghost,dp}
+const charts=()=>[main,...subs.map(p=>p.chart)];
+let syncing=false;
+function hookRange(c){c.timeScale().subscribeVisibleLogicalRangeChange(r=>{if(!r||syncing)return;syncing=true;charts().forEach(o=>{if(o!==c)o.timeScale().setVisibleLogicalRange(r)});syncing=false;if(c===main||true)onRange(r)})}
+hookRange(main);
+function onRange(r){if(r.from<10&&!S.loadingMore&&!S.noMore&&!S.replay&&S.full.length)loadMore()}
+
+function mainData(){const d=S.data;if(S.ctype==='ha'){const o=[];d.forEach((c,i)=>{const cl=(c.open+c.high+c.low+c.close)/4,op=i?(o[i-1].open+o[i-1].close)/2:(c.open+c.close)/2;o.push({time:c.time,open:op,high:Math.max(c.high,op,cl),low:Math.min(c.low,op,cl),close:cl})});return o}
+ if(['line','area','base'].includes(S.ctype))return d.map(c=>({time:c.time,value:c.close}));return d}
+function mkMain(){
+ if(mainS){try{main.removeSeries(mainS)}catch(e){}}
+ const U=S.set.up,D=S.set.down,t=S.ctype,b={priceFormat:pf()};
+ if(t==='candle'||t==='ha')mainS=main.addCandlestickSeries({...b,upColor:U,downColor:D,borderUpColor:U,borderDownColor:D,wickUpColor:U,wickDownColor:D});
+ else if(t==='hollow')mainS=main.addCandlestickSeries({...b,upColor:'rgba(0,0,0,0)',downColor:D,borderUpColor:U,borderDownColor:D,wickUpColor:U,wickDownColor:D});
+ else if(t==='bar')mainS=main.addBarSeries({...b,upColor:U,downColor:D});
+ else if(t==='line')mainS=main.addLineSeries({...b,color:'#2962ff',lineWidth:2});
+ else if(t==='area')mainS=main.addAreaSeries({...b,lineColor:'#2962ff',topColor:'rgba(41,98,255,.28)',bottomColor:'rgba(41,98,255,0)',lineWidth:2});
+ else mainS=main.addBaselineSeries({...b,baseValue:{type:'price',price:S.data.length?S.data[Math.max(0,S.data.length-150)].close:0},topLineColor:U,bottomLineColor:D,topFillColor1:U+'55',topFillColor2:U+'08',bottomFillColor1:D+'08',bottomFillColor2:D+'55',lineWidth:2});
+ if(S.data.length)mainS.setData(mainData());
+ alarmLines=[];refreshAlarmLines();
+ $('#typeBtn').innerHTML=ic(t==='hollow'?'hollow':t==='bar'?'bar':t==='line'?'line':t==='area'?'area':t==='base'?'base':t==='ha'?'ha':'candle');
+}
+
+// ---------------- indikatör matematiği ----------------
+const N=n=>new Array(n).fill(null);
+const zip=(a,b,f)=>a.map((x,i)=>x==null||b[i]==null?null:f(x,b[i],i));
+function sma(v,n){const o=N(v.length);let s=0,c=0;for(let i=0;i<v.length;i++){const x=v[i];if(x==null){s=0;c=0;continue}s+=x;c++;if(c>n){s-=v[i-n];c=n}if(c===n)o[i]=s/n}return o}
+function ema(v,n){const a=2/(n+1),o=N(v.length);let p=null,c=0;for(let i=0;i<v.length;i++){const x=v[i];if(x==null)continue;p=p==null?x:a*x+(1-a)*p;c++;if(c>=n)o[i]=p}return o}
+function rma(v,n){const o=N(v.length);let p=null,c=0,s=0;for(let i=0;i<v.length;i++){const x=v[i];if(x==null)continue;c++;if(p==null){s+=x;if(c===n){p=s/n;o[i]=p}}else{p=(p*(n-1)+x)/n;o[i]=p}}return o}
+function wma(v,n){const o=N(v.length),d=n*(n+1)/2;for(let i=n-1;i<v.length;i++){let s=0,ok=true;for(let j=0;j<n;j++){const x=v[i-j];if(x==null){ok=false;break}s+=x*(n-j)}if(ok)o[i]=s/d}return o}
+function stdev(v,n){const m=sma(v,n);return m.map((mu,i)=>{if(mu==null)return null;let s=0;for(let j=i-n+1;j<=i;j++)s+=(v[j]-mu)**2;return Math.sqrt(s/n)})}
+function hh(v,n){return v.map((_,i)=>{if(i<n-1)return null;let m=-Infinity;for(let j=i-n+1;j<=i;j++){if(v[j]==null)return null;if(v[j]>m)m=v[j]}return m})}
+function ll(v,n){return v.map((_,i)=>{if(i<n-1)return null;let m=Infinity;for(let j=i-n+1;j<=i;j++){if(v[j]==null)return null;if(v[j]<m)m=v[j]}return m})}
+const sumN=(v,n)=>sma(v,n).map(x=>x==null?null:x*n);
+const trf=x=>x.h.map((h,i)=>i?Math.max(h-x.l[i],Math.abs(h-x.c[i-1]),Math.abs(x.l[i]-x.c[i-1])):h-x.l[i]);
+const hl2=x=>x.h.map((h,i)=>(h+x.l[i])/2),hlc3=x=>x.h.map((h,i)=>(h+x.l[i]+x.c[i])/3);
+function rsiF(c,n){const g=c.map((x,i)=>i&&x!=null&&c[i-1]!=null?Math.max(x-c[i-1],0):null),l=c.map((x,i)=>i&&x!=null&&c[i-1]!=null?Math.max(c[i-1]-x,0):null);return zip(rma(g,n),rma(l,n),(a,b)=>b===0?100:a===0?0:100-100/(1+a/b))}
+function stochRaw(src,h,l,n){const H=hh(h,n),L=ll(l,n);return src.map((v,i)=>v==null||H[i]==null?null:H[i]-L[i]===0?50:100*(v-L[i])/(H[i]-L[i]))}
+const colsHist=(v,pu,pd,nu,nd)=>v.map((x,i)=>x==null?null:x>=0?(i&&v[i-1]!=null&&x<v[i-1]?pd:pu):(i&&v[i-1]!=null&&x>v[i-1]?nd:nu));
+function psarF(x,p){const n=x.c.length,o=N(n);if(n<3)return{v:o};let up=x.c[1]>=x.c[0],af=p.start,ep=up?x.h[0]:x.l[0],sar=up?x.l[0]:x.h[0];
+ for(let i=1;i<n;i++){sar=sar+af*(ep-sar);
+  if(up){sar=Math.min(sar,x.l[i-1],x.l[Math.max(0,i-2)]);if(x.l[i]<sar){up=false;sar=ep;ep=x.l[i];af=p.start}else if(x.h[i]>ep){ep=x.h[i];af=Math.min(af+p.inc,p.max)}}
+  else{sar=Math.max(sar,x.h[i-1],x.h[Math.max(0,i-2)]);if(x.h[i]>sar){up=true;sar=ep;ep=x.h[i];af=p.start}else if(x.l[i]<ep){ep=x.l[i];af=Math.min(af+p.inc,p.max)}}
+  o[i]=sar}return{v:o}}
+function stF(x,p){const n=x.c.length,atr=rma(trf(x),p.atr),up=N(n),dn=N(n);let fu=null,fd=null,dir=1;
+ for(let i=0;i<n;i++){if(atr[i]==null)continue;const m=(x.h[i]+x.l[i])/2;let u=m-p.fac*atr[i],d=m+p.fac*atr[i];
+  if(fu!=null){u=x.c[i-1]>fu?Math.max(u,fu):u;d=x.c[i-1]<fd?Math.min(d,fd):d;if(dir===-1&&x.c[i]>fd)dir=1;else if(dir===1&&x.c[i]<fu)dir=-1}
+  fu=u;fd=d;if(dir===1)up[i]=u;else dn[i]=d}return{up,dn}}
+function vwapF(x){const o=[];let pv=0,vv=0,day=null;x.t.forEach((t,i)=>{const d=Math.floor(t/86400);if(d!==day){day=d;pv=0;vv=0}const tp=(x.h[i]+x.l[i]+x.c[i])/3;pv+=tp*x.v[i];vv+=x.v[i];o.push(vv?pv/vv:tp)});return{v:o}}
+function pivF(x){const o={P:[],R1:[],R2:[],R3:[],S1:[],S2:[],S3:[]};let day=null,cur=null,prev=null;
+ x.t.forEach((t,i)=>{const d=Math.floor(t/86400);if(d!==day){if(cur)prev=cur;cur={h:x.h[i],l:x.l[i],c:x.c[i]};day=d}else{cur.h=Math.max(cur.h,x.h[i]);cur.l=Math.min(cur.l,x.l[i]);cur.c=x.c[i]}
+  if(!prev){for(const k in o)o[k].push(null);return}const P=(prev.h+prev.l+prev.c)/3,r=prev.h-prev.l;
+  o.P.push(P);o.R1.push(2*P-prev.l);o.S1.push(2*P-prev.h);o.R2.push(P+r);o.S2.push(P-r);o.R3.push(prev.h+2*(P-prev.l));o.S3.push(prev.l-2*(prev.h-P))});return o}
+function dmiF(x,p){const n=x.c.length,up=x.h.map((h,i)=>i?h-x.h[i-1]:null),dn=x.l.map((l,i)=>i?x.l[i-1]-l:null);
+ const pdm=up.map((u,i)=>u==null?null:u>dn[i]&&u>0?u:0),mdm=dn.map((d,i)=>d==null?null:d>up[i]&&d>0?d:0);
+ const atr=rma(trf(x).map((v,i)=>i?v:null),p.len),pl=zip(rma(pdm,p.len),atr,(a,b)=>b?100*a/b:0),mi=zip(rma(mdm,p.len),atr,(a,b)=>b?100*a/b:0);
+ const dx=zip(pl,mi,(a,b)=>a+b===0?0:100*Math.abs(a-b)/(a+b));return{adx:rma(dx,p.smooth),p:pl,m:mi}}
+
+// tanımlar: pane 0 = ana grafik, 1 = ayrı panel
+const DEFS=[
+ {id:'sma',n:'Basit Hareketli Ortalama (SMA)',s:'SMA',cat:'trend',pane:0,p:{len:20},pl:[{k:'v',c:'#2962ff'}],f:(x,p)=>({v:sma(x.c,p.len)})},
+ {id:'ema',n:'Üssel Hareketli Ortalama (EMA)',s:'EMA',cat:'trend',pane:0,p:{len:20},pl:[{k:'v',c:'#f7a600'}],f:(x,p)=>({v:ema(x.c,p.len)})},
+ {id:'wma',n:'Ağırlıklı Hareketli Ortalama (WMA)',s:'WMA',cat:'trend',pane:0,p:{len:20},pl:[{k:'v',c:'#e91e63'}],f:(x,p)=>({v:wma(x.c,p.len)})},
+ {id:'hma',n:'Hull Hareketli Ortalama (HMA)',s:'HMA',cat:'trend',pane:0,p:{len:9},pl:[{k:'v',c:'#00bcd4'}],f:(x,p)=>{const a=wma(x.c,Math.max(1,Math.round(p.len/2))),b=wma(x.c,p.len);return{v:wma(zip(a,b,(m,n)=>2*m-n),Math.max(1,Math.round(Math.sqrt(p.len))))}}},
+ {id:'vwma',n:'Hacim Ağırlıklı Hareketli Ortalama (VWMA)',s:'VWMA',cat:'trend',pane:0,p:{len:20},pl:[{k:'v',c:'#9c27b0'}],f:(x,p)=>({v:zip(sumN(x.c.map((c,i)=>c*x.v[i]),p.len),sumN(x.v,p.len),(a,b)=>b?a/b:null)})},
+ {id:'dema',n:'Çift Üssel Hareketli Ortalama (DEMA)',s:'DEMA',cat:'trend',pane:0,p:{len:20},pl:[{k:'v',c:'#43a047'}],f:(x,p)=>{const e=ema(x.c,p.len);return{v:zip(e,ema(e,p.len),(a,b)=>2*a-b)}}},
+ {id:'tema',n:'Üçlü Üssel Hareketli Ortalama (TEMA)',s:'TEMA',cat:'trend',pane:0,p:{len:20},pl:[{k:'v',c:'#ff5722'}],f:(x,p)=>{const e=ema(x.c,p.len),e2=ema(e,p.len),e3=ema(e2,p.len);return{v:e.map((a,i)=>a==null||e2[i]==null||e3[i]==null?null:3*a-3*e2[i]+e3[i])}}},
+ {id:'bb',n:'Bollinger Bantları',s:'BB',cat:'vola',pane:0,p:{len:20,mult:2},pl:[{k:'u',c:'#2962ff',n:'Üst'},{k:'m',c:'#ff6d00',n:'Orta'},{k:'l',c:'#2962ff',n:'Alt'}],f:(x,p)=>{const m=sma(x.c,p.len),s=stdev(x.c,p.len);return{m,u:zip(m,s,(a,b)=>a+p.mult*b),l:zip(m,s,(a,b)=>a-p.mult*b)}}},
+ {id:'kc',n:'Keltner Kanalları',s:'KC',cat:'vola',pane:0,p:{len:20,mult:2,atr:10},pl:[{k:'u',c:'#2962ff',n:'Üst'},{k:'m',c:'#2962ff',n:'Orta'},{k:'l',c:'#2962ff',n:'Alt'}],f:(x,p)=>{const m=ema(x.c,p.len),a=rma(trf(x),p.atr);return{m,u:zip(m,a,(q,w)=>q+p.mult*w),l:zip(m,a,(q,w)=>q-p.mult*w)}}},
+ {id:'dc',n:'Donchian Kanalları',s:'DC',cat:'vola',pane:0,p:{len:20},pl:[{k:'u',c:'#2962ff',n:'Üst'},{k:'m',c:'#ff6d00',n:'Orta'},{k:'l',c:'#2962ff',n:'Alt'}],f:(x,p)=>{const u=hh(x.h,p.len),l=ll(x.l,p.len);return{u,l,m:zip(u,l,(a,b)=>(a+b)/2)}}},
+ {id:'ichi',n:'Ichimoku Bulutu',s:'Ichimoku',cat:'trend',pane:0,p:{conv:9,base:26,span:52,disp:26},pl:[{k:'t',c:'#2962ff',n:'Dönüşüm'},{k:'k',c:'#b71c1c',n:'Taban'},{k:'ch',c:'#43a047',n:'Gecikme',off:p=>-(p.disp-1)},{k:'a',c:'#66bb6a',n:'Öncü A',off:p=>p.disp-1},{k:'b',c:'#ef5350',n:'Öncü B',off:p=>p.disp-1}],
+  f:(x,p)=>{const mid=n=>zip(hh(x.h,n),ll(x.l,n),(a,b)=>(a+b)/2),t=mid(p.conv),k=mid(p.base);return{t,k,ch:x.c.slice(),a:zip(t,k,(a,b)=>(a+b)/2),b:mid(p.span)}}},
+ {id:'psar',n:'Parabolik SAR',s:'SAR',cat:'trend',pane:0,p:{start:.02,inc:.02,max:.2},pl:[{k:'v',c:'#2962ff',t:'dots'}],f:psarF},
+ {id:'st',n:'Supertrend',s:'Supertrend',cat:'trend',pane:0,p:{atr:10,fac:3},pl:[{k:'up',c:'#089981',gap:1,n:'Yükseliş'},{k:'dn',c:'#f23645',gap:1,n:'Düşüş'}],f:stF},
+ {id:'vwap',n:'VWAP (günlük)',s:'VWAP',cat:'vol',pane:0,p:{},pl:[{k:'v',c:'#2962ff'}],f:vwapF},
+ {id:'piv',n:'Pivot Noktaları (Klasik, günlük)',s:'Pivot',cat:'trend',pane:0,p:{},pl:[{k:'R3',c:'#f23645',t:'step'},{k:'R2',c:'#f23645',t:'step'},{k:'R1',c:'#f23645',t:'step'},{k:'P',c:'#ff9800',t:'step'},{k:'S1',c:'#089981',t:'step'},{k:'S2',c:'#089981',t:'step'},{k:'S3',c:'#089981',t:'step'}],f:pivF},
+ {id:'vol',n:'Hacim',s:'Hacim',cat:'vol',pane:0,p:{ma:20},pl:[{k:'v',t:'hist',scale:'vol',c:'#26a69a'},{k:'m',c:'#2962ff',scale:'vol',n:'MA'}],big:1,f:(x,p)=>({v:x.v.slice(),vC:x.c.map((c,i)=>(c>=x.o[i]?S.set.up:S.set.down)+'73'),m:sma(x.v,p.ma)})},
+ {id:'vpane',n:'Hacim (ayrı panel)',s:'Hacim',cat:'vol',pane:1,dp:0,big:1,p:{ma:20},pl:[{k:'v',t:'hist',c:'#26a69a'},{k:'m',c:'#2962ff',n:'MA'}],f:(x,p)=>({v:x.v.slice(),vC:x.c.map((c,i)=>(c>=x.o[i]?S.set.up:S.set.down)+'99'),m:sma(x.v,p.ma)})},
+ {id:'rsi',n:'Göreceli Güç Endeksi (RSI)',s:'RSI',cat:'osc',pane:1,p:{len:14},lv:[70,50,30],pl:[{k:'v',c:'#7e57c2'}],f:(x,p)=>({v:rsiF(x.c,p.len)})},
+ {id:'macd',n:'MACD',s:'MACD',cat:'osc',pane:1,dp:'main',p:{fast:12,slow:26,sig:9},lv:[0],pl:[{k:'h',t:'hist',c:'#26a69a',n:'Histogram'},{k:'m',c:'#2962ff',n:'MACD'},{k:'s',c:'#ff6d00',n:'Sinyal'}],
+  f:(x,p)=>{const m=zip(ema(x.c,p.fast),ema(x.c,p.slow),(a,b)=>a-b),s=ema(m,p.sig),h=zip(m,s,(a,b)=>a-b);return{m,s,h,hC:colsHist(h,'#26a69a','#b2dfdb','#ff5252','#ffcdd2')}}},
+ {id:'stoch',n:'Stokastik',s:'Stoch',cat:'osc',pane:1,p:{k:14,smooth:1,d:3},lv:[80,50,20],pl:[{k:'k',c:'#2962ff',n:'%K'},{k:'d',c:'#ff6d00',n:'%D'}],f:(x,p)=>{const k=sma(stochRaw(x.c,x.h,x.l,p.k),p.smooth);return{k,d:sma(k,p.d)}}},
+ {id:'srsi',n:'Stokastik RSI',s:'Stoch RSI',cat:'osc',pane:1,p:{k:3,d:3,rsi:14,stoch:14},lv:[80,50,20],pl:[{k:'k',c:'#2962ff',n:'%K'},{k:'d',c:'#ff6d00',n:'%D'}],f:(x,p)=>{const r=rsiF(x.c,p.rsi),k=sma(stochRaw(r,r,r,p.stoch),p.k);return{k,d:sma(k,p.d)}}},
+ {id:'cci',n:'Emtia Kanal Endeksi (CCI)',s:'CCI',cat:'osc',pane:1,p:{len:20},lv:[100,0,-100],pl:[{k:'v',c:'#2962ff'}],f:(x,p)=>{const tp=hlc3(x),m=sma(tp,p.len);return{v:m.map((mu,i)=>{if(mu==null)return null;let s=0;for(let j=i-p.len+1;j<=i;j++)s+=Math.abs(tp[j]-mu);const md=s/p.len;return md?(tp[i]-mu)/(0.015*md):0})}}},
+ {id:'wpr',n:'Williams %R',s:'%R',cat:'osc',pane:1,p:{len:14},lv:[-20,-50,-80],pl:[{k:'v',c:'#7e57c2'}],f:(x,p)=>{const H=hh(x.h,p.len),L=ll(x.l,p.len);return{v:x.c.map((c,i)=>H[i]==null?null:H[i]===L[i]?-50:-100*(H[i]-c)/(H[i]-L[i]))}}},
+ {id:'adx',n:'Yönsel Hareket Endeksi (DMI / ADX)',s:'DMI',cat:'trend',pane:1,p:{len:14,smooth:14},lv:[25],pl:[{k:'adx',c:'#ff6d00',n:'ADX'},{k:'p',c:'#2962ff',n:'+DI'},{k:'m',c:'#f23645',n:'-DI'}],f:dmiF},
+ {id:'atr',n:'Ortalama Gerçek Aralık (ATR)',s:'ATR',cat:'vola',pane:1,dp:'main',p:{len:14},pl:[{k:'v',c:'#b71c1c'}],f:(x,p)=>({v:rma(trf(x),p.len)})},
+ {id:'bbw',n:'Bollinger Bant Genişliği',s:'BBW',cat:'vola',pane:1,dp:4,p:{len:20,mult:2},pl:[{k:'v',c:'#2962ff'}],f:(x,p)=>{const m=sma(x.c,p.len),s=stdev(x.c,p.len);return{v:zip(m,s,(a,b)=>a?2*p.mult*b/a:null)}}},
+ {id:'mfi',n:'Para Akışı Endeksi (MFI)',s:'MFI',cat:'vol',pane:1,p:{len:14},lv:[80,50,20],pl:[{k:'v',c:'#7e57c2'}],f:(x,p)=>{const tp=hlc3(x),po=tp.map((t,i)=>i&&t>tp[i-1]?t*x.v[i]:0),ne=tp.map((t,i)=>i&&t<tp[i-1]?t*x.v[i]:0);return{v:zip(sumN(po,p.len),sumN(ne,p.len),(a,b)=>b===0?100:100-100/(1+a/b))}}},
+ {id:'obv',n:'Denge Hacmi (OBV)',s:'OBV',cat:'vol',pane:1,dp:0,big:1,p:{},pl:[{k:'v',c:'#2962ff'}],f:x=>{let s=0;return{v:x.c.map((c,i)=>{if(i)s+=c>x.c[i-1]?x.v[i]:c<x.c[i-1]?-x.v[i]:0;return s})}}},
+ {id:'cmf',n:'Chaikin Para Akışı (CMF)',s:'CMF',cat:'vol',pane:1,dp:3,p:{len:20},lv:[0],pl:[{k:'v',c:'#43a047'}],f:(x,p)=>{const mf=x.c.map((c,i)=>{const r=x.h[i]-x.l[i];return r?((c-x.l[i])-(x.h[i]-c))/r*x.v[i]:0});return{v:zip(sumN(mf,p.len),sumN(x.v,p.len),(a,b)=>b?a/b:0)}}},
+ {id:'roc',n:'Değişim Oranı (ROC)',s:'ROC',cat:'osc',pane:1,p:{len:9},lv:[0],pl:[{k:'v',c:'#2962ff'}],f:(x,p)=>({v:x.c.map((c,i)=>i>=p.len?100*(c-x.c[i-p.len])/x.c[i-p.len]:null)})},
+ {id:'mom',n:'Momentum',s:'Mom',cat:'osc',pane:1,dp:'main',p:{len:10},lv:[0],pl:[{k:'v',c:'#2962ff'}],f:(x,p)=>({v:x.c.map((c,i)=>i>=p.len?c-x.c[i-p.len]:null)})},
+ {id:'ao',n:'Awesome Osilatör',s:'AO',cat:'osc',pane:1,dp:'main',p:{},lv:[0],pl:[{k:'v',t:'hist',c:'#089981'}],f:x=>{const h=hl2(x),v=zip(sma(h,5),sma(h,34),(a,b)=>a-b);return{v,vC:v.map((q,i)=>q==null?null:i&&v[i-1]!=null&&q<v[i-1]?'#f23645':'#089981')}}},
+ {id:'trix',n:'TRIX',s:'TRIX',cat:'osc',pane:1,dp:3,p:{len:18},lv:[0],pl:[{k:'v',c:'#b71c1c'}],f:(x,p)=>{const e=ema(ema(ema(x.c.map(Math.log),p.len),p.len),p.len);return{v:e.map((q,i)=>q==null||e[i-1]==null?null:10000*(q-e[i-1]))}}},
+];
+const DEF=Object.fromEntries(DEFS.map(d=>[d.id,d]));
+const PL={len:'Uzunluk',mult:'Std. sapma / çarpan',atr:'ATR uzunluğu',fast:'Hızlı uzunluk',slow:'Yavaş uzunluk',sig:'Sinyal uzunluğu',k:'%K uzunluğu',d:'%D yumuşatma',smooth:'Yumuşatma',rsi:'RSI uzunluğu',stoch:'Stokastik uzunluk',conv:'Dönüşüm hattı',base:'Taban hattı',span:'Öncü B uzunluğu',disp:'Kaydırma',start:'Başlangıç',inc:'Artış',max:'Maksimum',fac:'Faktör',ma:'Hacim ortalaması'};
+const CATS={all:'Tümü',trend:'Trend',osc:'Osilatörler',vol:'Hacim',vola:'Volatilite'};
+const newInst=(id,extra={})=>({u:uid(),id,p:{...DEF[id].p},c:{},hide:false,...extra});
+if(!Array.isArray(S.inds))S.inds=[newInst('vol'),newInst('ema',{p:{len:20},c:{v:'#f7a600'}}),newInst('ema',{p:{len:50},c:{v:'#2962ff'}}),newInst('ema',{p:{len:200},c:{v:'#e040fb'}}),newInst('rsi')];
+S.inds=S.inds.filter(i=>DEF[i.id]);
+const saveInds=()=>ls.set('inds',S.inds);
+
+// ---------------- indikatör çizimi ----------------
+let R={}; // u -> {inst,def,chart,pane,series,out}
+function timeAt(i){const d=S.data,n=d.length;if(!n)return 0;const st=stepSec();return i<n?(i<0?d[0].time+i*st:d[i].time):d[n-1].time+(i-n+1)*st}
+function stepSec(){const d=S.data;return d.length>1?d[d.length-1].time-d[d.length-2].time:(TFSEC[S.tf]||60)}
+function addPlot(chart,pl,inst,def){
+ const col=inst.c?.[pl.k]||pl.c,b={priceLineVisible:false,lastValueVisible:def.pane===1&&pl.t!=='hist',crosshairMarkerVisible:false,visible:!inst.hide};
+ if(pl.scale)b.priceScaleId=pl.scale;
+ if(def.pane===0&&!pl.scale)b.priceFormat=pf();
+ else if(def.pane===1){const dp=def.dp==='main'?S.prec:def.dp??2;b.priceFormat=def.big?{type:'volume'}:{type:'price',precision:dp,minMove:1/10**dp}}
+ else if(def.big)b.priceFormat={type:'volume'};
+ if(pl.t==='hist')return chart.addHistogramSeries({...b,color:col});
+ if(pl.t==='dots')return chart.addLineSeries({...b,color:col,lineVisible:false,pointMarkersVisible:true,pointMarkersRadius:2});
+ return chart.addLineSeries({...b,color:col,lineWidth:pl.w||1,lineType:pl.t==='step'?1:0});
+}
+function newPane(inst,def){
+ const el=document.createElement('div');el.className='pane';el.dataset.u=inst.u;
+ el.style.height=(inst.h||(innerWidth<860?100:130))+'px';
+ el.innerHTML='<div class="rz"></div><div class="lg plg"></div>';$('#subs').appendChild(el);
+ const dp=def.dp==='main'?null:def.big?0:(def.dp??2);
+ const chart=LC.createChart(el,chartOpts(true,dp));
+ const ghost=chart.addLineSeries({lastValueVisible:false,priceLineVisible:false,crosshairMarkerVisible:false,color:'rgba(0,0,0,0)'});
+ const p={u:inst.u,el,chart,ghost,def};subs.push(p);hookRange(chart);hookCross(chart,p);
+ const rz=el.querySelector('.rz');
+ rz.addEventListener('pointerdown',e=>{rz.setPointerCapture(e.pointerId);const y0=e.clientY,h0=el.offsetHeight;
+  const mv=ev=>{el.style.height=Math.max(50,Math.min(innerHeight*.6,h0-(ev.clientY-y0)))+'px'};
+  const upf=()=>{rz.removeEventListener('pointermove',mv);rz.removeEventListener('pointerup',upf);inst.h=el.offsetHeight;saveInds()};
+  rz.addEventListener('pointermove',mv);rz.addEventListener('pointerup',upf)});
+ return p;
+}
+function rebuildInds(){
+ for(const u in R){const r=R[u];if(r.def.pane===0)for(const k in r.series){try{main.removeSeries(r.series[k])}catch(e){}}}
+ R={};
+ subs.splice(0).forEach(p=>{try{p.chart.remove()}catch(e){}p.el.remove()});
+ S.inds.forEach(inst=>{const def=DEF[inst.id];let chart=main,pane=null;
+  if(def.pane===1){pane=newPane(inst,def);chart=pane.chart}
+  const r={inst,def,chart,pane,series:{},out:null};
+  def.pl.forEach(pl=>{r.series[pl.k]=addPlot(chart,pl,inst,def)});
+  if(def.pl.some(pl=>pl.scale==='vol'))main.priceScale('vol').applyOptions({scaleMargins:{top:.8,bottom:0}});
+  if(def.lv){const s=r.series[def.pl[def.pl.length-1].k];def.lv.forEach(l=>s.createPriceLine({price:l,color:'#787b86',lineStyle:2,lineWidth:1,axisLabelVisible:false}))}
+  R[inst.u]=r});
+ // zaman ekseni yalnızca en alttaki panelde görünsün
+ fitPanes();
+ main.applyOptions({timeScale:{visible:!subs.length}});
+ subs.forEach((p,i)=>p.chart.applyOptions({timeScale:{visible:i===subs.length-1}}));
+ computeAll(true);
+ const r=main.timeScale().getVisibleLogicalRange();if(r)subs.forEach(p=>p.chart.timeScale().setVisibleLogicalRange(r));
+ legend();
+}
+function fitPanes(){const n=subs.length;if(!n)return;const avail=($('#center').clientHeight-30)*.6;subs.forEach(p=>{const inst=S.inds.find(i=>i.u===p.u);const want=inst?.h||(innerWidth<860?100:130);p.el.style.height=Math.max(48,Math.min(want,avail/n))+'px'})}
+addEventListener('resize',()=>fitPanes());
+function srcOf(d){return{t:d.map(c=>c.time),o:d.map(c=>c.open),h:d.map(c=>c.high),l:d.map(c=>c.low),c:d.map(c=>c.close),v:d.map(c=>c.volume)}}
+function toPts(arr,off,cols,pl){const o=[];let started=false;for(let i=0;i<arr.length;i++){const j=i+off;if(j<0)continue;const v=arr[i];
+ if(v==null||!isFinite(v)){if(pl.gap&&started)o.push({time:timeAt(j)});continue}started=true;const p={time:timeAt(j),value:v};if(cols&&cols[i])p.color=cols[i];o.push(p)}return o}
+function computeAll(full){
+ const d=S.data;if(!d.length)return;const x=srcOf(d),n=d.length;
+ for(const u in R){const r=R[u];let out;try{out=r.def.f(x,r.inst.p)}catch(e){console.error(e);continue}r.out=out;
+  r.def.pl.forEach(pl=>{const s=r.series[pl.k],arr=out[pl.k];if(!s||!arr)return;const off=pl.off?pl.off(r.inst.p):0,cols=out[pl.k+'C'];
+   if(full){s.setData(toPts(arr,off,cols,pl));return}
+   const i=n-1,j=i+off;if(j<0)return;const v=arr[i];
+   try{if(v==null||!isFinite(v)){if(pl.gap)s.update({time:timeAt(j)})}else{const p={time:timeAt(j),value:v};if(cols&&cols[i])p.color=cols[i];s.update(p)}}
+   catch(e){s.setData(toPts(arr,off,cols,pl))}})}
+ subs.forEach(p=>{if(full)p.ghost.setData(d.map(c=>({time:c.time})));else{try{p.ghost.update({time:d[n-1].time})}catch(e){}}});
+}
+let ctTimer=null;
+function computeSoon(){if(ctTimer)return;ctTimer=setTimeout(()=>{ctTimer=null;computeAll(false);if(S.hover==null)legend()},200)}
+
+// ---------------- lejant ----------------
+function valAt(r,pl,i){const off=pl.off?pl.off(r.inst.p):0,arr=r.out?.[pl.k];if(!arr)return null;const v=arr[i-off];return v==null||!isFinite(v)?null:v}
+function indRow(r,i){const def=r.def,inst=r.inst,ps=Object.values(inst.p).join(' ');
+ const dp=def.pane===0?S.prec:def.dp==='main'?S.prec:def.dp??2;
+ const vals=def.pl.map(pl=>{const v=valAt(r,pl,i);const col=(pl.t==='hist'&&r.out?.[pl.k+'C']?.[i-(pl.off?pl.off(inst.p):0)])||inst.c?.[pl.k]||pl.c;return v==null?'':`<span class="vv" style="color:${esc(col)}">${def.big?fmtBig(v):fmt(v,dp)}</span>`}).join(' ');
+ return`<div class="ir${inst.hide?' off':''}" data-u="${esc(inst.u)}"><span class="in">${esc(def.s)}${ps?' '+esc(ps):''}</span>${vals}<span class="ib"><button data-act="eye" title="${inst.hide?'Göster':'Gizle'}">${ic(inst.hide?'eyeoff':'eye')}</button><button data-act="cfg" title="Ayarlar">${ic('cfg')}</button><button data-act="del" title="Kaldır">${ic('x')}</button></span></div>`}
+function legend(){
+ const d=S.data;if(!d.length){$('#lg').innerHTML='';return}
+ const i=S.hover!=null&&S.hover>=0&&S.hover<d.length?S.hover:d.length-1,c=d[i],up=c.close>=c.open,cl=up?'up':'dn',ch=c.close-c.open,chp=ch/c.open*100,tfl=TFS.find(t=>t[0]===S.tf)?.[1]||S.tf;
+ const{m}=mk(S.key);
+ let h=`<div class="r1"><span class="nm">${esc(lbl(S.key))} · ${esc(tfl)} · Binance${m==='F'?' Vadeli':' Spot'}</span>
+ <span><span class="k">A</span> <span class="${cl}">${fmt(c.open)}</span></span><span><span class="k">Y</span> <span class="${cl}">${fmt(c.high)}</span></span>
+ <span><span class="k">D</span> <span class="${cl}">${fmt(c.low)}</span></span><span><span class="k">K</span> <span class="${cl}">${fmt(c.close)}</span></span>
+ <span class="${cl}">${ch>=0?'+':''}${fmt(ch)} (${pct(chp)})</span><span><span class="k">Hac</span> ${fmtBig(c.volume)}</span></div>`;
+ const ov=Object.values(R).filter(r=>r.def.pane===0);
+ if(ov.length){if(S.lgOpen)h+=ov.map(r=>indRow(r,i)).join('');h+=`<button class="lgc" data-act="lgt">${S.lgOpen?'▴ Gizle':'▾ '+ov.length+' gösterge'}</button>`}
+ $('#lg').innerHTML=h;
+ subs.forEach(p=>{const r=R[p.u];if(r)p.el.querySelector('.plg').innerHTML=indRow(r,i)});
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b)return;const act=b.dataset.act;
+ if(act==='lgt'){S.lgOpen=!S.lgOpen;legend();return}
+ const u=b.closest('[data-u]')?.dataset.u,inst=S.inds.find(x=>x.u===u);if(!inst)return;
+ if(act==='eye'){inst.hide=!inst.hide;saveInds();const r=R[u];if(r)for(const k in r.series)r.series[k].applyOptions({visible:!inst.hide});legend()}
+ if(act==='del'){S.inds=S.inds.filter(x=>x!==inst);saveInds();rebuildInds()}
+ if(act==='cfg')indSettings(inst)});
+
+// ---------------- crosshair senkronu ----------------
+function hookCross(c,pane){c.subscribeCrosshairMove(p=>{
+ const lg=p.logical!=null&&p.point?Math.round(p.logical):null;
+ if(S.hover!==lg){S.hover=lg;legend()}
+ if(!p.sourceEvent)return;
+ charts().forEach(o=>{if(o===c)return;try{if(p.time==null){o.clearCrosshairPosition();return}
+  if(o===main){const v=S.data[lg];if(v)main.setCrosshairPosition(v.close,p.time,mainS)}
+  else{const sp=subs.find(s=>s.chart===o),r=R[sp.u];const pl=r.def.pl[r.def.pl.length-1];const v=valAt(r,pl,lg);o.setCrosshairPosition(v??0,p.time,r.series[pl.k])}}catch(e){}})})}
+hookCross(main,null);
+
+// ---------------- veri ----------------
+const k2c=k=>({time:k[0]/1000,open:+k[1],high:+k[2],low:+k[3],close:+k[4],volume:+k[5]});
+function setStatus(ok,t){const s=$('#status');s.classList.toggle('live',!!ok);s.innerHTML='<i></i>'+esc(t)}
+async function getJSON(u){const r=await fetch(u);if(!r.ok)throw new Error(r.status);return r.json()}
+async function loadSymbols(){
+ const [fi,ft,st]=await Promise.allSettled([getJSON(REST.F+'/exchangeInfo'),getJSON(REST.F+'/ticker/24hr'),getJSON(REST.S+'/ticker/24hr')]);
+ const syms=[];
+ if(fi.status==='fulfilled')fi.value.symbols.filter(s=>s.contractType==='PERPETUAL'&&s.status==='TRADING').forEach(s=>{const t=s.filters.find(f=>f.filterType==='PRICE_FILTER')?.tickSize||'0.01',tt=t.replace(/0+$/,''),i=tt.indexOf('.');syms.push({k:'F:'+s.symbol,s:s.symbol,b:s.baseAsset,q:s.quoteAsset,m:'F',prec:i<0?0:tt.length-i-1})});
+ const put=(m,a)=>a.forEach(t=>{S.tick[m+':'+t.symbol]={c:+t.lastPrice,o:+t.openPrice,h:+t.highPrice,l:+t.lowPrice,q:+t.quoteVolume,p:+t.priceChangePercent}});
+ if(ft.status==='fulfilled')put('F',ft.value);
+ if(st.status==='fulfilled'){put('S',st.value);const Q=['USDT','USDC','FDUSD','TRY','BTC','ETH','EUR','BNB'];
+  st.value.filter(t=>+t.quoteVolume>0&&+t.count>0).forEach(t=>{const q=Q.find(q=>t.symbol.endsWith(q)&&t.symbol.length>q.length);if(!q)return;syms.push({k:'S:'+t.symbol,s:t.symbol,b:t.symbol.slice(0,-q.length),q,m:'S',prec:null})})}
+ S.syms=syms;
+}
+async function loadChart(){
+ const key=S.key,tf=S.tf,{m,s}=mk(key);
+ if(S.replay)exitReplay(true);
+ S.noMore=false;S.prec=precOf(key);S.hover=null;
+ mainS.applyOptions({priceFormat:pf()});
+ for(const u in R)if(R[u].def.pane===0)for(const k in R[u].series)if(!R[u].def.pl.find(p=>p.k===k).scale)R[u].series[k].applyOptions({priceFormat:pf()});
+ $('#symTxt').textContent=lbl(key);markTf();loadDraws();setStatus(0,'yükleniyor');
+ let j;try{j=await getJSON(`${REST[m]}/klines?symbol=${s}&interval=${tf}&limit=${m==='F'?1500:1000}`);if(!Array.isArray(j))throw 0}
+ catch(e){if(key===S.key&&tf===S.tf){setStatus(0,'bağlantı hatası');toast('Veri alınamadı','Binance\'e bağlanılamadı. Dosyayı Claude önizlemesinde açtıysanız: indirin, çift tıklayıp Chrome/Edge\'de açın. Değilse internet bağlantınızı kontrol edin.','',20000)}return}
+ if(key!==S.key||tf!==S.tf)return;
+ S.full=j.map(k2c);S.data=S.full;S.refP=S.full.at(-1)?.close||1;
+ if(S.ctype==='base')mkMain();else mainS.setData(mainData());
+ computeAll(true);refreshAlarmLines();
+ const n=S.data.length;
+ if(S.pendingRange){applyRange(S.pendingRange);S.pendingRange=null}else main.timeScale().setVisibleLogicalRange({from:n-150,to:n+12});
+ legend();dirty();openKline();renderWl();renderDet();loadExtra();
+}
+async function loadMore(){
+ S.loadingMore=true;const key=S.key,tf=S.tf,{m,s}=mk(key),first=S.full[0].time*1000;
+ try{const j=await getJSON(`${REST[m]}/klines?symbol=${s}&interval=${tf}&endTime=${first-1}&limit=1000`);
+  if(key!==S.key||tf!==S.tf)return;
+  if(!j.length)S.noMore=true;else{const r=main.timeScale().getVisibleLogicalRange();S.full=j.map(k2c).concat(S.full);S.data=S.full;mainS.setData(mainData());computeAll(true);
+   if(r){const nr={from:r.from+j.length,to:r.to+j.length};charts().forEach(c=>c.timeScale().setVisibleLogicalRange(nr))}dirty()}
+ }catch(e){}finally{S.loadingMore=false}
+}
+function openKline(){
+ if(S.kws){S.kws.onclose=null;try{S.kws.close()}catch(e){}}
+ const key=S.key,tf=S.tf,{m,s}=mk(key),ws=new WebSocket(`${WSB[m]}${s.toLowerCase()}@kline_${tf}`);S.kws=ws;
+ ws.onopen=()=>setStatus(1,'canlı');
+ ws.onmessage=e=>{let k;try{k=JSON.parse(e.data).k}catch(_){return}if(!k||key!==S.key||tf!==S.tf)return;
+  const c={time:k.t/1000,open:+k.o,high:+k.h,low:+k.l,close:+k.c,volume:+k.v},f=S.full,last=f.at(-1);
+  let isNew=false;if(last&&last.time===c.time)f[f.length-1]=c;else if(!last||c.time>last.time){f.push(c);isNew=true}else return;
+  checkAlarm(key,c.close);
+  if(S.replay)return;
+  if(S.ctype==='ha')mainS.setData(mainData());else mainS.update(mainData().at(-1));
+  if(isNew){computeAll(true);dirty()}else computeSoon();
+  if(S.hover==null&&!isNew)legendSoon();if(isNew)legend()};
+ ws.onclose=()=>{setStatus(0,'yeniden bağlanıyor');setTimeout(()=>{if(S.kws===ws)openKline()},2500)};
+}
+let lgT=null;const legendSoon=()=>{if(lgT)return;lgT=setTimeout(()=>{lgT=null;if(S.hover==null)legend()},250)};
+function openTicker(m){
+ const ws=new WebSocket(WSB[m]+'!miniTicker@arr');
+ ws.onmessage=e=>{let a;try{a=JSON.parse(e.data)}catch(_){return}if(!Array.isArray(a))return;
+  a.forEach(t=>{const k=m+':'+t.s,c=+t.c,o=+t.o;S.tick[k]={c,o,h:+t.h,l:+t.l,q:+t.q,p:o?(c-o)/o*100:0};checkAlarm(k,c)});wlSoon()};
+ ws.onclose=()=>setTimeout(()=>openTicker(m),4000);
+}
+async function loadExtra(){
+ const{m,s}=mk(S.key);S.det={};if(m!=='F'){renderDet();return}
+ try{const[a,b]=await Promise.all([getJSON(`${REST.F}/premiumIndex?symbol=${s}`),getJSON(`${REST.F}/openInterest?symbol=${s}`)]);
+  if(mk(S.key).s!==s)return;S.det={mark:+a.markPrice,fund:+a.lastFundingRate*100,next:+a.nextFundingTime,oi:+b.openInterest};renderDet()}catch(e){}
+}
+setInterval(loadExtra,20000);
+
+// ---------------- izleme listesi & detay ----------------
+let wlT=null;const wlSoon=()=>{if(wlT)return;wlT=setTimeout(()=>{wlT=null;updWl();renderDet()},600)};
+function renderWl(){
+ $('#wl').innerHTML=S.wl.map(k=>{const{m,s}=mk(k);return`<div class="wi${k===S.key?' on':''}" data-k="${esc(k)}"><span class="n">${esc(s)}<small>${m==='F'?'.P':'Spot'}</small></span><span class="p"></span><span class="c"></span><button class="x" data-x="${esc(k)}" title="Listeden çıkar">${ic('x')}</button></div>`}).join('')||'<div class="empty">Liste boş. + ile sembol ekleyin.</div>';
+ updWl();
+}
+function updWl(){$$('#wl .wi').forEach(r=>{const k=r.dataset.k,t=S.tick[k];if(!t)return;const pr=precOf(k);r.querySelector('.p').textContent=fmt(t.c,pr);const c=r.querySelector('.c');c.textContent=pct(t.p);c.className='c '+(t.p>=0?'up':'dn')})}
+$('#wl').addEventListener('click',e=>{const x=e.target.closest('[data-x]');if(x){S.wl=S.wl.filter(k=>k!==x.dataset.x);ls.set('wl',S.wl);renderWl();return}
+ const r=e.target.closest('.wi');if(r){pick(r.dataset.k);setMob('chart')}});
+function renderDet(){
+ const k=S.key,t=S.tick[k],{m,s}=mk(k),sy=S.syms.find(x=>x.k===k),dt=S.det;
+ if(!t){$('#det').innerHTML=`<div class="dn1">${esc(lbl(k))}</div>`;return}
+ const pos=t.h>t.l?Math.max(0,Math.min(100,(t.c-t.l)/(t.h-t.l)*100)):50,cl=t.p>=0?'up':'dn';
+ let cd='';if(dt.next){const ms=dt.next-Date.now();if(ms>0){const h=Math.floor(ms/3.6e6),mi=Math.floor(ms%3.6e6/6e4),se=Math.floor(ms%6e4/1e3);cd=`${pad(h)}:${pad(mi)}:${pad(se)}`}}
+ $('#det').innerHTML=`<div class="dn1">${esc(sy?sy.b+' / '+sy.q:s)} · ${m==='F'?'Sürekli vadeli':'Spot'} · Binance</div>
+ <div class="pr ${cl}">${fmt(t.c)}</div><div class="ch ${cl}">${t.c-t.o>=0?'+':''}${fmt(t.c-t.o)} (${pct(t.p)}) <span style="color:var(--mu);font-weight:400">24s</span></div>
+ <div class="rng"><i style="left:${pos}%"></i></div><div class="rngl"><span>${fmt(t.l)}</span><span>24s aralık</span><span>${fmt(t.h)}</span></div>
+ <dl><dt>24s hacim</dt><dd>${fmtBig(t.q)} ${esc(sy?.q||'')}</dd>
+ ${m==='F'&&dt.mark?`<dt>İşaret fiyatı</dt><dd>${fmt(dt.mark)}</dd><dt>Fonlama oranı</dt><dd class="${dt.fund>=0?'up':'dn'}">${fmt(dt.fund,4)}%</dd><dt>Sonraki fonlama</dt><dd>${cd||'–'}</dd><dt>Açık pozisyon</dt><dd>${fmtBig(dt.oi*t.c)} USDT</dd>`:''}</dl>`;
+ document.title=`${lbl(k)} ${fmt(t.c)} ${pct(t.p)} | ${APP_NAME}`;
+}
+setInterval(()=>{if(S.det.next)renderDet()},1000);
+
+// ---------------- sembol arama ----------------
+let qMode='pick',qSel=0,qM='';
+function openSym(mode,initial=''){qMode=mode;$('#mSymT').textContent=mode==='add'?'İzleme listesine ekle':'Sembol ara';openModal('mSym');$('#q').value=initial;qSel=0;renderQ();setTimeout(()=>$('#q').focus(),20)}
+function qItems(){const q=$('#q').value.trim().toUpperCase().replace(/[^A-Z0-9]/g,'');
+ let a=S.syms.filter(s=>(!qM||s.m===qM)&&(!q||s.s.includes(q)));
+ a.sort((x,y)=>{const ex=(q&&x.b===q?1:0),ey=(q&&y.b===q?1:0);if(ex!==ey)return ey-ex;return(S.tick[y.k]?.q||0)*(y.q==='USDT'?1:.5)-(S.tick[x.k]?.q||0)*(x.q==='USDT'?1:.5)});return a.slice(0,80)}
+function renderQ(){const it=qItems();$('#qlist').innerHTML=it.map((s,i)=>{const t=S.tick[s.k];return`<div class="li${i===qSel?' sel':''}" data-k="${esc(s.k)}"><span><b>${esc(s.s)}${s.m==='F'?'.P':''}</b> <small>${esc(s.b)} / ${esc(s.q)}</small> <span class="tag">${s.m==='F'?'VADELİ':'SPOT'}</span></span><span style="text-align:right"><span>${t?fmt(t.c,precOf(s.k)):''}</span> <small class="${t&&t.p>=0?'up':'dn'}">${t?pct(t.p):''}</small></span></div>`}).join('')||`<div class="empty">${S.syms.length?'Sonuç bulunamadı':'Sembol listesi yükleniyor…'}</div>`}
+$('#q').addEventListener('input',()=>{qSel=0;renderQ()});
+$('#qtab').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;qM=b.dataset.m;$$('#qtab button').forEach(x=>x.classList.toggle('on',x===b));qSel=0;renderQ()});
+$('#q').addEventListener('keydown',e=>{const n=qItems().length;if(e.key==='ArrowDown'){qSel=Math.min(n-1,qSel+1);renderQ();e.preventDefault()}if(e.key==='ArrowUp'){qSel=Math.max(0,qSel-1);renderQ();e.preventDefault()}
+ if(e.key==='Enter'){const s=qItems()[qSel];if(s)chooseSym(s.k)}});
+$('#qlist').addEventListener('click',e=>{const r=e.target.closest('[data-k]');if(r)chooseSym(r.dataset.k)});
+function chooseSym(k){closeModal('mSym');if(qMode==='add'){if(!S.wl.includes(k)){S.wl.push(k);ls.set('wl',S.wl);renderWl()}}else pick(k)}
+function pick(k){if(k===S.key)return;S.key=k;ls.set('key',k);S.sel=null;loadChart()}
+$('#symBtn').onclick=()=>openSym('pick');$('#addWl').onclick=()=>openSym('add');
+
+// ---------------- modal / popup yardımcıları ----------------
+function openModal(id){$('#'+id).classList.add('show')}
+function closeModal(id){$('#'+id).classList.remove('show')}
+$$('.modal').forEach(m=>m.addEventListener('pointerdown',e=>{if(e.target===m)m.classList.remove('show')}));
+document.addEventListener('click',e=>{const c=e.target.closest('[data-close]');if(c)c.closest('.modal').classList.remove('show')});
+const pop=$('#pop');let popFns=[];
+function openPop(anchor,items,at){popFns=[];pop.innerHTML=items.map(it=>{if(it.h)return`<div class="ph">${esc(it.h)}</div>`;popFns.push(it.f);return`<button data-pi="${popFns.length-1}" class="${it.on?'on':''}">${it.ic?ic(it.ic):''}<span>${esc(it.t)}</span>${it.k?`<kbd>${esc(it.k)}</kbd>`:''}</button>`}).join('');
+ pop.classList.add('show');const r=at||anchor.getBoundingClientRect(),pw=pop.offsetWidth,ph=pop.offsetHeight;
+ let x=at?at.x:(innerWidth<860&&anchor.closest('#tools')?r.left:r.right+4),y=at?at.y:(innerWidth<860&&anchor.closest('#tools')?r.top-ph-4:r.top);
+ if(!at&&anchor.closest('#top')){x=r.left;y=r.bottom+4}
+ pop.style.left=Math.max(4,Math.min(x,innerWidth-pw-4))+'px';pop.style.top=Math.max(4,Math.min(y,innerHeight-ph-4))+'px'}
+pop.addEventListener('click',e=>{const b=e.target.closest('[data-pi]');if(!b)return;const f=popFns[+b.dataset.pi];pop.classList.remove('show');f&&f()});
+document.addEventListener('pointerdown',e=>{if(!pop.contains(e.target)&&!e.target.closest('[data-pop]'))pop.classList.remove('show')});
+function dialog(title,body,buttons){$('#dlgT').textContent=title;$('#dlgB').innerHTML=body;const f=$('#dlgF');f.innerHTML='';
+ buttons.forEach(b=>{const el=document.createElement('button');el.className='btn'+(b.cls?' '+b.cls:'');el.textContent=b.t;el.onclick=()=>{if(b.f&&b.f()===false)return;closeModal('mDlg')};f.appendChild(el)});openModal('mDlg');
+ const first=$('#dlgB').querySelector('input,textarea,select');if(first)setTimeout(()=>{first.focus();first.select?.()},20)}
+function confirmDlg(title,msg,f){dialog(title,`<p style="margin:0">${esc(msg)}</p>`,[{t:'Vazgeç',cls:'g'},{t:'Evet',cls:'r',f}])}
+function toast(t,msg,cls='',ms=6000){const el=document.createElement('div');el.className='toast '+cls;el.innerHTML=`<b>${esc(t)}</b>${esc(msg)}`;el.onclick=()=>el.remove();$('#toasts').appendChild(el);setTimeout(()=>el.remove(),ms)}
+
+// ---------------- zaman dilimi, tip ----------------
+function renderTfFav(){$('#tfFav').innerHTML=S.fav.map(t=>`<button class="tfb" data-tf="${t}" title="${esc(TFS.find(x=>x[0]===t)?.[2])}">${esc(TFS.find(x=>x[0]===t)?.[1])}</button>`).join('');markTf()}
+function markTf(){$$('[data-tf]').forEach(b=>b.classList.toggle('on',b.dataset.tf===S.tf));const inFav=S.fav.includes(S.tf);$('#tfMore').innerHTML=(inFav?'':`<span style="color:var(--ac);font-weight:500">${esc(TFS.find(x=>x[0]===S.tf)?.[1])}</span>`)+ic('chev')}
+function setTf(tf){S.tf=tf;ls.set('tf',tf);markTf();loadChart()}
+$('#tfFav').addEventListener('click',e=>{const b=e.target.closest('[data-tf]');if(b)setTf(b.dataset.tf)});
+$('#tfMore').dataset.pop=1;$('#tfMore').onclick=e=>openPop(e.currentTarget,[{h:'Zaman dilimi (★ = üst çubukta)'},...TFS.map(t=>({t:(S.fav.includes(t[0])?'★ ':'☆ ')+t[2],on:t[0]===S.tf,f:()=>setTf(t[0])})),{h:'Üst çubuk'},{t:'Bu dilimi üst çubuğa ekle/çıkar',f:()=>{S.fav=S.fav.includes(S.tf)?S.fav.filter(x=>x!==S.tf):[...S.fav,S.tf].sort((a,b)=>TFSEC[a]-TFSEC[b]);ls.set('fav',S.fav);renderTfFav()}}]);
+$('#typeBtn').dataset.pop=1;$('#typeBtn').onclick=e=>openPop(e.currentTarget,CTYPES.map(([k,t])=>({t,ic:k==='hollow'?'hollow':k==='ha'?'ha':k==='bar'?'bar':k==='line'?'line':k==='area'?'area':k==='base'?'base':'candle',on:S.ctype===k,f:()=>{S.ctype=k;ls.set('ctype',k);mkMain();rebuildInds();dirty()}})));
+
+// ---------------- gösterge penceresi ----------------
+let iCat='all';
+$('#icat').innerHTML=Object.entries(CATS).map(([k,v])=>`<button data-c="${k}" class="${k==='all'?'on':''}">${v}</button>`).join('');
+$('#icat').addEventListener('click',e=>{const b=e.target.closest('[data-c]');if(!b)return;iCat=b.dataset.c;$$('#icat button').forEach(x=>x.classList.toggle('on',x===b));renderIL()});
+function renderIL(){const q=$('#iq').value.trim().toLocaleLowerCase('tr');const a=DEFS.filter(d=>(iCat==='all'||d.cat===iCat)&&(!q||(d.n+' '+d.s).toLocaleLowerCase('tr').includes(q)));
+ $('#ilist').innerHTML=a.map(d=>{const cnt=S.inds.filter(i=>i.id===d.id).length;return`<div class="li" data-id="${d.id}"><span>${esc(d.n)}</span><small>${d.pane?'Ayrı panel':'Grafik üstü'}${cnt?` · ${cnt} ekli`:''}</small></div>`}).join('')||'<div class="empty">Sonuç yok</div>'}
+$('#iq').addEventListener('input',renderIL);
+$('#ilist').addEventListener('click',e=>{const r=e.target.closest('[data-id]');if(!r)return;S.inds.push(newInst(r.dataset.id));saveInds();rebuildInds();renderIL()});
+$('#indBtn').onclick=()=>{openModal('mInd');$('#iq').value='';renderIL();setTimeout(()=>$('#iq').focus(),20)};
+function indSettings(inst){const def=DEF[inst.id];
+ const ps=Object.keys(def.p).map(k=>`<div class="fld"><label for="ip_${k}">${esc(PL[k]||k)}</label><input id="ip_${k}" type="number" step="any" value="${esc(inst.p[k])}"></div>`).join('');
+ const cs=def.pl.filter(pl=>pl.t!=='hist').map(pl=>`<div class="fld"><label for="ic_${pl.k}">${esc(pl.n||'Renk')}</label><input id="ic_${pl.k}" type="color" value="${esc(inst.c[pl.k]||pl.c)}"></div>`).join('');
+ dialog(def.n,(ps||'<p style="color:var(--mu);margin-top:0">Bu göstergenin ayarlanacak parametresi yok.</p>')+cs,[{t:'Varsayılan',cls:'g',f:()=>{inst.p={...def.p};inst.c={};saveInds();rebuildInds()}},{t:'Tamam',f:()=>{
+  for(const k in def.p){const v=parseFloat($('#ip_'+k).value);if(isFinite(v)&&v>0)inst.p[k]=Number.isInteger(def.p[k])?Math.max(1,Math.round(v)):v}
+  def.pl.forEach(pl=>{const el=$('#ic_'+pl.k);if(el)inst.c[pl.k]=el.value});saveInds();rebuildInds()}}])}
+
+// ---------------- çizimler ----------------
+const TOOLS={cross:'Artı imleç',dot:'Nokta',arrowc:'Ok imleç',trend:'Trend çizgisi',ray:'Işın',ext:'Uzatılmış çizgi',hline:'Yatay çizgi',hray:'Yatay ışın',vline:'Dikey çizgi',channel:'Paralel kanal',
+ fib:'Fibonacci düzeltmesi',fibext:'Trend bazlı Fib uzatması',rect:'Dikdörtgen',circle:'Daire',arrow:'Ok',brush:'Fırça',text:'Metin',up:'Yukarı ok işareti',down:'Aşağı ok işareti',long:'Uzun pozisyon',short:'Kısa pozisyon',measure:'Tarih ve fiyat aralığı',zoom:'Yakınlaştır'};
+const KEYS={trend:'Alt+T',hline:'Alt+H',hray:'Alt+J',vline:'Alt+V',fib:'Alt+F',rect:'Alt+Shift+R',measure:'Shift+tık',text:'Alt+X'};
+const GROUPS=[['cross','dot','arrowc'],['trend','ray','ext','hline','hray','vline','channel'],['fib','fibext'],['rect','circle','arrow','brush'],['text'],['up','down'],['long','short','measure']];
+const NEED={trend:2,ray:2,ext:2,hline:1,hray:1,vline:1,channel:3,fib:2,fibext:3,rect:2,circle:2,arrow:2,text:1,up:1,down:1,long:1,short:1,measure:2};
+const DCOL={fib:'#787b86',fibext:'#787b86',rect:'#9c27b0',circle:'#ff9800',brush:'#f23645',up:'#089981',down:'#f23645',text:'#2962ff'};
+const FIBL=[[0,'#787b86'],[.236,'#f23645'],[.382,'#ff9800'],[.5,'#4caf50'],[.618,'#089981'],[.786,'#00bcd4'],[1,'#787b86'],[1.618,'#2962ff'],[2.618,'#f23645']];
+const FIBE=[[0,'#787b86'],[.382,'#ff9800'],[.618,'#089981'],[1,'#787b86'],[1.618,'#2962ff'],[2.618,'#f23645']];
+const COLORS=['#2962ff','#f23645','#089981','#ff9800','#9c27b0','#00bcd4','#ffeb3b','#e91e63','#787b86','#ffffff'];
+const svg=$('#draw'),mainEl=$('#main');
+let grpCur=ls.get('grp',GROUPS.map(g=>g[0]));
+const isDraw=t=>!!NEED[t]||t==='brush'||t==='zoom'||t==='replay';
+function loadDraws(){S.draws=ls.get('d_'+S.key,[]);S.hist={u:[],r:[]};S.sel=null;S.pending=null;dirty();updUndo()}
+function saveDraws(){ls.set('d_'+S.key,S.draws);updUndo()}
+function snap(){S.hist.u.push(JSON.stringify(S.draws));if(S.hist.u.length>100)S.hist.u.shift();S.hist.r=[];updUndo()}
+function undo(){if(!S.hist.u.length)return;S.hist.r.push(JSON.stringify(S.draws));S.draws=JSON.parse(S.hist.u.pop());S.sel=null;saveDraws();dirty()}
+function redo(){if(!S.hist.r.length)return;S.hist.u.push(JSON.stringify(S.draws));S.draws=JSON.parse(S.hist.r.pop());S.sel=null;saveDraws();dirty()}
+function updUndo(){$('#undoBtn').disabled=!S.hist.u.length;$('#redoBtn').disabled=!S.hist.r.length}
+const dirty=()=>{S.dv++};
+function t2l(t){const d=S.data,n=d.length;if(!n)return 0;const st=stepSec();if(t<=d[0].time)return(t-d[0].time)/st;if(t>=d[n-1].time)return n-1+(t-d[n-1].time)/st;
+ let lo=0,hi=n-1;while(hi-lo>1){const m=(lo+hi)>>1;if(d[m].time<=t)lo=m;else hi=m}return lo+(t-d[lo].time)/(d[hi].time-d[lo].time)}
+function l2t(l){const d=S.data,n=d.length;if(!n)return 0;const st=stepSec();if(l<=0)return Math.round(d[0].time+l*st);if(l>=n-1)return Math.round(d[n-1].time+(l-n+1)*st);const i=Math.floor(l),f=l-i;return Math.round(d[i].time+f*(d[i+1].time-d[i].time))}
+function xform(){const ts=main.timeScale(),a=ts.logicalToCoordinate(0),b=ts.logicalToCoordinate(1);return a==null||b==null?null:{a,bs:b-a}}
+let XF=null;
+const xOfL=l=>XF?XF.a+XF.bs*l:null,lOfX=x=>XF?(x-XF.a)/XF.bs:0;
+const yOfP=p=>mainS?mainS.priceToCoordinate(p):null,pOfY=y=>mainS?mainS.coordinateToPrice(y):null;
+const scr=pt=>({x:xOfL(t2l(pt.t)),y:yOfP(pt.p)});
+function fromScreen(x,y,useMag=S.magnet){let l=lOfX(x),p=pOfY(y);if(p==null)return null;
+ if(useMag&&S.data.length){const i=Math.max(0,Math.min(S.data.length-1,Math.round(l))),c=S.data[i];l=i;p=[c.open,c.high,c.low,c.close].reduce((a,b)=>Math.abs(b-p)<Math.abs(a-p)?b:a)}
+ return{t:l2t(l),p}}
+function extend(f,t){const dx=t.x-f.x,dy=t.y-f.y,W=S.W,H=S.H;if(Math.abs(dx)<1e-6)return{x:t.x,y:dy>0?H+50:-50};const tx=dx>0?W+50:-50,k=(tx-f.x)/dx;let y=f.y+dy*k;y=Math.max(-1e5,Math.min(1e5,y));return{x:tx,y}}
+const priceBox=(x,y,txt,col,anchor='end')=>{const w=txt.length*6.6+10;const bx=anchor==='end'?x-w:anchor==='mid'?x-w/2:x;return`<rect x="${bx}" y="${y-9}" width="${w}" height="18" rx="3" fill="${col}"/><text x="${bx+w/2}" y="${y+4}" fill="#fff" font-size="11" font-weight="600" text-anchor="middle" class="t">${esc(txt)}</text>`};
+function gOf(d,sel,pv){
+ if(!d.pts.length)return'';
+ let P=d.pts.map(scr);if(P.some(q=>q.x==null||q.y==null||!isFinite(q.x)||!isFinite(q.y)))return'';
+ const W=S.W,H=S.H,st=d.st||{},col=st.c||'#2962ff',w=st.w||2,da=st.s===1?'7 5':st.s===2?'2 4':'';
+ const L=(x1,y1,x2,y2,c=col,ww=w,dd=da)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${c}" stroke-width="${ww}" stroke-dasharray="${dd}"/><line class="h" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`;
+ const T=(x,y,t,c=col,an='start',sz=11)=>`<text x="${x}" y="${y}" fill="${c}" font-size="${sz}" font-weight="500" text-anchor="${an}" class="t" style="paint-order:stroke;stroke:var(--bg);stroke-width:3px">${esc(t)}</text>`;
+ const Rc=(x1,y1,x2,y2,f,o=.15,s='none',sw=1)=>`<rect class="f" x="${Math.min(x1,x2)}" y="${Math.min(y1,y2)}" width="${Math.max(1,Math.abs(x2-x1))}" height="${Math.max(1,Math.abs(y2-y1))}" fill="${f}" fill-opacity="${o}" stroke="${s}" stroke-width="${sw}"/>`;
+ let b='',hd=P.map((q,i)=>[q.x,q.y,i]);const[p0,p1,p2]=P;
+ switch(d.type){
+  case'trend':b=p1?L(p0.x,p0.y,p1.x,p1.y):'';break;
+  case'ray':{const e=extend(p0,p1);b=L(p0.x,p0.y,e.x,e.y);break}
+  case'ext':{const e1=extend(p1,p0),e2=extend(p0,p1);b=L(e1.x,e1.y,e2.x,e2.y);break}
+  case'hline':b=L(-10,p0.y,W+10,p0.y)+priceBox(W-2,p0.y,fmt(d.pts[0].p),col);break;
+  case'hray':b=L(p0.x,p0.y,W+10,p0.y)+priceBox(W-2,p0.y,fmt(d.pts[0].p),col);break;
+  case'vline':b=L(p0.x,-10,p0.x,H+10)+priceBox(p0.x+40,H-12,fmtTime(d.pts[0].t).replace(/^\S+ /,''),col);hd=[[p0.x,H/2,0]];break;
+  case'channel':{if(!p2){b=L(p0.x,p0.y,p1.x,p1.y);break}const dp=d.pts[2].p-d.pts[0].p,q0={x:p0.x,y:yOfP(d.pts[0].p+dp)},q1={x:p1.x,y:yOfP(d.pts[1].p+dp)};
+   b=`<polygon class="f" points="${p0.x},${p0.y} ${p1.x},${p1.y} ${q1.x},${q1.y} ${q0.x},${q0.y}" fill="${col}" fill-opacity=".1"/>`+L(p0.x,p0.y,p1.x,p1.y)+L(q0.x,q0.y,q1.x,q1.y)+L((p0.x+q0.x)/2,(p0.y+q0.y)/2,(p1.x+q1.x)/2,(p1.y+q1.y)/2,col,1,'4 4');break}
+  case'fib':{if(!p1)break;const xL=Math.min(p0.x,p1.x),xR=Math.max(p0.x,p1.x),a=d.pts[0].p,z=d.pts[1].p;let prevY=null;
+   FIBL.forEach(([f,c])=>{const pr=z+(a-z)*f,y=yOfP(pr);if(y==null)return;if(prevY!=null)b+=`<rect class="f" x="${xL}" y="${Math.min(y,prevY)}" width="${Math.max(1,xR-xL)}" height="${Math.abs(y-prevY)}" fill="${c}" fill-opacity=".07"/>`;prevY=y;
+    b+=L(xL,y,xR,y,c,1,'')+T(xL-6,y+4,`${f} (${fmt(pr)})`,c,'end')});b+=L(p0.x,p0.y,p1.x,p1.y,'#787b86',1,'4 4');break}
+  case'fibext':{if(!p2){b=p1?L(p0.x,p0.y,p1.x,p1.y,'#787b86',1,'4 4'):'';break}b=`<polyline points="${p0.x},${p0.y} ${p1.x},${p1.y} ${p2.x},${p2.y}" fill="none" stroke="#787b86" stroke-dasharray="4 4"/>`;
+   const xL=p2.x,xR=p2.x+Math.max(120,Math.abs(p1.x-p0.x)),mv=d.pts[1].p-d.pts[0].p;FIBE.forEach(([f,c])=>{const pr=d.pts[2].p+mv*f,y=yOfP(pr);if(y==null)return;b+=L(xL,y,xR,y,c,1,'')+T(xR+4,y+4,`${f} (${fmt(pr)})`,c)});break}
+  case'rect':b=p1?Rc(p0.x,p0.y,p1.x,p1.y,col,.15,col,w):'';if(p1)hd.push([p0.x,p1.y,'c1'],[p1.x,p0.y,'c2']);break;
+  case'circle':{if(!p1)break;const r=Math.hypot(p1.x-p0.x,p1.y-p0.y);b=`<circle class="f" cx="${p0.x}" cy="${p0.y}" r="${r}" fill="${col}" fill-opacity=".12" stroke="${col}" stroke-width="${w}"/>`;break}
+  case'arrow':{if(!p1)break;const an=Math.atan2(p1.y-p0.y,p1.x-p0.x),s=10+w*2;b=L(p0.x,p0.y,p1.x,p1.y)+`<polygon class="f" points="${p1.x},${p1.y} ${p1.x-s*Math.cos(an-.45)},${p1.y-s*Math.sin(an-.45)} ${p1.x-s*Math.cos(an+.45)},${p1.y-s*Math.sin(an+.45)}" fill="${col}"/>`;break}
+  case'brush':{const dd='M'+P.map(q=>q.x.toFixed(1)+' '+q.y.toFixed(1)).join(' L');b=`<path d="${dd}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/><path class="h" d="${dd}" fill="none"/>`;hd=[];break}
+  case'text':{const sz=12+w*2;b=`<text class="tt" x="${p0.x}" y="${p0.y}" fill="${col}" font-size="${sz}" font-weight="600" style="paint-order:stroke;stroke:var(--bg);stroke-width:3px">${(d.text||'Metin').split('\n').map((ln,i)=>`<tspan x="${p0.x}" dy="${i?sz*1.25:0}">${esc(ln)}</tspan>`).join('')}</text>`;hd=[];break}
+  case'up':case'down':{const s=16+w*2,k=d.type==='up'?1:-1,x=p0.x,y=p0.y;b=`<polygon class="f" fill="${col}" points="${x},${y} ${x-s/2},${y+k*s*.6} ${x-s/5},${y+k*s*.6} ${x-s/5},${y+k*s*1.3} ${x+s/5},${y+k*s*1.3} ${x+s/5},${y+k*s*.6} ${x+s/2},${y+k*s*.6}"/>`;hd=[];break}
+  case'long':case'short':{if(P.length<3)break;const x1=Math.min(p0.x,p1.x),x2=Math.max(p0.x,p1.x),E=d.pts[0].p,Tg=d.pts[1].p,Sp=d.pts[2].p;
+   const tp=(Tg-E)/E*100,sp=(Sp-E)/E*100,rr=Math.abs(E-Sp)?Math.abs(Tg-E)/Math.abs(E-Sp):0,cx=(x1+x2)/2,up=p1.y<p0.y;
+   b=Rc(x1,p0.y,x2,p1.y,'#089981',.22)+Rc(x1,p0.y,x2,p2.y,'#f23645',.22)+L(x1,p0.y,x2,p0.y,'#787b86',1,'');
+   b+=priceBox(cx,p1.y+(up?-12:12),`Hedef: ${fmt(Tg)} (${pct(tp)})`,'#089981','mid')+priceBox(cx,p2.y+(up?12:-12),`Stop: ${fmt(Sp)} (${pct(sp)})`,'#f23645','mid')
+    +priceBox(cx,p0.y+(up?-12:12)*(Math.abs(p1.y-p0.y)>34?1:-1),`${Tg>=E?'Uzun':'Kısa'} · Risk/Ödül ${fmt(rr,2)}`,'#5d6573','mid');
+   hd=[[p0.x,p0.y,0],[p1.x,p1.y,1],[p0.x,p2.y,2]];break}
+  case'measure':{if(!p1)break;const a=d.pts[0],z=d.pts[1],dp=z.p-a.p,pc=dp/a.p*100,bars=Math.round(t2l(z.t)-t2l(a.t)),c2=dp>=0?'#2962ff':'#f23645',mx=(p0.x+p1.x)/2,my=(p0.y+p1.y)/2;
+   b=Rc(p0.x,p0.y,p1.x,p1.y,c2,.15)+L(mx,p0.y,mx,p1.y,c2,1,'')+L(p0.x,my,p1.x,my,c2,1,'');
+   const by=p1.y+(dp>=0?-22:22),t1=`${dp>=0?'+':''}${fmt(dp)} (${pct(pc)})`,t2=`${bars} bar · ${fmtDur(z.t-a.t)}`,bw=Math.max(t1.length,t2.length)*6.6+16;
+   b+=`<rect x="${mx-bw/2}" y="${by-17}" width="${bw}" height="34" rx="4" fill="${c2}"/><text x="${mx}" y="${by-3}" fill="#fff" font-size="11" font-weight="600" text-anchor="middle" class="t">${esc(t1)}</text><text x="${mx}" y="${by+11}" fill="#fff" font-size="11" text-anchor="middle" class="t">${esc(t2)}</text>`;break}
+ }
+ const hs=sel&&!pv&&!d.lock&&!S.locked?hd.map(([x,y,i])=>`<circle class="hd" data-h="${i}" cx="${x}" cy="${y}" r="5.5"/>`).join(''):'';
+ const selGlow=sel&&!pv?` style="filter:drop-shadow(0 0 2px ${col})"`:'';
+ return`<g class="d${pv?' pv':''}" data-id="${esc(d.id)}"${selGlow}>${b}${hs}</g>`;
+}
+function renderDraws(){
+ S.W=mainEl.clientWidth-(main.priceScale('right').width()||0);S.H=mainEl.clientHeight-(subs.length?0:(main.timeScale().height()||0));XF=xform();
+ if(S.hidden&&!S.pending&&S.tool!=='replay'&&!S.zoom){svg.innerHTML='';posDtb();return}
+ let h=`<defs><clipPath id="clp"><rect width="${Math.max(0,S.W)}" height="${Math.max(0,S.H)}"/></clipPath></defs><g clip-path="url(#clp)">`;
+ if(!S.hidden)S.draws.forEach(d=>{h+=gOf(d,d.id===S.sel,false)});
+ if(S.pending)h+=gOf(S.pending,false,true);
+ if(S.zoom)h+=`<rect x="${Math.min(S.zoom.x0,S.zoom.x1)}" y="0" width="${Math.abs(S.zoom.x1-S.zoom.x0)}" height="${S.H}" fill="#2962ff" fill-opacity=".15" stroke="#2962ff" stroke-dasharray="4 4"/>`;
+ if(S.tool==='replay'&&S.rx!=null)h+=`<rect x="${S.rx}" y="0" width="${Math.max(0,S.W-S.rx)}" height="${S.H}" fill="#2962ff" fill-opacity=".12"/><line x1="${S.rx}" x2="${S.rx}" y1="0" y2="${S.H}" stroke="#2962ff" stroke-width="2"/>`;
+ h+='</g>';svg.innerHTML=h;posDtb();
+}
+let sig='';
+function loop(){try{const ts=main.timeScale(),a=ts.logicalToCoordinate(0),b=ts.logicalToCoordinate(50),y1=mainS?mainS.priceToCoordinate(S.refP):0,y2=mainS?mainS.priceToCoordinate(S.refP*1.05):0;
+ const s=[a,b,y1,y2,mainEl.clientWidth,mainEl.clientHeight,S.dv,S.data.length].join('|');if(s!==sig){sig=s;renderDraws()}}catch(e){}requestAnimationFrame(loop)}
+
+// araç çubuğu
+function renderTools(){
+ let h=GROUPS.map((g,gi)=>{const cur=g.includes(grpCur[gi])?grpCur[gi]:g[0];const on=gi===0?g.includes(S.cursor)&&!isDraw(S.tool):g.includes(S.tool);const t=gi===0?S.cursor:cur;
+  return`<button class="tb${g.length>1?' grp':''}${on?' on':''}" data-g="${gi}" data-pop="1" title="${esc(TOOLS[t])}">${ic(t)}</button>`}).join('');
+ h+=`<i class="tsep"></i><button class="tb${S.tool==='measure'?' on':''}" data-t="measure" title="Cetvel / ölçüm">${ic('ruler')}</button><button class="tb${S.tool==='zoom'?' on':''}" data-t="zoom" title="Yakınlaştır (alan seç)">${ic('zoom')}</button>
+ <i class="tsep"></i><button class="tb${S.magnet?' on':''}" data-t="magnet" title="Mıknatıs modu">${ic('magnet')}</button><button class="tb${S.locked?' on':''}" data-t="lockall" title="Tüm çizimleri kilitle">${ic(S.locked?'lock':'unlock')}</button>
+ <button class="tb${S.hidden?' on':''}" data-t="hideall" title="Tüm çizimleri gizle">${ic(S.hidden?'eyeoff':'eye')}</button><button class="tb" data-t="clear" title="Tüm çizimleri kaldır">${ic('trash')}</button>`;
+ $('#tools').innerHTML=h}
+$('#tools').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+ if(b.dataset.g!=null){const gi=+b.dataset.g,g=GROUPS[gi],cur=gi===0?S.cursor:(g.includes(grpCur[gi])?grpCur[gi]:g[0]);
+  setTool(cur);if(g.length>1)openPop($(`#tools [data-g="${gi}"]`),g.map(t=>({t:TOOLS[t],ic:t,k:KEYS[t],on:(gi===0?S.cursor:S.tool)===t,f:()=>{grpCur[gi]=t;ls.set('grp',grpCur);setTool(t)}})));return}
+ const t=b.dataset.t;
+ if(t==='magnet'){S.magnet=!S.magnet;ls.set('magnet',S.magnet);charts().forEach(c=>c.applyOptions({crosshair:{mode:S.magnet?1:0}}));renderTools();return}
+ if(t==='lockall'){S.locked=!S.locked;renderTools();dirty();return}
+ if(t==='hideall'){S.hidden=!S.hidden;S.sel=null;renderTools();dirty();return}
+ if(t==='clear'){if(!S.draws.length)return;confirmDlg('Çizimleri kaldır',`${lbl(S.key)} grafiğindeki ${S.draws.length} çizim kaldırılsın mı? (Geri al ile geri getirebilirsiniz.)`,()=>{snap();S.draws=[];S.sel=null;saveDraws();dirty()});return}
+ setTool(S.tool===t?'cursor':t)});
+function setTool(t){
+ if(t==='cursor')t=S.cursor;
+ if(['cross','dot','arrowc'].includes(t)){S.cursor=t;ls.set('cursor',t);const v=t==='cross';charts().forEach(c=>c.applyOptions({crosshair:{vertLine:{visible:v},horzLine:{visible:v}}}));mainEl.style.cursor=t==='arrowc'?'default':t==='dot'?'cell':''}
+ if(S.tool==='replay'&&t!=='replay'){$('#rhint').style.display='none';S.rx=null}
+ S.tool=t;S.pending=null;svg.classList.toggle('active',isDraw(t));if(isDraw(t))S.sel=null;renderTools();dirty()}
+function defSt(t){return{c:DCOL[t]||'#2962ff',w:t==='brush'?3:t==='text'?2:2,s:0}}
+function finish(){const d=S.pending;S.pending=null;if(!d)return;
+ if(d.type==='long'||d.type==='short'){const e=d.pts[0],k=d.type==='long'?1:-1,tEnd=l2t(t2l(e.t)+25);d.pts=[e,{t:tEnd,p:e.p*(1+k*.02)},{t:e.t,p:e.p*(1-k*.01)}]}
+ if(d.type==='channel'&&d.pts.length===3){const[a,b,c]=d.pts,la=t2l(a.t),lb=t2l(b.t),lc=t2l(c.t),onLine=lb===la?a.p:a.p+(b.p-a.p)*(lc-la)/(lb-la);d.pts[2]={t:a.t,p:a.p+(c.p-onLine)}}
+ snap();S.draws.push(d);S.sel=d.id;saveDraws();
+ if(d.type==='text')editText(d,true);
+ setTool('cursor');dirty()}
+function pos(e){const r=mainEl.getBoundingClientRect();return{x:e.clientX-r.left,y:e.clientY-r.top}}
+function onDown(e){
+ if(e.button===2)return;const p=pos(e),tool=S.tool;XF=xform();
+ if(tool==='replay'){e.preventDefault();startReplayAt(p.x);return}
+ if(isDraw(tool)){e.preventDefault();
+  if(tool==='zoom'){S.zoom={x0:p.x,x1:p.x};svg.setPointerCapture(e.pointerId);return}
+  const pt=fromScreen(p.x,p.y);if(!pt)return;
+  if(tool==='brush'){S.pending={id:uid(),type:'brush',pts:[fromScreen(p.x,p.y,false)],st:defSt('brush')};S.brushing=true;svg.setPointerCapture(e.pointerId);dirty();return}
+  if(!S.pending){S.pending={id:uid(),type:tool,pts:[pt],st:defSt(tool)};if(NEED[tool]===1){finish();return}S.pending.pts.push({...pt});dirty();return}
+  S.pending.pts[S.pending.pts.length-1]=pt;if(S.pending.pts.length>=NEED[tool]){finish();return}S.pending.pts.push({...pt});dirty();return}
+ const g=e.target.closest('g.d');if(!g)return;const d=S.draws.find(x=>x.id===g.dataset.id);if(!d)return;
+ S.sel=d.id;dirty();if(d.lock||S.locked)return;
+ const h=e.target.dataset.h;S.drag={d,h:h==null?null:h,start:p,orig:clone(d.pts),moved:false};
+ svg.setPointerCapture(e.pointerId);charts().forEach(c=>c.applyOptions({handleScroll:false,handleScale:false}));e.preventDefault();
+}
+svg.addEventListener('pointerdown',onDown);
+svg.addEventListener('pointermove',e=>{const p=pos(e);
+ if(S.tool==='replay'){S.rx=p.x;dirty();return}
+ if(S.brushing){const q=fromScreen(p.x,p.y,false);if(q)S.pending.pts.push(q);dirty();return}
+ if(S.zoom){S.zoom.x1=p.x;dirty();return}
+ if(S.drag){const dr=S.drag,d=dr.d;if(!dr.moved){if(Math.hypot(p.x-dr.start.x,p.y-dr.start.y)<3)return;dr.moved=true;S.hist.u.push(JSON.stringify(S.draws.map(x=>x===d?{...d,pts:dr.orig}:x)));S.hist.r=[]}
+  if(dr.h==null){const dl=lOfX(p.x)-lOfX(dr.start.x),dy=p.y-dr.start.y;d.pts=dr.orig.map(q=>{const y=yOfP(q.p);return{t:l2t(t2l(q.t)+dl),p:y==null?q.p:pOfY(y+dy)}})}
+  else{const np=fromScreen(p.x,p.y);if(np)applyHandle(d,dr.h,np)}
+  dirty();return}
+ if(S.pending&&S.tool!=='brush'){const q=fromScreen(p.x,p.y);if(q){S.pending.pts[S.pending.pts.length-1]=q;dirty()}}
+});
+function applyHandle(d,h,np){const P=d.pts;
+ if(h==='c1'){P[0].t=np.t;P[1].p=np.p;return}if(h==='c2'){P[1].t=np.t;P[0].p=np.p;return}h=+h;
+ if(d.type==='long'||d.type==='short'){if(h===0){P[0]={...np};P[2].t=np.t}else if(h===1)P[1]={...np};else P[2].p=np.p;return}
+ if(d.type==='channel'){if(h===2){P[2].p=np.p;return}if(h===0){const off=P[2].p-P[0].p;P[0]={...np};P[2]={t:np.t,p:np.p+off};return}}
+ if(d.type==='vline'){P[0].t=np.t;return}
+ P[h]={...np}}
+function endPointer(){
+ if(S.brushing){S.brushing=false;if(S.pending&&S.pending.pts.length>1)finish();else{S.pending=null;dirty()}return}
+ if(S.zoom){const z=S.zoom;S.zoom=null;if(Math.abs(z.x1-z.x0)>8){const a=lOfX(Math.min(z.x0,z.x1)),b=lOfX(Math.max(z.x0,z.x1));main.timeScale().setVisibleLogicalRange({from:a,to:b})}setTool('cursor');return}
+ if(S.drag){if(S.drag.moved)saveDraws();S.drag=null;charts().forEach(c=>c.applyOptions({handleScroll:true,handleScale:true}));dirty();updUndo()}}
+svg.addEventListener('pointerup',endPointer);svg.addEventListener('pointercancel',endPointer);
+svg.addEventListener('dblclick',e=>{const g=e.target.closest('g.d');if(!g)return;const d=S.draws.find(x=>x.id===g.dataset.id);if(d&&d.type==='text')editText(d)});
+main.subscribeClick(()=>{if(S.sel&&!S.drag){S.sel=null;dirty()}});
+mainEl.addEventListener('pointerleave',()=>{if(S.tool==='replay'){S.rx=null;dirty()}});
+
+// seçili çizim araç çubuğu
+const dtb=$('#dtb');
+function posDtb(){const d=S.draws.find(x=>x.id===S.sel);if(!d||S.hidden){dtb.classList.remove('show');return}
+ const key=d.id+'|'+JSON.stringify(d.st)+'|'+!!d.lock;if(dtb.dataset.k!==key){dtb.dataset.k=key;const st=d.st||{};
+  dtb.innerHTML=COLORS.map(c=>`<button data-dc="${c}" title="Renk"><span class="sw" style="background:${c};${st.c===c?'outline:2px solid var(--ac);outline-offset:1px':''}"></span></button>`).join('')+
+  `<i class="sp"></i>${[1,2,3,4].map(w=>`<button data-dw="${w}" class="${st.w===w?'on':''}" title="Kalınlık ${w}"><svg width="18" height="18"><line x1="2" y1="9" x2="16" y2="9" stroke="currentColor" stroke-width="${w}"/></svg></button>`).join('')}
+  <i class="sp"></i>${[0,1,2].map(s=>`<button data-ds="${s}" class="${(st.s||0)===s?'on':''}" title="${['Düz','Kesikli','Noktalı'][s]}"><svg width="18" height="18"><line x1="1" y1="9" x2="17" y2="9" stroke="currentColor" stroke-width="2" stroke-dasharray="${['','5 3','1.5 2.5'][s]}"/></svg></button>`).join('')}
+  <i class="sp"></i>${d.type==='text'?`<button data-da="edit" title="Metni düzenle">${ic('edit')}</button>`:''}${['hline','hray'].includes(d.type)?`<button data-da="alarm" title="Bu fiyata alarm kur">${ic('bell')}</button>`:''}
+  <button data-da="lock" class="${d.lock?'on':''}" title="${d.lock?'Kilidi aç':'Kilitle'}">${ic(d.lock?'lock':'unlock')}</button><button data-da="copy" title="Kopyala">${ic('copy')}</button><button data-da="del" title="Sil (Delete)">${ic('trash')}</button>`}
+ dtb.classList.add('show')}
+dtb.addEventListener('click',e=>{const b=e.target.closest('button');const d=S.draws.find(x=>x.id===S.sel);if(!b||!d)return;snap();d.st=d.st||defSt(d.type);
+ if(b.dataset.dc)d.st.c=b.dataset.dc;if(b.dataset.dw)d.st.w=+b.dataset.dw;if(b.dataset.ds)d.st.s=+b.dataset.ds;
+ const a=b.dataset.da;if(a==='del'){S.draws=S.draws.filter(x=>x!==d);S.sel=null}if(a==='lock')d.lock=!d.lock;
+ if(a==='copy'){const n=clone(d);n.id=uid();n.lock=false;n.pts=n.pts.map(q=>({t:l2t(t2l(q.t)+5),p:q.p}));S.draws.push(n);S.sel=n.id}
+ if(a==='edit'){S.hist.u.pop();editText(d);return}if(a==='alarm'){S.hist.u.pop();alarmDlg(d.pts[0].p);return}
+ saveDraws();dirty()});
+function editText(d,isNew){dialog('Metin',`<div class="fld" style="grid-template-columns:1fr"><textarea id="txIn" rows="3">${esc(d.text||'')}</textarea></div>`,[{t:'Vazgeç',cls:'g',f:()=>{if(isNew&&!d.text){S.draws=S.draws.filter(x=>x!==d);saveDraws();dirty()}}},{t:'Tamam',f:()=>{const v=$('#txIn').value.trim();if(!v){if(isNew){S.draws=S.draws.filter(x=>x!==d)}}else d.text=v;saveDraws();dirty()}}])}
+
+// ---------------- alarmlar ----------------
+let alarmLines=[];
+function refreshAlarmLines(){if(!mainS)return;alarmLines.forEach(l=>{try{mainS.removePriceLine(l)}catch(e){}});
+ alarmLines=S.alarms.filter(a=>a.k===S.key&&a.on).map(a=>mainS.createPriceLine({price:a.p,color:'#ff9800',lineStyle:2,lineWidth:1,axisLabelVisible:true,title:'Alarm'}))}
+const CONDS={up:'Yukarı keserse',down:'Aşağı keserse',cross:'Keserse (her iki yön)'};
+function alarmDlg(price,edit){const k=edit?edit.k:S.key,t=S.tick[k],p=price??edit?.p??t?.c??S.full.at(-1)?.close??0,dp=precOf(k);
+ dialog(edit?'Alarmı düzenle':'Alarm oluştur',`<div class="fld"><label>Sembol</label><b>${esc(lbl(k))}</b></div>
+ <div class="fld"><label for="aC">Koşul</label><select id="aC">${Object.entries(CONDS).map(([v,n])=>`<option value="${v}"${(edit?.c||'cross')===v?' selected':''}>${n}</option>`).join('')}</select></div>
+ <div class="fld"><label for="aP">Fiyat</label><input id="aP" type="number" step="any" value="${(+p).toFixed(dp)}"></div>
+ <div class="fld"><label for="aM">Mesaj</label><input id="aM" type="text" maxlength="80" value="${esc(edit?.msg||'')}" placeholder="İsteğe bağlı"></div>
+ <p style="color:var(--mu);font-size:12px;margin:4px 0 0">Alarm, bu sayfa açıkken çalışır: ekranda bildirim + sesli uyarı verir.</p>`,
+ [{t:'Vazgeç',cls:'g'},{t:edit?'Kaydet':'Oluştur',f:()=>{const pv=parseFloat($('#aP').value);if(!isFinite(pv)||pv<=0){toast('Geçersiz fiyat','Lütfen geçerli bir fiyat girin.');return false}
+  if(edit){Object.assign(edit,{c:$('#aC').value,p:pv,msg:$('#aM').value.trim(),on:true})}else S.alarms.push({id:uid(),k,c:$('#aC').value,p:pv,msg:$('#aM').value.trim(),on:true,at:Date.now()});
+  ls.set('alarms',S.alarms);refreshAlarmLines();renderAlarms();try{if('Notification'in window&&Notification.permission==='default')Notification.requestPermission()}catch(e){}
+  toast('Alarm kuruldu',`${lbl(k)} · ${CONDS[$('#aC').value]} ${fmt(pv,dp)}`,'al',3000)}}])}
+function checkAlarm(k,px){const prev=S.lastPx[k];S.lastPx[k]=px;if(prev==null)return;
+ S.alarms.forEach(a=>{if(!a.on||a.k!==k)return;const upX=prev<a.p&&px>=a.p,dnX=prev>a.p&&px<=a.p;
+  if((a.c==='up'&&upX)||(a.c==='down'&&dnX)||(a.c==='cross'&&(upX||dnX))){a.on=false;a.hit=Date.now();ls.set('alarms',S.alarms);fireAlarm(a,px)}})}
+function fireAlarm(a,px){const dp=precOf(a.k),msg=`${lbl(a.k)} ${fmt(a.p,dp)} seviyesini ${px>=a.p?'yukarı':'aşağı'} kesti (şu an ${fmt(px,dp)})${a.msg?' · '+a.msg:''}`;
+ toast('Alarm tetiklendi',msg,'al',20000);beep();try{if('Notification'in window&&Notification.permission==='granted')new Notification(APP_NAME+' alarmı',{body:msg})}catch(e){}
+ renderAlarms();if(a.k===S.key)refreshAlarmLines()}
+function beep(){try{const A=window.AudioContext||window.webkitAudioContext,a=new A();[0,.2,.4].forEach(t=>{const o=a.createOscillator(),g=a.createGain();o.frequency.value=880;o.connect(g);g.connect(a.destination);g.gain.setValueAtTime(.18,a.currentTime+t);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+t+.16);o.start(a.currentTime+t);o.stop(a.currentTime+t+.18)})}catch(e){}}
+function renderAlarms(){$('#al').innerHTML=S.alarms.length?S.alarms.slice().reverse().map(a=>`<div class="ali${a.on?'':' done'}" data-id="${esc(a.id)}"><span class="a1">${esc(lbl(a.k))} · ${fmt(a.p,precOf(a.k))}</span>
+ <span class="ab"><button data-aa="edit" title="Düzenle / yeniden kur">${ic('edit')}</button><button data-aa="del" title="Sil">${ic('trash')}</button></span>
+ <span class="a2">${esc(CONDS[a.c])}${a.on?'':' · tetiklendi'}${a.msg?' · '+esc(a.msg):''}</span></div>`).join(''):'<div class="empty">Henüz alarm yok. Grafikte sağ tıklayarak veya “Alarm” butonuyla oluşturun.</div>';
+ const n=S.alarms.filter(a=>a.on).length;$('[data-st=al]').textContent='Alarmlar'+(n?` (${n})`:'')}
+$('#al').addEventListener('click',e=>{const b=e.target.closest('[data-aa]');if(!b)return;const a=S.alarms.find(x=>x.id===b.closest('[data-id]').dataset.id);if(!a)return;
+ if(b.dataset.aa==='del'){S.alarms=S.alarms.filter(x=>x!==a);ls.set('alarms',S.alarms);renderAlarms();refreshAlarmLines()}else alarmDlg(null,a)});
+$('#alarmBtn').onclick=()=>alarmDlg();$('#newAlarm').onclick=()=>alarmDlg();
+
+// ---------------- tekrar oynat ----------------
+const rbar=$('#rbar');let rTimer=null;
+$('#replayBtn').onclick=()=>{if(S.replay){exitReplay();return}if(!S.full.length)return;setTool('replay');$('#rhint').style.display='block'};
+function startReplayAt(x){XF=xform();const n=S.full.length,i=Math.max(30,Math.min(n-2,Math.round(lOfX(x))));$('#rhint').style.display='none';
+ S.replay={i,play:false,speed:1};S.data=S.full.slice(0,i+1);setTool('cursor');mainS.setData(mainData());computeAll(true);legend();renderRbar();
+ main.timeScale().scrollToPosition(8,false);$('#replayBtn').classList.add('on');dirty()}
+function rStep(){const r=S.replay;if(!r)return;if(r.i>=S.full.length-1){rPause();toast('Tekrar oynatma','Son muma ulaşıldı.','',3000);return}
+ r.i++;S.data.push(S.full[r.i]);if(S.ctype==='ha')mainS.setData(mainData());else mainS.update(mainData().at(-1));computeAll(false);if(S.hover==null)legend();renderRbar()}
+function rPlay(){const r=S.replay;r.play=true;clearInterval(rTimer);rTimer=setInterval(rStep,1000/r.speed);renderRbar()}
+function rPause(){if(!S.replay)return;S.replay.play=false;clearInterval(rTimer);renderRbar()}
+function exitReplay(silent){clearInterval(rTimer);S.replay=null;S.data=S.full;rbar.classList.remove('show');$('#replayBtn').classList.remove('on');if(silent)return;mainS.setData(mainData());computeAll(true);legend();main.timeScale().scrollToRealTime();dirty()}
+function renderRbar(){const r=S.replay;if(!r){rbar.classList.remove('show');return}const c=S.full[r.i];
+ rbar.innerHTML=`<button data-r="pp" title="${r.play?'Duraklat':'Oynat'}">${ic(r.play?'pause':'play')}</button><button data-r="st" title="İleri sar (1 mum)">${ic('next')}</button>
+ <button data-r="sp" title="Hız">${r.speed}x</button><span class="rt">${esc(fmtTime(c.time))}</span><button data-r="jump" title="Yeni başlangıç seç">${ic('replay')}</button><button data-r="x" title="Tekrar oynatmadan çık">${ic('x')}</button>`;rbar.classList.add('show')}
+rbar.addEventListener('click',e=>{const b=e.target.closest('[data-r]');if(!b||!S.replay)return;const a=b.dataset.r,r=S.replay;
+ if(a==='pp')r.play?rPause():rPlay();if(a==='st'){rPause();rStep()}if(a==='x')exitReplay();
+ if(a==='sp'){const sp=[.5,1,2,3,5,10];r.speed=sp[(sp.indexOf(r.speed)+1)%sp.length];if(r.play)rPlay();else renderRbar()}
+ if(a==='jump'){rPause();S.data=S.full;mainS.setData(mainData());computeAll(true);setTool('replay');$('#rhint').style.display='block'}});
+
+// ---------------- alt çubuk ----------------
+const RANGES=[['1G','5m',1],['5G','15m',5],['1A','1h',30],['3A','4h',90],['6A','12h',182],['YB','1d','ytd'],['1Y','1d',365],['5Y','1w',1826],['Tümü','1M','all']];
+function renderBot(){$('#bot').innerHTML=RANGES.map(r=>`<button data-rg="${r[0]}" title="Son ${r[0]}">${r[0]}</button>`).join('')+'<div class="grow"></div><span id="clock"></span><i class="sp"></i>'+
+ `<button data-sc="pct" title="Yüzde ölçeği">%</button><button data-sc="log" title="Logaritmik ölçek">log</button><button data-sc="auto" class="on" title="Otomatik ölçek">oto</button>`}
+function applyRange(r){const n=S.data;if(!n.length)return;const to=n.at(-1).time;let from;
+ if(r[2]==='all'){main.timeScale().fitContent();return}if(r[2]==='ytd'){from=new Date(new Date().getFullYear(),0,1).getTime()/1000}else from=to-r[2]*86400;
+ const l=Math.max(0,t2l(from));main.timeScale().setVisibleLogicalRange({from:l,to:n.length+5})}
+let scMode=0;
+$('#bot').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+ if(b.dataset.rg){const r=RANGES.find(x=>x[0]===b.dataset.rg);if(S.tf!==r[1]){S.pendingRange=r;S.tf=r[1];ls.set('tf',S.tf);loadChart()}else applyRange(r);return}
+ const sc=b.dataset.sc;if(sc==='auto'){main.priceScale('right').applyOptions({autoScale:true});b.classList.add('on');return}
+ const m=sc==='pct'?2:1;scMode=scMode===m?0:m;main.priceScale('right').applyOptions({mode:scMode});$$('[data-sc=pct],[data-sc=log]').forEach(x=>x.classList.toggle('on',(x.dataset.sc==='pct'?2:1)===scMode));dirty()});
+function tickClock(){const d=new Date(),o=-d.getTimezoneOffset()/60;const c=$('#clock');if(c)c.textContent=`${pad(d.getHours())}:${pad(d.getMinutes())}:${pad(d.getSeconds())} UTC${o>=0?'+':''}${o}`}
+setInterval(tickClock,1000);
+
+// ---------------- sağ tık menüsü ----------------
+mainEl.addEventListener('contextmenu',e=>{e.preventDefault();const p=pos(e),price=pOfY(p.y);const g=e.target.closest&&e.target.closest('g.d');const items=[];
+ if(g){const d=S.draws.find(x=>x.id===g.dataset.id);if(d){S.sel=d.id;dirty();items.push({h:TOOLS[d.type]||'Çizim'},{t:'Kopyala',ic:'copy',f:()=>dtb.querySelector('[data-da=copy]')?.click()},{t:d.lock?'Kilidi aç':'Kilitle',ic:'lock',f:()=>{snap();d.lock=!d.lock;saveDraws();dirty()}},{t:'Sil',ic:'trash',k:'Del',f:()=>{snap();S.draws=S.draws.filter(x=>x!==d);S.sel=null;saveDraws();dirty()}})}}
+ if(price!=null){const fp=fmt(price);items.push({h:'Grafik'},{t:`${fp} fiyatına alarm ekle`,ic:'bell',f:()=>alarmDlg(price)},{t:`${fp} fiyatına yatay çizgi`,ic:'hline',f:()=>{snap();S.draws.push({id:uid(),type:'hline',pts:[{t:l2t(lOfX(p.x)),p:price}],st:defSt('hline')});saveDraws();dirty()}})}
+ items.push({t:'Grafiği sıfırla',ic:'full',k:'Alt+R',f:resetView},{t:'Göstergeler…',ic:'fx',f:()=>$('#indBtn').click()},{t:'Ayarlar…',ic:'gear',f:settingsDlg});
+ if(S.draws.length)items.push({t:'Tüm çizimleri kaldır',ic:'trash',f:()=>$('[data-t=clear]').click()});
+ openPop(null,items,{x:e.clientX,y:e.clientY})});
+function resetView(){const n=S.data.length;main.priceScale('right').applyOptions({autoScale:true});main.timeScale().setVisibleLogicalRange({from:n-150,to:n+12})}
+
+// ---------------- ayarlar ----------------
+function settingsDlg(){const s=S.set;dialog('Grafik ayarları',`<div class="fld"><label for="sT">Tema</label><select id="sT"><option value="dark"${s.theme==='dark'?' selected':''}>Koyu</option><option value="light"${s.theme==='light'?' selected':''}>Açık</option></select></div>
+ <div class="fld"><label for="sU">Yükselen mum</label><input id="sU" type="color" value="${esc(s.up)}"></div><div class="fld"><label for="sD">Düşen mum</label><input id="sD" type="color" value="${esc(s.down)}"></div>
+ <div class="fld"><label for="sG">Izgara çizgileri</label><input id="sG" type="checkbox"${s.grid?' checked':''}></div>
+ <p style="color:var(--mu);font-size:12px">Saatler bilgisayarınızın saat diliminde gösterilir. Tüm ayarlar, çizimler ve alarmlar bu tarayıcıda saklanır.</p>
+ <button class="btn r" id="sReset" style="margin-top:6px">Her şeyi sıfırla</button>`,
+ [{t:'Vazgeç',cls:'g'},{t:'Uygula',f:()=>{Object.assign(S.set,{theme:$('#sT').value,up:$('#sU').value,down:$('#sD').value,grid:$('#sG').checked});ls.set('set',S.set);applyTheme()}}]);
+ $('#sReset').onclick=()=>{closeModal('mDlg');confirmDlg('Her şeyi sıfırla','Tüm çizimler, göstergeler, alarmlar ve ayarlar silinecek. Emin misiniz?',()=>{try{Object.keys(localStorage).filter(k=>k.startsWith('otc_')).forEach(k=>localStorage.removeItem(k))}catch(e){}location.reload()})}}
+function applyTheme(){document.documentElement.dataset.theme=S.set.theme;$('meta[name=theme-color]').content=S.set.theme==='dark'?'#0f1218':'#ffffff';
+ main.applyOptions(chartOpts(false));subs.forEach(p=>{const def=p.def;p.chart.applyOptions(chartOpts(true,def.dp==='main'?null:def.big?0:(def.dp??2)))});
+ mkMain();rebuildInds();dirty()}
+$('#cfgBtn').onclick=settingsDlg;
+
+// ---------------- ekran görüntüsü ----------------
+$('#shotBtn').onclick=async()=>{try{
+ const parts=[main.takeScreenshot(),...subs.map(p=>p.chart.takeScreenshot())],w=parts[0].width,h=parts.reduce((s,c)=>s+c.height,0),r=parts[0].width/mainEl.clientWidth;
+ const cv=document.createElement('canvas');cv.width=w;cv.height=h;const x=cv.getContext('2d');let y=0;parts.forEach(c=>{x.drawImage(c,0,y);y+=c.height});
+ const s=new XMLSerializer().serializeToString(svg).replace('<svg','<svg xmlns="http://www.w3.org/2000/svg"').replace(/var\(--bg\)/g,S.set.theme==='dark'?'#0f1218':'#ffffff');
+ const img=new Image();img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s.replace(/<svg([^>]*)>/,`<svg$1 width="${mainEl.clientWidth}" height="${mainEl.clientHeight}">`));await img.decode();x.drawImage(img,0,0,mainEl.clientWidth*r,mainEl.clientHeight*r);
+ x.font=`${600} ${14*r}px Inter,sans-serif`;x.fillStyle=S.set.theme==='dark'?'#d1d4dc':'#131722';x.fillText(`${lbl(S.key)} · ${TFS.find(t=>t[0]===S.tf)?.[1]} · ${APP_NAME}`,10*r,22*r);
+ const a=document.createElement('a');a.href=cv.toDataURL('image/png');a.download=`${lbl(S.key)}_${S.tf}_${Date.now()}.png`;document.body.appendChild(a);a.click();a.remove();toast('Ekran görüntüsü','PNG dosyası indirildi.','',2500)
+}catch(e){console.error(e);toast('Ekran görüntüsü alınamadı',String(e.message||e))}};
+
+// ---------------- klavye & diğer ----------------
+$('#undoBtn').onclick=undo;$('#redoBtn').onclick=redo;
+$('#fsBtn').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}};
+document.addEventListener('keydown',e=>{const inInput=/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName),modal=$$('.modal.show').length;
+ if(e.key==='Escape'){if(modal){$$('.modal.show').forEach(m=>m.classList.remove('show'));return}pop.classList.remove('show');if(S.pending||isDraw(S.tool))setTool('cursor');else if(S.sel){S.sel=null;dirty()}return}
+ if(inInput||modal)return;
+ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();e.shiftKey?redo():undo();return}
+ if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='y'){e.preventDefault();redo();return}
+ if((e.key==='Delete'||e.key==='Backspace')&&S.sel){snap();S.draws=S.draws.filter(x=>x.id!==S.sel);S.sel=null;saveDraws();dirty();return}
+ if(e.altKey){const m={t:'trend',h:'hline',j:'hray',v:'vline',f:'fib',x:'text'}[e.key.toLowerCase()];if(e.shiftKey&&e.key.toLowerCase()==='r'){e.preventDefault();setTool('rect');return}
+  if(e.key.toLowerCase()==='r'&&!e.shiftKey){e.preventDefault();resetView();return}if(m){e.preventDefault();setTool(m)}return}
+ if(e.key===' '&&S.replay){e.preventDefault();S.replay.play?rPause():rPlay();return}
+ if(e.key==='ArrowRight'&&e.shiftKey&&S.replay){rPause();rStep();return}
+ if(!e.ctrlKey&&!e.metaKey&&/^[a-z0-9]$/i.test(e.key)){e.preventDefault();openSym('pick',e.key.toUpperCase())}});
+// Shift + tık = hızlı ölçüm
+mainEl.addEventListener('pointerdown',e=>{if(e.shiftKey&&!isDraw(S.tool)&&e.button===0&&!e.target.closest('#dtb,#rbar,.ib,.lgc')){e.stopPropagation();setTool('measure');onDown(e)}},true);
+$$('.stabs button').forEach(b=>b.onclick=()=>{$$('.stabs button').forEach(x=>x.classList.toggle('on',x===b));$$('.spane').forEach(p=>p.classList.toggle('on',p.id==='sp-'+b.dataset.st))});
+function setMob(m){$('#side').classList.toggle('show',m==='side');$$('#mtabs button').forEach(b=>b.classList.toggle('on',b.dataset.m===m))}
+$('#mtabs').addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(b)setMob(b.dataset.m)});
+
+// ---------------- başlat ----------------
+$('#brand').textContent=APP_NAME;paintIcons();renderTfFav();renderTools();renderBot();tickClock();renderAlarms();
+document.documentElement.dataset.theme=S.set.theme;
+mkMain();rebuildInds();setTool(S.cursor);updUndo();loop();
+(async()=>{await loadSymbols();renderWl();renderDet();await loadChart();openTicker('F');openTicker('S');updWl()})();
+
+}
+</script>
+</body>
+</html>
