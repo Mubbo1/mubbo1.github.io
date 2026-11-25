@@ -581,6 +581,13 @@ mark{background:color-mix(in srgb,var(--ac) 35%,transparent);color:inherit;borde
 #welc .wdraw{stroke-dasharray:900;stroke-dashoffset:900}#welc .wv.on .wdraw{animation:wDraw 1.4s ease forwards}
 @keyframes wDraw{to{stroke-dashoffset:0}}
 @media(max-width:760px){#welc{padding:0}#welc .wbx{grid-template-columns:1fr;border-radius:0;height:100%;grid-template-rows:42% 1fr;border:0}#welc .wvis{order:-1;border-left:0;border-bottom:1px solid #1c2230}#welc .wl{min-height:0;padding:22px 22px 20px}#welc h2{font-size:23px}#welc .wp{font-size:14px;margin-bottom:14px}#welc .wst{padding:14px 0 8px;justify-content:flex-start}#welc .wbr{display:none}}
+
+#area.L3h{grid-template-columns:repeat(3,minmax(0,1fr))}
+#area.L6{grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:minmax(0,1fr) minmax(0,1fr)}
+#area.L8{grid-template-columns:repeat(4,minmax(0,1fr));grid-template-rows:minmax(0,1fr) minmax(0,1fr)}
+#area:not(.L1) #center,#area:not(.L1) .mc{border:1px solid var(--ln);border-radius:4px;overflow:hidden}
+#area:not(.L1){gap:3px;background:var(--bg)}
+#layBtn .lbl{margin-left:4px}
 </style>
 </head>
 <body>
@@ -596,6 +603,7 @@ mark{background:color-mix(in srgb,var(--ac) 35%,transparent);color:inherit;borde
  <button class="hb" id="typeBtn" title="Grafik tipi"><i data-ic="candle"></i></button>
  <i class="sp"></i>
  <button class="hb" id="indBtn" title="Göstergeler"><i data-ic="fx"></i><span class="lbl">Göstergeler</span></button>
+ <button class="hb" id="layBtn" title="Çoklu grafik düzeni (birden fazla grafik)"><i data-ic="lay1"></i><span class="lbl">Düzen</span></button>
  <button class="hb" id="alarmBtn" title="Alarm oluştur (Alt+A)"><i data-ic="alarm"></i><span class="lbl">Alarm</span></button>
  <button class="hb" id="replayBtn" title="Tekrar oynat"><i data-ic="replay"></i><span class="lbl">Tekrar oynat</span></button>
  <i class="sp"></i>
@@ -604,7 +612,6 @@ mark{background:color-mix(in srgb,var(--ac) 35%,transparent);color:inherit;borde
  <div class="grow"></div>
  <button class="hb cmdb" id="cmdBtn" title="Her şeyi ara: sembol, gösterge, çizim aracı, işlem (Ctrl+K)"><i data-ic="search"></i><span class="lbl">Ara</span><kbd>Ctrl K</kbd></button>
  <button class="hb" id="demoBtn" title="Demo hesap (sanal al-sat)"><i data-ic="wallet"></i><span class="lbl" id="demoEq">Demo</span></button>
- <button class="hb" id="layBtn" title="Grafik düzeni (çoklu grafik)"><i data-ic="lay1"></i></button>
  <button class="hb" id="favBtn" title="Favori araçlar çubuğunu göster/gizle"><i data-ic="star"></i></button>
  <button class="hb" id="cfgBtn" title="Grafik ayarları ve temalar"><i data-ic="gear"></i></button>
  <button class="hb" id="shotBtn" title="Ekran görüntüsü al"><i data-ic="camera"></i></button>
@@ -678,7 +685,7 @@ mark{background:color-mix(in srgb,var(--ac) 35%,transparent);color:inherit;borde
 
 <script>
 {
-const APP_NAME='ProGrafik'; // uygulama adı: yalnızca burayı değiştirin
+const URLQ=new URLSearchParams(location.search);const APP_NAME='ProGrafik'; // uygulama adı: yalnızca burayı değiştirin
 const LC=window.LightweightCharts;
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const ls={get(k,d){try{const v=localStorage.getItem('otc_'+k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem('otc_'+k,JSON.stringify(v))}catch(e){}}};
@@ -716,7 +723,7 @@ zoom:'<circle cx="10" cy="10" r="6"/><path d="M20 20l-5.5-5.5M10 7v6M7 10h6"/>',
 lock:'<rect x="5" y="11" width="14" height="10" rx="1"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',unlock:'<rect x="5" y="11" width="14" height="10" rx="1"/><path d="M8 11V7a4 4 0 0 1 7.5-2"/>',
 copy:'<rect x="8" y="8" width="12" height="12" rx="1"/><path d="M16 8V4H4v12h4"/>',edit:'<path d="M4 20h4L19 9l-4-4L4 16z"/>',
 play:'<path d="M7 4l13 8-13 8z" fill="currentColor"/>',pause:'<path d="M7 4h3v16H7zM14 4h3v16h-3z" fill="currentColor"/>',next:'<path d="M5 4l10 8-10 8zM18 4v16"/>',
-bell:'<path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4zM10 21h4"/>',star:'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',list:'<path d="M8 6h13M8 12h13M8 18h13"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/>',tree:'<rect x="3" y="3" width="7" height="5"/><rect x="14" y="10" width="7" height="4"/><rect x="14" y="17" width="7" height="4"/><path d="M6.5 8v11H14M6.5 12H14"/>',table:'<rect x="3" y="4" width="18" height="16" rx="1"/><path d="M3 10h18M3 15h18M10 4v16"/>',hot:'<path d="M3 17l6-6 4 4 8-8M15 7h6v6"/>',note:'<path d="M5 3h10l4 4v14H5z"/><path d="M15 3v4h4M8 12h8M8 16h6"/>',back:'<path d="M19 4l-10 8 10 8zM6 4v16"/>',plusc:'<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>',toend:'<path d="M6 6l6 6-6 6M13 6l6 6-6 6"/>',zin:'<circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5M11 8v6M8 11h6"/>',zout:'<circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5M8 11h6"/>',chl:'<path d="M15 6l-6 6 6 6"/>',chr:'<path d="M9 6l6 6-6 6"/>',reset:'<path d="M4 12a8 8 0 1 0 3-6.2M4 4v4h4"/>',dots:'<circle cx="6" cy="12" r="1.2" fill="currentColor"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/><circle cx="18" cy="12" r="1.2" fill="currentColor"/>',cal:'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/>',help:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 1-1 1.7M12 17h.01"/>',flag:'<path d="M6 21V4h11l-2 4 2 4H6"/>',tpl:'<rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><path d="M16.5 13v7M13 16.5h7"/>',lay1:'<rect x="4" y="4" width="16" height="16" rx="2"/>',lay2h:'<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M12 4v16"/>',lay2v:'<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 12h16"/>',lay3:'<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M13 4v16M13 12h7"/>',lay4:'<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M12 4v16M4 12h16"/>',sync:'<path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3M18 3v4h-4M6 21v-4h4"/>',sort:'<path d="M8 4v16M4 16l4 4 4-4M16 20V4M12 8l4-4 4 4"/>',wallet:'<rect x="3" y="6" width="18" height="14" rx="2"/><path d="M16 13h2M3 10h18M6 6V4.5h11"/>'};
+bell:'<path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4zM10 21h4"/>',star:'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',list:'<path d="M8 6h13M8 12h13M8 18h13"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/>',tree:'<rect x="3" y="3" width="7" height="5"/><rect x="14" y="10" width="7" height="4"/><rect x="14" y="17" width="7" height="4"/><path d="M6.5 8v11H14M6.5 12H14"/>',table:'<rect x="3" y="4" width="18" height="16" rx="1"/><path d="M3 10h18M3 15h18M10 4v16"/>',hot:'<path d="M3 17l6-6 4 4 8-8M15 7h6v6"/>',note:'<path d="M5 3h10l4 4v14H5z"/><path d="M15 3v4h4M8 12h8M8 16h6"/>',back:'<path d="M19 4l-10 8 10 8zM6 4v16"/>',plusc:'<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>',toend:'<path d="M6 6l6 6-6 6M13 6l6 6-6 6"/>',zin:'<circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5M11 8v6M8 11h6"/>',zout:'<circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5M8 11h6"/>',chl:'<path d="M15 6l-6 6 6 6"/>',chr:'<path d="M9 6l6 6-6 6"/>',reset:'<path d="M4 12a8 8 0 1 0 3-6.2M4 4v4h4"/>',dots:'<circle cx="6" cy="12" r="1.2" fill="currentColor"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/><circle cx="18" cy="12" r="1.2" fill="currentColor"/>',cal:'<rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/>',help:'<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.3-1 1-1 1.7M12 17h.01"/>',flag:'<path d="M6 21V4h11l-2 4 2 4H6"/>',tpl:'<rect x="4" y="4" width="7" height="7" rx="1"/><rect x="13" y="4" width="7" height="7" rx="1"/><rect x="4" y="13" width="7" height="7" rx="1"/><path d="M16.5 13v7M13 16.5h7"/>',lay1:'<rect x="4" y="4" width="16" height="16" rx="2"/>',lay2h:'<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M12 4v16"/>',lay2v:'<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M4 12h16"/>',lay3:'<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M13 4v16M13 12h7"/>',lay4:'<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M12 4v16M4 12h16"/>',lay3h:'<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9.3 4v16M14.7 4v16"/>',lay6:'<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M9.3 4v16M14.7 4v16M4 12h16"/>',lay8:'<rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 4v16M12 4v16M16 4v16M4 12h16"/>',sync:'<path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3M18 3v4h-4M6 21v-4h4"/>',sort:'<path d="M8 4v16M4 16l4 4 4-4M16 20V4M12 8l4-4 4 4"/>',wallet:'<rect x="3" y="6" width="18" height="14" rx="2"/><path d="M16 13h2M3 10h18M6 6V4.5h11"/>'};
 const H='fill="none"';
 const IT={
  cross:'<path d="M14 3.5v8M14 16.5v8M3.5 14h8M16.5 14h8"/>',
@@ -884,7 +891,7 @@ const themeVals=t=>({theme:t.k||'',bg:t.bg,bg2:t.bg2||'',gridV:t.grid,gridH:t.gr
 const DEFSET={...themeVals({...THEMES.koyu,k:'koyu'}),gv:true,gh:true,fs:11,border:true,wick:true,lastLine:true,wm:false,plus:true,cd:true,hl:true,smode:0,sinv:false};
 const lum=h=>{const m=/^#?([0-9a-f]{6})$/i.exec(h||'');if(!m)return 0;const n=parseInt(m[1],16);return((n>>16&255)*.299+(n>>8&255)*.587+(n&255)*.114)/255};
 const S={
- key:ls.get('key','F:BTCUSDT'),tf:ls.get('tf','15m'),ctype:ls.get('ctype','candle'),
+ key:URLQ.get('k')||ls.get('key','F:BTCUSDT'),tf:URLQ.get('tf')||ls.get('tf','15m'),ctype:ls.get('ctype','candle'),
  fav:ls.get('fav',['1m','5m','15m','1h','4h','1d','1w']),
  set:(()=>{const o=ls.get('set',{});const st={...DEFSET,...o};if(o.theme==='light'&&!o.bg)Object.assign(st,themeVals({...THEMES.acik,k:'acik'}));if(o.theme==='dark'&&!o.bg)st.theme='koyu';if(o.grid===false&&o.gv==null){st.gv=false;st.gh=false}if(o.up&&!o.upB){st.upB=st.upW=o.up;st.dnB=st.dnW=o.down}return st})(),
  ui:{accent:'#2962ff',dens:'normal',labels:true,left:true,bot:true,font:'Inter',sw:300,lgOpen:true,...ls.get('ui',{})},
@@ -2482,7 +2489,18 @@ function editText(d,isNew){dialog('Metin',`<div class="fld" style="grid-template
 // ---------------- alarmlar ----------------
 let alarmLines=[];
 function refreshAlarmLines(){if(!mainS)return;alarmLines.forEach(l=>{try{mainS.removePriceLine(l)}catch(e){}});
- alarmLines=S.alarms.filter(a=>a.k===S.key&&a.on).map(a=>mainS.createPriceLine({price:a.p,color:'#ff9800',lineStyle:2,lineWidth:1,axisLabelVisible:true,title:'Alarm'}))}
+ alarmRefs=S.alarms.filter(a=>a.k===S.key&&a.on);alarmLines=alarmRefs.map(a=>mainS.createPriceLine({price:a.p,color:'#ff9800',lineStyle:2,lineWidth:1,axisLabelVisible:true,title:'Alarm'}))}
+let alarmRefs=[],alDrag=null;
+function alarmAt(e){if(isDraw(S.tool)||S.tool==='eraser'||!alarmRefs.length)return -1;const r=mainEl.getBoundingClientRect(),y=e.clientY-r.top,x=e.clientX-r.left;if(x<0||y<0||y>S.H)return -1;if(e.target.closest&&e.target.closest('#dtb,#rbar,.lg,#favbar,.qt,#pplus,.dmx,.dmp'))return -1;let best=-1,bd=6;alarmRefs.forEach((a,i)=>{const ay=yOfP(a.p);if(ay==null)return;const d=Math.abs(ay-y);if(d<bd){bd=d;best=i}});return best}
+mainEl.addEventListener('pointerdown',e=>{if(e.button!==0)return;const i=alarmAt(e);if(i<0)return;e.preventDefault();e.stopPropagation();const a=alarmRefs[i];alDrag={a,line:alarmLines[i],p0:a.p,moved:false,id:e.pointerId};try{mainEl.setPointerCapture(e.pointerId)}catch(_){}charts().forEach(c=>c.applyOptions({handleScroll:false,handleScale:false}))},true);
+mainEl.addEventListener('pointermove',e=>{if(alDrag){e.stopPropagation();const r=mainEl.getBoundingClientRect(),p=pOfY(Math.max(0,Math.min(S.H,e.clientY-r.top)));if(p==null)return;const dp=precOf(S.key),v=+p.toFixed(dp);alDrag.a.p=v;alDrag.moved=true;try{alDrag.line.applyOptions({price:v,title:'Alarm · '+fmt(v,dp)})}catch(_){}return}if(e.buttons)return;const on=alarmAt(e)>=0;if(on!==!!mainEl.dataset.alh){if(on){mainEl.dataset.alh=1;mainEl.style.cursor='ns-resize'}else{delete mainEl.dataset.alh;mainEl.style.cursor=''}}},true);
+const alUp=e=>{if(!alDrag)return;const d=alDrag;alDrag=null;charts().forEach(c=>c.applyOptions({handleScroll:true,handleScale:true}));if(d.moved&&d.a.p!==d.p0){const last=S.full.at(-1)?.close;if(last!=null&&d.a.c!=='cross')d.a.c=d.a.p>=last?'up':'down';ls.set('alarms',S.alarms);renderAlarms();refreshAlarmLines();toast('Alarm taşındı',lbl(S.key)+' · '+fmt(d.a.p,precOf(S.key))+' · '+CONDS[d.a.c],'',2500)}else{refreshAlarmLines()}};
+mainEl.addEventListener('pointerup',alUp,true);mainEl.addEventListener('pointercancel',alUp,true);
+mainEl.addEventListener('dblclick',e=>{const i=alarmAt(e);if(i<0)return;e.stopPropagation();alarmDlg(null,alarmRefs[i])},true);
+mainEl.addEventListener('dblclick',e=>{if(isDraw(S.tool)||S.tool==='eraser'||S.drag)return;if(e.target.closest('g.d,#dtb,#rbar,.lg,#favbar,.qt,#pplus,.dmx,.dmp,#lg,button,input'))return;const r=mainEl.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+ if(x>S.W){try{main.priceScale('right').applyOptions({autoScale:true});toast('Fiyat ölçeği','Otomatik ölçeğe döndü','',1500)}catch(_){}return}
+ const ts=main.timeScale(),R=ts.getVisibleLogicalRange(),L=ts.coordinateToLogical(x);if(!R||L==null)return;const w=R.to-R.from;if(w<12){toast('Yakınlaştırma','En yakın görünümdesiniz. Uzaklaştırmak için tekerleği veya alttaki − düğmesini kullanın.','',2200);return}
+ const f=.5,T={from:L-(L-R.from)*f,to:L+(R.to-L)*f},t0=performance.now(),D=180;const st=k=>{const q=Math.min(1,(k-t0)/D),ez=1-Math.pow(1-q,3);ts.setVisibleLogicalRange({from:R.from+(T.from-R.from)*ez,to:R.to+(T.to-R.to)*ez});if(q<1)requestAnimationFrame(st)};requestAnimationFrame(st)});
 const CONDS={up:'Yukarı keserse',down:'Aşağı keserse',cross:'Keserse (her iki yön)'};
 function alarmDlg(price,edit){const k=edit?edit.k:S.key,t=S.tick[k],p=price??edit?.p??t?.c??S.full.at(-1)?.close??0,dp=precOf(k);
  dialog(edit?'Alarmı düzenle':'Alarm oluştur',`<div class="fld"><label>Sembol</label><b>${esc(lbl(k))}</b></div>
@@ -2749,13 +2767,14 @@ async function loadCmp(){for(const k in cmpS){try{main.removeSeries(cmpS[k].seri
 function cmpTick(){const last=S.full.at(-1);if(!last||S.replay)return;for(const k in cmpS){const t=S.tick[k],c=cmpS[k],d=c.data;if(!t||!d.length)continue;const pt={time:Math.max(last.time,d.at(-1).time),value:t.c};try{c.series.update(pt);if(d.at(-1).time===pt.time)d[d.length-1]=pt;else d.push(pt)}catch(e){}}}
 
 // ================= çoklu grafik düzeni =================
-const MCS=[];const LAYS=[['1','Tek grafik'],['2h','2 grafik · yan yana'],['2v','2 grafik · alt alta'],['3','3 grafik'],['4','4 grafik']];
-const lcount=l=>({'1':1,'2h':2,'2v':2,'3':3,'4':4}[l]||1);
+const MCS=[];const LAYS=[['1','Tek grafik'],['2h','2 grafik · yan yana'],['2v','2 grafik · alt alta'],['3','3 grafik · 1 büyük + 2'],['3h','3 grafik · yan yana'],['4','4 grafik'],['6','6 grafik'],['8','8 grafik']];
+const lcount=l=>({'1':1,'2h':2,'2v':2,'3':3,'3h':3,'4':4,'6':6,'8':8}[l]||1);
+const MCDEF=['F:ETHUSDT','F:SOLUSDT','S:BTCUSDT','F:XRPUSDT','F:BNBUSDT','F:DOGEUSDT','F:ADAUSDT'];
 function mcOpts(){const o=chartOpts(false);o.layout={...o.layout,attributionLogo:false};o.watermark={visible:false};o.crosshair={...o.crosshair,vertLine:{...o.crosshair.vertLine,visible:true},horzLine:{...o.crosshair.horzLine,visible:true}};o.rightPriceScale={...o.rightPriceScale,minimumWidth:64,mode:0,invertScale:false};return o}
 function mcCols(){const st=S.set;return{upColor:st.up,downColor:st.down,borderVisible:!!st.border,borderUpColor:st.upB,borderDownColor:st.dnB,wickVisible:!!st.wick,wickUpColor:st.upW,wickDownColor:st.dnW}}
-function applyLayout(){const l=innerWidth<700?'1':S.lay;$('#area').className='L'+l;const need=lcount(l)-1;while(MCS.length>need)closeMc(MCS.pop());while(MCS.length<need)createMc(MCS.length);
- $('#layBtn').innerHTML=ic('lay'+l);setTimeout(()=>{fitPanes();placeFav();dirty()},80)}
-function createMc(i){if(!S.mcs[i])S.mcs[i]={key:S.key,tf:'1h'};const el=document.createElement('div');el.className='mc';
+function applyLayout(){const l=innerWidth<560?(['2v'].includes(S.lay)?S.lay:'1'):innerWidth<900&&lcount(S.lay)>4?'4':S.lay;$('#area').className='L'+l;const need=lcount(l)-1;while(MCS.length>need)closeMc(MCS.pop());while(MCS.length<need)createMc(MCS.length);
+ $('#layBtn').innerHTML=ic('lay'+l)+'<span class="lbl">'+(lcount(l)>1?lcount(l)+' grafik':'Düzen')+'</span>';setTimeout(()=>{fitPanes();placeFav();dirty()},80)}
+function createMc(i){if(!S.mcs[i])S.mcs[i]={key:MCDEF[i]||S.key,tf:'1h'};const el=document.createElement('div');el.className='mc';
  el.innerHTML=`<div class="mch"><button class="ms" title="Sembol değiştir"></button><select class="mt" title="Zaman dilimi">${TFS.map(t=>`<option value="${t[0]}">${t[1]}</option>`).join('')}</select><span class="mp"></span><button class="mo" title="Ana grafikte aç">${ic('full')}</button></div><div class="mcc"></div>`;
  $('#area').appendChild(el);const chart=LC.createChart(el.querySelector('.mcc'),mcOpts()),s_=chart.addCandlestickSeries(mcCols()),v=chart.addHistogramSeries({priceScaleId:'v',priceFormat:{type:'volume'},lastValueVisible:false,priceLineVisible:false});
  chart.priceScale('v').applyOptions({scaleMargins:{top:.82,bottom:0}});const m={i,el,chart,s:s_,v,ws:null,data:[]};MCS.push(m);
@@ -2775,7 +2794,7 @@ async function loadMc(m){const c={...S.mcs[m.i]},{m:mm,s:sy}=mk(c.key);m.el.quer
 function mcPrice(m){const d=m.data;if(d.length<2)return;const l=d.at(-1),p=d.at(-2).close,ch=(l.close-p)/p*100;m.el.querySelector('.mp').innerHTML=`<span class="${ch>=0?'up':'dn'}">${fmt(l.close,precOf(S.mcs[m.i].key))} <small>${pct(ch)}</small></span>`}
 function syncCross(src,p){const t=p.time,all=[{chart:main,s:mainS,data:S.data,me:src===null},...MCS.map(x=>({chart:x.chart,s:x.s,data:x.data,me:x===src}))];
  all.forEach(o=>{if(o.me)return;try{if(t==null){o.chart.clearCrosshairPosition();return}const d=o.data;let lo=0,hi=d.length-1,q=null;while(lo<=hi){const md=(lo+hi)>>1;if(d[md].time<=t){q=d[md];lo=md+1}else hi=md-1}if(q)o.chart.setCrosshairPosition(q.close,q.time,o.s);else o.chart.clearCrosshairPosition()}catch(e){}})}
-$('#layBtn').dataset.pop=1;$('#layBtn').onclick=e=>openPop(e.currentTarget,[{h:'Grafik düzeni'},...LAYS.map(([k,t])=>({t,ic:'lay'+k,on:S.lay===k,f:()=>{S.lay=k;ls.set('lay',k);applyLayout()}})),{h:'Senkron'},{t:'Artı imleci grafikler arasında senkronla',ic:'sync',on:S.mcSync,f:()=>{S.mcSync=!S.mcSync;ls.set('mcSync',S.mcSync)}}]);
+$('#layBtn').dataset.pop=1;$('#layBtn').onclick=e=>openPop(e.currentTarget,[{h:'Grafik düzeni'},...LAYS.map(([k,t])=>({t,ic:'lay'+k,on:S.lay===k,f:()=>{S.lay=k;ls.set('lay',k);applyLayout()}})),{h:'Pencere'},{t:'Yeni pencerede grafik aç',ic:'plus',f:()=>open(location.pathname+'?k='+encodeURIComponent(S.key)+'&tf='+encodeURIComponent(S.tf),'_blank','noopener')},{h:'Senkron'},{t:'Artı imleci grafikler arasında senkronla',ic:'sync',on:S.mcSync,f:()=>{S.mcSync=!S.mcSync;ls.set('mcSync',S.mcSync)}}]);
 let layT=null;addEventListener('resize',()=>{clearTimeout(layT);layT=setTimeout(applyLayout,200)});
 
 // ================= ipuçları (tooltip) =================
@@ -2970,7 +2989,7 @@ function cmdItems(){const A=[];
  act('Emir defteri ve son işlemler','book',()=>{setSide('book');setMob('side')},'order book derinlik depth');act('Piyasa özeti (yükselenler / düşenler)','hot',()=>{setSide('hot');setMob('side')},'top gainers');
  act('İzleme listesi','list',()=>{setSide('wl');setMob('side')},'watchlist');act('Tarihe git','cal',()=>goDateDlg(),'tarih zaman','Alt+G');
  act('Ekran görüntüsü al','camera',()=>$('#shotBtn').click(),'screenshot resim');act('Tam ekran','full',()=>$('#fsBtn').click(),'fullscreen');
- act('Tüm çizim araçları','alltools',()=>toolsDlg(),'arac cizim');act('Tanıtım ekranını göster','star',()=>welcome(true),'tanitim hos geldin ozellikler');act('Tanıtım sayfası (web)','star',()=>open('tanitim/','_blank'),'tanitim sayfa web ana sayfa');act('Tüm çizimleri kaldır','trash',()=>$('#tools [data-t=clear]').click(),'sil temizle');
+ act('Tüm çizim araçları','alltools',()=>toolsDlg(),'arac cizim');LAYS.forEach(([k,t])=>act('Düzen: '+t,'lay'+k,()=>{S.lay=k;ls.set('lay',k);applyLayout()},'duzen coklu grafik pencere layout '+k));act('Yeni pencerede grafik aç','plus',()=>open(location.pathname+'?k='+encodeURIComponent(S.key)+'&tf='+encodeURIComponent(S.tf),'_blank','noopener'),'pencere yeni sekme');act('Tanıtım ekranını göster','star',()=>welcome(true),'tanitim hos geldin ozellikler');act('Tanıtım sayfası (web)','star',()=>open('tanitim/','_blank'),'tanitim sayfa web ana sayfa');act('Tüm çizimleri kaldır','trash',()=>$('#tools [data-t=clear]').click(),'sil temizle');
  act('Klavye kısayolları','kbd',()=>helpDlg(),'kisayol tus');act('Kısa rehberi tekrar göster','help',()=>tour(true),'yardim tur egitim');
  act('Göstergeler','fx',()=>$('#indBtn').click(),'indikator indicator');
  TFS.forEach(([tf,sh,lo])=>A.push({g:'Zaman dilimi',t:lo,ic:'clock',f:()=>setTf(tf),kw:sh+' '+tf}));
