@@ -858,7 +858,7 @@ function stepSec(){const d=S.data;return d.length>1?d[d.length-1].time-d[d.lengt
 function indDp(inst,def){return inst.dp!=null&&inst.dp!==''?+inst.dp:def.pane===0?S.prec:def.dp==='main'?S.prec:def.dp??2}
 function addPlot(chart,pl,inst,def){
  const col=inst.c?.[pl.k]||pl.c,pt=inst.pt?.[pl.k]||pl.t||'line',sl=inst.sl!=null?inst.sl:(def.pane===1),
-  b={priceLineVisible:false,lastValueVisible:!!sl&&pl.t!=='hist',crosshairMarkerVisible:false,visible:plVis(inst,pl),title:''};
+  b={priceLineVisible:false,lastValueVisible:!!sl&&pl.t!=='hist'&&!pl.gap&&pt!=='dots',crosshairMarkerVisible:false,visible:plVis(inst,pl),title:''};
  if(pl.scale)b.priceScaleId=pl.scale;
  if(def.big)b.priceFormat={type:'volume'};
  else if(!pl.scale){const dp=indDp(inst,def);b.priceFormat={type:'price',precision:dp,minMove:1/10**dp}}
