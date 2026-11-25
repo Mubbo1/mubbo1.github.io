@@ -142,7 +142,7 @@ aside{border-left:1px solid var(--ln);background:var(--pn);display:flex;flex-dir
 .li:hover,.li.sel{background:var(--hv)}
 .li small{color:var(--mu)}
 .li .tag{font-size:10px;border:1px solid var(--ln);border-radius:3px;padding:1px 4px;color:var(--mu)}
-.pop{position:fixed;z-index:25;background:var(--pn);border:1px solid var(--ln);border-radius:8px;box-shadow:0 8px 28px #0008;padding:4px;display:none;min-width:200px;max-height:70vh;overflow-y:auto}
+.pop{position:fixed;z-index:45;background:var(--pn);border:1px solid var(--ln);border-radius:8px;box-shadow:0 8px 28px #0008;padding:4px;display:none;min-width:200px;max-height:70vh;overflow-y:auto}
 .pop.show{display:block}
 .pop button{display:flex;align-items:center;gap:10px;width:100%;padding:7px 10px;text-align:left;white-space:nowrap}
 .pop button:hover{background:var(--hv)}
@@ -153,14 +153,94 @@ aside{border-left:1px solid var(--ln);background:var(--pn);display:flex;flex-dir
 .toast{background:var(--pn);border:1px solid var(--ln);border-left:3px solid var(--ac);border-radius:6px;padding:10px 12px;box-shadow:0 6px 22px #0008;font-size:12px;cursor:pointer}
 .toast b{display:block;font-size:13px;margin-bottom:2px}
 .toast.al{border-left-color:var(--warn)}
+
+#app{grid-template-columns:48px minmax(0,1fr) var(--sw,300px) 46px}
+#app.noside{--sw:0px}#app.noside aside{display:none}
+#sideIcons{grid-row:2;grid-column:4;background:var(--pn);border-left:1px solid var(--ln);display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 0}
+#sideIcons button{width:36px;height:36px;display:grid;place-items:center;color:var(--mu);position:relative}
+#sideIcons button:hover{background:var(--hv);color:var(--ink)}
+#sideIcons button.on{color:var(--ac);background:var(--hv)}
+#sideIcons .bd{position:absolute;top:2px;right:2px;min-width:15px;height:15px;border-radius:8px;background:var(--dn);color:#fff;font-size:9px;display:grid;place-items:center;padding:0 3px}
+.sph{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px;border-bottom:1px solid var(--ln);flex:none;font-weight:600}
+.sph small{color:var(--mu);font-weight:400}
+.btn.sm{height:28px;padding:0 10px;font-size:12px}
+.scrl{overflow-y:auto;flex:1;min-height:0}
+.oi{display:flex;align-items:center;gap:8px;padding:6px 12px;cursor:pointer;font-size:12px}
+.oi:hover,.oi.on{background:var(--hv)}
+.oi .on2{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.oi.off .on2{opacity:.45}
+.oi button{width:26px;height:26px;display:grid;place-items:center;color:var(--mu)}
+.oi button:hover{color:var(--ink)}
+.oi svg.i{width:16px;height:16px}
+.ogh{padding:10px 12px 4px;color:var(--mu);font-size:11px;font-weight:600}
+.dwr{display:flex;justify-content:space-between;gap:8px;padding:4px 12px;font-size:12px;font-variant-numeric:tabular-nums}
+.dwr span:first-child{color:var(--mu);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dwh{padding:10px 12px 2px;font-size:12px;font-weight:600}
+#note{flex:1;margin:10px 12px 12px;background:var(--bg);border:1px solid var(--ln);border-radius:6px;color:var(--ink);font:14px/1.5 Inter,sans-serif;padding:10px;resize:none}
+.perf{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;margin-top:12px}
+.perf div{border-radius:4px;padding:5px 4px;text-align:center;font-size:12px;font-weight:600;font-variant-numeric:tabular-nums}
+.perf small{display:block;font-size:10px;font-weight:500;opacity:.85}
+.perf .u{background:rgba(8,153,129,.16);color:var(--up)}.perf .d{background:rgba(242,54,69,.16);color:var(--dn)}
+#favbar{position:absolute;z-index:7;display:flex;align-items:center;gap:1px;background:var(--pn);border:1px solid var(--ln);border-radius:6px;box-shadow:0 4px 16px #0005;padding:2px;touch-action:none}
+#favbar.hide{display:none}
+#favbar .grip{width:14px;height:30px;cursor:move;display:grid;place-items:center;color:var(--mu);font-size:11px;line-height:1}
+#favbar button{width:32px;height:32px;display:grid;place-items:center}
+#favbar button:hover{background:var(--hv)}#favbar button.on{color:var(--ac);background:var(--hv)}
+#favbar svg.i{width:18px;height:18px}
+.pop .star{margin-left:auto;padding:0 2px 0 14px;color:var(--mu);font-size:15px;line-height:1}
+.pop .star.on{color:#f7a600}
+.li .istar{color:var(--mu);font-size:17px;width:30px;height:30px;flex:none}
+.li .istar.on{color:#f7a600}
+.dtabs{display:flex;gap:2px;margin:-6px 0 14px;border-bottom:1px solid var(--ln)}
+.dtabs button{height:34px;padding:0 12px;color:var(--mu);font-weight:500;border-radius:0}
+.dtabs button.on{color:var(--ink);box-shadow:inset 0 -2px var(--ac)}
+.dsec{display:none}.dsec.on{display:block}
+.fld input[type=range]{padding:0;accent-color:var(--ac)}
+.gh{color:var(--mu);font-size:11px;font-weight:600;margin:14px 0 8px}
+.gh:first-child{margin-top:0}
+.irow{display:flex;gap:6px;align-items:center;margin-bottom:8px}
+.irow input[type=text]{flex:1;min-width:0}.irow input[inputmode=numeric]{flex:none}
+.irow input,.srow input,.srow select,.irow select{background:var(--bg);border:1px solid var(--ln);color:var(--ink);font:inherit;font-size:14px;padding:5px 7px;border-radius:6px}
+.irow input[type=color],.srow input[type=color]{width:38px;height:32px;padding:2px}
+.irow input[type=checkbox],.srow input[type=checkbox],.ck input{width:18px;height:18px;accent-color:var(--ac);flex:none}
+.srow{display:flex;gap:6px;align-items:center;margin-bottom:8px;flex-wrap:wrap}
+.srow .sl{flex:1;min-width:70px}
+.srow input[type=number]{width:84px}
+.ck{display:flex;gap:8px;align-items:center;margin:8px 0;cursor:pointer}
+.box.md{width:min(500px,100%)}
+.thm{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:8px;margin-bottom:12px}
+.thm button{border:1px solid var(--ln);border-radius:8px;padding:6px;text-align:left;font-size:12px;position:relative}
+.thm button.on{border-color:var(--ac);box-shadow:0 0 0 1px var(--ac)}
+.thm .pv{height:36px;border-radius:4px;margin-bottom:5px;display:flex;align-items:flex-end;gap:3px;padding:5px}
+.thm .pv i{width:5px;border-radius:1px;display:block}
+.thm .x{position:absolute;top:2px;right:4px;color:var(--mu)}
+#rband{position:absolute;top:0;left:0;right:0;height:28px;background:#ff9800;color:#1a1200;font-weight:600;font-size:12px;display:none;align-items:center;justify-content:center;gap:8px;z-index:6;pointer-events:none}
+#main.rp #rband{display:flex}#main.rp #favbar{margin-top:30px}#main.rp .lg{top:34px}#main.rp #status{top:36px}
+#rbar{bottom:18px;background:linear-gradient(180deg,#1d2a4d,#121a33);border:1px solid #2962ff;border-radius:14px;padding:8px 10px 12px;box-shadow:0 10px 34px #000b,0 0 0 4px rgba(41,98,255,.22);color:#fff;gap:4px}
+#rbar button{height:42px;min-width:42px;border-radius:9px;color:#fff}
+#rbar button:hover{background:#ffffff1f}
+#rbar .play{background:#2962ff;min-width:52px}
+#rbar .play:hover{background:#1e53e5}
+#rbar .rt{color:#fff;font-weight:600;font-size:13px;padding:0 10px}
+#rbar .rl{color:#ff9800;font-weight:700;font-size:12px;padding:0 6px 0 2px;white-space:nowrap}
+#rbar .spd{font-weight:700;font-size:13px}
+#rprog{position:absolute;left:12px;right:12px;bottom:5px;height:3px;background:#ffffff26;border-radius:2px;overflow:hidden}
+#rprog i{display:block;height:100%;background:#ff9800}
+#rhint{top:48px;font-size:14px;padding:10px 16px;border-radius:8px;box-shadow:0 6px 20px #0008;background:#ff9800;color:#1a1200;font-weight:600}
+#replayBtn.on{background:#ff9800;color:#1a1200}
 #mtabs{display:none}
 @media(max-width:860px){
  #app{grid-template-columns:minmax(0,1fr);grid-template-rows:44px minmax(0,1fr) 44px 48px}
  #center{grid-row:2}
  #tools{grid-row:3;flex-direction:row;border:0;border-top:1px solid var(--ln);padding:0 4px;overflow-x:auto;overflow-y:hidden}
  .tsep{width:1px;height:24px;margin:0 4px}
- aside{position:fixed;left:0;right:0;top:44px;bottom:48px;z-index:20;display:none;border:0}
+ aside{position:fixed;left:0;right:0;top:88px;bottom:48px;z-index:20;display:none;border:0}
  aside.show{display:flex}
+ #app.noside aside.show{display:flex}
+ #sideIcons{position:fixed;left:0;right:0;top:44px;height:44px;z-index:21;flex-direction:row;justify-content:space-around;display:none;border:0;border-bottom:1px solid var(--ln)}
+ #sideIcons.show{display:flex}
+ #rbar{bottom:10px;padding:6px 6px 10px}
+ #rbar .rt{display:none}
  #mtabs{display:flex;grid-row:4;border-top:1px solid var(--ln);background:var(--pn)}
  #mtabs button{flex:1;color:var(--mu);font-weight:500;border-radius:0}
  #mtabs button.on{color:var(--ac)}
@@ -192,7 +272,8 @@ aside{border-left:1px solid var(--ln);background:var(--pn);display:flex;flex-dir
  <button class="hb" id="undoBtn" title="Geri al (Ctrl+Z)"><i data-ic="undo"></i></button>
  <button class="hb" id="redoBtn" title="Yinele (Ctrl+Y)"><i data-ic="redo"></i></button>
  <div class="grow"></div>
- <button class="hb" id="cfgBtn" title="Ayarlar"><i data-ic="gear"></i></button>
+ <button class="hb" id="favBtn" title="Favori araçlar çubuğunu göster/gizle"><i data-ic="star"></i></button>
+ <button class="hb" id="cfgBtn" title="Grafik ayarları ve temalar"><i data-ic="gear"></i></button>
  <button class="hb" id="shotBtn" title="Ekran görüntüsü al"><i data-ic="camera"></i></button>
  <button class="hb" id="fsBtn" title="Tam ekran"><i data-ic="full"></i></button>
 </header>
@@ -203,24 +284,34 @@ aside{border-left:1px solid var(--ln);background:var(--pn);display:flex;flex-dir
   <div id="status"><i></i>bağlanıyor</div>
   <svg id="draw"></svg>
   <div id="dtb"></div>
-  <div id="rhint">Tekrar oynatmanın başlayacağı mumu seçin</div>
+  <div id="favbar" class="hide"></div>
+  <div id="rband">Tekrar oynatma modu</div>
+  <div id="rhint">Tekrar oynatmanın başlayacağı mumu seçin (Esc: iptal)</div>
   <div id="rbar"></div>
  </div>
  <div id="subs"></div>
  <footer id="bot"></footer>
 </section>
 <aside id="side">
- <div class="stabs"><button class="on" data-st="wl">İzleme listesi</button><button data-st="al">Alarmlar</button></div>
  <div class="spane on" id="sp-wl">
   <div class="wlh"><span>Sembol</span><span style="text-align:right">Son</span><span style="text-align:right">Değ%</span><button id="addWl" title="Sembol ekle"><i data-ic="plus"></i></button></div>
   <div id="wl"></div>
   <div id="det"></div>
  </div>
- <div class="spane" id="sp-al">
-  <div style="padding:10px 12px;flex:none"><button class="btn" id="newAlarm">+ Alarm oluştur</button></div>
-  <div id="al"></div>
- </div>
+ <div class="spane" id="sp-al"><div class="sph">Alarmlar<button class="btn sm" id="newAlarm">+ Alarm</button></div><div id="al" class="scrl"></div></div>
+ <div class="spane" id="sp-obj"><div class="sph">Nesne ağacı<small>çizimler ve göstergeler</small></div><div id="obj" class="scrl"></div></div>
+ <div class="spane" id="sp-dw"><div class="sph">Veri penceresi<small>imlecin olduğu mum</small></div><div id="dw" class="scrl"></div></div>
+ <div class="spane" id="sp-hot"><div class="sph">Piyasa özeti<small>Binance vadeli</small></div><div class="chips" id="hotTab" style="padding:10px 12px 0;margin:0"><button class="on" data-h="up">Yükselenler</button><button data-h="dn">Düşenler</button><button data-h="vol">Hacim</button></div><div id="hot" class="scrl"></div></div>
+ <div class="spane" id="sp-note"><div class="sph">Notlar<small id="noteSym"></small></div><textarea id="note" placeholder="Bu sembol için notlarınız… (otomatik kaydedilir)"></textarea></div>
 </aside>
+<nav id="sideIcons">
+ <button data-sp="wl" class="on" title="İzleme listesi"><i data-ic="list"></i></button>
+ <button data-sp="al" title="Alarmlar"><i data-ic="alarm"></i><span class="bd" id="alBd" style="display:none"></span></button>
+ <button data-sp="obj" title="Nesne ağacı"><i data-ic="tree"></i></button>
+ <button data-sp="dw" title="Veri penceresi"><i data-ic="table"></i></button>
+ <button data-sp="hot" title="Piyasa özeti (en çok yükselen / düşen)"><i data-ic="hot"></i></button>
+ <button data-sp="note" title="Notlar"><i data-ic="note"></i></button>
+</nav>
 <div id="mtabs"><button class="on" data-m="chart">Grafik</button><button data-m="side">Liste</button></div>
 </div>
 
@@ -233,7 +324,7 @@ aside{border-left:1px solid var(--ln);background:var(--pn);display:flex;flex-dir
  <div class="mb"><input class="srch" id="iq" placeholder="Gösterge ara" autocomplete="off" spellcheck="false">
  <div class="chips" id="icat"></div><div id="ilist"></div></div></div></div>
 
-<div class="modal" id="mDlg"><div class="box sm"><div class="mh"><span id="dlgT"></span><button data-close><i data-ic="x"></i></button></div>
+<div class="modal" id="mDlg"><div class="box sm" id="dlgBox"><div class="mh"><span id="dlgT"></span><button data-close><i data-ic="x"></i></button></div>
  <div class="mb" id="dlgB"></div><div class="mf" id="dlgF"></div></div></div>
 
 <div class="pop" id="pop"></div>
@@ -279,7 +370,7 @@ zoom:'<circle cx="10" cy="10" r="6"/><path d="M20 20l-5.5-5.5M10 7v6M7 10h6"/>',
 lock:'<rect x="5" y="11" width="14" height="10" rx="1"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',unlock:'<rect x="5" y="11" width="14" height="10" rx="1"/><path d="M8 11V7a4 4 0 0 1 7.5-2"/>',
 copy:'<rect x="8" y="8" width="12" height="12" rx="1"/><path d="M16 8V4H4v12h4"/>',edit:'<path d="M4 20h4L19 9l-4-4L4 16z"/>',
 play:'<path d="M7 4l13 8-13 8z" fill="currentColor"/>',pause:'<path d="M7 4h3v16H7zM14 4h3v16h-3z" fill="currentColor"/>',next:'<path d="M5 4l10 8-10 8zM18 4v16"/>',
-bell:'<path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4zM10 21h4"/>'};
+bell:'<path d="M6 16V11a6 6 0 0 1 12 0v5l2 2H4zM10 21h4"/>',star:'<path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',list:'<path d="M8 6h13M8 12h13M8 18h13"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/>',tree:'<rect x="3" y="3" width="7" height="5"/><rect x="14" y="10" width="7" height="4"/><rect x="14" y="17" width="7" height="4"/><path d="M6.5 8v11H14M6.5 12H14"/>',table:'<rect x="3" y="4" width="18" height="16" rx="1"/><path d="M3 10h18M3 15h18M10 4v16"/>',hot:'<path d="M3 17l6-6 4 4 8-8M15 7h6v6"/>',note:'<path d="M5 3h10l4 4v14H5z"/><path d="M15 3v4h4M8 12h8M8 16h6"/>',back:'<path d="M19 4l-10 8 10 8zM6 4v16"/>'};
 const ic=(n,cls='')=>`<svg class="i ${cls}" viewBox="0 0 24 24">${IC[n]||''}</svg>`;
 function paintIcons(root=document){root.querySelectorAll('i[data-ic]').forEach(e=>{e.outerHTML=ic(e.dataset.ic)})}
 
@@ -301,11 +392,25 @@ const TFSEC={'1m':60,'3m':180,'5m':300,'15m':900,'30m':1800,'1h':3600,'2h':7200,
 const CTYPES=[['candle','Mumlar'],['hollow','İçi boş mumlar'],['ha','Heikin Ashi'],['bar','Barlar'],['line','Çizgi'],['area','Alan'],['base','Baz çizgisi']];
 const REST={F:'https://fapi.binance.com/fapi/v1',S:'https://api.binance.com/api/v3'};
 const WSB={F:'wss://fstream.binance.com/ws/',S:'wss://stream.binance.com:9443/ws/'};
-const DEFSET={theme:'dark',up:'#089981',down:'#f23645',grid:true,volOnMain:true};
+const THEMES={
+ koyu:{n:'Koyu',bg:'#0f1218',bg2:'',grid:'#1b2029',text:'#8b95a5',cross:'#6a7385',up:'#089981',down:'#f23645'},
+ acik:{n:'Açık',bg:'#ffffff',bg2:'',grid:'#f0f3fa',text:'#5d6573',cross:'#9598a1',up:'#089981',down:'#f23645'},
+ gece:{n:'Gece mavisi',bg:'#0b1433',bg2:'#050a1c',grid:'#16224a',text:'#9fb0d6',cross:'#6f80b5',up:'#26a69a',down:'#ef5350'},
+ siyah:{n:'Tam siyah',bg:'#000000',bg2:'',grid:'#141414',text:'#9e9e9e',cross:'#555555',up:'#00c853',down:'#ff1744'},
+ klasik:{n:'Klasik',bg:'#ffffff',bg2:'',grid:'#e1ecf2',text:'#333333',cross:'#758696',up:'#26a69a',down:'#ef5350'},
+ gri:{n:'Gri',bg:'#c8ccd4',bg2:'',grid:'#b9bec7',text:'#2a2e39',cross:'#5d606b',up:'#ffffff',down:'#2962ff'},
+ mono:{n:'Monokrom',bg:'#131722',bg2:'',grid:'#1e222d',text:'#b2b5be',cross:'#787b86',up:'#d1d4dc',down:'#5d606b'},
+ okyanus:{n:'Okyanus',bg:'#0d2a35',bg2:'#071a22',grid:'#14404f',text:'#a8d0dc',cross:'#5f9aab',up:'#4dd0e1',down:'#ff8a65'},
+ mor:{n:'Mor gece',bg:'#1a1027',bg2:'#0e0817',grid:'#2a1c3e',text:'#b9a6d6',cross:'#7e6aa3',up:'#00e5a0',down:'#ff4d8d'}};
+const themeVals=t=>({theme:t.k||'',bg:t.bg,bg2:t.bg2||'',gridV:t.grid,gridH:t.grid,text:t.text,cross:t.cross,up:t.up,down:t.down,upB:t.up,dnB:t.down,upW:t.up,dnW:t.down});
+const DEFSET={...themeVals({...THEMES.koyu,k:'koyu'}),gv:true,gh:true,fs:11,border:true,wick:true,lastLine:true,wm:false};
+const lum=h=>{const m=/^#?([0-9a-f]{6})$/i.exec(h||'');if(!m)return 0;const n=parseInt(m[1],16);return((n>>16&255)*.299+(n>>8&255)*.587+(n&255)*.114)/255};
 const S={
  key:ls.get('key','F:BTCUSDT'),tf:ls.get('tf','15m'),ctype:ls.get('ctype','candle'),
  fav:ls.get('fav',['1m','5m','15m','1h','4h','1d','1w']),
- set:{...DEFSET,...ls.get('set',{})},
+ set:(()=>{const o=ls.get('set',{});const st={...DEFSET,...o};if(o.theme==='light'&&!o.bg)Object.assign(st,themeVals({...THEMES.acik,k:'acik'}));if(o.theme==='dark'&&!o.bg)st.theme='koyu';if(o.grid===false&&o.gv==null){st.gv=false;st.gh=false}if(o.up&&!o.upB){st.upB=st.upW=o.up;st.dnB=st.dnW=o.down}return st})(),
+ favT:ls.get('favT',['trend','hline','hray','fib','rect','long','short','measure','text','brush']),favOn:ls.get('favOn',innerWidth>=860),favPos:ls.get('favPos',null),
+ favInd:ls.get('favInd',['rsi','macd','ema','bb','vrvp','kzp']),indDef:ls.get('indDef',{}),dstyle:ls.get('dstyle',{}),myThemes:ls.get('myThemes',[]),side:ls.get('side','wl'),hotM:'up',perf:{},
  inds:ls.get('inds',null),
  wl:ls.get('wl',['F:BTCUSDT','F:ETHUSDT','F:SOLUSDT','F:XRPUSDT','F:BNBUSDT','F:DOGEUSDT','F:AVAXUSDT','F:LINKUSDT','F:SUIUSDT','F:PAXGUSDT','S:BTCUSDT','S:ETHUSDT']),
  alarms:ls.get('alarms',[]),magnet:ls.get('magnet',false),
@@ -318,12 +423,14 @@ function precOf(k){const s=S.syms.find(x=>x.k===k);if(s&&s.prec!=null)return s.p
 const pf=()=>({type:'price',precision:S.prec,minMove:1/10**S.prec});
 
 // ---------------- grafikler ----------------
-function chartOpts(sub,fmtDp){const dark=S.set.theme==='dark',bg=dark?'#0f1218':'#ffffff',grid=dark?'#1b2029':'#f0f3fa',text=dark?'#8b95a5':'#5d6573',border=dark?'#262c38':'#e0e3eb';
- return{layout:{background:{type:'solid',color:bg},attributionLogo:!sub,textColor:text,fontFamily:'Inter,system-ui,sans-serif',fontSize:11},
-  grid:{vertLines:{color:S.set.grid?grid:'rgba(0,0,0,0)'},horzLines:{color:S.set.grid?grid:'rgba(0,0,0,0)'}},
-  crosshair:{mode:S.magnet?1:0,vertLine:{color:dark?'#6a7385':'#9598a1',labelBackgroundColor:dark?'#363c4e':'#131722',visible:S.cursor==='cross'},horzLine:{color:dark?'#6a7385':'#9598a1',labelBackgroundColor:dark?'#363c4e':'#131722',visible:S.cursor==='cross'}},
+function wmText(){return `${lbl(S.key)} · ${TFS.find(t=>t[0]===S.tf)?.[1]||''}`}
+function chartOpts(sub,fmtDp){const s=S.set,dark=lum(s.bg)<.5,border=dark?'#262c38':'#d1d4dc',lb=dark?'#363c4e':'#131722',T='rgba(0,0,0,0)';
+ return{layout:{background:s.bg2?{type:'gradient',topColor:s.bg,bottomColor:s.bg2}:{type:'solid',color:s.bg},attributionLogo:!sub,textColor:s.text,fontFamily:'Inter,system-ui,sans-serif',fontSize:s.fs||11},
+  grid:{vertLines:{color:s.gv?s.gridV:T},horzLines:{color:s.gh?s.gridH:T}},
+  crosshair:{mode:S.magnet?1:0,vertLine:{color:s.cross,labelBackgroundColor:lb,visible:S.cursor==='cross'},horzLine:{color:s.cross,labelBackgroundColor:lb,visible:S.cursor==='cross'}},
   rightPriceScale:{borderColor:border,minimumWidth:78,scaleMargins:sub?{top:.12,bottom:.08}:{top:.08,bottom:.12}},
   timeScale:{borderColor:border,timeVisible:true,secondsVisible:false,rightOffset:12,tickMarkFormatter:tickFmt,visible:!sub},
+  watermark:{visible:!sub&&!!s.wm,text:sub?'':wmText(),color:dark?'rgba(255,255,255,.07)':'rgba(0,0,0,.07)',fontSize:52,horzAlign:'center',vertAlign:'center'},
   localization:{locale:'tr-TR',timeFormatter:fmtTime,priceFormatter:p=>fmt(p,fmtDp==null?S.prec:fmtDp)},autoSize:true}}
 const main=LC.createChart($('#main'),chartOpts(false));
 let mainS=null;
@@ -338,9 +445,9 @@ function mainData(){const d=S.data;if(S.ctype==='ha'){const o=[];d.forEach((c,i)
  if(['line','area','base'].includes(S.ctype))return d.map(c=>({time:c.time,value:c.close}));return d}
 function mkMain(){
  if(mainS){try{main.removeSeries(mainS)}catch(e){}}
- const U=S.set.up,D=S.set.down,t=S.ctype,b={priceFormat:pf()};
- if(t==='candle'||t==='ha')mainS=main.addCandlestickSeries({...b,upColor:U,downColor:D,borderUpColor:U,borderDownColor:D,wickUpColor:U,wickDownColor:D});
- else if(t==='hollow')mainS=main.addCandlestickSeries({...b,upColor:'rgba(0,0,0,0)',downColor:D,borderUpColor:U,borderDownColor:D,wickUpColor:U,wickDownColor:D});
+ const st=S.set,U=st.up,D=st.down,t=S.ctype,b={priceFormat:pf(),priceLineVisible:!!st.lastLine};
+ if(t==='candle'||t==='ha')mainS=main.addCandlestickSeries({...b,upColor:U,downColor:D,borderVisible:!!st.border,borderUpColor:st.upB,borderDownColor:st.dnB,wickVisible:!!st.wick,wickUpColor:st.upW,wickDownColor:st.dnW});
+ else if(t==='hollow')mainS=main.addCandlestickSeries({...b,upColor:'rgba(0,0,0,0)',downColor:D,borderVisible:true,borderUpColor:st.upB,borderDownColor:st.dnB,wickVisible:!!st.wick,wickUpColor:st.upW,wickDownColor:st.dnW});
  else if(t==='bar')mainS=main.addBarSeries({...b,upColor:U,downColor:D});
  else if(t==='line')mainS=main.addLineSeries({...b,color:'#2962ff',lineWidth:2});
  else if(t==='area')mainS=main.addAreaSeries({...b,lineColor:'#2962ff',topColor:'rgba(41,98,255,.28)',bottomColor:'rgba(41,98,255,0)',lineWidth:2});
@@ -423,10 +530,172 @@ const DEFS=[
  {id:'ao',n:'Awesome Osilatör',s:'AO',cat:'osc',pane:1,dp:'main',p:{},lv:[0],pl:[{k:'v',t:'hist',c:'#089981'}],f:x=>{const h=hl2(x),v=zip(sma(h,5),sma(h,34),(a,b)=>a-b);return{v,vC:v.map((q,i)=>q==null?null:i&&v[i-1]!=null&&q<v[i-1]?'#f23645':'#089981')}}},
  {id:'trix',n:'TRIX',s:'TRIX',cat:'osc',pane:1,dp:3,p:{len:18},lv:[0],pl:[{k:'v',c:'#b71c1c'}],f:(x,p)=>{const e=ema(ema(ema(x.c.map(Math.log),p.len),p.len),p.len);return{v:e.map((q,i)=>q==null||e[i-1]==null?null:10000*(q-e[i-1]))}}},
 ];
+// ===== EK YARDIMCILAR =====
+const chg=(v,n=1)=>v.map((x,i)=>i>=n&&x!=null&&v[i-n]!=null?x-v[i-n]:null);
+function linreg(v,n,off=0){const o=N(v.length),Sx=n*(n-1)/2,Sxx=(n-1)*n*(2*n-1)/6;for(let i=n-1;i<v.length;i++){let Sy=0,Sxy=0,ok=true;for(let j=0;j<n;j++){const y=v[i-n+1+j];if(y==null){ok=false;break}Sy+=y;Sxy+=j*y}if(!ok)continue;const sl=(n*Sxy-Sx*Sy)/(n*Sxx-Sx*Sx||1),b=(Sy-sl*Sx)/n;o[i]=b+sl*(n-1-off)}return o}
+function alma(v,n,off,sig){const m=off*(n-1),s=n/sig,w=[...Array(n)].map((_,j)=>Math.exp(-((j-m)**2)/(2*s*s))),ws=w.reduce((a,b)=>a+b,0);return v.map((_,i)=>{if(i<n-1)return null;let t=0;for(let j=0;j<n;j++){const y=v[i-n+1+j];if(y==null)return null;t+=y*w[j]}return t/ws})}
+const swma=v=>v.map((x,i)=>i<3||[0,1,2,3].some(j=>v[i-j]==null)?null:(v[i-3]+2*v[i-2]+2*v[i-1]+v[i])/6);
+function prank(v,n){return v.map((x,i)=>{if(i<n||x==null)return null;let c=0;for(let j=1;j<=n;j++){if(v[i-j]==null)return null;if(v[i-j]<=x)c++}return 100*c/n})}
+const stochOf=(v,n)=>stochRaw(v,v,v,n);
+const cum=v=>{let s=0;return v.map(x=>{s+=x??0;return s})};
+const rocA=(c,n)=>c.map((x,i)=>i>=n&&c[i-n]?100*(x-c[i-n])/c[i-n]:null);
+const tsiRaw=(c,l,s)=>{const m=chg(c),a=ema(ema(m,l),s),b=ema(ema(m.map(x=>x==null?null:Math.abs(x)),l),s);return zip(a,b,(p,q)=>q?p/q:0)};
+const upDnCols=(v,u='#089981',d='#f23645')=>v.map((q,i)=>q==null?null:i&&v[i-1]!=null&&q<v[i-1]?d:u);
+function pivGen(tp){return x=>{const o={P:[],R1:[],R2:[],R3:[],S1:[],S2:[],S3:[]};let day=null,cur=null,prev=null;
+ x.t.forEach((t,i)=>{const d=Math.floor(t/86400);if(d!==day){if(cur)prev=cur;cur={h:x.h[i],l:x.l[i],c:x.c[i]};day=d}else{cur.h=Math.max(cur.h,x.h[i]);cur.l=Math.min(cur.l,x.l[i]);cur.c=x.c[i]}
+  if(!prev){for(const k in o)o[k].push(null);return}const H=prev.h,L=prev.l,C=prev.c,r=H-L;let P=(H+L+C)/3,R1,R2,R3,S1,S2,S3;
+  if(tp==='f'){R1=P+.382*r;R2=P+.618*r;R3=P+r;S1=P-.382*r;S2=P-.618*r;S3=P-r}
+  else if(tp==='k'){R1=C+r*1.1/12;R2=C+r*1.1/6;R3=C+r*1.1/4;S1=C-r*1.1/12;S2=C-r*1.1/6;S3=C-r*1.1/4}
+  else if(tp==='w'){P=(H+L+2*C)/4;R1=2*P-L;S1=2*P-H;R2=P+r;S2=P-r;R3=H+2*(P-L);S3=L-2*(H-P)}
+  else{R1=2*P-L;S1=2*P-H;R2=P+r;S2=P-r;R3=H+2*(P-L);S3=L-2*(H-P)}
+  o.P.push(P);o.R1.push(R1);o.R2.push(R2);o.R3.push(R3);o.S1.push(S1);o.S2.push(S2);o.S3.push(S3)});return o}}
+const PIVPL=[{k:'R3',c:'#f23645',t:'step'},{k:'R2',c:'#f23645',t:'step'},{k:'R1',c:'#f23645',t:'step'},{k:'P',c:'#ff9800',t:'step'},{k:'S1',c:'#089981',t:'step'},{k:'S2',c:'#089981',t:'step'},{k:'S3',c:'#089981',t:'step'}];
+function kamaF(x,p){const c=x.c,n=c.length,o=N(n),fs=2/(p.fast+1),ss=2/(p.slow+1);let k=null;for(let i=p.len;i<n;i++){let vol=0;for(let j=i-p.len+1;j<=i;j++)vol+=Math.abs(c[j]-c[j-1]);const er=vol?Math.abs(c[i]-c[i-p.len])/vol:0,sc=(er*(fs-ss)+ss)**2;if(k==null)k=c[i-1];k=k+sc*(c[i]-k);o[i]=k}return{v:o}}
+function mcgF(x,p){const c=x.c,o=N(c.length),e=ema(c,p.len);let m=null;for(let i=0;i<c.length;i++){if(m==null){if(e[i]!=null){m=e[i];o[i]=m}continue}m=m+(c[i]-m)/(p.len*Math.pow(c[i]/m,4));o[i]=m}return{v:o}}
+function ceF(x,p){const n=x.c.length,atr=rma(trf(x),p.len),H=hh(x.h,p.len),Lw=ll(x.l,p.len),lo=N(n),sh=N(n);let ls_=null,ss=null,dir=1;
+ for(let i=0;i<n;i++){if(atr[i]==null||H[i]==null)continue;let l=H[i]-p.mult*atr[i],s=Lw[i]+p.mult*atr[i];
+  if(ls_!=null){l=x.c[i-1]>ls_?Math.max(l,ls_):l;s=x.c[i-1]<ss?Math.min(s,ss):s;dir=x.c[i]>ss?1:x.c[i]<ls_?-1:dir}
+  ls_=l;ss=s;if(dir===1)lo[i]=l;else sh[i]=s}return{l:lo,s:sh}}
+function vstopF(x,p){const n=x.c.length,atr=rma(trf(x),p.len),o=N(n),cl=N(n);let up=true,max=x.c[0],min=x.c[0],stop=null;
+ for(let i=0;i<n;i++){const c=x.c[i];max=Math.max(max,c);min=Math.min(min,c);if(atr[i]==null)continue;const a=atr[i]*p.mult;
+  if(stop==null)stop=up?c-a:c+a;stop=up?Math.max(stop,max-a):Math.min(stop,min+a);
+  const nu=c>=stop;if(nu!==up){up=nu;max=c;min=c;stop=up?c-a:c+a}o[i]=stop;cl[i]=up?'#089981':'#f23645'}return{v:o,vC:cl}}
+function fractF(x,p){const n=x.c.length,k=Math.max(1,p.per),u=N(n),d=N(n);for(let i=k;i<n-k;i++){let up=true,dn=true;for(let j=1;j<=k;j++){if(!(x.h[i]>x.h[i-j]&&x.h[i]>x.h[i+j]))up=false;if(!(x.l[i]<x.l[i-j]&&x.l[i]<x.l[i+j]))dn=false}if(up)u[i]=x.h[i];if(dn)d[i]=x.l[i]}return{u,d}}
+function zzF(x,p){const n=x.c.length,o=N(n),d=p.dev/100;if(n<2)return{v:o};let dir=0,hi={i:0,p:x.h[0]},lo={i:0,p:x.l[0]},cur=null;const piv=[];
+ for(let i=1;i<n;i++){const H=x.h[i],L=x.l[i];
+  if(dir===0){if(H>hi.p)hi={i,p:H};if(L<lo.p)lo={i,p:L};if(hi.p>=lo.p*(1+d)&&hi.i>lo.i){piv.push(lo);dir=1;cur=hi}else if(lo.p<=hi.p*(1-d)&&lo.i>hi.i){piv.push(hi);dir=-1;cur=lo}}
+  else if(dir===1){if(H>cur.p)cur={i,p:H};else if(L<=cur.p*(1-d)){piv.push(cur);dir=-1;cur={i,p:L}}}
+  else{if(L<cur.p)cur={i,p:L};else if(H>=cur.p*(1+d)){piv.push(cur);dir=1;cur={i,p:H}}}}
+ if(cur)piv.push(cur);piv.forEach(q=>o[q.i]=q.p);return{v:o}}
+function lrcF(x,p){const n=x.c.length,len=Math.min(p.len,n),o={m:N(n),u:N(n),l:N(n)};if(len<2)return o;const s=n-len;let Sx=0,Sy=0,Sxy=0,Sxx=0;
+ for(let j=0;j<len;j++){const y=x.c[s+j];Sx+=j;Sy+=y;Sxy+=j*y;Sxx+=j*j}const sl=(len*Sxy-Sx*Sy)/(len*Sxx-Sx*Sx),b=(Sy-sl*Sx)/len;let se=0;
+ for(let j=0;j<len;j++)se+=(x.c[s+j]-(b+sl*j))**2;const sd=Math.sqrt(se/len);for(let j=0;j<len;j++){const v=b+sl*j;o.m[s+j]=v;o.u[s+j]=v+p.dev*sd;o.l[s+j]=v-p.dev*sd}return o}
+function fishF(x,p){const n=x.c.length,h=hl2(x),H=hh(h,p.len),L=ll(h,p.len),f=N(n),t=N(n);let v=0,fp=0;
+ for(let i=0;i<n;i++){if(H[i]==null)continue;v=.66*((h[i]-L[i])/((H[i]-L[i])||1e-9)-.5)+.67*v;v=Math.max(-.999,Math.min(.999,v));const fi=.5*Math.log((1+v)/(1-v))+.5*fp;t[i]=fp;f[i]=fi;fp=fi}return{f,t}}
+function stcF(x,p){const m=zip(ema(x.c,p.fast),ema(x.c,p.slow),(a,b)=>a-b),k1=stochOf(m,p.len),d1=N(m.length);let d=null;
+ k1.forEach((k,i)=>{if(k==null)return;d=d==null?k:d+.5*(k-d);d1[i]=d});const k2=stochOf(d1,p.len),o=N(m.length);let s=null;k2.forEach((k,i)=>{if(k==null)return;s=s==null?k:s+.5*(k-s);o[i]=s});return{v:o}}
+function sqzF(x,p){const n=x.c.length,m=sma(x.c,p.len),sd=stdev(x.c,p.len),rng=sma(trf(x),p.len),H=hh(x.h,p.len),L=ll(x.l,p.len);
+ const src=x.c.map((c,i)=>H[i]==null||m[i]==null?null:c-((H[i]+L[i])/2+m[i])/2),v=linreg(src,p.len),vC=N(n),z=N(n),zC=N(n);
+ for(let i=0;i<n;i++){if(v[i]!=null){const pv=v[i-1];vC[i]=v[i]>0?(pv!=null&&v[i]<pv?'#089981':'#00e676'):(pv!=null&&v[i]>pv?'#880e4f':'#f23645')}
+  if(m[i]!=null&&rng[i]!=null){const ub=m[i]+p.mult*sd[i],lb=m[i]-p.mult*sd[i],uk=m[i]+p.kcm*rng[i],lk=m[i]-p.kcm*rng[i];z[i]=0;zC[i]=lb>lk&&ub<uk?'#f23645':lb<lk&&ub>uk?'#787b86':'#2962ff'}}
+ return{v,vC,z,zC}}
+function wtF(x,p){const ap=hlc3(x),e=ema(ap,p.ch),d=ema(ap.map((a,i)=>e[i]==null?null:Math.abs(a-e[i])),p.ch),ci=ap.map((a,i)=>e[i]==null||d[i]==null?null:(a-e[i])/(0.015*(d[i]||1e-9))),a=ema(ci,p.avg),b=sma(a,4),h=zip(a,b,(q,w)=>q-w);return{a,b,h,hC:h.map(q=>q==null?null:q>=0?'rgba(41,98,255,.45)':'rgba(242,54,69,.45)')}}
+
+// ===== ICT KILLZONE (KZP) =====
+const TZC={};const tzFmt={};
+function tzOff(t,tz){const hk=tz+':'+Math.floor(t/3600);if(TZC[hk]!=null)return TZC[hk];if(tz==='UTC')return TZC[hk]=0;
+ try{const f=tzFmt[tz]||(tzFmt[tz]=new Intl.DateTimeFormat('en-US',{timeZone:tz,hourCycle:'h23',year:'numeric',month:'numeric',day:'numeric',hour:'numeric',minute:'numeric'}));
+  const P={};f.formatToParts(new Date(t*1000)).forEach(q=>P[q.type]=q.value);const asUTC=Date.UTC(+P.year,+P.month-1,+P.day,+P.hour%24,+P.minute)/1000;return TZC[hk]=Math.round((asUTC-Math.floor(t/60)*60)/60)}catch(e){return TZC[hk]=0}}
+const hm=s=>{const m=/^(\d{1,2}):(\d{2})$/.exec(String(s||'').trim());return m?(+m[1])*60+(+m[2]):null};
+const KZS=[['Asya','20:00','00:00','#2962ff'],['Londra','02:00','05:00','#f23645'],['NY AM','09:30','11:00','#089981'],['NY Öğle','12:00','13:00','#ffb300'],['NY PM','13:30','16:00','#9c27b0']];
+const KZP_P={};KZS.forEach(([n,a,b,c],i)=>{const k='s'+(i+1);Object.assign(KZP_P,{[k+'on']:true,[k+'n']:n,[k+'a']:a,[k+'b']:b,[k+'c']:c})});
+Object.assign(KZP_P,{tz:'America/New_York',boxes:true,labels:true,pivots:true,mitig:true,div:true,alpha:12,days:5,maxtf:60});
+function kzpF(x,p){const n=x.t.length,out={sess:[],div:[]};if(n<2)return out;const step=x.t[1]-x.t[0];if(step/60>p.maxtf)return out;
+ const ses=[];for(let s=1;s<=5;s++){if(!p['s'+s+'on'])continue;const a=hm(p['s'+s+'a']),b0=hm(p['s'+s+'b']);if(a==null||b0==null)continue;const b=b0===0?1440:b0;ses.push({n:p['s'+s+'n'],a,b,wrap:b<=a,c:p['s'+s+'c']})}
+ const cur={},all=[];let lastDay=null;
+ for(let i=0;i<n;i++){const lt=x.t[i]+tzOff(x.t[i],p.tz)*60,day=Math.floor(lt/86400),m=Math.floor((lt%86400)/60);
+  if(lastDay!=null&&day!==lastDay)out.div.push(i);lastDay=day;
+  ses.forEach((s,si)=>{const inS=s.wrap?(m>=s.a||m<s.b):(m>=s.a&&m<s.b);if(!inS)return;const key=s.wrap&&m<s.b?day-1:day;let c=cur[si];
+   if(!c||c.key!==key){c=cur[si]={key,day:key,n:s.n,c:s.c,i0:i,i1:i,hi:x.h[i],lo:x.l[i],hiI:i,loI:i};all.push(c)}
+   else{c.i1=i;if(x.h[i]>c.hi){c.hi=x.h[i];c.hiI=i}if(x.l[i]<c.lo){c.lo=x.l[i];c.loI=i}}})}
+ const minDay=lastDay-Math.max(1,p.days)+1;
+ out.sess=all.filter(s=>s.day>=minDay).map(s=>{let hm_=null,lm=null;for(let j=s.i1+1;j<n;j++){if(hm_==null&&x.h[j]>s.hi)hm_=j;if(lm==null&&x.l[j]<s.lo)lm=j;if(hm_!=null&&lm!=null)break}return{...s,hm:hm_,lm}});
+ out.div=out.div.filter(i=>Math.floor((x.t[i]+tzOff(x.t[i],p.tz)*60)/86400)>=minDay);return out}
+const KZP_INP=[{g:'Seanslar (saat, seçilen saat dilimine göre)'},...[1,2,3,4,5].map(s=>({row:[{k:'s'+s+'on',t:'bool'},{k:'s'+s+'n',t:'text'},{k:'s'+s+'a',t:'time'},{k:'s'+s+'b',t:'time'},{k:'s'+s+'c',t:'color'}]})),
+ {k:'tz',t:'sel',l:'Saat dilimi',o:[['America/New_York','New York (ICT standardı)'],['Europe/London','Londra'],['Europe/Istanbul','İstanbul'],['UTC','UTC']]},
+ {g:'Grafik nesneleri'},{k:'boxes',t:'bool',l:'Kutular'},{k:'labels',t:'bool',l:'Seans etiketleri'},{k:'pivots',t:'bool',l:'Pivot çizgileri (seans yüksek/düşük)'},{k:'mitig',t:'bool',l:'Pivotları fiyat dokunana kadar uzat'},{k:'div',t:'bool',l:'Gün ayırıcıları'},
+ {g:'Ayarlar'},{k:'alpha',t:'int',l:'Kutu opaklığı (%)'},{k:'days',t:'int',l:'Gösterilecek gün sayısı'},{k:'maxtf',t:'int',l:'En büyük zaman dilimi (dakika)'}];
+function kzpSvg(r){const o=r.out;if(!o||!o.sess)return'';const p=r.inst.p,W=S.W;let h='';
+ if(p.div)o.div.forEach(i=>{const x=xOfL(i-.5);if(x!=null&&x>=0&&x<=W)h+=`<line x1="${x}" x2="${x}" y1="0" y2="${S.H}" stroke="#787b86" stroke-opacity=".5" stroke-dasharray="2 4"/>`});
+ o.sess.forEach(s=>{const x0=xOfL(s.i0-.5),x1=xOfL(s.i1+.5),y0=yOfP(s.hi),y1=yOfP(s.lo);if(x0==null||y0==null||y1==null)return;if(x1<-50||x0>W+50)return;
+  if(p.boxes)h+=`<rect x="${x0}" y="${y0}" width="${Math.max(1,x1-x0)}" height="${Math.max(1,y1-y0)}" fill="${esc(s.c)}" fill-opacity="${Math.max(0,Math.min(100,p.alpha))/100}" stroke="${esc(s.c)}" stroke-opacity=".7"/>`;
+  if(p.labels)h+=`<text x="${(x0+x1)/2}" y="${y0-5}" fill="${esc(s.c)}" font-size="11" font-weight="600" text-anchor="middle" class="t" style="paint-order:stroke;stroke:var(--bg);stroke-width:3px">${esc(s.n)}</text>`;
+  if(p.pivots){[[s.hiI,s.hi,s.hm,'Y'],[s.loI,s.lo,s.lm,'D']].forEach(([i,pr,mi,t])=>{if(mi!=null&&!p.mitig)return;const xa=xOfL(i),xb=mi==null?W:xOfL(mi),y=yOfP(pr);if(xa==null||y==null)return;
+   h+=`<line x1="${xa}" x2="${xb}" y1="${y}" y2="${y}" stroke="${esc(s.c)}" stroke-width="1" stroke-dasharray="${mi==null?'':'4 3'}" stroke-opacity="${mi==null?1:.6}"/>`;
+   if(mi==null)h+=`<text x="${W-4}" y="${y-3}" fill="${esc(s.c)}" font-size="10" text-anchor="end" class="t" style="paint-order:stroke;stroke:var(--bg);stroke-width:3px">${esc(s.n)} ${t}</text>`})}});
+ return h}
+function vpSvg(r){const p=r.inst.p,rg=main.timeScale().getVisibleLogicalRange();if(!rg)return'';const d=S.data,a=Math.max(0,Math.floor(rg.from)),b=Math.min(d.length-1,Math.ceil(rg.to));if(b-a<2)return'';
+ let lo=Infinity,hi=-Infinity;for(let i=a;i<=b;i++){lo=Math.min(lo,d[i].low);hi=Math.max(hi,d[i].high)}const n=Math.max(4,Math.min(200,p.rows|0)),st=(hi-lo)/n||1,up=new Array(n).fill(0),dn=new Array(n).fill(0);
+ for(let i=a;i<=b;i++){const c=d[i],k1=Math.max(0,Math.min(n-1,Math.floor((c.low-lo)/st))),k2=Math.max(0,Math.min(n-1,Math.floor((c.high-lo)/st))),sh=c.volume/(k2-k1+1),arr=c.close>=c.open?up:dn;for(let k=k1;k<=k2;k++)arr[k]+=sh}
+ let mx=0,poc=0;for(let k=0;k<n;k++){const t=up[k]+dn[k];if(t>mx){mx=t;poc=k}}if(!mx)return'';const maxW=S.W*Math.max(5,Math.min(60,p.width))/100,uc=p.up||S.set.up,dc=p.dn||S.set.down;let h='';
+ for(let k=0;k<n;k++){const y1=yOfP(lo+(k+1)*st),y2=yOfP(lo+k*st);if(y1==null||y2==null)continue;const hg=Math.max(1,y2-y1-1),wu=up[k]/mx*maxW,wd=dn[k]/mx*maxW,op=k===poc?.65:.35;
+  h+=`<rect x="${S.W-wu-wd}" y="${y1}" width="${wu}" height="${hg}" fill="${esc(uc)}" fill-opacity="${op}"/><rect x="${S.W-wd}" y="${y1}" width="${wd}" height="${hg}" fill="${esc(dc)}" fill-opacity="${op}"/>`}
+ const pp=lo+(poc+.5)*st,py=yOfP(pp);if(py!=null)h+=`<line x1="0" x2="${S.W}" y1="${py}" y2="${py}" stroke="#ff9800" stroke-dasharray="4 3"/><text x="6" y="${py-4}" fill="#ff9800" font-size="11" class="t">POC ${fmt(pp)}</text>`;
+ return h}
+function specialSvg(){let h='';for(const u in R){const r=R[u];if(r.inst.hide||!tfVis(r.inst))continue;try{if(r.def.special==='kzp')h+=kzpSvg(r);else if(r.def.special==='vp')h+=vpSvg(r)}catch(e){console.error(e)}}return h?`<g style="pointer-events:none">${h}</g>`:''}
+
+// ===== YENİ GÖSTERGE TANIMLARI =====
+const GS=[3,5,8,10,12,15],GL=[30,35,40,45,50,60];
+const DEFS2=[
+ {id:'kzp',n:'ICT Killzone ve Pivotlar (KZP)',s:'KZP',cat:'trend',pane:0,special:'kzp',full:1,p:KZP_P,inp:KZP_INP,pl:[],f:kzpF},
+ {id:'vrvp',n:'Görünür Aralık Hacim Profili (VRVP)',s:'VRVP',cat:'vol',pane:0,special:'vp',p:{rows:24,width:25,up:'#089981',dn:'#f23645'},inp:[{k:'rows',t:'int',l:'Satır sayısı'},{k:'width',t:'int',l:'Genişlik (% grafik)'},{k:'up',t:'color',l:'Yükselen hacim'},{k:'dn',t:'color',l:'Düşen hacim'}],pl:[],f:()=>({})},
+ {id:'smma',n:'Düzleştirilmiş Hareketli Ortalama (SMMA)',s:'SMMA',cat:'trend',pane:0,p:{len:7},pl:[{k:'v',c:'#673ab7'}],f:(x,p)=>({v:rma(x.c,p.len)})},
+ {id:'alma',n:'Arnaud Legoux Hareketli Ortalama (ALMA)',s:'ALMA',cat:'trend',pane:0,p:{len:9,off:.85,sigma:6},pl:[{k:'v',c:'#2962ff'}],f:(x,p)=>({v:alma(x.c,p.len,p.off,p.sigma)})},
+ {id:'lsma',n:'En Küçük Kareler Hareketli Ortalama (LSMA)',s:'LSMA',cat:'trend',pane:0,p:{len:25},pl:[{k:'v',c:'#00897b'}],f:(x,p)=>({v:linreg(x.c,p.len)})},
+ {id:'kama',n:'Kaufman Uyarlanabilir Hareketli Ortalama (KAMA)',s:'KAMA',cat:'trend',pane:0,p:{len:10,fast:2,slow:30},pl:[{k:'v',c:'#ff9800'}],f:kamaF},
+ {id:'mcg',n:'McGinley Dinamiği',s:'McGinley',cat:'trend',pane:0,p:{len:14},pl:[{k:'v',c:'#00bcd4'}],f:mcgF},
+ {id:'macross',n:'Hareketli Ortalama Kesişimi (SMA)',s:'MA Cross',cat:'trend',pane:0,p:{fast:9,slow:21},pl:[{k:'a',c:'#43a047',n:'Hızlı'},{k:'b',c:'#f23645',n:'Yavaş'}],f:(x,p)=>({a:sma(x.c,p.fast),b:sma(x.c,p.slow)})},
+ {id:'emacross',n:'EMA Kesişimi',s:'EMA Cross',cat:'trend',pane:0,p:{fast:9,slow:21},pl:[{k:'a',c:'#43a047',n:'Hızlı'},{k:'b',c:'#f23645',n:'Yavaş'}],f:(x,p)=>({a:ema(x.c,p.fast),b:ema(x.c,p.slow)})},
+ {id:'guppy',n:'Guppy Çoklu Hareketli Ortalama (GMMA)',s:'GMMA',cat:'trend',pane:0,p:{},pl:[...GS.map(n=>({k:'s'+n,c:'#00bcd4',n:'EMA '+n})),...GL.map(n=>({k:'l'+n,c:'#f23645',n:'EMA '+n}))],f:x=>Object.fromEntries([...GS.map(n=>['s'+n,ema(x.c,n)]),...GL.map(n=>['l'+n,ema(x.c,n)])])},
+ {id:'gator',n:'Williams Alligator',s:'Alligator',cat:'trend',pane:0,p:{jaw:13,teeth:8,lips:5},pl:[{k:'j',c:'#2962ff',n:'Çene',off:()=>8},{k:'t',c:'#e91e63',n:'Diş',off:()=>5},{k:'l',c:'#66bb6a',n:'Dudak',off:()=>3}],f:(x,p)=>{const h=hl2(x);return{j:rma(h,p.jaw),t:rma(h,p.teeth),l:rma(h,p.lips)}}},
+ {id:'env',n:'Zarflar (Envelopes)',s:'Env',cat:'vola',pane:0,p:{len:20,pct:10},pl:[{k:'u',c:'#2962ff',n:'Üst'},{k:'m',c:'#ff6d00',n:'Orta'},{k:'l',c:'#2962ff',n:'Alt'}],f:(x,p)=>{const m=sma(x.c,p.len);return{m,u:m.map(v=>v==null?null:v*(1+p.pct/100)),l:m.map(v=>v==null?null:v*(1-p.pct/100))}}},
+ {id:'ce',n:'Chandelier Çıkışı',s:'CE',cat:'vola',pane:0,p:{len:22,mult:3},pl:[{k:'l',c:'#089981',gap:1,n:'Uzun stop'},{k:'s',c:'#f23645',gap:1,n:'Kısa stop'}],f:ceF},
+ {id:'vstop',n:'Volatilite Stop',s:'VStop',cat:'vola',pane:0,p:{len:20,mult:2},pl:[{k:'v',t:'dots',c:'#2962ff'}],f:vstopF},
+ {id:'fract',n:'Williams Fraktalları',s:'Fraktal',cat:'trend',pane:0,full:1,p:{per:2},pl:[{k:'u',t:'dots',c:'#f23645',n:'Üst fraktal'},{k:'d',t:'dots',c:'#089981',n:'Alt fraktal'}],f:fractF},
+ {id:'zz',n:'ZigZag',s:'ZigZag',cat:'trend',pane:0,full:1,p:{dev:5},pl:[{k:'v',c:'#ff9800',w:2}],f:zzF},
+ {id:'lrc',n:'Doğrusal Regresyon Kanalı',s:'LinReg',cat:'trend',pane:0,full:1,p:{len:100,dev:2},pl:[{k:'u',c:'#2962ff',n:'Üst'},{k:'m',c:'#f23645',n:'Orta'},{k:'l',c:'#2962ff',n:'Alt'}],f:lrcF},
+ {id:'pivf',n:'Pivot Noktaları (Fibonacci, günlük)',s:'Pivot Fib',cat:'trend',pane:0,p:{},pl:PIVPL,f:pivGen('f')},
+ {id:'pivk',n:'Pivot Noktaları (Camarilla, günlük)',s:'Pivot Cam',cat:'trend',pane:0,p:{},pl:PIVPL,f:pivGen('k')},
+ {id:'pivw',n:'Pivot Noktaları (Woodie, günlük)',s:'Pivot Woodie',cat:'trend',pane:0,p:{},pl:PIVPL,f:pivGen('w')},
+ {id:'med',n:'Medyan Fiyat (HL2)',s:'Medyan',cat:'trend',pane:0,p:{},pl:[{k:'v',c:'#ff6d00'}],f:x=>({v:hl2(x)})},
+ {id:'wt',n:'WaveTrend Osilatörü (LazyBear)',s:'WaveTrend',cat:'osc',pane:1,p:{ch:10,avg:21},lv:[60,53,0,-53,-60],pl:[{k:'h',t:'hist',c:'#2962ff',n:'Fark'},{k:'a',c:'#089981',n:'WT1'},{k:'b',c:'#f23645',n:'WT2'}],f:wtF},
+ {id:'sqz',n:'Squeeze Momentum (LazyBear)',s:'SQZMOM',cat:'osc',pane:1,dp:'main',p:{len:20,mult:2,kcm:1.5},pl:[{k:'v',t:'hist',c:'#00e676',n:'Momentum'},{k:'z',t:'dots',c:'#787b86',n:'Sıkışma'}],f:sqzF},
+ {id:'stc',n:'Schaff Trend Döngüsü (STC)',s:'STC',cat:'osc',pane:1,p:{len:10,fast:23,slow:50},lv:[75,25],pl:[{k:'v',c:'#ab47bc'}],f:stcF},
+ {id:'uo',n:'Nihai Osilatör (Ultimate Oscillator)',s:'UO',cat:'osc',pane:1,p:{k1:7,k2:14,k3:28},lv:[70,30],pl:[{k:'v',c:'#f23645'}],f:(x,p)=>{const pc=(i)=>i?x.c[i-1]:x.c[0],bp=x.c.map((c,i)=>c-Math.min(x.l[i],pc(i))),tr=x.c.map((c,i)=>Math.max(x.h[i],pc(i))-Math.min(x.l[i],pc(i)));const av=n=>zip(sumN(bp,n),sumN(tr,n),(a,b)=>b?a/b:0);const a=av(p.k1),b=av(p.k2),c=av(p.k3);return{v:a.map((q,i)=>q==null||b[i]==null||c[i]==null?null:100*(4*q+2*b[i]+c[i])/7)}}},
+ {id:'adl',n:'Birikim / Dağıtım (A/D)',s:'A/D',cat:'vol',pane:1,big:1,dp:0,p:{},pl:[{k:'v',c:'#999999'}],f:x=>({v:cum(x.c.map((c,i)=>{const r=x.h[i]-x.l[i];return r?((c-x.l[i])-(x.h[i]-c))/r*x.v[i]:0}))})},
+ {id:'chosc',n:'Chaikin Osilatörü',s:'Chaikin Osc',cat:'vol',pane:1,big:1,dp:0,p:{fast:3,slow:10},lv:[0],pl:[{k:'v',c:'#ec407a'}],f:(x,p)=>{const a=cum(x.c.map((c,i)=>{const r=x.h[i]-x.l[i];return r?((c-x.l[i])-(x.h[i]-c))/r*x.v[i]:0}));return{v:zip(ema(a,p.fast),ema(a,p.slow),(q,w)=>q-w)}}},
+ {id:'aroon',n:'Aroon',s:'Aroon',cat:'trend',pane:1,p:{len:14},lv:[70,30],pl:[{k:'u',c:'#ff6d00',n:'Yukarı'},{k:'d',c:'#2962ff',n:'Aşağı'}],f:(x,p)=>{const n=x.c.length,u=N(n),d=N(n),L=p.len;for(let i=L;i<n;i++){let hi=i,lo=i;for(let j=i-L;j<=i;j++){if(x.h[j]>x.h[hi])hi=j;if(x.l[j]<x.l[lo])lo=j}u[i]=100*(L-(i-hi))/L;d[i]=100*(L-(i-lo))/L}return{u,d}}},
+ {id:'bop',n:'Güç Dengesi (Balance of Power)',s:'BOP',cat:'osc',pane:1,dp:3,p:{},lv:[0],pl:[{k:'v',c:'#f23645'}],f:x=>({v:x.c.map((c,i)=>{const r=x.h[i]-x.l[i];return r?(c-x.o[i])/r:0})})},
+ {id:'bbp',n:'Boğa Ayı Gücü (Bull Bear Power)',s:'BBP',cat:'osc',pane:1,dp:'main',p:{len:13},lv:[0],pl:[{k:'v',t:'hist',c:'#26a69a'}],f:(x,p)=>{const e=ema(x.c,p.len),v=x.c.map((c,i)=>e[i]==null?null:(x.h[i]-e[i])+(x.l[i]-e[i]));return{v,vC:v.map(q=>q==null?null:q>=0?'#26a69a':'#ef5350')}}},
+ {id:'cmo',n:'Chande Momentum Osilatörü',s:'ChandeMO',cat:'osc',pane:1,p:{len:9},lv:[50,0,-50],pl:[{k:'v',c:'#2962ff'}],f:(x,p)=>{const m=chg(x.c),su=sumN(m.map(q=>q==null?null:Math.max(q,0)),p.len),sd=sumN(m.map(q=>q==null?null:Math.max(-q,0)),p.len);return{v:zip(su,sd,(a,b)=>a+b?100*(a-b)/(a+b):0)}}},
+ {id:'chop',n:'Dalgalılık Endeksi (Choppiness)',s:'CHOP',cat:'vola',pane:1,p:{len:14},lv:[61.8,38.2],pl:[{k:'v',c:'#2962ff'}],f:(x,p)=>{const s=sumN(trf(x),p.len),H=hh(x.h,p.len),L=ll(x.l,p.len);return{v:s.map((q,i)=>q==null||H[i]==null||H[i]===L[i]?null:100*Math.log10(q/(H[i]-L[i]))/Math.log10(p.len))}}},
+ {id:'crsi',n:'Connors RSI',s:'CRSI',cat:'osc',pane:1,p:{rsi:3,streak:2,rank:100},lv:[70,30],pl:[{k:'v',c:'#2962ff'}],f:(x,p)=>{const c=x.c;let s=0;const st=c.map((v,i)=>{if(!i)return 0;s=v>c[i-1]?(s>0?s+1:1):v<c[i-1]?(s<0?s-1:-1):0;return s});const a=rsiF(c,p.rsi),b=rsiF(st,p.streak),r=prank(rocA(c,1),p.rank);return{v:a.map((q,i)=>q==null||b[i]==null||r[i]==null?null:(q+b[i]+r[i])/3)}}},
+ {id:'copp',n:'Coppock Eğrisi',s:'Coppock',cat:'osc',pane:1,p:{wma:10,long:14,short:11},lv:[0],pl:[{k:'v',c:'#2962ff'}],f:(x,p)=>({v:wma(zip(rocA(x.c,p.long),rocA(x.c,p.short),(a,b)=>a+b),p.wma)})},
+ {id:'dpo',n:'Trendden Arındırılmış Fiyat Osilatörü (DPO)',s:'DPO',cat:'osc',pane:1,dp:'main',p:{len:21},lv:[0],pl:[{k:'v',c:'#43a047'}],f:(x,p)=>{const m=sma(x.c,p.len),bb=Math.floor(p.len/2)+1;return{v:x.c.map((c,i)=>i>=bb&&m[i-bb]!=null?c-m[i-bb]:null)}}},
+ {id:'eom',n:'Hareket Kolaylığı (Ease of Movement)',s:'EOM',cat:'vol',pane:1,p:{len:14},lv:[0],pl:[{k:'v',c:'#43a047'}],f:(x,p)=>{const h=hl2(x),c=chg(h);return{v:sma(c.map((q,i)=>q==null||!x.v[i]?null:10000*q*(x.h[i]-x.l[i])/x.v[i]),p.len)}}},
+ {id:'efi',n:'Elder Kuvvet Endeksi',s:'EFI',cat:'vol',pane:1,big:1,dp:0,p:{len:13},lv:[0],pl:[{k:'v',c:'#f23645'}],f:(x,p)=>({v:ema(chg(x.c).map((q,i)=>q==null?null:q*x.v[i]),p.len)})},
+ {id:'fish',n:'Fisher Dönüşümü',s:'Fisher',cat:'osc',pane:1,p:{len:9},lv:[1.5,0,-1.5],pl:[{k:'f',c:'#2962ff',n:'Fisher'},{k:'t',c:'#ff6d00',n:'Tetik'}],f:fishF},
+ {id:'hv',n:'Tarihsel Volatilite',s:'HV',cat:'vola',pane:1,p:{len:10},pl:[{k:'v',c:'#2962ff'}],f:(x,p)=>{const st=x.t.length>1?x.t[1]-x.t[0]:86400,r=x.c.map((c,i)=>i?Math.log(c/x.c[i-1]):null),ann=Math.sqrt(365*86400/st);return{v:stdev(r,p.len).map(q=>q==null?null:100*q*ann)}}},
+ {id:'kst',n:'Know Sure Thing (KST)',s:'KST',cat:'osc',pane:1,p:{sig:9},lv:[0],pl:[{k:'k',c:'#089981',n:'KST'},{k:'s',c:'#f23645',n:'Sinyal'}],f:(x,p)=>{const k=[[10,10,1],[15,10,2],[20,10,3],[30,15,4]].map(([a,b,w])=>sma(rocA(x.c,a),b).map(v=>v==null?null:v*w));const kst=k[0].map((v,i)=>k.some(a=>a[i]==null)?null:k[0][i]+k[1][i]+k[2][i]+k[3][i]);return{k:kst,s:sma(kst,p.sig)}}},
+ {id:'kvo',n:'Klinger Osilatörü',s:'Klinger',cat:'vol',pane:1,big:1,dp:0,p:{fast:34,slow:55,sig:13},lv:[0],pl:[{k:'v',c:'#2962ff',n:'KVO'},{k:'s',c:'#43a047',n:'Sinyal'}],f:(x,p)=>{const h=hlc3(x),c=chg(h),sv=c.map((q,i)=>q==null?null:q>=0?x.v[i]:-x.v[i]),v=zip(ema(sv,p.fast),ema(sv,p.slow),(a,b)=>a-b);return{v,s:ema(v,p.sig)}}},
+ {id:'mass',n:'Kütle Endeksi (Mass Index)',s:'Mass',cat:'vola',pane:1,p:{len:10},lv:[27,26.5],pl:[{k:'v',c:'#2962ff'}],f:(x,p)=>{const sp=x.h.map((h,i)=>h-x.l[i]),e1=ema(sp,9),e2=ema(e1,9);return{v:sumN(zip(e1,e2,(a,b)=>b?a/b:null),p.len)}}},
+ {id:'nv',n:'Net Hacim',s:'Net Hacim',cat:'vol',pane:1,big:1,dp:0,p:{},lv:[0],pl:[{k:'v',c:'#2962ff'}],f:x=>({v:x.c.map((c,i)=>i?(c>x.c[i-1]?x.v[i]:c<x.c[i-1]?-x.v[i]:0):0)})},
+ {id:'ppo',n:'Fiyat Yüzde Osilatörü (PPO)',s:'PPO',cat:'osc',pane:1,p:{fast:12,slow:26,sig:9},lv:[0],pl:[{k:'h',t:'hist',c:'#26a69a',n:'Histogram'},{k:'m',c:'#2962ff',n:'PPO'},{k:'s',c:'#ff6d00',n:'Sinyal'}],f:(x,p)=>{const m=zip(ema(x.c,p.fast),ema(x.c,p.slow),(a,b)=>b?(a-b)/b*100:0),s=ema(m,p.sig),h=zip(m,s,(a,b)=>a-b);return{m,s,h,hC:colsHist(h,'#26a69a','#b2dfdb','#ff5252','#ffcdd2')}}},
+ {id:'pvt',n:'Fiyat Hacim Trendi (PVT)',s:'PVT',cat:'vol',pane:1,big:1,dp:0,p:{},pl:[{k:'v',c:'#2962ff'}],f:x=>({v:cum(x.c.map((c,i)=>i&&x.c[i-1]?(c-x.c[i-1])/x.c[i-1]*x.v[i]:0))})},
+ {id:'rvgi',n:'Göreceli Canlılık Endeksi (RVGI)',s:'RVGI',cat:'osc',pane:1,dp:3,p:{len:10},lv:[0],pl:[{k:'v',c:'#089981',n:'RVGI'},{k:'s',c:'#f23645',n:'Sinyal'}],f:(x,p)=>{const a=swma(x.c.map((c,i)=>c-x.o[i])),b=swma(x.h.map((h,i)=>h-x.l[i])),v=zip(sumN(a,p.len),sumN(b,p.len),(q,w)=>w?q/w:0);return{v,s:swma(v)}}},
+ {id:'rvi',n:'Göreceli Volatilite Endeksi (RVI)',s:'RVI',cat:'vola',pane:1,p:{len:10,smooth:14},lv:[80,50,20],pl:[{k:'v',c:'#7e57c2'}],f:(x,p)=>{const sd=stdev(x.c,p.len),u=x.c.map((c,i)=>!i||sd[i]==null?null:c>x.c[i-1]?sd[i]:0),d=x.c.map((c,i)=>!i||sd[i]==null?null:c<=x.c[i-1]?sd[i]:0),eu=ema(u,p.smooth),ed=ema(d,p.smooth);return{v:zip(eu,ed,(a,b)=>a+b?100*a/(a+b):50)}}},
+ {id:'smio',n:'SMI Ergodik Osilatör',s:'SMIO',cat:'osc',pane:1,dp:4,p:{short:5,long:20,sig:5},lv:[0],pl:[{k:'h',t:'hist',c:'#f23645',n:'Osilatör'},{k:'v',c:'#2962ff',n:'SMI'},{k:'s',c:'#ff6d00',n:'Sinyal'}],f:(x,p)=>{const v=tsiRaw(x.c,p.long,p.short),s=ema(v,p.sig),h=zip(v,s,(a,b)=>a-b);return{v,s,h,hC:upDnCols(h)}}},
+ {id:'smi',n:'Stokastik Momentum Endeksi (SMI)',s:'SMI',cat:'osc',pane:1,p:{k:10,d:3,sig:3},lv:[40,0,-40],pl:[{k:'v',c:'#2962ff',n:'SMI'},{k:'s',c:'#ff6d00',n:'Sinyal'}],f:(x,p)=>{const H=hh(x.h,p.k),L=ll(x.l,p.k),rel=x.c.map((c,i)=>H[i]==null?null:c-(H[i]+L[i])/2),rg=H.map((h,i)=>h==null?null:h-L[i]),v=zip(ema(ema(rel,p.d),p.d),ema(ema(rg,p.d),p.d),(a,b)=>b?200*a/b:0);return{v,s:ema(v,p.sig)}}},
+ {id:'tsi',n:'Gerçek Güç Endeksi (TSI)',s:'TSI',cat:'osc',pane:1,p:{long:25,short:13,sig:13},lv:[0],pl:[{k:'v',c:'#2962ff',n:'TSI'},{k:'s',c:'#f23645',n:'Sinyal'}],f:(x,p)=>{const v=tsiRaw(x.c,p.long,p.short).map(q=>q==null?null:100*q);return{v,s:ema(v,p.sig)}}},
+ {id:'ulcer',n:'Ülser Endeksi',s:'Ulcer',cat:'vola',pane:1,p:{len:14},pl:[{k:'v',c:'#2962ff'}],f:(x,p)=>{const H=hh(x.c,p.len),dd=x.c.map((c,i)=>H[i]==null?null:(100*(c-H[i])/H[i])**2);return{v:sma(dd,p.len).map(q=>q==null?null:Math.sqrt(q))}}},
+ {id:'vortex',n:'Vortex Göstergesi',s:'VI',cat:'trend',pane:1,dp:3,p:{len:14},pl:[{k:'p',c:'#2962ff',n:'VI+'},{k:'m',c:'#f23645',n:'VI-'}],f:(x,p)=>{const vp=x.h.map((h,i)=>i?Math.abs(h-x.l[i-1]):null),vm=x.l.map((l,i)=>i?Math.abs(l-x.h[i-1]):null),tr=sumN(trf(x).map((v,i)=>i?v:null),p.len);return{p:zip(sumN(vp,p.len),tr,(a,b)=>b?a/b:0),m:zip(sumN(vm,p.len),tr,(a,b)=>b?a/b:0)}}},
+ {id:'vo',n:'Hacim Osilatörü',s:'Vol Osc',cat:'vol',pane:1,p:{short:5,long:10},lv:[0],pl:[{k:'v',c:'#2962ff'}],f:(x,p)=>{const a=ema(x.v,p.short),b=ema(x.v,p.long);return{v:zip(a,b,(q,w)=>w?100*(q-w)/w:0)}}},
+ {id:'ac',n:'Hızlandırıcı Osilatör (AC)',s:'AC',cat:'osc',pane:1,dp:'main',p:{},lv:[0],pl:[{k:'v',t:'hist',c:'#089981'}],f:x=>{const h=hl2(x),ao=zip(sma(h,5),sma(h,34),(a,b)=>a-b),v=zip(ao,sma(ao,5),(a,b)=>a-b);return{v,vC:upDnCols(v)}}},
+ {id:'pctb',n:'Bollinger Bantları %B',s:'%B',cat:'vola',pane:1,dp:3,p:{len:20,mult:2},lv:[1,.5,0],pl:[{k:'v',c:'#26a69a'}],f:(x,p)=>{const m=sma(x.c,p.len),s=stdev(x.c,p.len);return{v:x.c.map((c,i)=>m[i]==null||!s[i]?null:(c-(m[i]-p.mult*s[i]))/(2*p.mult*s[i]))}}},
+ {id:'sd',n:'Standart Sapma',s:'StdDev',cat:'vola',pane:1,dp:'main',p:{len:20},pl:[{k:'v',c:'#2962ff'}],f:(x,p)=>({v:stdev(x.c,p.len)})},
+ {id:'adr',n:'Ortalama Mum Aralığı',s:'Ort. Aralık',cat:'vola',pane:1,dp:'main',p:{len:14},pl:[{k:'v',c:'#2962ff'}],f:(x,p)=>({v:sma(x.h.map((h,i)=>h-x.l[i]),p.len)})},
+];
+
+DEFS.push(...DEFS2);
 const DEF=Object.fromEntries(DEFS.map(d=>[d.id,d]));
-const PL={len:'Uzunluk',mult:'Std. sapma / çarpan',atr:'ATR uzunluğu',fast:'Hızlı uzunluk',slow:'Yavaş uzunluk',sig:'Sinyal uzunluğu',k:'%K uzunluğu',d:'%D yumuşatma',smooth:'Yumuşatma',rsi:'RSI uzunluğu',stoch:'Stokastik uzunluk',conv:'Dönüşüm hattı',base:'Taban hattı',span:'Öncü B uzunluğu',disp:'Kaydırma',start:'Başlangıç',inc:'Artış',max:'Maksimum',fac:'Faktör',ma:'Hacim ortalaması'};
-const CATS={all:'Tümü',trend:'Trend',osc:'Osilatörler',vol:'Hacim',vola:'Volatilite'};
-const newInst=(id,extra={})=>({u:uid(),id,p:{...DEF[id].p},c:{},hide:false,...extra});
+const FLOATP=new Set(['mult','fac','start','inc','max','off','sigma','pct','dev','kcm']);
+const PL={off:'Ofset',sigma:'Sigma',pct:'Yüzde',jaw:'Çene uzunluğu',teeth:'Diş uzunluğu',lips:'Dudak uzunluğu',per:'Periyot',dev:'Sapma',k1:'Kısa periyot',k2:'Orta periyot',k3:'Uzun periyot',streak:'Seri RSI uzunluğu',rank:'Yüzde sıra uzunluğu',wma:'WMA uzunluğu',long:'Uzun uzunluk',short:'Kısa uzunluk',ch:'Kanal uzunluğu',avg:'Ortalama uzunluğu',kcm:'Keltner çarpanı',len:'Uzunluk',mult:'Std. sapma / çarpan',atr:'ATR uzunluğu',fast:'Hızlı uzunluk',slow:'Yavaş uzunluk',sig:'Sinyal uzunluğu',k:'%K uzunluğu',d:'%D yumuşatma',smooth:'Yumuşatma',rsi:'RSI uzunluğu',stoch:'Stokastik uzunluk',conv:'Dönüşüm hattı',base:'Taban hattı',span:'Öncü B uzunluğu',disp:'Kaydırma',start:'Başlangıç',inc:'Artış',max:'Maksimum',fac:'Faktör',ma:'Hacim ortalaması'};
+const CATS={fav:'★ Favoriler',all:'Tümü',trend:'Trend',osc:'Osilatörler',vol:'Hacim',vola:'Volatilite'};
+const STYK=['c','w','ls','pt','pv','lv','sl','sv','si','dp','vis'];
+const newInst=(id,extra={})=>{const df=S.indDef[id]||{};const o={u:uid(),id,p:{...DEF[id].p,...(df.p||{})},c:{},hide:false};STYK.forEach(k=>{if(df[k]!=null)o[k]=clone(df[k])});o.c=o.c||{};return{...o,...extra,p:{...o.p,...(extra.p||{})},c:{...o.c,...(extra.c||{})}}};
+const tfGroup=()=>{const s=TFSEC[S.tf]||60;return s<3600?'m':s<86400?'h':s<604800?'d':s<2592000?'w':'M'};
+const tfVis=inst=>!inst.vis||inst.vis[tfGroup()]!==false;
+const plVis=(inst,pl)=>!inst.hide&&inst.pv?.[pl.k]!==false&&tfVis(inst);
 if(!Array.isArray(S.inds))S.inds=[newInst('vol'),newInst('ema',{p:{len:20},c:{v:'#f7a600'}}),newInst('ema',{p:{len:50},c:{v:'#2962ff'}}),newInst('ema',{p:{len:200},c:{v:'#e040fb'}}),newInst('rsi')];
 S.inds=S.inds.filter(i=>DEF[i.id]);
 const saveInds=()=>ls.set('inds',S.inds);
@@ -435,21 +704,23 @@ const saveInds=()=>ls.set('inds',S.inds);
 let R={}; // u -> {inst,def,chart,pane,series,out}
 function timeAt(i){const d=S.data,n=d.length;if(!n)return 0;const st=stepSec();return i<n?(i<0?d[0].time+i*st:d[i].time):d[n-1].time+(i-n+1)*st}
 function stepSec(){const d=S.data;return d.length>1?d[d.length-1].time-d[d.length-2].time:(TFSEC[S.tf]||60)}
+function indDp(inst,def){return inst.dp!=null&&inst.dp!==''?+inst.dp:def.pane===0?S.prec:def.dp==='main'?S.prec:def.dp??2}
 function addPlot(chart,pl,inst,def){
- const col=inst.c?.[pl.k]||pl.c,b={priceLineVisible:false,lastValueVisible:def.pane===1&&pl.t!=='hist',crosshairMarkerVisible:false,visible:!inst.hide};
+ const col=inst.c?.[pl.k]||pl.c,pt=inst.pt?.[pl.k]||pl.t||'line',sl=inst.sl!=null?inst.sl:(def.pane===1),
+  b={priceLineVisible:false,lastValueVisible:!!sl&&pl.t!=='hist',crosshairMarkerVisible:false,visible:plVis(inst,pl),title:''};
  if(pl.scale)b.priceScaleId=pl.scale;
- if(def.pane===0&&!pl.scale)b.priceFormat=pf();
- else if(def.pane===1){const dp=def.dp==='main'?S.prec:def.dp??2;b.priceFormat=def.big?{type:'volume'}:{type:'price',precision:dp,minMove:1/10**dp}}
- else if(def.big)b.priceFormat={type:'volume'};
+ if(def.big)b.priceFormat={type:'volume'};
+ else if(!pl.scale){const dp=indDp(inst,def);b.priceFormat={type:'price',precision:dp,minMove:1/10**dp}}
  if(pl.t==='hist')return chart.addHistogramSeries({...b,color:col});
- if(pl.t==='dots')return chart.addLineSeries({...b,color:col,lineVisible:false,pointMarkersVisible:true,pointMarkersRadius:2});
- return chart.addLineSeries({...b,color:col,lineWidth:pl.w||1,lineType:pl.t==='step'?1:0});
+ const lw=+(inst.w?.[pl.k]||pl.w||1),lsty=+(inst.ls?.[pl.k]||0);
+ if(pt==='dots')return chart.addLineSeries({...b,color:col,lineVisible:false,pointMarkersVisible:true,pointMarkersRadius:Math.max(2,lw+1)});
+ return chart.addLineSeries({...b,color:col,lineWidth:lw,lineStyle:lsty,lineType:pt==='step'?1:0});
 }
 function newPane(inst,def){
  const el=document.createElement('div');el.className='pane';el.dataset.u=inst.u;
  el.style.height=(inst.h||(innerWidth<860?100:130))+'px';
  el.innerHTML='<div class="rz"></div><div class="lg plg"></div>';$('#subs').appendChild(el);
- const dp=def.dp==='main'?null:def.big?0:(def.dp??2);
+ const dp=inst.dp!=null&&inst.dp!==''?+inst.dp:def.dp==='main'?null:def.big?0:(def.dp??2);
  const chart=LC.createChart(el,chartOpts(true,dp));
  const ghost=chart.addLineSeries({lastValueVisible:false,priceLineVisible:false,crosshairMarkerVisible:false,color:'rgba(0,0,0,0)'});
  const p={u:inst.u,el,chart,ghost,def};subs.push(p);hookRange(chart);hookCross(chart,p);
@@ -469,7 +740,7 @@ function rebuildInds(){
   const r={inst,def,chart,pane,series:{},out:null};
   def.pl.forEach(pl=>{r.series[pl.k]=addPlot(chart,pl,inst,def)});
   if(def.pl.some(pl=>pl.scale==='vol'))main.priceScale('vol').applyOptions({scaleMargins:{top:.8,bottom:0}});
-  if(def.lv){const s=r.series[def.pl[def.pl.length-1].k];def.lv.forEach(l=>s.createPriceLine({price:l,color:'#787b86',lineStyle:2,lineWidth:1,axisLabelVisible:false}))}
+  const lvs=inst.lv||(def.lv||[]).map(v=>({v,c:'#787b86',on:true}));if(lvs.length&&def.pl.length){const s=r.series[def.pl[def.pl.length-1].k];lvs.filter(l=>l.on!==false&&isFinite(+l.v)).forEach(l=>s.createPriceLine({price:+l.v,color:l.c||'#787b86',lineStyle:2,lineWidth:1,axisLabelVisible:false}))}
   R[inst.u]=r});
  // zaman ekseni yalnızca en alttaki panelde görünsün
  fitPanes();
@@ -477,7 +748,7 @@ function rebuildInds(){
  subs.forEach((p,i)=>p.chart.applyOptions({timeScale:{visible:i===subs.length-1}}));
  computeAll(true);
  const r=main.timeScale().getVisibleLogicalRange();if(r)subs.forEach(p=>p.chart.timeScale().setVisibleLogicalRange(r));
- legend();
+ legend();renderObj();dirty();
 }
 function fitPanes(){const n=subs.length;if(!n)return;const avail=($('#center').clientHeight-30)*.6;subs.forEach(p=>{const inst=S.inds.find(i=>i.u===p.u);const want=inst?.h||(innerWidth<860?100:130);p.el.style.height=Math.max(48,Math.min(want,avail/n))+'px'})}
 addEventListener('resize',()=>fitPanes());
@@ -487,21 +758,23 @@ function toPts(arr,off,cols,pl){const o=[];let started=false;for(let i=0;i<arr.l
 function computeAll(full){
  const d=S.data;if(!d.length)return;const x=srcOf(d),n=d.length;
  for(const u in R){const r=R[u];let out;try{out=r.def.f(x,r.inst.p)}catch(e){console.error(e);continue}r.out=out;
-  r.def.pl.forEach(pl=>{const s=r.series[pl.k],arr=out[pl.k];if(!s||!arr)return;const off=pl.off?pl.off(r.inst.p):0,cols=out[pl.k+'C'];
-   if(full){s.setData(toPts(arr,off,cols,pl));return}
+  r.def.pl.forEach(pl=>{const s=r.series[pl.k],arr=out[pl.k];if(!s||!arr)return;const off=pl.off?pl.off(r.inst.p):0,cols=pl.t==='hist'&&r.inst.c?.[pl.k]?null:out[pl.k+'C'];
+   if(full||r.def.full){s.setData(toPts(arr,off,cols,pl));return}
    const i=n-1,j=i+off;if(j<0)return;const v=arr[i];
    try{if(v==null||!isFinite(v)){if(pl.gap)s.update({time:timeAt(j)})}else{const p={time:timeAt(j),value:v};if(cols&&cols[i])p.color=cols[i];s.update(p)}}
    catch(e){s.setData(toPts(arr,off,cols,pl))}})}
  subs.forEach(p=>{if(full)p.ghost.setData(d.map(c=>({time:c.time})));else{try{p.ghost.update({time:d[n-1].time})}catch(e){}}});
+ if(S.side==='dw')renderDW();dirty();
 }
+function updVis(){for(const u in R){const r=R[u];r.def.pl.forEach(pl=>r.series[pl.k]?.applyOptions({visible:plVis(r.inst,pl)}))}dirty()}
 let ctTimer=null;
 function computeSoon(){if(ctTimer)return;ctTimer=setTimeout(()=>{ctTimer=null;computeAll(false);if(S.hover==null)legend()},200)}
 
 // ---------------- lejant ----------------
 function valAt(r,pl,i){const off=pl.off?pl.off(r.inst.p):0,arr=r.out?.[pl.k];if(!arr)return null;const v=arr[i-off];return v==null||!isFinite(v)?null:v}
-function indRow(r,i){const def=r.def,inst=r.inst,ps=Object.values(inst.p).join(' ');
- const dp=def.pane===0?S.prec:def.dp==='main'?S.prec:def.dp??2;
- const vals=def.pl.map(pl=>{const v=valAt(r,pl,i);const col=(pl.t==='hist'&&r.out?.[pl.k+'C']?.[i-(pl.off?pl.off(inst.p):0)])||inst.c?.[pl.k]||pl.c;return v==null?'':`<span class="vv" style="color:${esc(col)}">${def.big?fmtBig(v):fmt(v,dp)}</span>`}).join(' ');
+function indRow(r,i){const def=r.def,inst=r.inst,ps=def.inp||inst.si===false?'':Object.values(inst.p).join(' ');
+ const dp=indDp(inst,def);
+ const vals=inst.sv===false?'':def.pl.map(pl=>{const v=valAt(r,pl,i);const col=(pl.t==='hist'&&r.out?.[pl.k+'C']?.[i-(pl.off?pl.off(inst.p):0)])||inst.c?.[pl.k]||pl.c;return v==null?'':`<span class="vv" style="color:${esc(col)}">${def.big?fmtBig(v):fmt(v,dp)}</span>`}).join(' ');
  return`<div class="ir${inst.hide?' off':''}" data-u="${esc(inst.u)}"><span class="in">${esc(def.s)}${ps?' '+esc(ps):''}</span>${vals}<span class="ib"><button data-act="eye" title="${inst.hide?'Göster':'Gizle'}">${ic(inst.hide?'eyeoff':'eye')}</button><button data-act="cfg" title="Ayarlar">${ic('cfg')}</button><button data-act="del" title="Kaldır">${ic('x')}</button></span></div>`}
 function legend(){
  const d=S.data;if(!d.length){$('#lg').innerHTML='';return}
@@ -519,14 +792,14 @@ function legend(){
 document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b)return;const act=b.dataset.act;
  if(act==='lgt'){S.lgOpen=!S.lgOpen;legend();return}
  const u=b.closest('[data-u]')?.dataset.u,inst=S.inds.find(x=>x.u===u);if(!inst)return;
- if(act==='eye'){inst.hide=!inst.hide;saveInds();const r=R[u];if(r)for(const k in r.series)r.series[k].applyOptions({visible:!inst.hide});legend()}
+ if(act==='eye'){inst.hide=!inst.hide;saveInds();updVis();legend();renderObj()}
  if(act==='del'){S.inds=S.inds.filter(x=>x!==inst);saveInds();rebuildInds()}
  if(act==='cfg')indSettings(inst)});
 
 // ---------------- crosshair senkronu ----------------
 function hookCross(c,pane){c.subscribeCrosshairMove(p=>{
  const lg=p.logical!=null&&p.point?Math.round(p.logical):null;
- if(S.hover!==lg){S.hover=lg;legend()}
+ if(S.hover!==lg){S.hover=lg;legend();if(S.side==='dw')renderDW()}
  if(!p.sourceEvent)return;
  charts().forEach(o=>{if(o===c)return;try{if(p.time==null){o.clearCrosshairPosition();return}
   if(o===main){const v=S.data[lg];if(v)main.setCrosshairPosition(v.close,p.time,mainS)}
@@ -559,10 +832,10 @@ async function loadChart(){
  if(key!==S.key||tf!==S.tf)return;
  S.full=j.map(k2c);S.data=S.full;S.refP=S.full.at(-1)?.close||1;
  if(S.ctype==='base')mkMain();else mainS.setData(mainData());
- computeAll(true);refreshAlarmLines();
+ computeAll(true);updVis();refreshAlarmLines();if(S.set.wm)main.applyOptions({watermark:{text:wmText()}});
  const n=S.data.length;
  if(S.pendingRange){applyRange(S.pendingRange);S.pendingRange=null}else main.timeScale().setVisibleLogicalRange({from:n-150,to:n+12});
- legend();dirty();openKline();renderWl();renderDet();loadExtra();
+ legend();dirty();openKline();renderWl();renderDet();loadExtra();loadPerf();renderNote();
 }
 async function loadMore(){
  S.loadingMore=true;const key=S.key,tf=S.tf,{m,s}=mk(key),first=S.full[0].time*1000;
@@ -601,7 +874,7 @@ async function loadExtra(){
 setInterval(loadExtra,20000);
 
 // ---------------- izleme listesi & detay ----------------
-let wlT=null;const wlSoon=()=>{if(wlT)return;wlT=setTimeout(()=>{wlT=null;updWl();renderDet()},600)};
+let wlT=null;const wlSoon=()=>{if(wlT)return;wlT=setTimeout(()=>{wlT=null;updWl();renderDet();renderHot()},600)};
 function renderWl(){
  $('#wl').innerHTML=S.wl.map(k=>{const{m,s}=mk(k);return`<div class="wi${k===S.key?' on':''}" data-k="${esc(k)}"><span class="n">${esc(s)}<small>${m==='F'?'.P':'Spot'}</small></span><span class="p"></span><span class="c"></span><button class="x" data-x="${esc(k)}" title="Listeden çıkar">${ic('x')}</button></div>`}).join('')||'<div class="empty">Liste boş. + ile sembol ekleyin.</div>';
  updWl();
@@ -619,6 +892,7 @@ function renderDet(){
  <div class="rng"><i style="left:${pos}%"></i></div><div class="rngl"><span>${fmt(t.l)}</span><span>24s aralık</span><span>${fmt(t.h)}</span></div>
  <dl><dt>24s hacim</dt><dd>${fmtBig(t.q)} ${esc(sy?.q||'')}</dd>
  ${m==='F'&&dt.mark?`<dt>İşaret fiyatı</dt><dd>${fmt(dt.mark)}</dd><dt>Fonlama oranı</dt><dd class="${dt.fund>=0?'up':'dn'}">${fmt(dt.fund,4)}%</dd><dt>Sonraki fonlama</dt><dd>${cd||'–'}</dd><dt>Açık pozisyon</dt><dd>${fmtBig(dt.oi*t.c)} USDT</dd>`:''}</dl>`;
+ $('#det').insertAdjacentHTML('beforeend',perfHtml(k,t.c));
  document.title=`${lbl(k)} ${fmt(t.c)} ${pct(t.p)} | ${APP_NAME}`;
 }
 setInterval(()=>{if(S.det.next)renderDet()},1000);
@@ -642,19 +916,22 @@ $('#symBtn').onclick=()=>openSym('pick');$('#addWl').onclick=()=>openSym('add');
 // ---------------- modal / popup yardımcıları ----------------
 function openModal(id){$('#'+id).classList.add('show')}
 function closeModal(id){$('#'+id).classList.remove('show')}
-$$('.modal').forEach(m=>m.addEventListener('pointerdown',e=>{if(e.target===m)m.classList.remove('show')}));
-document.addEventListener('click',e=>{const c=e.target.closest('[data-close]');if(c)c.closest('.modal').classList.remove('show')});
-const pop=$('#pop');let popFns=[];
-function openPop(anchor,items,at){popFns=[];pop.innerHTML=items.map(it=>{if(it.h)return`<div class="ph">${esc(it.h)}</div>`;popFns.push(it.f);return`<button data-pi="${popFns.length-1}" class="${it.on?'on':''}">${it.ic?ic(it.ic):''}<span>${esc(it.t)}</span>${it.k?`<kbd>${esc(it.k)}</kbd>`:''}</button>`}).join('');
+let dlgCancel=null;
+function hideModal(m){if(m.id==='mDlg'&&dlgCancel){const f=dlgCancel;dlgCancel=null;try{f()}catch(e){console.error(e)}}m.classList.remove('show')}
+$$('.modal').forEach(m=>m.addEventListener('pointerdown',e=>{if(e.target===m)hideModal(m)}));
+document.addEventListener('click',e=>{const c=e.target.closest('[data-close]');if(c)hideModal(c.closest('.modal'))});
+const pop=$('#pop');let popFns=[],popStars=[];
+function openPop(anchor,items,at){popFns=[];popStars=[];pop.innerHTML=items.map(it=>{if(it.h)return`<div class="ph">${esc(it.h)}</div>`;popFns.push(it.f);popStars.push(it.sf||null);const i=popFns.length-1;return`<button data-pi="${i}" class="${it.on?'on':''}">${it.ic?ic(it.ic):''}<span>${esc(it.t)}</span>${it.k?`<kbd>${esc(it.k)}</kbd>`:''}${it.sf?`<span class="star${it.star?' on':''}" data-ps="${i}" title="Favorilere ekle/çıkar">★</span>`:''}</button>`}).join('');
  pop.classList.add('show');const r=at||anchor.getBoundingClientRect(),pw=pop.offsetWidth,ph=pop.offsetHeight;
  let x=at?at.x:(innerWidth<860&&anchor.closest('#tools')?r.left:r.right+4),y=at?at.y:(innerWidth<860&&anchor.closest('#tools')?r.top-ph-4:r.top);
  if(!at&&anchor.closest('#top')){x=r.left;y=r.bottom+4}
  pop.style.left=Math.max(4,Math.min(x,innerWidth-pw-4))+'px';pop.style.top=Math.max(4,Math.min(y,innerHeight-ph-4))+'px'}
-pop.addEventListener('click',e=>{const b=e.target.closest('[data-pi]');if(!b)return;const f=popFns[+b.dataset.pi];pop.classList.remove('show');f&&f()});
+pop.addEventListener('click',e=>{const st=e.target.closest('[data-ps]');if(st){e.stopPropagation();const f=popStars[+st.dataset.ps];if(f)st.classList.toggle('on',f());return}const b=e.target.closest('[data-pi]');if(!b)return;const f=popFns[+b.dataset.pi];pop.classList.remove('show');f&&f()});
 document.addEventListener('pointerdown',e=>{if(!pop.contains(e.target)&&!e.target.closest('[data-pop]'))pop.classList.remove('show')});
-function dialog(title,body,buttons){$('#dlgT').textContent=title;$('#dlgB').innerHTML=body;const f=$('#dlgF');f.innerHTML='';
- buttons.forEach(b=>{const el=document.createElement('button');el.className='btn'+(b.cls?' '+b.cls:'');el.textContent=b.t;el.onclick=()=>{if(b.f&&b.f()===false)return;closeModal('mDlg')};f.appendChild(el)});openModal('mDlg');
- const first=$('#dlgB').querySelector('input,textarea,select');if(first)setTimeout(()=>{first.focus();first.select?.()},20)}
+function dialog(title,body,buttons,cls='sm',onCancel=null){$('#dlgT').textContent=title;{const o=$('#dlgB'),nb=o.cloneNode(false);o.replaceWith(nb)}$('#dlgB').innerHTML=body;$('#dlgBox').className='box '+cls;const f=$('#dlgF');f.innerHTML='';dlgCancel=onCancel;
+ buttons.forEach(b=>{const el=document.createElement('button');el.className='btn'+(b.cls?' '+b.cls:'');el.textContent=b.t;if(b.left)el.style.marginRight='auto';el.onclick=ev=>{const r=b.f?b.f(ev):undefined;if(r===false)return;if(!b.keep)dlgCancel=null;closeModal('mDlg')};f.appendChild(el)});openModal('mDlg');
+ const first=$('#dlgB').querySelector('input:not([type=checkbox]):not([type=color]),textarea,select');if(first&&cls==='sm')setTimeout(()=>{first.focus();first.select?.()},20)}
+document.addEventListener('click',e=>{const b=e.target.closest('#dlgB [data-dt]');if(!b)return;const box=$('#dlgB');box.querySelectorAll('[data-dt]').forEach(x=>x.classList.toggle('on',x===b));box.querySelectorAll('.dsec').forEach(x=>x.classList.toggle('on',x.dataset.sec===b.dataset.dt))});
 function confirmDlg(title,msg,f){dialog(title,`<p style="margin:0">${esc(msg)}</p>`,[{t:'Vazgeç',cls:'g'},{t:'Evet',cls:'r',f}])}
 function toast(t,msg,cls='',ms=6000){const el=document.createElement('div');el.className='toast '+cls;el.innerHTML=`<b>${esc(t)}</b>${esc(msg)}`;el.onclick=()=>el.remove();$('#toasts').appendChild(el);setTimeout(()=>el.remove(),ms)}
 
@@ -667,20 +944,51 @@ $('#tfMore').dataset.pop=1;$('#tfMore').onclick=e=>openPop(e.currentTarget,[{h:'
 $('#typeBtn').dataset.pop=1;$('#typeBtn').onclick=e=>openPop(e.currentTarget,CTYPES.map(([k,t])=>({t,ic:k==='hollow'?'hollow':k==='ha'?'ha':k==='bar'?'bar':k==='line'?'line':k==='area'?'area':k==='base'?'base':'candle',on:S.ctype===k,f:()=>{S.ctype=k;ls.set('ctype',k);mkMain();rebuildInds();dirty()}})));
 
 // ---------------- gösterge penceresi ----------------
-let iCat='all';
-$('#icat').innerHTML=Object.entries(CATS).map(([k,v])=>`<button data-c="${k}" class="${k==='all'?'on':''}">${v}</button>`).join('');
+let iCat=S.favInd.length?'fav':'all';
+$('#icat').innerHTML=Object.entries(CATS).map(([k,v])=>`<button data-c="${k}" class="${k===iCat?'on':''}">${v}</button>`).join('');
 $('#icat').addEventListener('click',e=>{const b=e.target.closest('[data-c]');if(!b)return;iCat=b.dataset.c;$$('#icat button').forEach(x=>x.classList.toggle('on',x===b));renderIL()});
-function renderIL(){const q=$('#iq').value.trim().toLocaleLowerCase('tr');const a=DEFS.filter(d=>(iCat==='all'||d.cat===iCat)&&(!q||(d.n+' '+d.s).toLocaleLowerCase('tr').includes(q)));
- $('#ilist').innerHTML=a.map(d=>{const cnt=S.inds.filter(i=>i.id===d.id).length;return`<div class="li" data-id="${d.id}"><span>${esc(d.n)}</span><small>${d.pane?'Ayrı panel':'Grafik üstü'}${cnt?` · ${cnt} ekli`:''}</small></div>`}).join('')||'<div class="empty">Sonuç yok</div>'}
+function renderIL(){const q=$('#iq').value.trim().toLocaleLowerCase('tr');const a=DEFS.filter(d=>(q||iCat==='all'||(iCat==='fav'?S.favInd.includes(d.id):d.cat===iCat))&&(!q||(d.n+' '+d.s).toLocaleLowerCase('tr').includes(q)));
+ $('#ilist').innerHTML=`<div class="empty" style="padding:0 0 8px;text-align:left">${DEFS.length} gösterge · yıldızla favorilere ekleyin</div>`+(a.map(d=>{const cnt=S.inds.filter(i=>i.id===d.id).length,fv=S.favInd.includes(d.id);return`<div class="li" data-id="${d.id}"><button class="istar${fv?' on':''}" data-fi="${d.id}" title="Favori">★</button><span style="flex:1">${esc(d.n)}</span><small>${d.pane?'Ayrı panel':'Grafik üstü'}${cnt?` · ${cnt} ekli`:''}</small></div>`}).join('')||`<div class="empty">${iCat==='fav'?'Henüz favori yok. Listede ★ işaretine basın.':'Sonuç yok'}</div>`)}
 $('#iq').addEventListener('input',renderIL);
-$('#ilist').addEventListener('click',e=>{const r=e.target.closest('[data-id]');if(!r)return;S.inds.push(newInst(r.dataset.id));saveInds();rebuildInds();renderIL()});
+$('#ilist').addEventListener('click',e=>{const st=e.target.closest('[data-fi]');if(st){const id=st.dataset.fi;S.favInd=S.favInd.includes(id)?S.favInd.filter(x=>x!==id):[...S.favInd,id];ls.set('favInd',S.favInd);renderIL();return}const r=e.target.closest('[data-id]');if(!r)return;S.inds.push(newInst(r.dataset.id));saveInds();rebuildInds();renderIL()});
 $('#indBtn').onclick=()=>{openModal('mInd');$('#iq').value='';renderIL();setTimeout(()=>$('#iq').focus(),20)};
-function indSettings(inst){const def=DEF[inst.id];
- const ps=Object.keys(def.p).map(k=>`<div class="fld"><label for="ip_${k}">${esc(PL[k]||k)}</label><input id="ip_${k}" type="number" step="any" value="${esc(inst.p[k])}"></div>`).join('');
- const cs=def.pl.filter(pl=>pl.t!=='hist').map(pl=>`<div class="fld"><label for="ic_${pl.k}">${esc(pl.n||'Renk')}</label><input id="ic_${pl.k}" type="color" value="${esc(inst.c[pl.k]||pl.c)}"></div>`).join('');
- dialog(def.n,(ps||'<p style="color:var(--mu);margin-top:0">Bu göstergenin ayarlanacak parametresi yok.</p>')+cs,[{t:'Varsayılan',cls:'g',f:()=>{inst.p={...def.p};inst.c={};saveInds();rebuildInds()}},{t:'Tamam',f:()=>{
-  for(const k in def.p){const v=parseFloat($('#ip_'+k).value);if(isFinite(v)&&v>0)inst.p[k]=Number.isInteger(def.p[k])?Math.max(1,Math.round(v)):v}
-  def.pl.forEach(pl=>{const el=$('#ic_'+pl.k);if(el)inst.c[pl.k]=el.value});saveInds();rebuildInds()}}])}
+function inpList(def){return def.inp||Object.keys(def.p).map(k=>({k,t:FLOATP.has(k)?'float':'int',l:PL[k]||k}))}
+function inpHtml(f,v){const id='ip_'+f.k;
+ if(f.t==='bool')return`<input type="checkbox" id="${id}"${v?' checked':''}>`;
+ if(f.t==='color')return`<input type="color" id="${id}" value="${esc(v)}">`;
+ if(f.t==='text')return`<input type="text" id="${id}" value="${esc(v)}" maxlength="24">`;
+ if(f.t==='time')return`<input type="text" inputmode="numeric" pattern="[0-2]?[0-9]:[0-5][0-9]" placeholder="SS:DD" maxlength="5" style="width:72px;text-align:center" id="${id}" value="${esc(v)}" title="24 saat biçimi, ör. 09:30">`;
+ if(f.t==='sel')return`<select id="${id}">${f.o.map(([a,b])=>`<option value="${esc(a)}"${a===v?' selected':''}>${esc(b)}</option>`).join('')}</select>`;
+ return`<input type="number" id="${id}" step="${f.t==='float'?'any':'1'}" value="${esc(v)}">`}
+const LSTY=[['0','Düz'],['1','Noktalı'],['2','Kesikli'],['3','Seyrek kesikli']];
+function indSettings(inst){const def=DEF[inst.id],bak=clone(inst),ins=inpList(def);
+ const inH=ins.map(f=>f.g?`<div class="gh">${esc(f.g)}</div>`:f.row?`<div class="irow">${f.row.map(x=>inpHtml(x,inst.p[x.k])).join('')}</div>`:f.t==='bool'?`<label class="ck">${inpHtml(f,inst.p[f.k])}${esc(f.l)}</label>`:`<div class="fld"><label for="ip_${f.k}">${esc(f.l||PL[f.k]||f.k)}</label>${inpHtml(f,inst.p[f.k])}</div>`).join('')||'<p style="color:var(--mu)">Bu göstergenin girdi ayarı yok.</p>';
+ const plH=def.pl.map(pl=>{const pt=inst.pt?.[pl.k]||pl.t||'line';return`<div class="srow"><input type="checkbox" id="pv_${pl.k}"${inst.pv?.[pl.k]===false?'':' checked'}><span class="sl">${esc(pl.n||def.s)}</span><input type="color" id="pc_${pl.k}" value="${esc(inst.c?.[pl.k]||pl.c)}" title="Renk">${pl.t==='hist'?'':`<select id="pw_${pl.k}" title="Kalınlık">${[1,2,3,4].map(w=>`<option${+(inst.w?.[pl.k]||pl.w||1)===w?' selected':''}>${w}</option>`).join('')}</select><select id="pt_${pl.k}" title="Çizim türü">${[['line','Çizgi'],['step','Basamak'],['dots','Noktalar']].map(([a,b])=>`<option value="${a}"${pt===a?' selected':''}>${b}</option>`).join('')}</select><select id="ps_${pl.k}" title="Çizgi stili">${LSTY.map(([a,b])=>`<option value="${a}"${String(inst.ls?.[pl.k]||0)===a?' selected':''}>${b}</option>`).join('')}</select>`}</div>`}).join('');
+ const lvs=inst.lv||(def.lv||[]).map(v=>({v,c:'#787b86',on:true}));
+ const lvH=lvs.map((l,i)=>`<div class="srow"><input type="checkbox" id="lo_${i}"${l.on!==false?' checked':''}><span class="sl">Seviye ${i+1}</span><input type="number" step="any" id="lv_${i}" value="${esc(l.v)}"><input type="color" id="lc_${i}" value="${esc(l.c||'#787b86')}"></div>`).join('');
+ const sl=inst.sl!=null?inst.sl:def.pane===1,dps=['','0','1','2','3','4','5','6','7','8'];
+ const stH=(plH?`<div class="gh">Çizimler</div>${plH}`:'')+(lvH?`<div class="gh">Seviyeler</div>${lvH}`:'')+
+  `<div class="gh">Çıktı değerleri</div><div class="fld"><label for="sdp">Hassasiyet</label><select id="sdp">${dps.map(d=>`<option value="${d}"${String(inst.dp??'')===d?' selected':''}>${d===''?'Varsayılan':d+' ondalık'}</option>`).join('')}</select></div>
+  <label class="ck"><input type="checkbox" id="ssl"${sl?' checked':''}>Fiyat ölçeğindeki etiketler</label><label class="ck"><input type="checkbox" id="ssv"${inst.sv===false?'':' checked'}>Durum satırındaki değerler</label>
+  <div class="gh">Girdi değerleri</div><label class="ck"><input type="checkbox" id="ssi"${inst.si===false?'':' checked'}>Durum satırındaki girdiler</label>`;
+ const VG=[['m','Dakikalar'],['h','Saatler'],['d','Günler'],['w','Haftalar'],['M','Aylar']];
+ const viH=`<p style="color:var(--mu);font-size:12px;margin-top:0">Gösterge yalnızca işaretli zaman dilimlerinde görünür.</p>`+VG.map(([k,n])=>`<label class="ck"><input type="checkbox" id="vi_${k}"${inst.vis?.[k]===false?'':' checked'}>${n}</label>`).join('');
+ const read=()=>{const o=inst;
+  ins.forEach(f=>{const fs=f.row||(f.k?[f]:[]);fs.forEach(x=>{const el=$('#ip_'+x.k);if(!el)return;let v;
+   if(x.t==='bool')v=el.checked;else if(x.t==='time'){if(hm(el.value)==null)return;v=el.value.padStart(5,'0')}else if(['color','text','sel'].includes(x.t))v=el.value;else{v=parseFloat(el.value);if(!isFinite(v))return;v=x.t==='float'?v:Math.max(0,Math.round(v));if(x.t!=='float'&&!['alpha','days','maxtf'].includes(x.k)&&v<1)v=1}o.p[x.k]=v})});
+  o.c=o.c||{};o.w={};o.pt={};o.ls={};o.pv={};
+  def.pl.forEach(pl=>{const k=pl.k;o.pv[k]=$('#pv_'+k).checked;const c=$('#pc_'+k).value;if(c!==pl.c||o.c[k])o.c[k]=c;if($('#pw_'+k)){o.w[k]=+$('#pw_'+k).value;o.pt[k]=$('#pt_'+k).value;o.ls[k]=+$('#ps_'+k).value}});
+  if(lvs.length)o.lv=lvs.map((l,i)=>({v:parseFloat($('#lv_'+i).value),c:$('#lc_'+i).value,on:$('#lo_'+i).checked}));
+  const dp=$('#sdp').value;o.dp=dp===''?null:+dp;o.sl=$('#ssl').checked;o.sv=$('#ssv').checked;o.si=$('#ssi').checked;
+  o.vis={};VG.forEach(([k])=>o.vis[k]=$('#vi_'+k).checked)};
+ let tmr=null;const live=()=>{clearTimeout(tmr);tmr=setTimeout(()=>{read();rebuildInds()},120)};
+ const restore=()=>{clearTimeout(tmr);Object.keys(inst).forEach(k=>delete inst[k]);Object.assign(inst,clone(bak));saveInds();rebuildInds()};
+ dialog(def.n,`<div class="dtabs"><button data-dt="in" class="on">Girdiler</button><button data-dt="st">Stil</button><button data-dt="vi">Görünürlük</button></div>
+  <div class="dsec on" data-sec="in">${inH}</div><div class="dsec" data-sec="st">${stH}</div><div class="dsec" data-sec="vi">${viH}</div>`,
+  [{t:'Varsayılan ▾',cls:'g',left:1,keep:1,f:ev=>{openPop(ev.currentTarget,[{t:'Varsayılanlara sıfırla',f:()=>{const keep={u:inst.u,id:inst.id,h:inst.h};Object.keys(inst).forEach(k=>delete inst[k]);Object.assign(inst,{...keep,p:{...def.p},c:{},hide:false});delete S.indDef[def.id];ls.set('indDef',S.indDef);closeModal('mDlg');dlgCancel=null;saveInds();rebuildInds();toast('Sıfırlandı',def.n+' varsayılan ayarlara döndü.','',2500)}},
+    {t:'Varsayılan olarak kaydet',f:()=>{read();const o={p:clone(inst.p)};STYK.forEach(k=>{if(inst[k]!=null)o[k]=clone(inst[k])});S.indDef[def.id]=o;ls.set('indDef',S.indDef);toast('Kaydedildi','Yeni eklenen '+def.s+' göstergeleri bu ayarlarla gelecek.','',3000)}}]);return false}},
+   {t:'İptal',cls:'g',f:restore},{t:'Tamam',f:()=>{clearTimeout(tmr);read();saveInds();rebuildInds()}}],'md',restore);
+ $('#dlgB').addEventListener('input',live);$('#dlgB').addEventListener('change',live)}
 
 // ---------------- çizimler ----------------
 const TOOLS={cross:'Artı imleç',dot:'Nokta',arrowc:'Ok imleç',trend:'Trend çizgisi',ray:'Işın',ext:'Uzatılmış çizgi',hline:'Yatay çizgi',hray:'Yatay ışın',vline:'Dikey çizgi',channel:'Paralel kanal',
@@ -696,7 +1004,7 @@ const svg=$('#draw'),mainEl=$('#main');
 let grpCur=ls.get('grp',GROUPS.map(g=>g[0]));
 const isDraw=t=>!!NEED[t]||t==='brush'||t==='zoom'||t==='replay';
 function loadDraws(){S.draws=ls.get('d_'+S.key,[]);S.hist={u:[],r:[]};S.sel=null;S.pending=null;dirty();updUndo()}
-function saveDraws(){ls.set('d_'+S.key,S.draws);updUndo()}
+function saveDraws(){ls.set('d_'+S.key,S.draws);updUndo();renderObj()}
 function snap(){S.hist.u.push(JSON.stringify(S.draws));if(S.hist.u.length>100)S.hist.u.shift();S.hist.r=[];updUndo()}
 function undo(){if(!S.hist.u.length)return;S.hist.r.push(JSON.stringify(S.draws));S.draws=JSON.parse(S.hist.u.pop());S.sel=null;saveDraws();dirty()}
 function redo(){if(!S.hist.r.length)return;S.hist.u.push(JSON.stringify(S.draws));S.draws=JSON.parse(S.hist.r.pop());S.sel=null;saveDraws();dirty()}
@@ -716,33 +1024,34 @@ function fromScreen(x,y,useMag=S.magnet){let l=lOfX(x),p=pOfY(y);if(p==null)retu
 function extend(f,t){const dx=t.x-f.x,dy=t.y-f.y,W=S.W,H=S.H;if(Math.abs(dx)<1e-6)return{x:t.x,y:dy>0?H+50:-50};const tx=dx>0?W+50:-50,k=(tx-f.x)/dx;let y=f.y+dy*k;y=Math.max(-1e5,Math.min(1e5,y));return{x:tx,y}}
 const priceBox=(x,y,txt,col,anchor='end')=>{const w=txt.length*6.6+10;const bx=anchor==='end'?x-w:anchor==='mid'?x-w/2:x;return`<rect x="${bx}" y="${y-9}" width="${w}" height="18" rx="3" fill="${col}"/><text x="${bx+w/2}" y="${y+4}" fill="#fff" font-size="11" font-weight="600" text-anchor="middle" class="t">${esc(txt)}</text>`};
 function gOf(d,sel,pv){
- if(!d.pts.length)return'';
+ if(!d.pts.length||d.hide)return'';
  let P=d.pts.map(scr);if(P.some(q=>q.x==null||q.y==null||!isFinite(q.x)||!isFinite(q.y)))return'';
- const W=S.W,H=S.H,st=d.st||{},col=st.c||'#2962ff',w=st.w||2,da=st.s===1?'7 5':st.s===2?'2 4':'';
+ const W=S.W,H=S.H,st=d.st||{},col=st.c||'#2962ff',w=st.w||2,da=st.s===1?'7 5':st.s===2?'2 4':'',fc=st.f||col,fo=st.o!=null?st.o:(DEFO[d.type]??.15),tc=st.tc||col,fs=st.fs||13;
  const L=(x1,y1,x2,y2,c=col,ww=w,dd=da)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${c}" stroke-width="${ww}" stroke-dasharray="${dd}"/><line class="h" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}"/>`;
  const T=(x,y,t,c=col,an='start',sz=11)=>`<text x="${x}" y="${y}" fill="${c}" font-size="${sz}" font-weight="500" text-anchor="${an}" class="t" style="paint-order:stroke;stroke:var(--bg);stroke-width:3px">${esc(t)}</text>`;
- const Rc=(x1,y1,x2,y2,f,o=.15,s='none',sw=1)=>`<rect class="f" x="${Math.min(x1,x2)}" y="${Math.min(y1,y2)}" width="${Math.max(1,Math.abs(x2-x1))}" height="${Math.max(1,Math.abs(y2-y1))}" fill="${f}" fill-opacity="${o}" stroke="${s}" stroke-width="${sw}"/>`;
+ const Rc=(x1,y1,x2,y2,f,o=.15,s='none',sw=1,dd='')=>`<rect class="f" x="${Math.min(x1,x2)}" y="${Math.min(y1,y2)}" width="${Math.max(1,Math.abs(x2-x1))}" height="${Math.max(1,Math.abs(y2-y1))}" fill="${f}" fill-opacity="${o}" stroke="${s}" stroke-width="${sw}" stroke-dasharray="${dd}"/>`;
+ const lab=(x,y,an='middle',dy=-6)=>d.label?`<text x="${x}" y="${y+dy}" fill="${tc}" font-size="${fs}" font-weight="600" text-anchor="${an}" class="t" style="paint-order:stroke;stroke:var(--bg);stroke-width:3px">${esc(d.label)}</text>`:'';
  let b='',hd=P.map((q,i)=>[q.x,q.y,i]);const[p0,p1,p2]=P;
  switch(d.type){
-  case'trend':b=p1?L(p0.x,p0.y,p1.x,p1.y):'';break;
-  case'ray':{const e=extend(p0,p1);b=L(p0.x,p0.y,e.x,e.y);break}
-  case'ext':{const e1=extend(p1,p0),e2=extend(p0,p1);b=L(e1.x,e1.y,e2.x,e2.y);break}
-  case'hline':b=L(-10,p0.y,W+10,p0.y)+priceBox(W-2,p0.y,fmt(d.pts[0].p),col);break;
-  case'hray':b=L(p0.x,p0.y,W+10,p0.y)+priceBox(W-2,p0.y,fmt(d.pts[0].p),col);break;
-  case'vline':b=L(p0.x,-10,p0.x,H+10)+priceBox(p0.x+40,H-12,fmtTime(d.pts[0].t).replace(/^\S+ /,''),col);hd=[[p0.x,H/2,0]];break;
-  case'channel':{if(!p2){b=L(p0.x,p0.y,p1.x,p1.y);break}const dp=d.pts[2].p-d.pts[0].p,q0={x:p0.x,y:yOfP(d.pts[0].p+dp)},q1={x:p1.x,y:yOfP(d.pts[1].p+dp)};
-   b=`<polygon class="f" points="${p0.x},${p0.y} ${p1.x},${p1.y} ${q1.x},${q1.y} ${q0.x},${q0.y}" fill="${col}" fill-opacity=".1"/>`+L(p0.x,p0.y,p1.x,p1.y)+L(q0.x,q0.y,q1.x,q1.y)+L((p0.x+q0.x)/2,(p0.y+q0.y)/2,(p1.x+q1.x)/2,(p1.y+q1.y)/2,col,1,'4 4');break}
-  case'fib':{if(!p1)break;const xL=Math.min(p0.x,p1.x),xR=Math.max(p0.x,p1.x),a=d.pts[0].p,z=d.pts[1].p;let prevY=null;
-   FIBL.forEach(([f,c])=>{const pr=z+(a-z)*f,y=yOfP(pr);if(y==null)return;if(prevY!=null)b+=`<rect class="f" x="${xL}" y="${Math.min(y,prevY)}" width="${Math.max(1,xR-xL)}" height="${Math.abs(y-prevY)}" fill="${c}" fill-opacity=".07"/>`;prevY=y;
-    b+=L(xL,y,xR,y,c,1,'')+T(xL-6,y+4,`${f} (${fmt(pr)})`,c,'end')});b+=L(p0.x,p0.y,p1.x,p1.y,'#787b86',1,'4 4');break}
+  case'trend':{if(!p1)break;const a=st.xl?extend(p1,p0):p0,z=st.xr?extend(p0,p1):p1;b=L(a.x,a.y,z.x,z.y)+lab((p0.x+p1.x)/2,(p0.y+p1.y)/2);break}
+  case'ray':{const e=extend(p0,p1);b=L(p0.x,p0.y,e.x,e.y)+lab((p0.x+p1.x)/2,(p0.y+p1.y)/2);break}
+  case'ext':{const e1=extend(p1,p0),e2=extend(p0,p1);b=L(e1.x,e1.y,e2.x,e2.y)+lab((p0.x+p1.x)/2,(p0.y+p1.y)/2);break}
+  case'hline':b=L(-10,p0.y,W+10,p0.y)+priceBox(W-2,p0.y,fmt(d.pts[0].p),col)+lab(8,p0.y,'start');break;
+  case'hray':b=L(p0.x,p0.y,W+10,p0.y)+priceBox(W-2,p0.y,fmt(d.pts[0].p),col)+lab(p0.x+6,p0.y,'start');break;
+  case'vline':b=L(p0.x,-10,p0.x,H+10)+priceBox(p0.x+40,H-12,fmtTime(d.pts[0].t).replace(/^\S+ /,''),col)+lab(p0.x+6,22,'start',0);hd=[[p0.x,H/2,0]];break;
+  case'channel':{if(!p2){b=L(p0.x,p0.y,p1.x,p1.y);break}const dp=d.pts[2].p-d.pts[0].p;let a0=p0,a1=p1;if(st.xr)a1=extend(p0,p1);const q0={x:a0.x,y:yOfP(d.pts[0].p+dp)},sl=(p1.y-p0.y)/((p1.x-p0.x)||1e-9),q1={x:a1.x,y:q0.y+sl*(a1.x-a0.x)};
+   b=`<polygon class="f" points="${a0.x},${a0.y} ${a1.x},${a1.y} ${q1.x},${q1.y} ${q0.x},${q0.y}" fill="${fc}" fill-opacity="${fo}"/>`+L(a0.x,a0.y,a1.x,a1.y)+L(q0.x,q0.y,q1.x,q1.y)+L((a0.x+q0.x)/2,(a0.y+q0.y)/2,(a1.x+q1.x)/2,(a1.y+q1.y)/2,col,1,'4 4')+lab((p0.x+p1.x)/2,Math.min(p0.y,q0.y));break}
+  case'fib':{if(!p1)break;const xL=Math.min(p0.x,p1.x),xR=st.xr?W+10:Math.max(p0.x,p1.x),a=d.pts[0].p,z=d.pts[1].p;let prevY=null;
+   FIBL.forEach(([f,c])=>{const pr=z+(a-z)*f,y=yOfP(pr);if(y==null)return;if(prevY!=null&&fo>0)b+=`<rect class="f" x="${xL}" y="${Math.min(y,prevY)}" width="${Math.max(1,xR-xL)}" height="${Math.abs(y-prevY)}" fill="${st.f||c}" fill-opacity="${fo}"/>`;prevY=y;
+    b+=L(xL,y,xR,y,c,1,'')+T(xL-6,y+4,`${f} (${fmt(pr)})`,c,'end')});b+=L(p0.x,p0.y,p1.x,p1.y,'#787b86',1,'4 4')+lab((xL+Math.min(xR,W))/2,Math.min(p0.y,p1.y));break}
   case'fibext':{if(!p2){b=p1?L(p0.x,p0.y,p1.x,p1.y,'#787b86',1,'4 4'):'';break}b=`<polyline points="${p0.x},${p0.y} ${p1.x},${p1.y} ${p2.x},${p2.y}" fill="none" stroke="#787b86" stroke-dasharray="4 4"/>`;
-   const xL=p2.x,xR=p2.x+Math.max(120,Math.abs(p1.x-p0.x)),mv=d.pts[1].p-d.pts[0].p;FIBE.forEach(([f,c])=>{const pr=d.pts[2].p+mv*f,y=yOfP(pr);if(y==null)return;b+=L(xL,y,xR,y,c,1,'')+T(xR+4,y+4,`${f} (${fmt(pr)})`,c)});break}
-  case'rect':b=p1?Rc(p0.x,p0.y,p1.x,p1.y,col,.15,col,w):'';if(p1)hd.push([p0.x,p1.y,'c1'],[p1.x,p0.y,'c2']);break;
-  case'circle':{if(!p1)break;const r=Math.hypot(p1.x-p0.x,p1.y-p0.y);b=`<circle class="f" cx="${p0.x}" cy="${p0.y}" r="${r}" fill="${col}" fill-opacity=".12" stroke="${col}" stroke-width="${w}"/>`;break}
-  case'arrow':{if(!p1)break;const an=Math.atan2(p1.y-p0.y,p1.x-p0.x),s=10+w*2;b=L(p0.x,p0.y,p1.x,p1.y)+`<polygon class="f" points="${p1.x},${p1.y} ${p1.x-s*Math.cos(an-.45)},${p1.y-s*Math.sin(an-.45)} ${p1.x-s*Math.cos(an+.45)},${p1.y-s*Math.sin(an+.45)}" fill="${col}"/>`;break}
-  case'brush':{const dd='M'+P.map(q=>q.x.toFixed(1)+' '+q.y.toFixed(1)).join(' L');b=`<path d="${dd}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/><path class="h" d="${dd}" fill="none"/>`;hd=[];break}
-  case'text':{const sz=12+w*2;b=`<text class="tt" x="${p0.x}" y="${p0.y}" fill="${col}" font-size="${sz}" font-weight="600" style="paint-order:stroke;stroke:var(--bg);stroke-width:3px">${(d.text||'Metin').split('\n').map((ln,i)=>`<tspan x="${p0.x}" dy="${i?sz*1.25:0}">${esc(ln)}</tspan>`).join('')}</text>`;hd=[];break}
-  case'up':case'down':{const s=16+w*2,k=d.type==='up'?1:-1,x=p0.x,y=p0.y;b=`<polygon class="f" fill="${col}" points="${x},${y} ${x-s/2},${y+k*s*.6} ${x-s/5},${y+k*s*.6} ${x-s/5},${y+k*s*1.3} ${x+s/5},${y+k*s*1.3} ${x+s/5},${y+k*s*.6} ${x+s/2},${y+k*s*.6}"/>`;hd=[];break}
+   const xL=p2.x,xR=p2.x+Math.max(120,Math.abs(p1.x-p0.x)),mv=d.pts[1].p-d.pts[0].p;FIBE.forEach(([f,c])=>{const pr=d.pts[2].p+mv*f,y=yOfP(pr);if(y==null)return;b+=L(xL,y,xR,y,c,1,'')+T(xR+4,y+4,`${f} (${fmt(pr)})`,c)});b+=lab((xL+xR)/2,p2.y);break}
+  case'rect':{if(!p1)break;const xa=Math.min(p0.x,p1.x),xb=st.xr?W+10:Math.max(p0.x,p1.x);b=Rc(xa,p0.y,xb,p1.y,fc,fo,col,w,da);if(d.label)b+=lab((xa+Math.min(xb,W))/2,(p0.y+p1.y)/2+fs/3,'middle',0);hd.push([p0.x,p1.y,'c1'],[p1.x,p0.y,'c2']);break}
+  case'circle':{if(!p1)break;const r=Math.hypot(p1.x-p0.x,p1.y-p0.y);b=`<circle class="f" cx="${p0.x}" cy="${p0.y}" r="${r}" fill="${fc}" fill-opacity="${fo}" stroke="${col}" stroke-width="${w}" stroke-dasharray="${da}"/>`+lab(p0.x,p0.y+fs/3,'middle',0);break}
+  case'arrow':{if(!p1)break;const an=Math.atan2(p1.y-p0.y,p1.x-p0.x),s=10+w*2;b=L(p0.x,p0.y,p1.x,p1.y)+`<polygon class="f" points="${p1.x},${p1.y} ${p1.x-s*Math.cos(an-.45)},${p1.y-s*Math.sin(an-.45)} ${p1.x-s*Math.cos(an+.45)},${p1.y-s*Math.sin(an+.45)}" fill="${col}"/>`+lab(p0.x,p0.y,'middle',p1.y>p0.y?-8:16);break}
+  case'brush':{const dd='M'+P.map(q=>q.x.toFixed(1)+' '+q.y.toFixed(1)).join(' L');b=`<path d="${dd}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="${da}"/><path class="h" d="${dd}" fill="none"/>`;hd=[];break}
+  case'text':{const sz=st.fs||12+w*2;b=`<text class="tt" x="${p0.x}" y="${p0.y}" fill="${st.tc||col}" font-size="${sz}" font-weight="600" style="paint-order:stroke;stroke:var(--bg);stroke-width:3px">${(d.text||'Metin').split('\n').map((ln,i)=>`<tspan x="${p0.x}" dy="${i?sz*1.25:0}">${esc(ln)}</tspan>`).join('')}</text>`;hd=[];break}
+  case'up':case'down':{const s=16+w*2,k=d.type==='up'?1:-1,x=p0.x,y=p0.y;b=`<polygon class="f" fill="${col}" points="${x},${y} ${x-s/2},${y+k*s*.6} ${x-s/5},${y+k*s*.6} ${x-s/5},${y+k*s*1.3} ${x+s/5},${y+k*s*1.3} ${x+s/5},${y+k*s*.6} ${x+s/2},${y+k*s*.6}"/>`+lab(x,y+k*s*1.3,'middle',k>0?fs+2:-4);hd=[];break}
   case'long':case'short':{if(P.length<3)break;const x1=Math.min(p0.x,p1.x),x2=Math.max(p0.x,p1.x),E=d.pts[0].p,Tg=d.pts[1].p,Sp=d.pts[2].p;
    const tp=(Tg-E)/E*100,sp=(Sp-E)/E*100,rr=Math.abs(E-Sp)?Math.abs(Tg-E)/Math.abs(E-Sp):0,cx=(x1+x2)/2,up=p1.y<p0.y;
    b=Rc(x1,p0.y,x2,p1.y,'#089981',.22)+Rc(x1,p0.y,x2,p2.y,'#f23645',.22)+L(x1,p0.y,x2,p0.y,'#787b86',1,'');
@@ -750,7 +1059,7 @@ function gOf(d,sel,pv){
     +priceBox(cx,p0.y+(up?-12:12)*(Math.abs(p1.y-p0.y)>34?1:-1),`${Tg>=E?'Uzun':'Kısa'} · Risk/Ödül ${fmt(rr,2)}`,'#5d6573','mid');
    hd=[[p0.x,p0.y,0],[p1.x,p1.y,1],[p0.x,p2.y,2]];break}
   case'measure':{if(!p1)break;const a=d.pts[0],z=d.pts[1],dp=z.p-a.p,pc=dp/a.p*100,bars=Math.round(t2l(z.t)-t2l(a.t)),c2=dp>=0?'#2962ff':'#f23645',mx=(p0.x+p1.x)/2,my=(p0.y+p1.y)/2;
-   b=Rc(p0.x,p0.y,p1.x,p1.y,c2,.15)+L(mx,p0.y,mx,p1.y,c2,1,'')+L(p0.x,my,p1.x,my,c2,1,'');
+   b=Rc(p0.x,p0.y,p1.x,p1.y,c2,fo)+L(mx,p0.y,mx,p1.y,c2,1,'')+L(p0.x,my,p1.x,my,c2,1,'');
    const by=p1.y+(dp>=0?-22:22),t1=`${dp>=0?'+':''}${fmt(dp)} (${pct(pc)})`,t2=`${bars} bar · ${fmtDur(z.t-a.t)}`,bw=Math.max(t1.length,t2.length)*6.6+16;
    b+=`<rect x="${mx-bw/2}" y="${by-17}" width="${bw}" height="34" rx="4" fill="${c2}"/><text x="${mx}" y="${by-3}" fill="#fff" font-size="11" font-weight="600" text-anchor="middle" class="t">${esc(t1)}</text><text x="${mx}" y="${by+11}" fill="#fff" font-size="11" text-anchor="middle" class="t">${esc(t2)}</text>`;break}
  }
@@ -760,8 +1069,7 @@ function gOf(d,sel,pv){
 }
 function renderDraws(){
  S.W=mainEl.clientWidth-(main.priceScale('right').width()||0);S.H=mainEl.clientHeight-(subs.length?0:(main.timeScale().height()||0));XF=xform();
- if(S.hidden&&!S.pending&&S.tool!=='replay'&&!S.zoom){svg.innerHTML='';posDtb();return}
- let h=`<defs><clipPath id="clp"><rect width="${Math.max(0,S.W)}" height="${Math.max(0,S.H)}"/></clipPath></defs><g clip-path="url(#clp)">`;
+ let h=`<defs><clipPath id="clp"><rect width="${Math.max(0,S.W)}" height="${Math.max(0,S.H)}"/></clipPath></defs><g clip-path="url(#clp)">`+specialSvg();
  if(!S.hidden)S.draws.forEach(d=>{h+=gOf(d,d.id===S.sel,false)});
  if(S.pending)h+=gOf(S.pending,false,true);
  if(S.zoom)h+=`<rect x="${Math.min(S.zoom.x0,S.zoom.x1)}" y="0" width="${Math.abs(S.zoom.x1-S.zoom.x0)}" height="${S.H}" fill="#2962ff" fill-opacity=".15" stroke="#2962ff" stroke-dasharray="4 4"/>`;
@@ -782,7 +1090,7 @@ function renderTools(){
  $('#tools').innerHTML=h}
 $('#tools').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
  if(b.dataset.g!=null){const gi=+b.dataset.g,g=GROUPS[gi],cur=gi===0?S.cursor:(g.includes(grpCur[gi])?grpCur[gi]:g[0]);
-  setTool(cur);if(g.length>1)openPop($(`#tools [data-g="${gi}"]`),g.map(t=>({t:TOOLS[t],ic:t,k:KEYS[t],on:(gi===0?S.cursor:S.tool)===t,f:()=>{grpCur[gi]=t;ls.set('grp',grpCur);setTool(t)}})));return}
+  setTool(cur);if(g.length>1)openPop($(`#tools [data-g="${gi}"]`),g.map(t=>({t:TOOLS[t],ic:t,k:KEYS[t],on:(gi===0?S.cursor:S.tool)===t,star:S.favT.includes(t),sf:gi===0?null:()=>toggleFavTool(t),f:()=>{grpCur[gi]=t;ls.set('grp',grpCur);setTool(t)}})));return}
  const t=b.dataset.t;
  if(t==='magnet'){S.magnet=!S.magnet;ls.set('magnet',S.magnet);charts().forEach(c=>c.applyOptions({crosshair:{mode:S.magnet?1:0}}));renderTools();return}
  if(t==='lockall'){S.locked=!S.locked;renderTools();dirty();return}
@@ -793,8 +1101,43 @@ function setTool(t){
  if(t==='cursor')t=S.cursor;
  if(['cross','dot','arrowc'].includes(t)){S.cursor=t;ls.set('cursor',t);const v=t==='cross';charts().forEach(c=>c.applyOptions({crosshair:{vertLine:{visible:v},horzLine:{visible:v}}}));mainEl.style.cursor=t==='arrowc'?'default':t==='dot'?'cell':''}
  if(S.tool==='replay'&&t!=='replay'){$('#rhint').style.display='none';S.rx=null}
- S.tool=t;S.pending=null;svg.classList.toggle('active',isDraw(t));if(isDraw(t))S.sel=null;renderTools();dirty()}
-function defSt(t){return{c:DCOL[t]||'#2962ff',w:t==='brush'?3:t==='text'?2:2,s:0}}
+ S.tool=t;S.pending=null;svg.classList.toggle('active',isDraw(t));if(isDraw(t))S.sel=null;renderTools();renderFav();dirty()}
+const favbar=$('#favbar');
+function toggleFavTool(t){S.favT=S.favT.includes(t)?S.favT.filter(x=>x!==t):[...S.favT,t];ls.set('favT',S.favT);if(S.favT.length&&!S.favOn){S.favOn=true;ls.set('favOn',true)}renderFav();return S.favT.includes(t)}
+function renderFav(){const show=S.favOn&&S.favT.length;favbar.classList.toggle('hide',!show);$('#favBtn')?.classList.toggle('on',!!S.favOn);if(!show)return;
+ favbar.innerHTML='<span class="grip" title="Sürükleyerek taşıyın">⋮⋮</span>'+S.favT.map(t=>`<button data-ft="${t}" class="${S.tool===t?'on':''}" title="${esc(TOOLS[t]||t)}">${ic(t)}</button>`).join('');placeFav()}
+function placeFav(){if(favbar.classList.contains('hide'))return;const W=mainEl.clientWidth,H=mainEl.clientHeight,bw=favbar.offsetWidth||320,p=S.favPos;
+ const x=p?p.x*W:W-bw-96,y=p?p.y:34;favbar.style.left=Math.max(4,Math.min(W-bw-4,x))+'px';favbar.style.top=Math.max(4,Math.min(H-44,y))+'px'}
+favbar.addEventListener('click',e=>{const b=e.target.closest('[data-ft]');if(b)setTool(S.tool===b.dataset.ft?'cursor':b.dataset.ft)});
+favbar.addEventListener('pointerdown',e=>{if(!e.target.closest('.grip'))return;e.preventDefault();e.stopPropagation();favbar.setPointerCapture(e.pointerId);const r0=favbar.getBoundingClientRect(),m=mainEl.getBoundingClientRect(),dx=e.clientX-r0.left,dy=e.clientY-r0.top;
+ const mv=ev=>{const W=mainEl.clientWidth,x=Math.max(4,Math.min(W-favbar.offsetWidth-4,ev.clientX-m.left-dx)),y=Math.max(4,Math.min(mainEl.clientHeight-44,ev.clientY-m.top-dy));favbar.style.left=x+'px';favbar.style.top=y+'px';S.favPos={x:x/W,y}};
+ const up=()=>{favbar.removeEventListener('pointermove',mv);favbar.removeEventListener('pointerup',up);ls.set('favPos',S.favPos)};favbar.addEventListener('pointermove',mv);favbar.addEventListener('pointerup',up)});
+new ResizeObserver(()=>placeFav()).observe(mainEl);
+function defSt(t){return{c:DCOL[t]||'#2962ff',w:t==='brush'?3:2,s:0,...(S.dstyle[t]||{})}}
+const DEFO={channel:.1,fib:.07,circle:.12,rect:.15,measure:.15};
+const FILLT=['rect','circle','channel','fib','fibext','measure'],EXTT={trend:['xl','xr'],rect:['xr'],fib:['xr'],channel:['xr']};
+function drawSettings(d){const st={...defSt(d.type),...(d.st||{})},isT=d.type==='text',bak=clone(d);
+ const body=`<div class="dtabs"><button data-dt="s" class="on">Stil</button><button data-dt="t">Metin</button>${d.pts.length?'<button data-dt="k">Koordinatlar</button>':''}</div>
+ <div class="dsec on" data-sec="s">
+  <div class="fld"><label for="dsC">Çizgi rengi</label><input id="dsC" type="color" value="${esc(st.c)}"></div>
+  <div class="fld"><label for="dsW">Kalınlık</label><select id="dsW">${[1,2,3,4].map(w=>`<option${st.w===w?' selected':''}>${w}</option>`).join('')}</select></div>
+  <div class="fld"><label for="dsS">Çizgi stili</label><select id="dsS">${['Düz','Kesikli','Noktalı'].map((n,i)=>`<option value="${i}"${(st.s||0)===i?' selected':''}>${n}</option>`).join('')}</select></div>
+  ${FILLT.includes(d.type)?`<div class="fld"><label for="dsF">Dolgu rengi</label><input id="dsF" type="color" value="${esc(st.f||st.c)}"></div><div class="fld"><label for="dsO">Dolgu opaklığı</label><input id="dsO" type="range" min="0" max="100" value="${Math.round((st.o??DEFO[d.type]??.15)*100)}"></div>`:''}
+  ${(EXTT[d.type]||[]).map(k=>`<label class="ck"><input type="checkbox" id="ds_${k}"${st[k]?' checked':''}>${k==='xl'?'Sola uzat':'Sağa uzat'}</label>`).join('')}
+ </div>
+ <div class="dsec" data-sec="t">
+  <div class="fld" style="grid-template-columns:1fr"><textarea id="dsT" rows="3" placeholder="${isT?'Metin':'Çizim üzerinde gösterilecek yazı (ör. FVG, Destek)'}">${esc(isT?d.text:d.label||'')}</textarea></div>
+  <div class="fld"><label for="dsTC">Metin rengi</label><input id="dsTC" type="color" value="${esc(st.tc||st.c)}"></div>
+  <div class="fld"><label for="dsFS">Yazı boyutu</label><select id="dsFS">${[10,11,12,13,14,16,18,20,24,28,32,40].map(n=>`<option${(st.fs||(isT?12+st.w*2:13))===n?' selected':''}>${n}</option>`).join('')}</select></div>
+ </div>
+ <div class="dsec" data-sec="k">${d.pts.map((q,i)=>`<div class="fld"><label for="dk_${i}">${i+1}. nokta fiyatı</label><input id="dk_${i}" type="number" step="any" value="${(+q.p).toFixed(S.prec)}"></div>`).join('')}<p style="color:var(--mu);font-size:12px">Zaman: ${d.pts.map(q=>esc(fmtTime(q.t))).join(' → ')}</p></div>`;
+ const apply=()=>{d.st={...st,c:$('#dsC').value,w:+$('#dsW').value,s:+$('#dsS').value};if($('#dsF')){d.st.f=$('#dsF').value;d.st.o=+$('#dsO').value/100}
+  (EXTT[d.type]||[]).forEach(k=>d.st[k]=$('#ds_'+k).checked);d.st.tc=$('#dsTC').value;d.st.fs=+$('#dsFS').value;
+  const t=$('#dsT').value.trim();if(isT){if(t)d.text=t}else d.label=t;d.pts.forEach((q,i)=>{const v=parseFloat($('#dk_'+i)?.value);if(isFinite(v))q.p=v});dirty()};
+ const restore=()=>{Object.assign(d,clone(bak));dirty()};
+ dialog((TOOLS[d.type]||'Çizim')+' ayarları',body,[{t:'Varsayılan yap',cls:'g',left:1,keep:1,f:()=>{apply();const o={...d.st};S.dstyle[d.type]=o;ls.set('dstyle',S.dstyle);toast('Varsayılan kaydedildi','Yeni '+(TOOLS[d.type]||'çizim')+' çizimleri bu stille gelecek.','',3000);return false}},
+  {t:'İptal',cls:'g',f:restore},{t:'Tamam',f:()=>{const now=clone(d);Object.assign(d,clone(bak));snap();Object.assign(d,now);saveDraws();dirty()}}],'md',restore);
+ $('#dlgB').addEventListener('input',apply);$('#dlgB').addEventListener('change',apply)}
 function finish(){const d=S.pending;S.pending=null;if(!d)return;
  if(d.type==='long'||d.type==='short'){const e=d.pts[0],k=d.type==='long'?1:-1,tEnd=l2t(t2l(e.t)+25);d.pts=[e,{t:tEnd,p:e.p*(1+k*.02)},{t:e.t,p:e.p*(1-k*.01)}]}
  if(d.type==='channel'&&d.pts.length===3){const[a,b,c]=d.pts,la=t2l(a.t),lb=t2l(b.t),lc=t2l(c.t),onLine=lb===la?a.p:a.p+(b.p-a.p)*(lc-la)/(lb-la);d.pts[2]={t:a.t,p:a.p+(c.p-onLine)}}
@@ -838,7 +1181,7 @@ function endPointer(){
  if(S.zoom){const z=S.zoom;S.zoom=null;if(Math.abs(z.x1-z.x0)>8){const a=lOfX(Math.min(z.x0,z.x1)),b=lOfX(Math.max(z.x0,z.x1));main.timeScale().setVisibleLogicalRange({from:a,to:b})}setTool('cursor');return}
  if(S.drag){if(S.drag.moved)saveDraws();S.drag=null;charts().forEach(c=>c.applyOptions({handleScroll:true,handleScale:true}));dirty();updUndo()}}
 svg.addEventListener('pointerup',endPointer);svg.addEventListener('pointercancel',endPointer);
-svg.addEventListener('dblclick',e=>{const g=e.target.closest('g.d');if(!g)return;const d=S.draws.find(x=>x.id===g.dataset.id);if(d&&d.type==='text')editText(d)});
+svg.addEventListener('dblclick',e=>{const g=e.target.closest('g.d');if(!g)return;const d=S.draws.find(x=>x.id===g.dataset.id);if(d)drawSettings(d)});
 main.subscribeClick(()=>{if(S.sel&&!S.drag){S.sel=null;dirty()}});
 mainEl.addEventListener('pointerleave',()=>{if(S.tool==='replay'){S.rx=null;dirty()}});
 
@@ -850,13 +1193,13 @@ function posDtb(){const d=S.draws.find(x=>x.id===S.sel);if(!d||S.hidden){dtb.cla
   `<i class="sp"></i>${[1,2,3,4].map(w=>`<button data-dw="${w}" class="${st.w===w?'on':''}" title="Kalınlık ${w}"><svg width="18" height="18"><line x1="2" y1="9" x2="16" y2="9" stroke="currentColor" stroke-width="${w}"/></svg></button>`).join('')}
   <i class="sp"></i>${[0,1,2].map(s=>`<button data-ds="${s}" class="${(st.s||0)===s?'on':''}" title="${['Düz','Kesikli','Noktalı'][s]}"><svg width="18" height="18"><line x1="1" y1="9" x2="17" y2="9" stroke="currentColor" stroke-width="2" stroke-dasharray="${['','5 3','1.5 2.5'][s]}"/></svg></button>`).join('')}
   <i class="sp"></i>${d.type==='text'?`<button data-da="edit" title="Metni düzenle">${ic('edit')}</button>`:''}${['hline','hray'].includes(d.type)?`<button data-da="alarm" title="Bu fiyata alarm kur">${ic('bell')}</button>`:''}
-  <button data-da="lock" class="${d.lock?'on':''}" title="${d.lock?'Kilidi aç':'Kilitle'}">${ic(d.lock?'lock':'unlock')}</button><button data-da="copy" title="Kopyala">${ic('copy')}</button><button data-da="del" title="Sil (Delete)">${ic('trash')}</button>`}
+  <button data-da="cfg" title="Ayarlar (çift tık)">${ic('gear')}</button><button data-da="lock" class="${d.lock?'on':''}" title="${d.lock?'Kilidi aç':'Kilitle'}">${ic(d.lock?'lock':'unlock')}</button><button data-da="copy" title="Kopyala">${ic('copy')}</button><button data-da="del" title="Sil (Delete)">${ic('trash')}</button>`}
  dtb.classList.add('show')}
 dtb.addEventListener('click',e=>{const b=e.target.closest('button');const d=S.draws.find(x=>x.id===S.sel);if(!b||!d)return;snap();d.st=d.st||defSt(d.type);
  if(b.dataset.dc)d.st.c=b.dataset.dc;if(b.dataset.dw)d.st.w=+b.dataset.dw;if(b.dataset.ds)d.st.s=+b.dataset.ds;
  const a=b.dataset.da;if(a==='del'){S.draws=S.draws.filter(x=>x!==d);S.sel=null}if(a==='lock')d.lock=!d.lock;
  if(a==='copy'){const n=clone(d);n.id=uid();n.lock=false;n.pts=n.pts.map(q=>({t:l2t(t2l(q.t)+5),p:q.p}));S.draws.push(n);S.sel=n.id}
- if(a==='edit'){S.hist.u.pop();editText(d);return}if(a==='alarm'){S.hist.u.pop();alarmDlg(d.pts[0].p);return}
+ if(a==='cfg'){S.hist.u.pop();drawSettings(d);return}if(a==='edit'){S.hist.u.pop();editText(d);return}if(a==='alarm'){S.hist.u.pop();alarmDlg(d.pts[0].p);return}
  saveDraws();dirty()});
 function editText(d,isNew){dialog('Metin',`<div class="fld" style="grid-template-columns:1fr"><textarea id="txIn" rows="3">${esc(d.text||'')}</textarea></div>`,[{t:'Vazgeç',cls:'g',f:()=>{if(isNew&&!d.text){S.draws=S.draws.filter(x=>x!==d);saveDraws();dirty()}}},{t:'Tamam',f:()=>{const v=$('#txIn').value.trim();if(!v){if(isNew){S.draws=S.draws.filter(x=>x!==d)}}else d.text=v;saveDraws();dirty()}}])}
 
@@ -885,7 +1228,7 @@ function beep(){try{const A=window.AudioContext||window.webkitAudioContext,a=new
 function renderAlarms(){$('#al').innerHTML=S.alarms.length?S.alarms.slice().reverse().map(a=>`<div class="ali${a.on?'':' done'}" data-id="${esc(a.id)}"><span class="a1">${esc(lbl(a.k))} · ${fmt(a.p,precOf(a.k))}</span>
  <span class="ab"><button data-aa="edit" title="Düzenle / yeniden kur">${ic('edit')}</button><button data-aa="del" title="Sil">${ic('trash')}</button></span>
  <span class="a2">${esc(CONDS[a.c])}${a.on?'':' · tetiklendi'}${a.msg?' · '+esc(a.msg):''}</span></div>`).join(''):'<div class="empty">Henüz alarm yok. Grafikte sağ tıklayarak veya “Alarm” butonuyla oluşturun.</div>';
- const n=S.alarms.filter(a=>a.on).length;$('[data-st=al]').textContent='Alarmlar'+(n?` (${n})`:'')}
+ const n=S.alarms.filter(a=>a.on).length,bd=$('#alBd');if(bd){bd.textContent=n;bd.style.display=n?'grid':'none'}}
 $('#al').addEventListener('click',e=>{const b=e.target.closest('[data-aa]');if(!b)return;const a=S.alarms.find(x=>x.id===b.closest('[data-id]').dataset.id);if(!a)return;
  if(b.dataset.aa==='del'){S.alarms=S.alarms.filter(x=>x!==a);ls.set('alarms',S.alarms);renderAlarms();refreshAlarmLines()}else alarmDlg(null,a)});
 $('#alarmBtn').onclick=()=>alarmDlg();$('#newAlarm').onclick=()=>alarmDlg();
@@ -894,18 +1237,20 @@ $('#alarmBtn').onclick=()=>alarmDlg();$('#newAlarm').onclick=()=>alarmDlg();
 const rbar=$('#rbar');let rTimer=null;
 $('#replayBtn').onclick=()=>{if(S.replay){exitReplay();return}if(!S.full.length)return;setTool('replay');$('#rhint').style.display='block'};
 function startReplayAt(x){XF=xform();const n=S.full.length,i=Math.max(30,Math.min(n-2,Math.round(lOfX(x))));$('#rhint').style.display='none';
- S.replay={i,play:false,speed:1};S.data=S.full.slice(0,i+1);setTool('cursor');mainS.setData(mainData());computeAll(true);legend();renderRbar();
- main.timeScale().scrollToPosition(8,false);$('#replayBtn').classList.add('on');dirty()}
-function rStep(){const r=S.replay;if(!r)return;if(r.i>=S.full.length-1){rPause();toast('Tekrar oynatma','Son muma ulaşıldı.','',3000);return}
+ S.replay={i,i0:i,play:false,speed:1};S.data=S.full.slice(0,i+1);setTool('cursor');mainS.setData(mainData());computeAll(true);legend();renderRbar();
+ main.timeScale().scrollToPosition(8,false);$('#replayBtn').classList.add('on');mainEl.classList.add('rp');dirty()}
+function rStep(){const r=S.replay;if(!r)return;if(r.i>=S.full.length-1){rPause();toast('Tekrar oynatma','Son muma ulaşıldı. Çıkıp canlı grafiğe dönebilirsiniz.','',4000);return}
  r.i++;S.data.push(S.full[r.i]);if(S.ctype==='ha')mainS.setData(mainData());else mainS.update(mainData().at(-1));computeAll(false);if(S.hover==null)legend();renderRbar()}
+function rBack(){const r=S.replay;if(!r||r.i<=31)return;rPause();r.i--;S.data.pop();mainS.setData(mainData());computeAll(true);legend();renderRbar()}
 function rPlay(){const r=S.replay;r.play=true;clearInterval(rTimer);rTimer=setInterval(rStep,1000/r.speed);renderRbar()}
 function rPause(){if(!S.replay)return;S.replay.play=false;clearInterval(rTimer);renderRbar()}
-function exitReplay(silent){clearInterval(rTimer);S.replay=null;S.data=S.full;rbar.classList.remove('show');$('#replayBtn').classList.remove('on');if(silent)return;mainS.setData(mainData());computeAll(true);legend();main.timeScale().scrollToRealTime();dirty()}
-function renderRbar(){const r=S.replay;if(!r){rbar.classList.remove('show');return}const c=S.full[r.i];
- rbar.innerHTML=`<button data-r="pp" title="${r.play?'Duraklat':'Oynat'}">${ic(r.play?'pause':'play')}</button><button data-r="st" title="İleri sar (1 mum)">${ic('next')}</button>
- <button data-r="sp" title="Hız">${r.speed}x</button><span class="rt">${esc(fmtTime(c.time))}</span><button data-r="jump" title="Yeni başlangıç seç">${ic('replay')}</button><button data-r="x" title="Tekrar oynatmadan çık">${ic('x')}</button>`;rbar.classList.add('show')}
+function exitReplay(silent){clearInterval(rTimer);S.replay=null;S.data=S.full;rbar.classList.remove('show');$('#replayBtn').classList.remove('on');mainEl.classList.remove('rp');if(silent)return;mainS.setData(mainData());computeAll(true);legend();main.timeScale().scrollToRealTime();dirty()}
+function renderRbar(){const r=S.replay;if(!r){rbar.classList.remove('show');return}const c=S.full[r.i],n=S.full.length,pg=Math.round((r.i+1)/n*100);
+ rbar.innerHTML=`<span class="rl">${ic('replay')}</span><button data-r="bk" title="Geri (1 mum) · Shift+←">${ic('back')}</button><button data-r="pp" class="play" title="${r.play?'Duraklat':'Oynat'} · Boşluk">${ic(r.play?'pause':'play')}</button><button data-r="st" title="İleri (1 mum) · Shift+→">${ic('next')}</button>
+ <button data-r="sp" class="spd" title="Oynatma hızı">${String(r.speed).replace('.',',')}x</button><span class="rt">${esc(fmtTime(c.time))}<br><small style="color:#9fb0d6;font-weight:500">${n-1-r.i} mum ileride</small></span><button data-r="jump" title="Yeni başlangıç noktası seç">${ic('cross')}</button><button data-r="x" title="Tekrar oynatmadan çık, canlı grafiğe dön">${ic('x')}</button><div id="rprog"><i style="width:${pg}%"></i></div>`;rbar.classList.add('show');
+ $('#rband').textContent=`Tekrar oynatma modu · ${fmtTime(c.time)} · ${r.play?'oynatılıyor':'duraklatıldı'}`}
 rbar.addEventListener('click',e=>{const b=e.target.closest('[data-r]');if(!b||!S.replay)return;const a=b.dataset.r,r=S.replay;
- if(a==='pp')r.play?rPause():rPlay();if(a==='st'){rPause();rStep()}if(a==='x')exitReplay();
+ if(a==='pp')r.play?rPause():rPlay();if(a==='st'){rPause();rStep()}if(a==='bk')rBack();if(a==='x')exitReplay();
  if(a==='sp'){const sp=[.5,1,2,3,5,10];r.speed=sp[(sp.indexOf(r.speed)+1)%sp.length];if(r.play)rPlay();else renderRbar()}
  if(a==='jump'){rPause();S.data=S.full;mainS.setData(mainData());computeAll(true);setTool('replay');$('#rhint').style.display='block'}});
 
@@ -934,25 +1279,52 @@ mainEl.addEventListener('contextmenu',e=>{e.preventDefault();const p=pos(e),pric
 function resetView(){const n=S.data.length;main.priceScale('right').applyOptions({autoScale:true});main.timeScale().setVisibleLogicalRange({from:n-150,to:n+12})}
 
 // ---------------- ayarlar ----------------
-function settingsDlg(){const s=S.set;dialog('Grafik ayarları',`<div class="fld"><label for="sT">Tema</label><select id="sT"><option value="dark"${s.theme==='dark'?' selected':''}>Koyu</option><option value="light"${s.theme==='light'?' selected':''}>Açık</option></select></div>
- <div class="fld"><label for="sU">Yükselen mum</label><input id="sU" type="color" value="${esc(s.up)}"></div><div class="fld"><label for="sD">Düşen mum</label><input id="sD" type="color" value="${esc(s.down)}"></div>
- <div class="fld"><label for="sG">Izgara çizgileri</label><input id="sG" type="checkbox"${s.grid?' checked':''}></div>
- <p style="color:var(--mu);font-size:12px">Saatler bilgisayarınızın saat diliminde gösterilir. Tüm ayarlar, çizimler ve alarmlar bu tarayıcıda saklanır.</p>
- <button class="btn r" id="sReset" style="margin-top:6px">Her şeyi sıfırla</button>`,
- [{t:'Vazgeç',cls:'g'},{t:'Uygula',f:()=>{Object.assign(S.set,{theme:$('#sT').value,up:$('#sU').value,down:$('#sD').value,grid:$('#sG').checked});ls.set('set',S.set);applyTheme()}}]);
- $('#sReset').onclick=()=>{closeModal('mDlg');confirmDlg('Her şeyi sıfırla','Tüm çizimler, göstergeler, alarmlar ve ayarlar silinecek. Emin misiniz?',()=>{try{Object.keys(localStorage).filter(k=>k.startsWith('otc_')).forEach(k=>localStorage.removeItem(k))}catch(e){}location.reload()})}}
-function applyTheme(){document.documentElement.dataset.theme=S.set.theme;$('meta[name=theme-color]').content=S.set.theme==='dark'?'#0f1218':'#ffffff';
+function thBtn(k,t,on,del){return`<button data-th="${esc(k)}" class="${on?'on':''}"><div class="pv" style="background:${t.bg2?`linear-gradient(${t.bg},${t.bg2})`:t.bg}">${[14,22,10,26,18,8].map((h,i)=>`<i style="height:${h}px;background:${i%2?t.down:t.up}"></i>`).join('')}</div>${esc(t.n)}${del?`<span class="x" data-thd="${esc(k)}" title="Sil">×</span>`:''}</button>`}
+function settingsDlg(){const bak=clone(S.set);const s=S.set;
+ const C=(id,l,v,ck)=>`<div class="fld"><label for="${id}">${l}</label><div class="row2">${ck?`<input type="checkbox" id="${ck}"${s[ck]?' checked':''}>`:''}<input id="${id}" type="color" value="${esc(v)}"></div></div>`;
+ const body=`<div class="dtabs"><button data-dt="th" class="on">Temalar</button><button data-dt="sy">Mumlar</button><button data-dt="gv">Görünüm</button><button data-dt="sc">Ölçek</button><button data-dt="ge">Genel</button></div>
+ <div class="dsec on" data-sec="th"><div class="gh">Hazır temalar</div><div class="thm" id="thP">${Object.entries(THEMES).map(([k,t])=>thBtn(k,t,s.theme===k)).join('')}</div>
+  <div class="gh">Kendi temalarım</div><div class="thm" id="thM">${S.myThemes.map((t,i)=>thBtn('my'+i,{...t,grid:t.gridV},s.theme==='my'+i,1)).join('')||'<span style="color:var(--mu);font-size:12px">Henüz kayıtlı tema yok.</span>'}</div>
+  <div class="row2"><input id="thN" type="text" placeholder="Tema adı" maxlength="20" style="flex:1;background:var(--bg);border:1px solid var(--ln);color:var(--ink);font:inherit;font-size:16px;padding:7px 9px;border-radius:6px"><button class="btn sm" id="thSave" type="button">Mevcut görünümü kaydet</button></div></div>
+ <div class="dsec" data-sec="sy">
+  <div class="gh">Gövde</div>${C('cU','Yükselen',s.up)}${C('cD','Düşen',s.down)}
+  <div class="gh">Kenarlık</div>${C('cUB','Yükselen',s.upB,'border')}${C('cDB','Düşen',s.dnB)}
+  <div class="gh">Fitil</div>${C('cUW','Yükselen',s.upW,'wick')}${C('cDW','Düşen',s.dnW)}
+  <label class="ck"><input type="checkbox" id="lastLine"${s.lastLine?' checked':''}>Son fiyat çizgisi</label></div>
+ <div class="dsec" data-sec="gv">
+  ${C('cBG','Arka plan',s.bg)}<div class="fld"><label for="cBG2">Gradyan (alt renk)</label><div class="row2"><input type="checkbox" id="useBg2"${s.bg2?' checked':''}><input id="cBG2" type="color" value="${esc(s.bg2||s.bg)}"></div></div>
+  ${C('cGV','Dikey ızgara',s.gridV,'gv')}${C('cGH','Yatay ızgara',s.gridH,'gh')}${C('cCR','Artı imleç',s.cross)}
+  <label class="ck"><input type="checkbox" id="wm"${s.wm?' checked':''}>Filigran (sembol adı arka planda)</label></div>
+ <div class="dsec" data-sec="sc">${C('cTX','Ölçek yazı rengi',s.text)}<div class="fld"><label for="fsz">Yazı boyutu</label><select id="fsz">${[10,11,12,13,14].map(n=>`<option${(s.fs||11)===n?' selected':''}>${n}</option>`).join('')}</select></div></div>
+ <div class="dsec" data-sec="ge"><p style="color:var(--mu);font-size:12px;margin-top:0">Saatler bilgisayarınızın saat diliminde gösterilir. Ayarlar, çizimler, göstergeler ve alarmlar bu tarayıcıda saklanır.</p><button class="btn r" id="sReset" type="button">Her şeyi sıfırla</button></div>`;
+ const read=()=>{const v=id=>$('#'+id).value,c=id=>$('#'+id).checked;Object.assign(S.set,{up:v('cU'),down:v('cD'),upB:v('cUB'),dnB:v('cDB'),upW:v('cUW'),dnW:v('cDW'),border:c('border'),wick:c('wick'),lastLine:c('lastLine'),
+  bg:v('cBG'),bg2:c('useBg2')?v('cBG2'):'',gridV:v('cGV'),gridH:v('cGH'),gv:c('gv'),gh:c('gh'),cross:v('cCR'),wm:c('wm'),text:v('cTX'),fs:+v('fsz')})};
+ const fill=()=>{const st=S.set,set=(id,val)=>{const e=$('#'+id);if(e)e.value=val},ck=(id,val)=>{const e=$('#'+id);if(e)e.checked=!!val};
+  set('cU',st.up);set('cD',st.down);set('cUB',st.upB);set('cDB',st.dnB);set('cUW',st.upW);set('cDW',st.dnW);set('cBG',st.bg);set('cBG2',st.bg2||st.bg);ck('useBg2',st.bg2);set('cGV',st.gridV);set('cGH',st.gridH);set('cCR',st.cross);set('cTX',st.text)};
+ let tm=null;const live=()=>{clearTimeout(tm);tm=setTimeout(()=>{read();S.set.theme='';applyTheme();$$('#thP button,#thM button').forEach(b=>b.classList.remove('on'))},60)};
+ const restore=()=>{clearTimeout(tm);S.set=bak;applyTheme()};
+ dialog('Grafik ayarları',body,[{t:'İptal',cls:'g',f:restore},{t:'Tamam',f:()=>{clearTimeout(tm);ls.set('set',S.set);applyTheme()}}],'md',restore);
+ const box=$('#dlgB');box.addEventListener('input',e=>{if(e.target.id!=='thN')live()});box.addEventListener('change',e=>{if(e.target.id!=='thN')live()});
+ box.addEventListener('click',e=>{const del=e.target.closest('[data-thd]');if(del){e.stopPropagation();const i=+del.dataset.thd.slice(2);S.myThemes.splice(i,1);ls.set('myThemes',S.myThemes);del.closest('button').remove();return}
+  const b=e.target.closest('[data-th]');if(!b)return;const k=b.dataset.th;const t=k.startsWith('my')?S.myThemes[+k.slice(2)]:THEMES[k];if(!t)return;
+  if(k.startsWith('my')){const{n,...rest}=t;Object.assign(S.set,rest)}else Object.assign(S.set,themeVals({...t,k}));S.set.theme=k;fill();applyTheme();$$('#thP button,#thM button').forEach(x=>x.classList.toggle('on',x===b))});
+ $('#thSave').onclick=()=>{read();const n=$('#thN').value.trim()||('Temam '+(S.myThemes.length+1));const{theme,...rest}=S.set;S.myThemes.push({n,...rest});ls.set('myThemes',S.myThemes);S.set.theme='my'+(S.myThemes.length-1);
+  $('#thM').innerHTML=S.myThemes.map((t,i)=>thBtn('my'+i,{...t,grid:t.gridV},S.set.theme==='my'+i,1)).join('');$('#thN').value='';toast('Tema kaydedildi',n,'',2500)};
+ $('#sReset').onclick=()=>{dlgCancel=null;closeModal('mDlg');confirmDlg('Her şeyi sıfırla','Tüm çizimler, göstergeler, alarmlar ve ayarlar silinecek. Emin misiniz?',()=>{try{Object.keys(localStorage).filter(k=>k.startsWith('otc_')).forEach(k=>localStorage.removeItem(k))}catch(e){}location.reload()})}}
+function applyThemeUI(){const dark=lum(S.set.bg)<.5;document.documentElement.dataset.theme=dark?'dark':'light';document.documentElement.style.setProperty('--bg',S.set.bg);const m=$('meta[name=theme-color]');if(m)m.content=S.set.bg}
+function applyTheme(){applyThemeUI();
  main.applyOptions(chartOpts(false));subs.forEach(p=>{const def=p.def;p.chart.applyOptions(chartOpts(true,def.dp==='main'?null:def.big?0:(def.dp??2)))});
  mkMain();rebuildInds();dirty()}
 $('#cfgBtn').onclick=settingsDlg;
+$('#favBtn').onclick=()=>{S.favOn=!S.favOn;ls.set('favOn',S.favOn);renderFav()};
 
 // ---------------- ekran görüntüsü ----------------
 $('#shotBtn').onclick=async()=>{try{
  const parts=[main.takeScreenshot(),...subs.map(p=>p.chart.takeScreenshot())],w=parts[0].width,h=parts.reduce((s,c)=>s+c.height,0),r=parts[0].width/mainEl.clientWidth;
  const cv=document.createElement('canvas');cv.width=w;cv.height=h;const x=cv.getContext('2d');let y=0;parts.forEach(c=>{x.drawImage(c,0,y);y+=c.height});
- const s=new XMLSerializer().serializeToString(svg).replace('<svg','<svg xmlns="http://www.w3.org/2000/svg"').replace(/var\(--bg\)/g,S.set.theme==='dark'?'#0f1218':'#ffffff');
+ const s=new XMLSerializer().serializeToString(svg).replace('<svg','<svg xmlns="http://www.w3.org/2000/svg"').replace(/var\(--bg\)/g,S.set.bg);
  const img=new Image();img.src='data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s.replace(/<svg([^>]*)>/,`<svg$1 width="${mainEl.clientWidth}" height="${mainEl.clientHeight}">`));await img.decode();x.drawImage(img,0,0,mainEl.clientWidth*r,mainEl.clientHeight*r);
- x.font=`${600} ${14*r}px Inter,sans-serif`;x.fillStyle=S.set.theme==='dark'?'#d1d4dc':'#131722';x.fillText(`${lbl(S.key)} · ${TFS.find(t=>t[0]===S.tf)?.[1]} · ${APP_NAME}`,10*r,22*r);
+ x.font=`${600} ${14*r}px Inter,sans-serif`;x.fillStyle=S.set.text;x.fillText(`${lbl(S.key)} · ${TFS.find(t=>t[0]===S.tf)?.[1]} · ${APP_NAME}`,10*r,22*r);
  const a=document.createElement('a');a.href=cv.toDataURL('image/png');a.download=`${lbl(S.key)}_${S.tf}_${Date.now()}.png`;document.body.appendChild(a);a.click();a.remove();toast('Ekran görüntüsü','PNG dosyası indirildi.','',2500)
 }catch(e){console.error(e);toast('Ekran görüntüsü alınamadı',String(e.message||e))}};
 
@@ -960,7 +1332,7 @@ $('#shotBtn').onclick=async()=>{try{
 $('#undoBtn').onclick=undo;$('#redoBtn').onclick=redo;
 $('#fsBtn').onclick=()=>{try{document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen()}catch(e){}};
 document.addEventListener('keydown',e=>{const inInput=/INPUT|TEXTAREA|SELECT/.test(document.activeElement?.tagName),modal=$$('.modal.show').length;
- if(e.key==='Escape'){if(modal){$$('.modal.show').forEach(m=>m.classList.remove('show'));return}pop.classList.remove('show');if(S.pending||isDraw(S.tool))setTool('cursor');else if(S.sel){S.sel=null;dirty()}return}
+ if(e.key==='Escape'){if(modal){$$('.modal.show').forEach(hideModal);return}pop.classList.remove('show');if(S.pending||isDraw(S.tool))setTool('cursor');else if(S.sel){S.sel=null;dirty()}return}
  if(inInput||modal)return;
  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();e.shiftKey?redo():undo();return}
  if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='y'){e.preventDefault();redo();return}
@@ -969,17 +1341,50 @@ document.addEventListener('keydown',e=>{const inInput=/INPUT|TEXTAREA|SELECT/.te
   if(e.key.toLowerCase()==='r'&&!e.shiftKey){e.preventDefault();resetView();return}if(m){e.preventDefault();setTool(m)}return}
  if(e.key===' '&&S.replay){e.preventDefault();S.replay.play?rPause():rPlay();return}
  if(e.key==='ArrowRight'&&e.shiftKey&&S.replay){rPause();rStep();return}
+ if(e.key==='ArrowLeft'&&e.shiftKey&&S.replay){rBack();return}
  if(!e.ctrlKey&&!e.metaKey&&/^[a-z0-9]$/i.test(e.key)){e.preventDefault();openSym('pick',e.key.toUpperCase())}});
 // Shift + tık = hızlı ölçüm
 mainEl.addEventListener('pointerdown',e=>{if(e.shiftKey&&!isDraw(S.tool)&&e.button===0&&!e.target.closest('#dtb,#rbar,.ib,.lgc')){e.stopPropagation();setTool('measure');onDown(e)}},true);
-$$('.stabs button').forEach(b=>b.onclick=()=>{$$('.stabs button').forEach(x=>x.classList.toggle('on',x===b));$$('.spane').forEach(p=>p.classList.toggle('on',p.id==='sp-'+b.dataset.st))});
-function setMob(m){$('#side').classList.toggle('show',m==='side');$$('#mtabs button').forEach(b=>b.classList.toggle('on',b.dataset.m===m))}
+function setSide(k,toggle){const app=$('#app');if(toggle&&S.side===k&&!app.classList.contains('noside')&&innerWidth>=860){app.classList.add('noside');ls.set('sideOpen',false)}else if(toggle!=='init'){app.classList.remove('noside');ls.set('sideOpen',true)}
+ S.side=k;ls.set('side',k);$$('#sideIcons [data-sp]').forEach(b=>b.classList.toggle('on',b.dataset.sp===k&&!app.classList.contains('noside')));$$('.spane').forEach(p=>p.classList.toggle('on',p.id==='sp-'+k));
+ if(k==='obj')renderObj();if(k==='dw')renderDW();if(k==='hot')renderHot();if(k==='note')renderNote();if(k==='al')renderAlarms();
+ setTimeout(()=>{placeFav();dirty()},30)}
+$('#sideIcons').addEventListener('click',e=>{const b=e.target.closest('[data-sp]');if(b)setSide(b.dataset.sp,true)});
+const TIC={trend:'trend',ray:'ray',ext:'ext',hline:'hline',hray:'hray',vline:'vline',channel:'channel',fib:'fib',fibext:'fibext',rect:'rect',circle:'circle',arrow:'arrow',brush:'brush',text:'text',up:'up',down:'down',long:'long',short:'short',measure:'measure'};
+function renderObj(){if(S.side!=='obj')return;const el=$('#obj');if(!el)return;
+ const dr=S.draws.slice().reverse().map(d=>`<div class="oi${d.id===S.sel?' on':''}${d.hide?' off':''}" data-od="${esc(d.id)}">${ic(TIC[d.type]||'trend')}<span class="on2">${esc(TOOLS[d.type]||d.type)}${d.label||d.text?' · '+esc((d.label||d.text).slice(0,24)):''}</span><button data-oa="hide" title="${d.hide?'Göster':'Gizle'}">${ic(d.hide?'eyeoff':'eye')}</button><button data-oa="lock" title="Kilitle">${ic(d.lock?'lock':'unlock')}</button><button data-oa="cfg" title="Ayarlar">${ic('gear')}</button><button data-oa="del" title="Sil">${ic('trash')}</button></div>`).join('');
+ const ind=S.inds.map(i=>{const d=DEF[i.id];return`<div class="oi${i.hide?' off':''}" data-oi="${esc(i.u)}">${ic('fx')}<span class="on2">${esc(d.n)}</span><button data-oa="hide" title="${i.hide?'Göster':'Gizle'}">${ic(i.hide?'eyeoff':'eye')}</button><button data-oa="cfg" title="Ayarlar">${ic('cfg')}</button><button data-oa="del" title="Kaldır">${ic('trash')}</button></div>`}).join('');
+ el.innerHTML=`<div class="ogh">Çizimler · ${esc(lbl(S.key))} (${S.draws.length})</div>${dr||'<div class="empty">Bu grafikte çizim yok.</div>'}<div class="ogh">Göstergeler (${S.inds.length})</div>${ind||'<div class="empty">Gösterge yok.</div>'}`}
+$('#obj').addEventListener('click',e=>{const a=e.target.closest('[data-oa]')?.dataset.oa,dr=e.target.closest('[data-od]'),ir=e.target.closest('[data-oi]');
+ if(dr){const d=S.draws.find(x=>x.id===dr.dataset.od);if(!d)return;if(!a){S.sel=d.id;dirty();renderObj();return}
+  if(a==='cfg'){drawSettings(d);return}snap();if(a==='hide')d.hide=!d.hide;if(a==='lock')d.lock=!d.lock;if(a==='del'){S.draws=S.draws.filter(x=>x!==d);if(S.sel===d.id)S.sel=null}saveDraws();dirty();return}
+ if(ir){const i=S.inds.find(x=>x.u===ir.dataset.oi);if(!i)return;if(a==='cfg')indSettings(i);if(a==='hide'){i.hide=!i.hide;saveInds();updVis();legend();renderObj()}if(a==='del'){S.inds=S.inds.filter(x=>x!==i);saveInds();rebuildInds()}}});
+function renderDW(){if(S.side!=='dw')return;const d=S.data;if(!d.length)return;const i=S.hover!=null&&S.hover>=0&&S.hover<d.length?S.hover:d.length-1,c=d[i],ch=c.close-c.open;
+ let h=`<div class="dwh">${esc(lbl(S.key))} · ${esc(fmtTime(c.time))}</div>`+[['Açılış',fmt(c.open)],['Yüksek',fmt(c.high)],['Düşük',fmt(c.low)],['Kapanış',fmt(c.close)],['Değişim',`${ch>=0?'+':''}${fmt(ch)} (${pct(ch/c.open*100)})`],['Hacim',fmtBig(c.volume)],['Mum aralığı',fmt(c.high-c.low)]].map(([a,b])=>`<div class="dwr"><span>${a}</span><span>${b}</span></div>`).join('');
+ for(const u in R){const r=R[u];if(!r.def.pl.length)continue;const dp=indDp(r.inst,r.def);h+=`<div class="dwh">${esc(r.def.s)} ${r.def.inp?'':esc(Object.values(r.inst.p).join(' '))}</div>`+r.def.pl.map(pl=>{const v=valAt(r,pl,i);return`<div class="dwr"><span style="color:${esc(r.inst.c?.[pl.k]||pl.c)}">${esc(pl.n||r.def.s)}</span><span>${v==null?'–':r.def.big?fmtBig(v):fmt(v,dp)}</span></div>`}).join('')}
+ $('#dw').innerHTML=h}
+let hotT=0;function renderHot(){if(S.side!=='hot')return;const now=Date.now();if(now-hotT<1500)return;hotT=now;
+ const a=Object.entries(S.tick).filter(([k])=>k.startsWith('F:')&&k.endsWith('USDT')).map(([k,t])=>({k,...t}));
+ a.sort((x,y)=>S.hotM==='up'?y.p-x.p:S.hotM==='dn'?x.p-y.p:y.q-x.q);
+ $('#hot').innerHTML=a.slice(0,40).map(t=>`<div class="wi" data-k="${esc(t.k)}"><span class="n">${esc(mk(t.k).s)}<small>.P</small></span><span class="p">${fmt(t.c,precOf(t.k))}</span><span class="c ${t.p>=0?'up':'dn'}">${S.hotM==='vol'?fmtBig(t.q):pct(t.p)}</span><span></span></div>`).join('')||'<div class="empty">Veri yükleniyor…</div>'}
+$('#hotTab').addEventListener('click',e=>{const b=e.target.closest('[data-h]');if(!b)return;S.hotM=b.dataset.h;$$('#hotTab button').forEach(x=>x.classList.toggle('on',x===b));hotT=0;renderHot()});
+$('#hot').addEventListener('click',e=>{const r=e.target.closest('[data-k]');if(r){pick(r.dataset.k);setMob('chart')}});
+function renderNote(){$('#noteSym').textContent=lbl(S.key);$('#note').value=ls.get('note_'+S.key,'')}
+$('#note').addEventListener('input',()=>ls.set('note_'+S.key,$('#note').value));
+async function loadPerf(){const k=S.key,{m,s}=mk(k);if(S.perf[k]&&Date.now()-S.perf[k].at<36e5){renderDet();return}
+ try{const j=await getJSON(`${REST[m]}/klines?symbol=${s}&interval=1d&limit=400`);S.perf[k]={at:Date.now(),d:j.map(x=>({t:x[0]/1000,c:+x[4]}))};if(k===S.key)renderDet()}catch(e){}}
+function perfHtml(k,price){const pf_=S.perf[k];if(!pf_||!pf_.d.length||!price)return'';const d=pf_.d,last=d[d.length-1].t,yb=new Date(new Date().getFullYear(),0,1).getTime()/1000;
+ const at=t=>{let r=null;for(const x of d){if(x.t<=t)r=x;else break}return r?.c??d[0].c};
+ const P=[['1H',last-7*86400],['1A',last-30*86400],['3A',last-90*86400],['6A',last-182*86400],['YB',yb-86400],['1Y',last-365*86400]];
+ return`<div class="perf">${P.map(([n,t])=>{const b=at(t),v=(price-b)/b*100;return`<div class="${v>=0?'u':'d'}">${pct(v)}<small>${n}</small></div>`}).join('')}</div>`}
+function setMob(m){$('#side').classList.toggle('show',m==='side');$('#sideIcons').classList.toggle('show',m==='side');$$('#mtabs button').forEach(b=>b.classList.toggle('on',b.dataset.m===m))}
 $('#mtabs').addEventListener('click',e=>{const b=e.target.closest('[data-m]');if(b)setMob(b.dataset.m)});
 
 // ---------------- başlat ----------------
 $('#brand').textContent=APP_NAME;paintIcons();renderTfFav();renderTools();renderBot();tickClock();renderAlarms();
-document.documentElement.dataset.theme=S.set.theme;
-mkMain();rebuildInds();setTool(S.cursor);updUndo();loop();
+applyThemeUI();
+if(ls.get('sideOpen',true)===false&&innerWidth>=860)$('#app').classList.add('noside');setSide(S.side,'init');
+mkMain();rebuildInds();setTool(S.cursor);updUndo();loop();renderFav();
 (async()=>{await loadSymbols();renderWl();renderDet();await loadChart();openTicker('F');openTicker('S');updWl()})();
 
 }
