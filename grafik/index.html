@@ -626,6 +626,51 @@ mark{background:color-mix(in srgb,var(--ac) 35%,transparent);color:inherit;borde
 .bkcalc{font-size:12.5px;color:var(--mu);margin:6px 0 0}
 @media(max-width:700px){.bksec,.bkacc{grid-template-columns:1fr}.bkpr{grid-template-columns:auto 1fr auto;}.bkpr span:nth-child(3){display:none}}
 .lwc{font-size:10.5px;color:var(--mu);opacity:.6;white-space:nowrap;padding:0 6px;text-decoration:none}.lwc:hover{opacity:1;color:var(--ink)}@media(max-width:700px){.lwc{font-size:9.5px;padding:0 3px}}
+#layBtn .chv{margin-left:3px;opacity:.7}#layBtn{border:1px solid var(--ln)}
+
+#topMore{display:none}
+#top.f1 :is(#alarmBtn,#replayBtn,#layBtn,#cmdBtn) .lbl,#top.f1 #cmdBtn kbd{display:none}
+#top.f2 :is(#indBtn,#bkBtn) .lbl{display:none}
+#top.f3 :is(#undoBtn,#redoBtn,#favBtn,#shotBtn,#fsBtn,#cmpBtn){display:none}#top.f3 #topMore{display:flex}
+#top.f4 #tfFav>*:nth-child(n+5):not(.on){display:none}
+#top.f5 :is(#replayBtn,#typeBtn){display:none}
+#top.f6 #demoEq{display:none}
+#top.f7 #cmdBtn{display:none}
+#top.f8 :is(#bkBtn,#demoBtn,#alarmBtn){display:none}
+#top.f9 :is(#layBtn,#cfgBtn){display:none}#top.f9 #tfFav>*:not(.on){display:none}
+
+.tvtp{border:1px solid var(--ln);border-radius:9px;padding:8px 9px 9px;margin-top:8px;transition:border-color .15s,background .15s}
+.tvtp.on.tp{border-color:color-mix(in srgb,#089981 55%,var(--ln));background:color-mix(in srgb,#089981 6%,transparent)}
+.tvtp.on.sl{border-color:color-mix(in srgb,#f23645 55%,var(--ln));background:color-mix(in srgb,#f23645 6%,transparent)}
+.tvtp.bad{border-color:#ff9800!important}
+.tvck{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:600;cursor:pointer}
+.tvck input{width:15px;height:15px;accent-color:var(--ac)}
+.tvtp.tp.on .tvck span{color:#22b07d}.tvtp.sl.on .tvck span{color:#f23645}
+.tvg{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+.tvtp:not(.on) .tvg{opacity:.45}
+.tvf{display:flex;align-items:center;border:1px solid var(--ln);border-radius:7px;background:var(--bg);overflow:hidden;height:32px}
+.tvf span{font-size:11px;color:var(--mu);padding:0 7px;min-width:38px;border-right:1px solid var(--ln);height:100%;display:flex;align-items:center}
+.tvf input{flex:1;min-width:0;border:0;background:transparent;color:var(--ink);font:inherit;font-size:13px;padding:0 7px;height:100%;outline:none;font-variant-numeric:tabular-nums}
+.tvf:focus-within{border-color:var(--ac)}
+
+.myadd{display:flex;flex-direction:column;gap:2px;width:calc(100% - 16px);margin:6px 8px 8px;padding:12px 14px;border-radius:10px;border:1px dashed var(--ac);background:color-mix(in srgb,var(--ac) 8%,transparent);color:var(--ink);font:inherit;text-align:left;cursor:pointer}.myadd b{color:var(--ac);font-size:14px}.myadd span{font-size:12px;color:var(--mu)}.myadd:hover{background:color-mix(in srgb,var(--ac) 14%,transparent)}
+.myed .myrow{display:flex;gap:10px;flex-wrap:wrap}.mytb{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:4px 0 8px}.myhint{font-size:11.5px;color:var(--mu)}
+#myCode{width:100%;min-height:260px;resize:vertical;font:12.5px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;background:var(--bg);color:var(--ink);border:1px solid var(--ln);border-radius:9px;padding:10px 12px;tab-size:2;outline:none}#myCode:focus{border-color:var(--ac)}
+.myok,.myerr,.mywarn{margin-top:8px;padding:8px 11px;border-radius:8px;font-size:12.5px}.myok{background:rgba(8,153,129,.12);color:#22b07d}.myerr{background:rgba(242,54,69,.12);color:#f23645}.mywarn{background:rgba(247,166,0,.12);color:#f7a600}
+.myhelp{margin-top:10px;font-size:12.5px;color:var(--mu)}.myhelp summary{cursor:pointer;color:var(--ink)}.myhelp code{background:var(--hv);padding:1px 5px;border-radius:4px;font-size:11.5px}
+.prb{padding:0 4px!important}.prav{border-radius:50%;object-fit:cover;display:block}.prini{display:grid;place-items:center;border-radius:50%;background:linear-gradient(135deg,#2962ff,#089981);color:#fff;font-weight:800}
+.prhd{display:flex;align-items:center;gap:16px;margin-bottom:14px}.prpic{position:relative;cursor:pointer;flex:none}.prcam{position:absolute;right:-2px;bottom:-2px;width:26px;height:26px;border-radius:50%;background:var(--pn);border:1px solid var(--ln);display:grid;place-items:center;font-size:13px}
+.prnm{flex:1;min-width:0}.prnm>input{width:100%;font:inherit;font-size:20px;font-weight:700;background:transparent;border:0;border-bottom:1px solid var(--ln);color:var(--ink);padding:4px 0;outline:none}.prnm>input:focus{border-color:var(--ac)}
+.pru{display:flex;align-items:center;color:var(--mu);font-size:13px;margin-top:4px}.pru input{flex:1;background:transparent;border:0;color:var(--mu);font:inherit;outline:none;padding:2px}
+.prst{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}.prst div{padding:10px;border-radius:10px;border:1px solid var(--ln);text-align:center}.prst b{display:block;font-size:18px}.prst span{font-size:11px;color:var(--mu)}
+.prrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.prtags{display:flex;flex-wrap:wrap;gap:6px}.prtag input{display:none}.prtag span{display:inline-block;padding:5px 11px;border-radius:99px;border:1px solid var(--ln);font-size:12.5px;cursor:pointer}.prtag input:checked+span{background:var(--ac);border-color:var(--ac);color:#fff}
+.prmy{margin-top:12px;border-top:1px solid var(--ln);padding-top:10px}.prmh{display:flex;align-items:center;justify-content:space-between;font-weight:700;font-size:13px;margin-bottom:6px}
+.prmi{display:flex;align-items:center;gap:6px;flex-wrap:wrap;padding:8px 0;border-top:1px solid var(--ln);font-size:12.5px}.prmi b{flex:1;min-width:120px}.prmi>span{color:var(--mu);font-size:11.5px}
+.prbk{margin-top:12px;padding:12px;border-radius:10px;border:1px solid var(--ln);display:flex;flex-direction:column;gap:6px;font-size:12.5px;color:var(--mu)}.prbk b{color:var(--ink)}.prbk div{display:flex;gap:8px;flex-wrap:wrap}
+.prf .fld{display:flex;flex-direction:column;align-items:stretch;gap:5px;margin-bottom:10px}.prf .fld>label{font-size:12px;color:var(--mu)}.prf .fld :is(input,select,textarea){width:100%;box-sizing:border-box}.prf .prmi .btn{flex:none}
+.prnote{font-size:11.5px;color:var(--mu);margin:10px 0 0}
+@media(max-width:600px){.prst{grid-template-columns:1fr 1fr}.prrow{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -641,7 +686,6 @@ mark{background:color-mix(in srgb,var(--ac) 35%,transparent);color:inherit;borde
  <button class="hb" id="typeBtn" title="Grafik tipi"><i data-ic="candle"></i></button>
  <i class="sp"></i>
  <button class="hb" id="indBtn" title="Göstergeler"><i data-ic="fx"></i><span class="lbl">Göstergeler</span></button>
- <button class="hb" id="layBtn" title="Çoklu grafik düzeni (birden fazla grafik)"><i data-ic="lay1"></i><span class="lbl">Düzen</span></button>
  <button class="hb" id="alarmBtn" title="Alarm oluştur (Alt+A)"><i data-ic="alarm"></i><span class="lbl">Alarm</span></button>
  <button class="hb" id="replayBtn" title="Tekrar oynat"><i data-ic="replay"></i><span class="lbl">Tekrar oynat</span></button>
  <i class="sp"></i>
@@ -651,10 +695,13 @@ mark{background:color-mix(in srgb,var(--ac) 35%,transparent);color:inherit;borde
  <button class="hb cmdb" id="cmdBtn" title="Her şeyi ara: sembol, gösterge, çizim aracı, işlem (Ctrl+K)"><i data-ic="search"></i><span class="lbl">Ara</span><kbd>Ctrl K</kbd></button>
  <button class="hb bkb" id="bkBtn" title="Borsa hesabını bağla (canlı işlem)"><svg class="i" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 7V3M15 7V3M7 7h10v4a5 5 0 01-10 0zM12 16v5"/></svg><span class="lbl">Borsa bağla</span></button>
  <button class="hb" id="demoBtn" title="Demo hesap (sanal al-sat)"><i data-ic="wallet"></i><span class="lbl" id="demoEq">Demo</span></button>
+ <button class="hb layb" id="layBtn" title="Düzen seç — birden fazla grafik"><i data-ic="lay1"></i><span class="lbl">Düzen</span><svg class="chv" width="8" height="8" viewBox="0 0 8 8"><path d="M1 2.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></button>
  <button class="hb" id="favBtn" title="Favori araçlar çubuğunu göster/gizle"><i data-ic="star"></i></button>
+ <button class="hb" id="topMore" title="Diğer"><svg class="i" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.8"/><circle cx="12" cy="12" r="1.8"/><circle cx="19" cy="12" r="1.8"/></svg></button>
  <button class="hb" id="cfgBtn" title="Grafik ayarları ve temalar"><i data-ic="gear"></i></button>
  <button class="hb" id="shotBtn" title="Ekran görüntüsü al"><i data-ic="camera"></i></button>
  <button class="hb" id="fsBtn" title="Tam ekran"><i data-ic="full"></i></button>
+ <button class="hb prb" id="prfBtn" title="Profilim"></button>
 </header>
 <nav id="tools"></nav>
 <div id="area" class="L1"><section id="center"><div id="wall"><i></i></div>
@@ -1585,6 +1632,107 @@ const DEFS5=[
 
 DEFS.push(...DEFS2,...DEFS3,...DEFS4,...DEFS5);
 const DEF=Object.fromEntries(DEFS.map(d=>[d.id,d]));
+// ================= kendi göstergen (güvenli Worker içinde çalışır) + profil =================
+const MY_TPL=`// Örnek: iki ortalama ve kesişim işaretleri
+// Kullanılabilir veriler: o, h, l, c, v, t  (dizi)   ·  girdi: input("ad", varsayılan)
+// Fonksiyonlar: sma, ema, rma, wma, rsi, stdev, highest, lowest, atr, change, crossover, crossunder
+const hizli = input("Hızlı", 9), yavas = input("Yavaş", 21);
+const a = ema(c, hizli), b = ema(c, yavas);
+plot("Hızlı EMA", a, "#f7a600");
+plot("Yavaş EMA", b, "#2962ff");
+for (let i = 1; i < c.length; i++) {
+  if (crossover(a, b, i))  mark(i, "AL", "up");
+  if (crossunder(a, b, i)) mark(i, "SAT", "down");
+}`;
+const MY_WORKER=`
+const N=n=>new Array(n).fill(null);
+const sma=(x,n)=>{const o=N(x.length);let s=0,k=0;for(let i=0;i<x.length;i++){const v=x[i];if(v==null){continue}s+=v;k++;if(i>=n&&x[i-n]!=null){s-=x[i-n];k--}if(k>=n)o[i]=s/n}return o};
+const ema=(x,n)=>{const o=N(x.length),a=2/(n+1);let e=null,c=0,s=0;for(let i=0;i<x.length;i++){const v=x[i];if(v==null)continue;if(e==null){s+=v;c++;if(c===n){e=s/n;o[i]=e}}else{e=v*a+e*(1-a);o[i]=e}}return o};
+const rma=(x,n)=>{const o=N(x.length);let e=null,c=0,s=0;for(let i=0;i<x.length;i++){const v=x[i];if(v==null)continue;if(e==null){s+=v;c++;if(c===n){e=s/n;o[i]=e}}else{e=(e*(n-1)+v)/n;o[i]=e}}return o};
+const wma=(x,n)=>{const o=N(x.length),d=n*(n+1)/2;for(let i=n-1;i<x.length;i++){let s=0,ok=true;for(let j=0;j<n;j++){const v=x[i-j];if(v==null){ok=false;break}s+=v*(n-j)}if(ok)o[i]=s/d}return o};
+const stdev=(x,n)=>{const m=sma(x,n);return x.map((_,i)=>{if(m[i]==null)return null;let s=0;for(let j=0;j<n;j++)s+=(x[i-j]-m[i])**2;return Math.sqrt(s/n)})};
+const highest=(x,n)=>x.map((_,i)=>i<n-1?null:Math.max(...x.slice(i-n+1,i+1)));
+const lowest=(x,n)=>x.map((_,i)=>i<n-1?null:Math.min(...x.slice(i-n+1,i+1)));
+const change=(x,n=1)=>x.map((v,i)=>i<n||v==null||x[i-n]==null?null:v-x[i-n]);
+const crossover=(a,b,i)=>{const B=typeof b==='number'?[b,b]:[b[i-1],b[i]];return a[i-1]!=null&&a[i]!=null&&B[0]!=null&&a[i-1]<=B[0]&&a[i]>B[1]};
+const crossunder=(a,b,i)=>{const B=typeof b==='number'?[b,b]:[b[i-1],b[i]];return a[i-1]!=null&&a[i]!=null&&B[0]!=null&&a[i-1]>=B[0]&&a[i]<B[1]};
+onmessage=e=>{const{code,bars,inputs}=e.data,P=[],M=[],I=[];
+ const o=bars.o,h=bars.h,l=bars.l,c=bars.c,v=bars.v,t=bars.t;
+ const tr=c.map((_,i)=>i?Math.max(h[i]-l[i],Math.abs(h[i]-c[i-1]),Math.abs(l[i]-c[i-1])):h[i]-l[i]);
+ const atr=n=>rma(tr,n);
+ const rsi=(x,n=14)=>{const u=rma(x.map((v,i)=>i?Math.max(v-x[i-1],0):null),n),d=rma(x.map((v,i)=>i?Math.max(x[i-1]-v,0):null),n);return x.map((_,i)=>u[i]==null?null:d[i]===0?100:100-100/(1+u[i]/d[i]))};
+ const input=(name,def)=>{I.push({name:String(name),def});const k=String(name);return inputs&&k in inputs?inputs[k]:def};
+ const plot=(name,data,color,type)=>{if(!Array.isArray(data))throw new Error('plot("'+name+'", ...) için bir dizi gerekli');P.push({name:String(name),data:data.map(x=>x==null||!isFinite(x)?null:+x),color:color||null,type:type==='histogram'||type==='hist'?'hist':type==='dots'?'dots':'line'})};
+ const mark=(i,text,dir,color)=>M.push({i:+i,t:String(text||'').slice(0,12),up:dir==='up'||dir===1,c:color||null});
+ try{const fn=new Function('o','h','l','c','v','t','sma','ema','rma','wma','rsi','stdev','highest','lowest','atr','change','crossover','crossunder','input','plot','mark','"use strict";'+code);
+  fn(o,h,l,c,v,t,sma,ema,rma,wma,rsi,stdev,highest,lowest,atr,change,crossover,crossunder,input,plot,mark);postMessage({ok:1,P,M,I})}
+ catch(err){postMessage({ok:0,err:String(err&&err.message||err)})}};
+self.fetch=undefined;self.XMLHttpRequest=undefined;self.WebSocket=undefined;self.importScripts=undefined;self.EventSource=undefined;self.indexedDB=undefined;self.caches=undefined;
+`;
+let myW=null;
+function myRun(code,bars,inputs){return new Promise((res,rej)=>{try{if(!myW){myW=URL.createObjectURL(new Blob([MY_WORKER],{type:'text/javascript'}))}const w=new Worker(myW);const to=setTimeout(()=>{w.terminate();rej(new Error('Kod 3 saniyede bitmedi (sonsuz döngü olabilir).'))},3000);
+ w.onmessage=e=>{clearTimeout(to);w.terminate();e.data.ok?res(e.data):rej(new Error(e.data.err))};w.onerror=e=>{clearTimeout(to);w.terminate();rej(new Error(e.message||'Kod hatası'))};w.postMessage({code,bars,inputs})}catch(e){rej(e)}})}
+const MYC=['#2962ff','#f7a600','#e91e63','#089981','#9c27b0','#00bcd4','#ff5722','#8bc34a'];
+const myCache={};
+function myDef(m){const id='my_'+m.id;return{id,n:m.n,s:m.n.slice(0,14),cat:'my',pane:m.pane?1:0,special:'prim',full:1,mine:1,
+ p:Object.fromEntries((m.inputs||[]).map((x,i)=>['i'+i,x.def])),
+ inp:(m.inputs||[]).map((x,i)=>({k:'i'+i,t:typeof x.def==='boolean'?'bool':Number.isInteger(x.def)?'int':'float',l:x.name})),
+ pl:m.plots.map((q,i)=>({k:'p'+i,c:q.color||MYC[i%MYC.length],n:q.name,...(q.type==='hist'?{t:'hist'}:q.type==='dots'?{t:'dots',w:3}:{})})),
+ f:(x,p)=>{const key=x.t.length+'|'+x.t[x.t.length-1]+'|'+x.c[x.c.length-1]+'|'+JSON.stringify(p),c=myCache[id];
+  if(!c||c.key!==key){if(!c||!c.busy){const C=myCache[id]=c||{};C.busy=1;C.want=key;myRun(m.code,{o:x.o,h:x.h,l:x.l,c:x.c,v:x.v,t:x.t},Object.fromEntries((m.inputs||[]).map((q,i)=>[q.name,p['i'+i]]))).then(r=>{C.busy=0;C.key=C.want;C.err=null;C.out=myOut(r,x.c.length);myApply(id)}).catch(e=>{C.busy=0;C.key=C.want;C.err=e.message;myApply(id)})}}
+  return(c&&c.out)||{ln:[],mk:[]}},
+ lbl:()=>{const c=myCache[id];return c&&c.err?`<span class="vv" style="color:#f23645">Hata: ${esc(c.err.slice(0,60))}</span>`:''}}}
+function myOut(r,n){const o={ln:[],mk:r.M.filter(m=>m.i>=0&&m.i<n).slice(-400).map(m=>({i:m.i,up:m.up?1:0,t:m.t,c:m.c||(m.up?GRN:RED)}))};r.P.forEach((q,i)=>{o['p'+i]=q.data.length===n?q.data:q.data.slice(-n)});return o}
+function myApply(id){const d=S.data;if(!d.length)return;for(const u in R){const r=R[u];if(r.def.id!==id)continue;const c=myCache[id];r.out=(c&&c.out)||{ln:[],mk:[]};
+ r.out.mk.forEach(m=>{if(m.p==null)m.p=m.up?d[m.i]?.low:d[m.i]?.high});
+ r.def.pl.forEach(pl=>{const s=r.series[pl.k],arr=r.out[pl.k];if(s&&arr)try{s.setData(toPts(arr,0,null,pl))}catch(e){}})}legend();dirty()}
+function myList(){return ls.get('myInds',[])}
+function myRegister(){myList().forEach(m=>{const d=myDef(m),i=DEFS.findIndex(x=>x.id===d.id);if(i>=0)DEFS[i]=d;else DEFS.push(d);DEF[d.id]=d})}
+function myEditor(m){const isNew=!m;m=m||{id:Date.now().toString(36),n:'Benim göstergem',pane:false,code:MY_TPL};
+ dialog(isNew?'Gösterge yükle':'Göstergeyi düzenle',`<div class="myed">
+ <div class="myrow"><div class="fld" style="flex:1"><label for="myN">Gösterge adı</label><input id="myN" type="text" maxlength="40" value="${esc(m.n)}"></div>
+ <div class="fld"><label for="myP">Nerede çizilsin?</label><select id="myP"><option value="0"${m.pane?'':' selected'}>Fiyat grafiğinin üstünde</option><option value="1"${m.pane?' selected':''}>Ayrı panelde</option></select></div></div>
+ <div class="mytb"><label class="btn g sm" for="myF">📂 Dosyadan yükle (.js / .txt)</label><input id="myF" type="file" accept=".js,.txt,.json,text/plain" hidden><button type="button" class="btn g sm" data-my="tpl">Örnek kod</button><span class="myhint">Kod güvenli bir alanda çalışır: internete, hesaplarınıza ve kayıtlı anahtarlarınıza erişemez.</span></div>
+ <textarea id="myCode" spellcheck="false">${esc(m.code)}</textarea>
+ <div class="myres" id="myRes"></div>
+ <details class="myhelp"><summary>Nasıl yazılır?</summary><p><code>o h l c v t</code>: açılış, yüksek, düşük, kapanış, hacim, zaman dizileri. <code>input("ad", 14)</code>: ayarlardan değiştirilebilen girdi. <code>plot("ad", dizi, "#renk", "line|histogram|dots")</code>: çizgi çizer. <code>mark(i, "AL", "up")</code>: mumun altına/üstüne etiket koyar.</p><p>Hazır fonksiyonlar: <code>sma ema rma wma rsi stdev highest lowest atr change crossover crossunder</code>.</p></details></div>`,
+ [...(isNew?[]:[{t:'Sil',cls:'g',left:1,keep:1,f:()=>{if(confirm(`"${m.n}" göstergesi silinsin mi?`)){ls.set('myInds',myList().filter(x=>x.id!==m.id));S.inds=S.inds.filter(i=>i.id!=='my_'+m.id);saveInds();const i=DEFS.findIndex(d=>d.id==='my_'+m.id);if(i>=0)DEFS.splice(i,1);delete DEF['my_'+m.id];rebuildInds();closeModal('mDlg');toast('Gösterge silindi',m.n,'',2500)}return false}}]),
+  {t:'Test et',cls:'g',keep:1,f:()=>{myTest();return false}},{t:isNew?'Kaydet ve grafiğe ekle':'Kaydet',keep:1,f:()=>{mySave(m,isNew);return false}}],'bxl');
+ $('#myF').onchange=e=>{const f=e.target.files[0];if(!f)return;if(f.size>200000){toast('Dosya çok büyük','En fazla 200 KB.','',3000);return}f.text().then(t=>{let code=t;try{const j=JSON.parse(t);if(j&&j.code){code=j.code;if(j.name)$('#myN').value=j.name;if('pane'in j)$('#myP').value=j.pane?'1':'0'}}catch(_){}$('#myCode').value=code;if(/^\/\/@version|indicator\(|study\(/m.test(code))$('#myRes').innerHTML='<div class="mywarn">Bu bir Pine Script kodu gibi görünüyor. Pine Script doğrudan çalışmaz; aynı mantığı yukarıdaki basit JavaScript diliyle yazmanız gerekir (örnek koda bakın).</div>';else if($('#myN').value==='Benim göstergem')$('#myN').value=f.name.replace(/\.[^.]+$/,'').slice(0,40)})};
+ $('#dlgB').addEventListener('click',e=>{if(e.target.closest('[data-my=tpl]'))$('#myCode').value=MY_TPL});
+ $('#myCode').addEventListener('keydown',e=>{if(e.key==='Tab'){e.preventDefault();const t=e.target,a=t.selectionStart;t.setRangeText('  ',a,t.selectionEnd,'end')}e.stopPropagation()})}
+async function myTest(){const res=$('#myRes'),x=srcOf(S.data);res.innerHTML='<div class="myok">Çalıştırılıyor…</div>';try{const r=await myRun($('#myCode').value,{o:x.o,h:x.h,l:x.l,c:x.c,v:x.v,t:x.t},null);if(!r.P.length&&!r.M.length)throw new Error('Kod hiçbir şey çizmedi. En az bir plot(...) veya mark(...) ekleyin.');res.innerHTML=`<div class="myok">✓ Kod çalıştı: ${r.P.length} çizgi${r.M.length?', '+r.M.length+' etiket':''}${r.I.length?', '+r.I.length+' ayar':''}.</div>`;return r}catch(e){res.innerHTML=`<div class="myerr">Hata: ${esc(e.message)}</div>`;return null}}
+async function mySave(m,isNew){const r=await myTest();if(!r)return;const n=$('#myN').value.trim()||'Benim göstergem';Object.assign(m,{n,pane:$('#myP').value==='1',code:$('#myCode').value,plots:r.P.map(p=>({name:p.name,color:p.color,type:p.type})),inputs:r.I,at:Date.now()});
+ const L=myList().filter(x=>x.id!==m.id);L.push(m);ls.set('myInds',L);delete myCache['my_'+m.id];myRegister();closeModal('mDlg');closeModal('mInd');
+ if(isNew)addInd('my_'+m.id);else rebuildInds();toast(isNew?'Gösterge eklendi':'Gösterge güncellendi',n,'',2500)}
+function myExport(m){const b=new Blob([JSON.stringify({name:m.n,pane:m.pane,code:m.code,app:APP_NAME},null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=m.n.replace(/[^\w\-ğüşıöçĞÜŞİÖÇ ]/g,'').trim().replace(/\s+/g,'_')+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),2000)}
+// ---------- profil ----------
+const PRF=()=>ls.get('profile',{});
+function prfAv(p,sz=30){p=p||PRF();const ini=(p.name||'?').trim().split(/\s+/).map(w=>w[0]).join('').slice(0,2).toLocaleUpperCase('tr');return p.av?`<img class="prav" src="${esc(p.av)}" width="${sz}" height="${sz}" alt="">`:`<span class="prav prini" style="width:${sz}px;height:${sz}px;font-size:${sz*.4}px">${esc(ini||'?')}</span>`}
+function renderPrfBtn(){const b=$('#prfBtn');if(b)b.innerHTML=prfAv(null,26)}
+function profileDlg(){const p=PRF(),st=['Scalper','Günlük (day trader)','Swing','Uzun vadeli yatırımcı','Algoritmik'],mk=['Kripto','Hisse','Forex','Emtia','Endeks'];
+ const nI=S.inds.length,nD=S.draws?.length||0,nA=S.alarms.filter(a=>a.on).length,my=myList().length;
+ dialog('Profilim',`<div class="prf">
+ <div class="prhd"><label class="prpic" title="Profil fotoğrafı yükle">${prfAv(p,76)}<input type="file" id="prImg" accept="image/*" hidden><span class="prcam">📷</span></label>
+  <div class="prnm"><input id="prN" type="text" maxlength="32" placeholder="Adınız" value="${esc(p.name||'')}"><div class="pru">@<input id="prU" type="text" maxlength="24" placeholder="kullaniciadi" value="${esc(p.user||'')}"></div></div></div>
+ <div class="prst"><div><b>${nI}</b><span>Aktif gösterge</span></div><div><b>${nD}</b><span>Çizim</span></div><div><b>${nA}</b><span>Alarm</span></div><div><b>${my}</b><span>Kendi göstergem</span></div></div>
+ <div class="fld"><label for="prB">Hakkımda</label><textarea id="prB" maxlength="200" rows="2" placeholder="Kısaca kendinizden bahsedin">${esc(p.bio||'')}</textarea></div>
+ <div class="prrow"><div class="fld"><label for="prS">İşlem tarzı</label><select id="prS"><option value="">Seçin</option>${st.map(x=>`<option${p.style===x?' selected':''}>${x}</option>`).join('')}</select></div>
+ <div class="fld"><label for="prE">Deneyim</label><select id="prE"><option value="">Seçin</option>${['Yeni başlıyorum','1–3 yıl','3–5 yıl','5+ yıl'].map(x=>`<option${p.exp===x?' selected':''}>${x}</option>`).join('')}</select></div></div>
+ <div class="fld"><label>İlgilendiğim piyasalar</label><div class="prtags">${mk.map(x=>`<label class="prtag"><input type="checkbox" value="${x}"${(p.mk||[]).includes(x)?' checked':''}><span>${x}</span></label>`).join('')}</div></div>
+ <div class="prrow"><div class="fld"><label for="prX">X / Twitter</label><input id="prX" type="text" placeholder="@kullanici" value="${esc(p.x||'')}"></div><div class="fld"><label for="prI">Instagram / YouTube</label><input id="prI" type="text" placeholder="@kullanici" value="${esc(p.ig||'')}"></div></div>
+ <div class="prmy"><div class="prmh">Kendi göstergelerim <button type="button" class="btn sm" data-pr="new">+ Gösterge yükle</button></div>${my?myList().map(m=>`<div class="prmi"><b>${esc(m.n)}</b><span>${m.plots.length} çizgi · ${m.pane?'ayrı panel':'grafik üstü'}</span><button type="button" class="btn g sm" data-pr="add" data-id="${m.id}">Grafiğe ekle</button><button type="button" class="btn g sm" data-pr="edit" data-id="${m.id}">Düzenle</button><button type="button" class="btn g sm" data-pr="exp" data-id="${m.id}">Paylaş (dosya)</button></div>`).join(''):'<div class="empty">Henüz kendi göstergeniz yok.</div>'}</div>
+ <div class="prbk"><b>Yedekle ve taşı</b><span>Profil, ayarlar, göstergeler, çizimler, alarmlar ve kendi göstergeleriniz tek dosyada. Başka bir cihaza veya tarayıcıya aynen taşıyabilirsiniz.</span><div><button type="button" class="btn g sm" data-pr="bak">⬇ Yedeği indir</button><label class="btn g sm" for="prRes">⬆ Yedekten yükle</label><input type="file" id="prRes" accept=".json,application/json" hidden></div></div>
+ <p class="prnote">Profiliniz şimdilik bu cihazda saklanır. Hesap ve bulut senkronizasyonu yakında.</p></div>`,
+ [{t:'Kapat',cls:'g'},{t:'Kaydet',f:()=>{const q={...PRF(),name:$('#prN').value.trim(),user:$('#prU').value.trim().replace(/[^\w.]/g,''),bio:$('#prB').value.trim(),style:$('#prS').value,exp:$('#prE').value,mk:[...$$('.prtag input')].filter(i=>i.checked).map(i=>i.value),x:$('#prX').value.trim(),ig:$('#prI').value.trim()};ls.set('profile',q);renderPrfBtn();toast('Profil kaydedildi',q.name||'','',2000)}}],'md');
+ $('#prImg').onchange=e=>{const f=e.target.files[0];if(!f)return;const img=new Image();img.onload=()=>{const cv=document.createElement('canvas');cv.width=cv.height=160;const g=cv.getContext('2d'),m=Math.min(img.width,img.height);g.drawImage(img,(img.width-m)/2,(img.height-m)/2,m,m,0,0,160,160);const q={...PRF(),av:cv.toDataURL('image/jpeg',.85)};ls.set('profile',q);$('.prpic').firstChild.outerHTML=prfAv(q,76);renderPrfBtn()};img.src=URL.createObjectURL(f)};
+ $('#prRes').onchange=e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{let j;try{j=JSON.parse(t)}catch(_){toast('Geçersiz dosya','Yedek dosyası okunamadı.','',3000);return}if(!j||j.app!=='otc-backup'||!j.data){toast('Geçersiz dosya','Bu bir yedek dosyası değil.','',3000);return}if(!confirm('Yedek yüklensin mi? Bu cihazdaki mevcut ayarlar, çizimler ve göstergeler yedektekilerle değiştirilecek.'))return;Object.entries(j.data).forEach(([k,v])=>{if(k.startsWith('otc_')&&k!=='otc_brk')localStorage.setItem(k,v)});toast('Yedek yüklendi','Sayfa yenileniyor…','',1500);setTimeout(()=>location.reload(),900)})};
+ $('#dlgB').addEventListener('click',e=>{const b=e.target.closest('[data-pr]');if(!b)return;const a=b.dataset.pr,m=myList().find(x=>x.id===b.dataset.id);
+  if(a==='new'){closeModal('mDlg');setTimeout(()=>myEditor(),30)}else if(a==='edit'&&m){closeModal('mDlg');setTimeout(()=>myEditor(m),30)}else if(a==='add'&&m){closeModal('mDlg');addInd('my_'+m.id)}else if(a==='exp'&&m)myExport(m);
+  else if(a==='bak'){const data={};for(let i=0;i<localStorage.length;i++){const k=localStorage.key(i);if(k.startsWith('otc_')&&k!=='otc_brk')data[k]=localStorage.getItem(k)}const bl=new Blob([JSON.stringify({app:'otc-backup',v:1,at:new Date().toISOString(),data})],{type:'application/json'}),x=document.createElement('a');x.href=URL.createObjectURL(bl);x.download=`${APP_NAME}-yedek-${new Date().toISOString().slice(0,10)}.json`;x.click();toast('Yedek indirildi','Borsa API anahtarları güvenlik için yedeğe eklenmez.','',3500)}})}
+
+myRegister();
+
 Object.assign(DEF.cand,{n:'Mum Formasyonları (yutan, çekiç, yıldız, harami, 3 asker, doji… 20+)',p:{...DEF.cand.p,har:true,pierce:true,sold:true,tw:false,maru:false,more:false}});
 DEF.cand.inp=[{k:'bars',t:'int',l:'Taranacak mum sayısı'},{g:'Formasyonlar'},{k:'eng',t:'bool',l:'Yutan (engulfing)'},{k:'ham',t:'bool',l:'Çekiç / Kayan yıldız'},{k:'more',t:'bool',l:'Asılı adam / Ters çekiç'},{k:'star',t:'bool',l:'Sabah / Akşam yıldızı'},{k:'har',t:'bool',l:'Harami'},{k:'pierce',t:'bool',l:'Delen / Kara bulut'},{k:'sold',t:'bool',l:'Üç beyaz asker / Üç kara karga'},{k:'tw',t:'bool',l:'Cımbız dip / tepe'},{k:'maru',t:'bool',l:'Marubozu'},{k:'doji',t:'bool',l:'Doji (yusufçuk, mezar taşı)'}];
 // ---------------- v5: likidasyon haritası + canlı likidasyonlar ----------------
@@ -1642,7 +1790,7 @@ DEFS.push({id:'liqmap',n:'Likidasyon Isı Haritası + Canlı Likidasyonlar'+FUTN
 DEF.liqmap=DEFS.at(-1);
 const FLOATP=new Set(['mult','fac','start','inc','max','off','sigma','pct','dev','kcm']);
 const PL={off:'Ofset',sigma:'Sigma',pct:'Yüzde',jaw:'Çene uzunluğu',teeth:'Diş uzunluğu',lips:'Dudak uzunluğu',per:'Periyot',dev:'Sapma',k1:'Kısa periyot',k2:'Orta periyot',k3:'Uzun periyot',streak:'Seri RSI uzunluğu',rank:'Yüzde sıra uzunluğu',wma:'WMA uzunluğu',long:'Uzun uzunluk',short:'Kısa uzunluk',ch:'Kanal uzunluğu',avg:'Ortalama uzunluğu',kcm:'Keltner çarpanı',len:'Uzunluk',mult:'Std. sapma / çarpan',atr:'ATR uzunluğu',fast:'Hızlı uzunluk',slow:'Yavaş uzunluk',sig:'Sinyal uzunluğu',k:'%K uzunluğu',d:'%D yumuşatma',smooth:'Yumuşatma',rsi:'RSI uzunluğu',stoch:'Stokastik uzunluk',conv:'Dönüşüm hattı',base:'Taban hattı',span:'Öncü B uzunluğu',disp:'Kaydırma',start:'Başlangıç',inc:'Artış',max:'Maksimum',fac:'Faktör',ma:'Hacim ortalaması'};
-const CATS={fav:'★ Favoriler',tpl:'Şablonlarım',all:'Tümü',trend:'Trend',osc:'Osilatörler',vol:'Hacim',vola:'Volatilite',fut:'Vadeli verileri',strat:'Stratejiler'};
+const CATS={fav:'★ Favoriler',tpl:'Şablonlarım',all:'Tümü',trend:'Trend',osc:'Osilatörler',vol:'Hacim',vola:'Volatilite',fut:'Vadeli verileri',strat:'Stratejiler',my:'Benim göstergelerim'};
 const STYK=['c','w','ls','pt','pv','lv','sl','sv','si','dp','vis'];
 const newInst=(id,extra={})=>{const df=S.indDef[id]||{};const o={u:uid(),id,p:{...DEF[id].p,...(df.p||{})},c:{},hide:false};STYK.forEach(k=>{if(df[k]!=null)o[k]=clone(df[k])});o.c=o.c||{};return{...o,...extra,p:{...o.p,...(extra.p||{})},c:{...o.c,...(extra.c||{})}}};
 const tfGroup=()=>{const s=TFSEC[S.tf]||60;return s<3600?'m':s<86400?'h':s<604800?'d':s<2592000?'w':'M'};
@@ -1688,6 +1836,7 @@ function rebuildInds(){
  for(const u in R){const r=R[u];if(r.def.pane===0)for(const k in r.series){try{main.removeSeries(r.series[k])}catch(e){}}}
  R={};
  subs.splice(0).forEach(p=>{try{p.chart.remove()}catch(e){}p.el.remove()});
+ S.inds=S.inds.filter(inst=>DEF[inst.id]);
  S.inds.forEach(inst=>{const def=DEF[inst.id];let chart=main,pane=null;
   if(def.pane===1){pane=newPane(inst,def);chart=pane.chart}
   const r={inst,def,chart,pane,series:{},out:null};
@@ -2826,7 +2975,7 @@ const MCDEF=['F:ETHUSDT','F:SOLUSDT','S:BTCUSDT','F:XRPUSDT','F:BNBUSDT','F:DOGE
 function mcOpts(){const o=chartOpts(false);o.layout={...o.layout,attributionLogo:false};o.watermark={visible:false};o.crosshair={...o.crosshair,vertLine:{...o.crosshair.vertLine,visible:true},horzLine:{...o.crosshair.horzLine,visible:true}};o.rightPriceScale={...o.rightPriceScale,minimumWidth:64,mode:0,invertScale:false};return o}
 function mcCols(){const st=S.set;return{upColor:st.up,downColor:st.down,borderVisible:!!st.border,borderUpColor:st.upB,borderDownColor:st.dnB,wickVisible:!!st.wick,wickUpColor:st.upW,wickDownColor:st.dnW}}
 function applyLayout(){const l=innerWidth<560?(['2v'].includes(S.lay)?S.lay:'1'):innerWidth<900&&lcount(S.lay)>4?'4':S.lay;$('#area').className='L'+l;const need=lcount(l)-1;while(MCS.length>need)closeMc(MCS.pop());while(MCS.length<need)createMc(MCS.length);
- $('#layBtn').innerHTML=ic('lay'+l)+'<span class="lbl">'+(lcount(l)>1?lcount(l)+' grafik':'Düzen')+'</span>';setTimeout(()=>{fitPanes();placeFav();dirty()},80)}
+ $('#layBtn').innerHTML=ic('lay'+l)+'<span class="lbl">'+(lcount(l)>1?lcount(l)+' grafik':'Düzen')+'</span><svg class="chv" width="8" height="8" viewBox="0 0 8 8"><path d="M1 2.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>';setTimeout(()=>window.fitTop&&fitTop(),0);setTimeout(()=>{fitPanes();placeFav();dirty()},80)}
 function createMc(i){if(!S.mcs[i])S.mcs[i]={key:MCDEF[i]||S.key,tf:'1h'};const el=document.createElement('div');el.className='mc';
  el.innerHTML=`<div class="mch"><button class="ms" title="Sembol değiştir"></button><select class="mt" title="Zaman dilimi">${TFS.map(t=>`<option value="${t[0]}">${t[1]}</option>`).join('')}</select><span class="mp"></span><button class="mo" title="Ana grafikte aç">${ic('full')}</button></div><div class="mcc"></div>`;
  $('#area').appendChild(el);const chart=LC.createChart(el.querySelector('.mcc'),mcOpts()),s_=chart.addCandlestickSeries(mcCols()),v=chart.addHistogramSeries({priceScaleId:'v',priceFormat:{type:'volume'},lastValueVisible:false,priceLineVisible:false});
@@ -2894,7 +3043,7 @@ function tplClick(e){if(e.target.closest('#tplSave')){const n=$('#tplN').value.t
 // ================= demo hesap (sanal işlem) =================
 const DM0={bal:10000,start:10000,pos:{},ord:[],hist:[]};
 S.demo={...clone(DM0),...ls.get('demo',{})};
-const DM={side:1,type:'market',unit:'USDT',lev:10,tab:'pos',amt:'',px:null};Object.assign(DM,{tpM:'price',slM:'price',tpV:'',slV:'',mm:'iso',ro:false},ls.get('dmPref',{}));
+const DM={side:1,type:'market',unit:'USDT',lev:10,tab:'pos',amt:'',px:null};Object.assign(DM,{tpM:'price',slM:'price',tpV:'',slV:'',mm:'iso',ro:false,tpOn:false,slOn:false},ls.get('dmPref',{}));DM.tpV='';DM.slV='';DM.tpOn=false;DM.slOn=false;
 const trC=side=>side>0?(S.ui.buy||'#089981'):(S.ui.sell||'#f23645');const txtOn=c=>lum(c)>.62?'#131722':'#ffffff';
 const feeR=k=>isPerp(k)?.0004:.001;
 const pxOf=k=>S.tick[k]?.c??(k===S.key?S.full.at(-1)?.close:null);
@@ -2938,16 +3087,19 @@ function renderDmForm(){const e=$('#dmForm');if(!e)return;const k=S.key,isF=isPe
  <div class="dfl"><label>Miktar<span>Kullanılabilir: ${fmt(st.free,2)} USDT</span></label><div class="ig"><input id="dmAmt" type="number" step="any" min="0" placeholder="0" value="${esc(DM.amt)}"><button type="button" data-dunit="1" title="Birimi değiştir">${DM.unit==='USDT'?'USDT':esc(baseOf(k))} ⇄</button></div></div>
  <div class="pcts">${[10,25,50,75,100].map(p=>`<button type="button" data-dpct="${p}">%${p}</button>`).join('')}</div>
  ${isF?`<div class="dfl"><label>Kaldıraç<span id="dmLevV">${DM.lev}x</span></label><input id="dmLev" type="range" min="1" max="125" value="${DM.lev}" style="width:100%;accent-color:var(--ac)"><div class="levq">${[1,2,3,5,10,20,25,50,75,100,125].map(v=>`<button type="button" data-dlev="${v}" class="${DM.lev===v?'on':''}">${v}x</button>`).join('')}</div></div>`:''}
- <div class="tpsl"><div class="dfl"><label>Kâr al (TP)${mSel('dmTpM',DM.tpM)}</label><div class="ig"><input id="dmTp" type="number" step="any" placeholder="İsteğe bağlı" value="${esc(DM.tpV)}"></div></div>
-  <div class="dfl"><label>Zarar durdur (SL)${mSel('dmSlM',DM.slM)}</label><div class="ig"><input id="dmSl" type="number" step="any" placeholder="İsteğe bağlı" value="${esc(DM.slV)}"></div></div></div>
+ ${['tp','sl'].map(kk=>`<div class="tvtp ${kk}${DM[kk+'On']?' on':''}" data-tk="${kk}"><label class="tvck"><input type="checkbox" data-ton="${kk}"${DM[kk+'On']?' checked':''}><span>${kk==='tp'?'Kâr Al':'Zarar Durdur'}</span></label>
+  <div class="tvg">${[['price','Fiyat'],['tick','Tik'],['usd','USDT'],['pct','%']].map(([m,l])=>`<label class="tvf"><span>${l}</span><input type="number" step="any" inputmode="decimal" data-tm="${m}" data-tk="${kk}"${DM[kk+'On']?'':' disabled'}></label>`).join('')}</div></div>`).join('')}
  <div class="riskr"><span title="SL girildiğinde, kaybın bakiyenin bu yüzdesini geçmeyeceği miktarı hesaplar">Risk ile miktar:</span>${[.5,1,2,3,5].map(r=>`<button type="button" data-drisk="${r}">%${String(r).replace('.',',')}</button>`).join('')}</div>
  <label class="ck sm"><input type="checkbox" id="dmRo"${DM.ro?' checked':''}>Yalnızca azalt (pozisyonu büyütmez)</label>
  <button type="button" class="dmsub" id="dmGo" style="background:${sc};color:${txtOn(sc)}">${DM.side>0?(isF?'AL / LONG':'AL'):(isF?'SAT / SHORT':'SAT')} · ${esc(lbl(k))}</button><div class="dminfo" id="dmInfo"></div>
  <div class="dmkeys">Kısayol: <kbd>Shift</kbd>+<kbd>B</kbd> piyasa al · <kbd>Shift</kbd>+<kbd>S</kbd> piyasa sat</div>`;dmInfo()}
-function tpslPx(kind,mode,v,price,side,qty){if(!(v>0)||!(price>0))return null;if(mode==='price')return v;const s=kind==='tp'?side:-side;if(mode==='pct')return price*(1+s*v/100);return qty>0?price+s*v/qty:null}
+function tpslPx(kind,mode,v,price,side,qty){if(!(v>0)||!(price>0))return null;if(mode==='price')return v;const s=kind==='tp'?side:-side;if(mode==='pct')return price*(1+s*v/100);if(mode==='tick')return price+s*v*Math.pow(10,-precOf(S.key));return qty>0?price+s*v/qty:null}
+function syncTpsl(){const{px,qty}=dmCalc(),dp=precOf(S.key),tick=Math.pow(10,-dp);['tp','sl'].forEach(k=>{const box=document.querySelector(`.tvtp[data-tk="${k}"]`);if(!box)return;const P=DM[k+'On']?tpslPx(k,DM[k+'M'],parseFloat(DM[k+'V']),px,DM.side,qty):null,s=k==='tp'?DM.side:-DM.side;
+ const bad=P!=null&&(s*(P-px)<=0||P<=0);box.classList.toggle('bad',!!bad);
+ box.querySelectorAll('input[data-tm]').forEach(i=>{if(i===document.activeElement)return;const m=i.dataset.tm;if(P==null||!(px>0)){i.value='';return}const d=s*(P-px);i.value=m==='price'?P.toFixed(dp):m==='tick'?Math.round(d/tick):m==='usd'?(qty>0?(d*qty).toFixed(2):''):(d/px*100).toFixed(2)})})}
 function dmCalc(){const k=S.key,isF=isPerp(k),px=DM.type==='market'?pxOf(k):parseFloat($('#dmPx')?.value),amt=parseFloat($('#dmAmt')?.value),lev=isF?DM.lev:1;
- const qty=amt>0&&px>0?(DM.unit==='USDT'?amt/px:amt):0,tp=tpslPx('tp',DM.tpM,parseFloat(DM.tpV),px,DM.side,qty),sl=tpslPx('sl',DM.slM,parseFloat(DM.slV),px,DM.side,qty);return{k,isF,px,qty,lev,tp,sl}}
-function dmInfo(){const e=$('#dmInfo');if(!e)return;const{k,isF,px,qty,lev,tp,sl}=dmCalc(),dp=precOf(k);
+ const qty=amt>0&&px>0?(DM.unit==='USDT'?amt/px:amt):0,tp=DM.tpOn?tpslPx('tp',DM.tpM,parseFloat(DM.tpV),px,DM.side,qty):null,sl=DM.slOn?tpslPx('sl',DM.slM,parseFloat(DM.slV),px,DM.side,qty):null;return{k,isF,px,qty,lev,tp,sl}}
+function dmInfo(){const e=$('#dmInfo');if(!e)return;syncTpsl();const{k,isF,px,qty,lev,tp,sl}=dmCalc(),dp=precOf(k);
  if(!(qty>0)){e.innerHTML=`Ücret: %${fmt(feeR(k)*100,2)} · ${isF?(DM.mm==='cross'?'Vadeli, çapraz marj':'Vadeli, izole marj'):'Spot, kaldıraçsız'} · Sanal para, gerçek işlem yapılmaz.`;return}
  const val=qty*px,lq=isF?liqOf({side:DM.side,entry:px,lev,qty,mm:DM.mm},true):null,tpP=tp?(tp-px)*qty*DM.side:null,slL=sl?(sl-px)*qty*DM.side:null,rr=tpP&&slL?Math.abs(tpP/slL):null;
  e.innerHTML=`Miktar: <b>${fmtQ(qty)} ${esc(baseOf(k))}</b> · Değer: <b>${fmt(val,2)} USDT</b><br>Gerekli marj: <b>${fmt(val/lev,2)} USDT</b> · Ücret: ${fmt(val*feeR(k),2)} USDT${lq?`<br>Tahmini likidasyon: <b style="color:#ff9800">${fmt(lq,dp)}</b>`:''}`+
@@ -2988,7 +3140,7 @@ $('#trade').addEventListener('click',e=>{const b=e.target.closest('button,[data-
  if(d.dunit){const px=DM.type==='market'?pxOf(S.key):parseFloat($('#dmPx')?.value),a=parseFloat($('#dmAmt')?.value);if(a>0&&px>0)DM.amt=String(DM.unit==='USDT'?+(a/px).toPrecision(6):+(a*px).toFixed(2));DM.unit=DM.unit==='USDT'?'COIN':'USDT';dmPref();renderDmForm();return}
  if(d.dpct){const st=dmStats(),isF=isPerp(S.key),lev=isF?DM.lev:1,px=DM.type==='market'?pxOf(S.key):parseFloat($('#dmPx')?.value);let v=st.free*(+d.dpct/100)*lev*.998;
   if(!isF&&DM.side<0){const p=S.demo.pos[S.key];v=p?p.qty*(+d.dpct/100)*px:0}DM.amt=String(DM.unit==='USDT'?+v.toFixed(2):+(v/px).toPrecision(6));$('#dmAmt').value=DM.amt;dmInfo();return}
- if(d.drisk){const{px,sl}=dmCalc();const slp=sl??tpslPx('sl',DM.slM,parseFloat(DM.slV),px,DM.side,1);if(!slp||!(px>0)){toast('Önce SL girin','Risk ile miktar hesaplamak için zarar durdur (SL) seviyesi gerekli.','',4000);$('#dmSl')?.focus();return}
+ if(d.drisk){const{px,sl}=dmCalc();const slp=sl??tpslPx('sl',DM.slM,parseFloat(DM.slV),px,DM.side,1);if(!slp||!(px>0)){toast('Önce SL girin','Risk ile miktar hesaplamak için zarar durdur (SL) seviyesi gerekli.','',4000);DM.slOn=true;DM.slM='pct';DM.slV='1';renderDmForm();return}
   if(DM.slM==='usd'){toast('SL birimi','Risk hesabı için SL\'yi fiyat veya % olarak girin.','',4000);return}const eq=dmStats().eq,q=eq*(+d.drisk/100)/Math.abs(px-slp);DM.amt=String(DM.unit==='USDT'?+(q*px).toFixed(2):+q.toPrecision(6));$('#dmAmt').value=DM.amt;dmInfo();toast('Miktar hesaplandı',`SL'de en fazla ${fmt(eq*d.drisk/100,2)} $ (%${d.drisk}) kaybedersiniz.`,'',3500);return}
  if(b.id==='dmGo'){dmSubmit();return}if(d.dtab){DM.tab=d.dtab;renderDmList();return}
  if(d.dclose||d.dpart){const[k,f]=(d.dclose||d.dpart).split('|'),px=pxOf(k);if(dmClose(k,d.dclose?1:+f))toast(d.dclose?'Pozisyon kapatıldı':'Kısmi kapatma',`${lbl(k)} @ ${fmt(px,precOf(k))}`,'',2500);return}
@@ -2999,9 +3151,9 @@ $('#trade').addEventListener('click',e=>{const b=e.target.closest('button,[data-
   [{t:'Vazgeç',cls:'g'},{t:'Kaydet',f:()=>{p.tp=parseFloat($('#eTp').value)||null;p.sl=parseFloat($('#eSl').value)||null;dmAfter()}}]);return}
  if(d.dk&&d.dk!==S.key)pick(d.dk)});
 $('#trade').addEventListener('input',e=>{const id=e.target.id;if(id==='dmLev'){DM.lev=+e.target.value;$('#dmLevV').textContent=DM.lev+'x';$$('#dmForm [data-dlev]').forEach(x=>x.classList.toggle('on',+x.dataset.dlev===DM.lev));const lb=$('#dmForm .levb');if(lb)lb.textContent=DM.lev+'x';dmPref()}
- if(id==='dmAmt')DM.amt=e.target.value;if(id==='dmPx')DM.px=parseFloat(e.target.value)||null;if(id==='dmTp')DM.tpV=e.target.value;if(id==='dmSl')DM.slV=e.target.value;
- if(id==='dmTpM'){DM.tpM=e.target.value;DM.tpV='';$('#dmTp').value='';dmPref()}if(id==='dmSlM'){DM.slM=e.target.value;DM.slV='';$('#dmSl').value='';dmPref()}if(id==='dmRo')DM.ro=e.target.checked;dmInfo()});
-$('#trade').addEventListener('change',e=>{if(['dmTpM','dmSlM'].includes(e.target.id))$('#trade').dispatchEvent(new Event('input'))});
+ if(id==='dmAmt')DM.amt=e.target.value;if(id==='dmPx')DM.px=parseFloat(e.target.value)||null;{const t=e.target;if(t.dataset.tm&&t.dataset.tk){DM[t.dataset.tk+'M']=t.dataset.tm;DM[t.dataset.tk+'V']=t.value}if(t.dataset.ton){const k=t.dataset.ton;DM[k+'On']=t.checked;const box=t.closest('.tvtp');box.classList.toggle('on',t.checked);box.querySelectorAll('input[data-tm]').forEach(i=>i.disabled=!t.checked);if(t.checked&&!(parseFloat(DM[k+'V'])>0)){DM[k+'M']='pct';DM[k+'V']=k==='tp'?'2':'1'}}}
+ if(id==='dmRo')DM.ro=e.target.checked;dmInfo()});
+$('#trade').addEventListener('change',e=>{if(e.target.dataset.ton)$('#trade').dispatchEvent(new Event('input'))});$('#trade').addEventListener('focusout',e=>{if(e.target.dataset&&e.target.dataset.tm)setTimeout(syncTpsl,0)});
 function dmPref(){ls.set('dmPref',{lev:DM.lev,unit:DM.unit,mm:DM.mm,tpM:DM.tpM,slM:DM.slM})}
 document.addEventListener('keydown',e=>{if(!e.shiftKey||e.ctrlKey||e.metaKey||e.altKey)return;const t=e.target;if(t&&(t.tagName==='INPUT'||t.tagName==='TEXTAREA'||t.tagName==='SELECT'||t.isContentEditable))return;if($('.modal.show')||$('#cmdk.show'))return;
  const k=e.key.toLowerCase();if(k!=='b'&&k!=='s')return;e.preventDefault();e.stopPropagation();dmSubmit(k==='b'?1:-1,true)},true);
@@ -3042,7 +3194,7 @@ function cmdItems(){const A=[];
  act('Emir defteri ve son işlemler','book',()=>{setSide('book');setMob('side')},'order book derinlik depth');act('Piyasa özeti (yükselenler / düşenler)','hot',()=>{setSide('hot');setMob('side')},'top gainers');
  act('İzleme listesi','list',()=>{setSide('wl');setMob('side')},'watchlist');act('Tarihe git','cal',()=>goDateDlg(),'tarih zaman','Alt+G');
  act('Ekran görüntüsü al','camera',()=>$('#shotBtn').click(),'screenshot resim');act('Tam ekran','full',()=>$('#fsBtn').click(),'fullscreen');
- act('Tüm çizim araçları','alltools',()=>toolsDlg(),'arac cizim');act('Borsa bağla (canlı işlem)','wallet',()=>brokerDlg(),'borsa binance bybit okx api baglan canli islem');LAYS.forEach(([k,t])=>act('Düzen: '+t,'lay'+k,()=>{S.lay=k;ls.set('lay',k);applyLayout()},'duzen coklu grafik pencere layout '+k));act('Yeni pencerede grafik aç','plus',()=>open(location.pathname+'?k='+encodeURIComponent(S.key)+'&tf='+encodeURIComponent(S.tf),'_blank','noopener'),'pencere yeni sekme');act('Tanıtım ekranını göster','star',()=>welcome(true),'tanitim hos geldin ozellikler');act('Tanıtım sayfası (web)','star',()=>open('tanitim/','_blank'),'tanitim sayfa web ana sayfa');act('Tüm çizimleri kaldır','trash',()=>$('#tools [data-t=clear]').click(),'sil temizle');
+ act('Tüm çizim araçları','alltools',()=>toolsDlg(),'arac cizim');act('Profilim','star',()=>profileDlg(),'profil hesap yedek');act('Kendi göstergeni yükle','fx',()=>myEditor(),'gosterge yukle kod script pine');act('Borsa bağla (canlı işlem)','wallet',()=>brokerDlg(),'borsa binance bybit okx api baglan canli islem');LAYS.forEach(([k,t])=>act('Düzen: '+t,'lay'+k,()=>{S.lay=k;ls.set('lay',k);applyLayout()},'duzen coklu grafik pencere layout '+k));act('Yeni pencerede grafik aç','plus',()=>open(location.pathname+'?k='+encodeURIComponent(S.key)+'&tf='+encodeURIComponent(S.tf),'_blank','noopener'),'pencere yeni sekme');act('Tanıtım ekranını göster','star',()=>welcome(true),'tanitim hos geldin ozellikler');act('Tanıtım sayfası (web)','star',()=>open('tanitim/','_blank'),'tanitim sayfa web ana sayfa');act('Tüm çizimleri kaldır','trash',()=>$('#tools [data-t=clear]').click(),'sil temizle');
  act('Klavye kısayolları','kbd',()=>helpDlg(),'kisayol tus');act('Kısa rehberi tekrar göster','help',()=>tour(true),'yardim tur egitim');
  act('Göstergeler','fx',()=>$('#indBtn').click(),'indikator indicator');
  TFS.forEach(([tf,sh,lo])=>A.push({g:'Zaman dilimi',t:lo,ic:'clock',f:()=>setTf(tf),kw:sh+' '+tf}));
@@ -3158,7 +3310,7 @@ addEventListener('resize',()=>{if($('#tourc').classList.contains('show')){tourI-
 
 // ================= v7: zengin gösterge / sembol / ayar arayüzleri =================
 const CATC={trend:'#2962ff',osc:'#ab47bc',vol:'#089981',vola:'#ff9800',fut:'#f7a600'};
-const ICATS=[['fav','Favoriler','star'],['rec','Son kullanılanlar','clock'],['pop','Popüler','hot'],['all','Tümü','list'],['trend','Trend','trend'],['osc','Osilatörler','sine'],['vol','Hacim','frvp'],['vola','Volatilite','channel'],['fut','Vadeli verileri','liq'],['strat','Stratejiler','play'],['tpl','Şablonlarım','note']];
+const ICATS=[['fav','Favoriler','star'],['rec','Son kullanılanlar','clock'],['pop','Popüler','hot'],['all','Tümü','list'],['trend','Trend','trend'],['osc','Osilatörler','sine'],['vol','Hacim','frvp'],['vola','Volatilite','channel'],['fut','Vadeli verileri','liq'],['strat','Stratejiler','play'],['my','Benim göstergelerim','fx'],['tpl','Şablonlarım','note']];
 const POPI=['rsi','macd','ema','ema4','sma','bb','stk','ces','chartp','bos','twin','vwap','st','ichi','stoch','srsi','smc','vrvp','kzp','liqmap','atr','adx','obv','wt','sqz','utbot','techr','cvd','fvg','psar'];
 const NEWI=new Set([...DEFS5.map(d=>d.id),'liqmap']);
 const DESC={ema4:'20, 50, 100 ve 200 periyotluk dört EMA tek göstergede. Trend hiyerarşisini ve dinamik destek/dirençleri bir bakışta gösterir.',bos:"Yalnızca piyasa yapısı: BOS (yapı kırılımı) ve CHoCH (karakter değişimi) etiketleri. SMC'nin sade hâli.",ces:'ATR tabanlı iz süren stop. Fiyat stopu kırınca yön değişir, AL/SAT etiketi çıkar; geriye dönük test sonucu lejantta.',fayt:'Ağırlıklı ortalama etrafında sapma bantları; banttan içeri dönüşlerde sinyal verir (orijinal koda benzer mantıkla yeniden yazıldı).',fgt:'Son mumlara oturtulan regresyon trendini geleceğe uzatır ve sapma kanalı çizer (benzer mantıkla yeniden yazıldı).',salma:'RedK SALMA: çift yumuşatılmış ağırlıklı ortalama. Gürültüyü atar, yön değişince renk değiştirir.',rsib:"RSI'ın 70/30 seviyesine ulaşması için fiyatın gitmesi gereken seviyeleri grafik üstünde bant olarak çizer.",rsipb:'Fiyatın RSI bantları içindeki konumu (0 = alt bant, 1 = üst bant).',rsibw:'RSI bantları arasındaki genişlik (%). Daralma, sert hareket öncesi sıkışmaya işaret eder.',rsic:'RSI değerini mum olarak çizer: açılış önceki RSI, kapanış güncel RSI.',stk:"Kıvanç Özbilgiç'in SuperTrend'i: ATR tabanlı trend çizgisi, yön değişiminde AL/SAT etiketi ve geriye dönük test sonucu.",swsr:'Swing tepe ve diplerinden yatay destek/direnç seviyeleri çizer; kırılınca isteğe göre gizler.',tlbt:"Kırılımlı trend çizgileri; her kırılımda ATR'ye göre hedef ve stop seviyesi çizer.",twin:'İki farklı hızdaki aralık filtresinin ortalaması. Gürültüsüz trend çizgisi ve AL/SAT sinyalleri.',wtc:'WaveTrend osilatörü; WT1/WT2 kesişimlerini noktalarla işaretler.',chartp:'İkili tepe/dip, OBO/TOBO, üçgen, kama ve kanal formasyonlarını pivotlardan otomatik bulur ve çizer.',bbs:'Fiyat alt banttan yukarı kesince AL, üst banttan aşağı kesince SAT. İşlem sayısı, kazanma oranı, net kâr ve maks. düşüş lejantta.',bbvp:'Boğa/ayı gücü sıfırı keserken hacim yüksekse işlem açar, ATR tabanlı kâr al uygular (benzer mantıkla yeniden yazıldı).',vegas:'Volatiliteye göre çarpanı uyarlanan SuperTrend stratejisi (benzer mantıkla yeniden yazıldı).',rsis:'RSI aşırı satımdan yukarı çıkınca AL, aşırı alımdan aşağı inince SAT; geriye dönük test sonucuyla.',macds:'MACD histogramı sıfırı yukarı kesince AL, aşağı kesince SAT; geriye dönük test sonucuyla.',maxs:'Hızlı ortalama yavaşı yukarı kesince AL, aşağı kesince SAT; ortalama türü seçilebilir.',sma:'Belirli sayıda mumun basit ortalaması. Trend yönünü ve dinamik destek/direnci gösterir.',ema:'Son fiyatlara daha fazla ağırlık veren hareketli ortalama. Trendi SMA\'dan daha hızlı yakalar.',
@@ -3189,7 +3341,7 @@ function renderIL(){const q=trN($('#iq').value.trim());renderICat();if(iCat==='t
  else if(iCat==='fav')a=S.favInd.map(id=>DEF[id]).filter(Boolean);else if(iCat==='rec')a=S.indRec.map(id=>DEF[id]).filter(Boolean);else if(iCat==='pop')a=POPI.map(id=>DEF[id]).filter(Boolean);else a=DEFS.filter(d=>iCat==='all'||d.cat===iCat);
  iList=a;iSel=Math.min(iSel,Math.max(0,a.length-1));const hl=t=>{if(!q)return esc(t);const i=trN(t).indexOf(q);return i<0?esc(t):esc(t.slice(0,i))+'<mark>'+esc(t.slice(i,i+q.length))+'</mark>'+esc(t.slice(i+q.length))};
  const title=q?`${a.length} sonuç`:ICATS.find(c=>c[0]===iCat)?.[1]||'';
- $('#ilist').innerHTML=`<div class="ilh">${esc(title)}<span>${q?'':'Tıklayın: ekle · ★ favori'}</span></div>`+(a.map((d,i)=>{const cnt=S.inds.filter(x=>x.id===d.id).length,fv=S.favInd.includes(d.id);
+ $('#ilist').innerHTML=`<div class="ilh">${esc(title)}<span>${q?'':'Tıklayın: ekle · ★ favori'}</span></div>`+(iCat==='my'&&!q?`<button type="button" class="myadd" data-myadd="1"><b>+ Kendi göstergeni yükle</b><span>Kod yaz veya dosyadan yükle · güvenli alanda çalışır</span></button>`+(a.length?'':'<div class="empty" style="padding:16px">Henüz kendi göstergen yok.</div>'):'')+(a.map((d,i)=>{const cnt=S.inds.filter(x=>x.id===d.id).length,fv=S.favInd.includes(d.id);
   return`<div class="li ir2${i===iSel?' sel':''}" data-id="${d.id}" data-i="${i}">${badge(d)}<span class="it"><b>${hl(d.n)}</b><small>${esc(descOf(d))}</small></span><span class="itg">${NEWI.has(d.id)?'<i class="nw">YENİ</i>':''}${cnt?`<i class="ad">✓ ${cnt}</i>`:''}<i>${d.pane?'Panel':'Grafik'}</i></span><button class="istar${fv?' on':''}" data-fi="${d.id}" title="Favorilere ${fv?'çıkar':'ekle'}">★</button><button class="iadd" data-add="${d.id}" title="Grafiğe ekle">+</button></div>`}).join('')||`<div class="empty">${iCat==='fav'&&!q?'Henüz favori yok. Listede ★ işaretine basın.':iCat==='rec'&&!q?'Henüz gösterge eklemediniz.':'Sonuç yok'}</div>`);
  renderIPrev()}
 function renderIPrev(){const d=iList[iSel],e=$('#iprev');if(!e)return;if(!d){e.innerHTML='<div class="empty">Önizleme için bir gösterge seçin</div>';return}
@@ -3360,6 +3512,23 @@ async function bkReview(){const D=$('#dlgB'),c=BK_S,sym=bkSym(c.b),side=+D.datas
 function renderBkBtn(){const b=$('#bkBtn');if(!b)return;const st=ls.get('brk',null);b.classList.toggle('on',!!BK_S);b.querySelector('.lbl').textContent=BK_S?BRK[BK_S.b].n:st?'Borsa (kilitli)':'Borsa bağla'}
 
 $('#bkBtn').onclick=()=>brokerDlg();renderBkBtn();
+
+// ---- üst çubuğu ekrana sığdır (taşan düğmeler "⋯" menüsüne)
+function fitTop(){const t=$('#top');if(!t)return;for(let k=1;k<=9;k++)t.classList.remove('f'+k);for(let k=1;k<=9&&t.scrollWidth>t.clientWidth+1;k++)t.classList.add('f'+k)}
+addEventListener('resize',()=>{clearTimeout(fitTop.t);fitTop.t=setTimeout(fitTop,80)});setTimeout(fitTop,50);setTimeout(fitTop,1200);
+$('#topMore').onclick=e=>{const t=$('#top'),h=id=>{const b=$('#'+id);return b&&getComputedStyle(b).display==='none'},it=[];
+ if(h('cmdBtn'))it.push({t:'Her şeyi ara',ic:'search',f:()=>$('#cmdBtn').click()});if(h('alarmBtn'))it.push({t:'Alarm oluştur',ic:'alarm',f:()=>$('#alarmBtn').click()});if(h('bkBtn'))it.push({t:'Borsa bağla',ic:'wallet',f:()=>$('#bkBtn').click()});if(h('demoBtn'))it.push({t:'Demo hesap',ic:'wallet',f:()=>$('#demoBtn').click()});if(h('layBtn'))it.push({t:'Düzen (çoklu grafik)',ic:'lay4',f:()=>$('#layBtn').click()});if(h('cfgBtn'))it.push({t:'Grafik ayarları',ic:'gear',f:()=>$('#cfgBtn').click()});
+ if(h('cmpBtn'))it.push({t:'Sembol karşılaştır / ekle',ic:'plusc',f:()=>$('#cmpBtn').click()});
+ if(h('typeBtn'))it.push({t:'Grafik tipi',ic:'candle',f:()=>$('#typeBtn').click()});
+ if(h('replayBtn'))it.push({t:'Tekrar oynat',ic:'replay',f:()=>$('#replayBtn').click()});
+ if(h('undoBtn'))it.push({t:'Geri al',ic:'undo',k:'Ctrl+Z',f:()=>$('#undoBtn').click()},{t:'Yinele',ic:'redo',k:'Ctrl+Y',f:()=>$('#redoBtn').click()});
+ if(h('favBtn'))it.push({t:'Favori araçlar çubuğu',ic:'star',f:()=>$('#favBtn').click()});
+ if(h('shotBtn'))it.push({t:'Ekran görüntüsü',ic:'camera',f:()=>$('#shotBtn').click()});
+ if(h('fsBtn'))it.push({t:'Tam ekran',ic:'full',f:()=>$('#fsBtn').click()});
+ openPop(e.currentTarget,it)};
+
+document.addEventListener('click',e=>{if(e.target.closest('[data-myadd]')){closeModal('mInd');setTimeout(()=>myEditor(),30)}});
+$('#prfBtn').onclick=()=>profileDlg();renderPrfBtn();
 }
 </script>
 </body>
